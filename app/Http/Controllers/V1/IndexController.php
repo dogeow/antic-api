@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\News;
+use App\Models\WeiboHot;
+use App\Models\User;
 use App\Models\Topping;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 
-class NewsController extends Controller
+class IndexController extends Controller
 {
-    public function index(Request $request)
+    protected function index(Request $request)
     {
         $news = null;
         $topping = null;
@@ -50,14 +52,39 @@ class NewsController extends Controller
 
         $lastReadTime = $news[0]->created_at ?? $now;
 
-        return response()->json(
-            [
-                'news' => $news,
-                'topping' => topping($topping),
-                'lastReadTime' => $lastReadTime,
-                'user' => $user,
-                'lastNews' => $lastNews
-            ]
-        );
+        $news = $news->reject(function ($item) {
+            foreach (array('昆凌', '周杰伦', '郭京飞', '温宇', '湖人', 'J姐', '拜仁', '惠若琪', '巩俐', '黄子韬', '林俊杰', '吴亦凡', '杨幂', 'iG', 'SKT', '林更新', 'YM', '范丞丞', '魏大勋', '贾乃亮', 'LGD', 'NIP', '张颜齐', '杨超越') as $keyword) {
+                if (stripos($item->title, $keyword) !== false) {
+                    return true;
+                };
+            }
+
+            return false;
+        });
+
+        return view('welcome', [
+            'news' => $news,
+            'topping' => topping($topping),
+            'lastReadTime' => $lastReadTime, 'user' => $user,
+            'lastNews' => $lastNews
+        ]);
+    }
+
+    protected function about()
+    {
+        return view('about');
+    }
+
+    protected function test()
+    {
+        $users = factory('App\Models\User', 10)->make();
+        $pages = collect([
+            ['name' => 'page1', 'children' => []],
+            ['name' => 'page2', 'children' => ['name' => 'page6']],
+            ['name' => 'page3', 'children' => []],
+            ['name' => 'page4', 'children' => ['name' => 'page7']],
+            ['name' => 'page5', 'children' => []],
+        ]);
+        return view('test')->with(compact('users', 'pages'));
     }
 }

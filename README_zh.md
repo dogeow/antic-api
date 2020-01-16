@@ -1,62 +1,61 @@
-# antic-api
+# react
 
-[中文](https://github.com/likunyan/react/blob/master/README_zh.md).
+[English](https://github.com/likunyan/react/blob/master/readme.md)
 
-Personal study project.
+个人学习项目
 
-Use frontend and backend separation.
+使用前后端分离
 
-## Powered by
+## 驱动
 
 * Laravel 6
     * JWT
 * React 16
 * Material-UI 4
 
-## Server
+## 服务器
 
 * Ubuntu 18.04 LTS
 * Nginx 1.14.0(nginx-full)
 * MySQL 5.7
 * PHP 7.2
     
-## Build
+## 构建
 
 1. Laravel
     1. composer install
     2. cp .env.example .env
-        * modify DB and other
+        * 修改 DB and other
     3. php artisan migrate
     4. php artisan passport:install
     5. php artisan key:generate
     6. php artisan storage:link
 2. React
 	1. npm install
-	2. Build
+	2. 构建
         * development: npm run dev
         * Production: npm run prod
-3. Web Server：php artisan serve
+3. Web 服务：php artisan serve
 
-## Deploy
+## 部署
+学习 -> PhpStorm(编码) -> GitHub -> WebHook -> Linux Server -> Customize Build(过滤) -> Slack 通知
 
-Learning -> PhpStorm(Coding) -> GitHub -> WebHook -> Linux Server -> Customize Build(Filter) -> Slack Notification
-
-## Something
+## 一些其他的
 
 - webpack-bundle-analyzer
 - [Laravel IDE Helper Generator](https://github.com/barryvdh/laravel-ide-helper)
 
-## Attention something
+## 关注
 
 - [Tailwind CSS](https://next.tailwindcss.com/)
 - [Next.js](https://nextjs.org)
 - [Recharts](http://recharts.org)
 
-## Note for myself
+## 我自己的备忘
 
 * http://gravatar.com/
 * [SweetAlert2](https://sweetalert2.github.io/)
-* axios, moment, lodash or others library what look at package.json please
+* axios, moment, lodash，其他的库请见 package.json
 * Material-UI
 * Slack notification
     - [pagination](https://github.com/szmslab/material-ui-flat-pagination)

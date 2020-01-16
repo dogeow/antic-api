@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
+use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -10,7 +11,9 @@ class TaskController extends Controller
 {
     public function todo(){
         $project = Project::where('user_id', 1)->first();
-        return response()->json($project->tasks()->where('is_completed', '0')->get());
+        $data = $project ? $project->tasks()->where('is_completed', '0')->get() : [];
+
+        return response()->json($data);
     }
 
     public function store(Request $request)

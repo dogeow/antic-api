@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Validator;
 use App\Models\User;
 
@@ -15,7 +15,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('refresh', ['except' => ['sign-in', 'sign-up', 'test']]);
+        $this->middleware('refresh', ['except' => ['login', 'register', 'test']]);
     }
 
     public function test()
@@ -29,7 +29,7 @@ class AuthController extends Controller
     }
 
     /**
-     * 注册用户
+     * 创建用户
      *
      * @param  [string] name
      * @param  [string] email
@@ -37,7 +37,7 @@ class AuthController extends Controller
      * @param  [string] password_confirmation
      * @return \Illuminate\Http\JsonResponse
      */
-    public function signUp()
+    public function register()
     {
         $payload = request(['name', 'email', 'password', 'password_confirmation']);
 
@@ -67,22 +67,22 @@ class AuthController extends Controller
     }
 
     /**
-     * 通过凭证获取 JWT
+     * 登录并创建 JWT
      *
      * @param  [string] email
      * @param  [string] password
      * @param  [boolean] remember_me
      * @return \Illuminate\Http\JsonResponse
      */
-    public function signIn()
+    public function login()
     {
-        $credentials = request(['email', 'password', 'remember_me']);
+        $credentials = request(['email', 'password']);
 
         // 验证格式
         $rules = [
             'email' => ['required'],
             'password' => ['required', 'min:8', 'max:16'],
-	    'remember_me' => 'boolean'
+	        'remember_me' => 'boolean'
         ];
         $validator = Validator::make($credentials, $rules);
         if ($validator->fails()) {
@@ -111,7 +111,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function signOut()
+    public function logout()
     {
         $this->guard()->logout();
 

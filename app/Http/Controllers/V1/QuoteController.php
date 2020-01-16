@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\AboutMe;
+use App\Http\Controllers\Controller;
+use App\Models\Quote;
 use Illuminate\Http\Request;
 
-class AboutMeController extends Controller
+class QuoteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class AboutMeController extends Controller
      */
     public function index()
     {
-        return response()->json(AboutMe::all());
+        return response()->json(Quote::all());
     }
 
     /**
@@ -41,10 +42,10 @@ class AboutMeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AboutMe  $aboutMe
+     * @param  \App\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function show(AboutMe $aboutMe)
+    public function show(Quote $quote)
     {
         //
     }
@@ -52,10 +53,10 @@ class AboutMeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\AboutMe  $aboutMe
+     * @param  \App\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function edit(AboutMe $aboutMe)
+    public function edit(Quote $quote)
     {
         //
     }
@@ -64,10 +65,10 @@ class AboutMeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AboutMe  $aboutMe
+     * @param  \App\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AboutMe $aboutMe)
+    public function update(Request $request, Quote $quote)
     {
         //
     }
@@ -75,10 +76,10 @@ class AboutMeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AboutMe  $aboutMe
+     * @param  \App\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AboutMe $aboutMe)
+    public function destroy(Quote $quote)
     {
         //
     }

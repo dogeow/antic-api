@@ -310,67 +310,6 @@ function cutstr($data, $no, $le = '')
 }
 
 /**
- * [字符串截取]
- * @param  [type]  $Str    [字符串]
- * @param  [type]  $Length [长度]
- * @param  boolean  $more  [模型]
- * @return [type]          [截取后的字符串]
- */
-function cut($Str, $Length, $more = true)
-{//$Str为截取字符串，$Length为需要截取的长度
-
-    global $s;
-    $i = 0;
-    $l = 0;
-    $ll = strlen($Str);
-    $s = $Str;
-    $f = true;
-
-    while ($i <= $ll) {
-        if (ord($Str{$i}) < 0x80) {
-            $l++;
-            $i++;
-        } else {
-            if (ord($Str{$i}) < 0xe0) {
-                $l++;
-                $i += 2;
-            } else {
-                if (ord($Str{$i}) < 0xf0) {
-                    $l += 2;
-                    $i += 3;
-                } else {
-                    if (ord($Str{$i}) < 0xf8) {
-                        $l += 1;
-                        $i += 4;
-                    } else {
-                        if (ord($Str{$i}) < 0xfc) {
-                            $l += 1;
-                            $i += 5;
-                        } else {
-                            if (ord($Str{$i}) < 0xfe) {
-                                $l += 1;
-                                $i += 6;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (($l >= $Length - 1) && $f) {
-            $s = substr($Str, 0, $i);
-            $f = false;
-        }
-
-        if (($l > $Length) && ($i < $ll) && $more) {
-            $s = $s.'...';
-            break; //如果进行了截取，字符串末尾加省略符号“...”
-        }
-    }
-    return $s;
-}
-
-/**
  * 将一个字符串转换成数组，支持中文
  * @param  string  $string  待转换成数组的字符串
  * @return string   转换后的数组
