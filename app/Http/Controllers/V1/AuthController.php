@@ -152,6 +152,6 @@ class AuthController extends Controller
      */
     public function guard()
     {
-        return Auth::guard($this->guard);
+        return \Auth::guard($this->guard);
     }
 }
