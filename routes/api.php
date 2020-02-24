@@ -69,9 +69,9 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
         $api->get('/projects', 'ProjectController@index');
         $api->get('/projects/{id}', 'ProjectController@show');
         $api->post('/projects', 'ProjectController@store');
-        Route::put('/projects/{project}', 'ProjectController@markAsCompleted');
+        $api->put('/projects/{project}', 'ProjectController@markAsCompleted');
         $api->post('/tasks', 'TaskController@store');
-        Route::put('/tasks/{task}', 'TaskController@markAsCompleted');
+        $api->put('/tasks/{task}', 'TaskController@markAsCompleted');
     });
 
     $api->group(['prefix' => 'user'], function ($api) {
