@@ -80,7 +80,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
         $api->post('refresh', 'AuthController@refresh');
 
         $api->group(['middleware' => 'api.auth'], function ($api) {
-            $api->post('logout-out', 'AuthController@logout');
+            $api->post('logout', 'AuthController@logout');
             $api->post('profile', 'AuthController@profile');
         });
     });
