@@ -13,6 +13,7 @@
         "caouecs/laravel-lang": "~4.0",
         "dingo/api": "^2.4",
         "fideloper/proxy": "^4.0",
+        "fukuball/jieba-php": "dev-master",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^6.7",
         "laravel/slack-notification-channel": "^2.0",

@@ -35,7 +35,9 @@ class EmojiController extends Controller
             'images/emoji', $filename, 'public'
         );
 
-        return response()->json(self::get());
+        return response()->json([
+            'url' => env('APP_URL') . '/storage/' . $path
+        ]);
     }
 
     public function index()
