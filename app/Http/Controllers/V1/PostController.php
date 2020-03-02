@@ -36,8 +36,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        \Validator::make($request->all(), [
+            'title' => 'required',
+            'content' => 'required',
+        ])->validate();
+
         $content = $request->input('content');
+        $title = $request->input('title');
         $resp = Post::create([
+            'title' => $title,
             'content' => $content
         ]);
         return response()->json($resp);
