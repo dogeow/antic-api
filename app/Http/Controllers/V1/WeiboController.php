@@ -3,19 +3,25 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\WeiboHot;
-use App\Models\WeiboToTop;
 
 class WeiboController extends Controller
 {
     public function index($number = null)
     {
-        if ($number) {
-            $data = WeiboHot::orderBy('updated_at', 'DESC')->take($number)->get();
+        $date = request('date');
+        $query = WeiboHot::query();
+        if ($date) {
+            $query->whereDate('created_at', $date);
         } else {
-            $data = WeiboHot::all();
+            $query->whereDate('created_at', Carbon::today());
         }
-        return response()->json($data);
+        $query->orderBy('updated_at', 'DESC');
+        if ($number) {
+            $query->take($number);
+        }
+        return response()->json($query->get());
     }
 }

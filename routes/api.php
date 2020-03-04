@@ -19,7 +19,6 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
     // 文章
     $api->resource('/post','PostController');
 
-
     // 我的物品，Love
     $api->get('/thing/love', 'ThingController@love');
 
@@ -38,7 +37,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
     $api->get('/site_check', 'SiteController@check');
 
     // 微博热搜榜
-    $api->get('/weibo/{number?}', 'WeiboController@index');
+    $api->post('/weibo/{number?}', 'WeiboController@index');
 
     // Emoji
     $api->get('/emoji', 'EmojiController@index');

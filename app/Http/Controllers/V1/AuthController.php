@@ -77,6 +77,7 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
+        $rememberMe = request('remember_me');
 
         // 验证格式
         $rules = [
@@ -89,7 +90,13 @@ class AuthController extends Controller
             return $this->response->array(['errors' => $validator->errors()])->setStatusCode(202);
         }
 
-        if ($token = $this->guard()->attempt($credentials)) {
+        if($rememberMe){
+            $token = $this->guard()->setTTL(60*24*7)->attempt($credentials);
+        } else {
+            $token = $this->guard()->attempt($credentials);
+        }
+
+        if ($token) {
             return $this->respondWithToken($token);
         }
 
