@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use App\models\Api;
+use App\Models\Api;
 use Illuminate\Http\Request;
 use TrueBV\Punycode;
 use GuzzleHttp\Client as GuzzleClient;
