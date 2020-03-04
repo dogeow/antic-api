@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\models\Api;
 use Illuminate\Http\Request;
 use TrueBV\Punycode;
 use GuzzleHttp\Client as GuzzleClient;
@@ -10,6 +11,10 @@ use GuzzleHttp\Client as GuzzleClient;
 class ApiController extends Controller
 {
     public $guzzleClient;
+
+    public function index(){
+        return response()->json(Api::all());
+    }
 
     public function parking(){
         $parking = [
@@ -55,13 +60,12 @@ class ApiController extends Controller
     public function unicode_to_utf8($string)
     {
         $code = intval(hexdec($string));
-        //这里注意转换出来的code一定得是整形，这样才会正确的按位操作
+        //这里注意转换出来的 code 一定得是整形，这样才会正确的按位操作
         $ord_1 = decbin(0xe0 | ($code >> 12));
         $ord_2 = decbin(0x80 | (($code >> 6) & 0x3f));
         $ord_3 = decbin(0x80 | ($code & 0x3f));
-        $utf8_str = chr(bindec($ord_1)).chr(bindec($ord_2)).chr(bindec($ord_3));
 
-        return $utf8_str;
+        return chr(bindec($ord_1)).chr(bindec($ord_2)).chr(bindec($ord_3));
     }
 
     public function utf8_to_unicode($string)
@@ -167,6 +171,11 @@ class ApiController extends Controller
     public function secret($string)
     {
         return str_repeat('*', strlen($string));
+    }
+
+    public function hash($string)
+    {
+        return sha1($string);
     }
 
     public function htmlSC($string)
