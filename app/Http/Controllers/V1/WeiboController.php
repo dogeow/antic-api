@@ -22,6 +22,18 @@ class WeiboController extends Controller
         if ($number) {
             $query->take($number);
         }
+
         return response()->json($query->get());
+    }
+
+    public function about()
+    {
+        $data = [
+            'total' => WeiboHot::count(),
+            'startDate' => WeiboHot::min('created_at'),
+            'endDate' => WeiboHot::max('created_at')
+        ];
+
+        return response()->json($data);
     }
 }
