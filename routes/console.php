@@ -1,8 +1,7 @@
 <?php
 
-use Carbon\Carbon;
-use Illuminate\Foundation\Inspiring;
 use App\Models\Post;
+use Illuminate\Foundation\Inspiring;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +22,3 @@ Artisan::command('test', function () {
     Post::all()->searchable();
 //    broadcast(new App\Events\TestBroadcastingEvent('233'));
 });
-

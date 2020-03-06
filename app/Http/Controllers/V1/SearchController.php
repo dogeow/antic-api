@@ -4,17 +4,15 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Symfony\Component\DomCrawler\Crawler;
-use Goutte\Client;
-use GuzzleHttp\Client as GuzzleClient;
 use Nesk\Puphpeteer\Puppeteer;
+use Symfony\Component\DomCrawler\Crawler;
 
 class SearchController extends Controller
 {
     public function search(Request $request)
     {
         $q = $request->get('q', null);
-        if ($q === null) {
+        if (null === $q) {
             return response()->json(['error']);
         }
 
@@ -34,13 +32,13 @@ class SearchController extends Controller
 
         $count = null;
         $searchResultCount = $crawler->filterXPath("//div[@id='resultStats']")->text();
-        if(preg_match('/找到约 (.*?) 条结果/', $searchResultCount, $match)){
-            $count = str_replace(',', '' , $match[1]);
+        if (preg_match('/找到约 (.*?) 条结果/', $searchResultCount, $match)) {
+            $count = str_replace(',', '', $match[1]);
         }
 
         $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node, $i) {
-            if ($node->filterXPath('//h3')->count() === 0 || $node->filterXPath('//cite')->count() === 0
-                || $node->filterXPath('//span[@class="st"]')->count() === 0) {
+            if (0 === $node->filterXPath('//h3')->count() || 0 === $node->filterXPath('//cite')->count()
+                || 0 === $node->filterXPath('//span[@class="st"]')->count()) {
                 return null;
             }
 
@@ -53,7 +51,7 @@ class SearchController extends Controller
 
         return response()->json([
             'data' => array_filter($result),
-            'count' => $count
+            'count' => $count,
         ]);
     }
 }

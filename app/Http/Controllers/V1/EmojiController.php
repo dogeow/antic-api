@@ -4,8 +4,8 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Upyun\Upyun;
 use Upyun\Config;
+use Upyun\Upyun;
 
 class EmojiController extends Controller
 {
@@ -20,10 +20,10 @@ class EmojiController extends Controller
     public function store(Request $request)
     {
         $key = 'emoji';
-        if ($request->hasFile($key) === false) {
+        if (false === $request->hasFile($key)) {
             return '没有文件';
         }
-        if ($request->file($key)->isValid() === false) {
+        if (false === $request->file($key)->isValid()) {
             return '上传失败';
         }
 
@@ -32,11 +32,13 @@ class EmojiController extends Controller
         // getClientOriginalExtension
 
         $path = $request->file($key)->storeAs(
-            'images/emoji', $filename, 'public'
+            'images/emoji',
+            $filename,
+            'public'
         );
 
         return response()->json([
-            'url' => env('APP_URL') . '/storage/' . $path
+            'url' => env('APP_URL').'/storage/'.$path,
         ]);
     }
 

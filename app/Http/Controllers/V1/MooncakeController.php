@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Mooncake;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class MooncakeController extends Controller
 {
@@ -15,12 +15,13 @@ class MooncakeController extends Controller
     public function __construct(Request $request)
     {
         $this->number = [
-            1, 2, 3, 4, 5, 6
+            1, 2, 3, 4, 5, 6,
         ];
         $this->ip = $request->getClientIp();
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $user = User::where('ip', $this->ip)->first();
 
         return view('welcome')->with(
@@ -35,7 +36,7 @@ class MooncakeController extends Controller
         $record = true; // 是否署名了
 
         // 用户信息
-        if($request->input('name') ?? null){
+        if ($request->input('name') ?? null) {
             $user = User::updateOrCreate(['ip' => $this->ip], ['name' => $request->input('name')]);
         } else {
             $user = User::firstOrCreate(['ip' => $this->ip], ['name' => $request->input('name')]);
@@ -52,11 +53,10 @@ class MooncakeController extends Controller
 
         // 摇骰子
         $numbers = [];
-        for ($i = 1; $i <= 6; $i++) {
+        for ($i = 1; $i <= 6; ++$i) {
             $numbers[] = $this->number[array_rand($this->number, 1)];
         }
         $numbers = collect($numbers);
-
 
         // 第一次记录，其他不记录
         if ($count < 5) {
@@ -79,7 +79,7 @@ class MooncakeController extends Controller
                 'record' => $record,
                 'user' => $user,
                 'mooncakes' => $mooncakes,
-                'numbers' => $numbers ?? null
+                'numbers' => $numbers ?? null,
             ]
         );
     }
@@ -96,7 +96,7 @@ class MooncakeController extends Controller
             exit;
         }
 
-        print $mooncake['name'];
+        echo $mooncake['name'];
         if (!empty($mooncake['name'])) {
             $message = '提交成功，请勿重复提交';
         } else {

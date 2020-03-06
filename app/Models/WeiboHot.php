@@ -9,11 +9,13 @@ class WeiboHot extends Model
 {
     protected $fillable = ['title', 'url', 'rank', 'emoji', 'status'];
 
-    public function getUpdatedAtAttribute(){
+    public function getUpdatedAtAttribute()
+    {
         return Carbon::parse($this->attributes['updated_at'])->diffForHumans();
     }
 
-    public function getRankAttribute(){
+    public function getRankAttribute()
+    {
         return weiboHotForHuman($this->attributes['rank'] ?? 0);
     }
 }

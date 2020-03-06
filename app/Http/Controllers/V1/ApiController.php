@@ -4,19 +4,20 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Api;
-use Illuminate\Http\Request;
-use TrueBV\Punycode;
 use GuzzleHttp\Client as GuzzleClient;
+use TrueBV\Punycode;
 
 class ApiController extends Controller
 {
     public $guzzleClient;
 
-    public function index(){
+    public function index()
+    {
         return response()->json(Api::all());
     }
 
-    public function parking(){
+    public function parking()
+    {
         $parking = [
             21 => 558,
             20 => 217,
@@ -31,15 +32,15 @@ class ApiController extends Controller
         $response = $this->guzzleClient->request('GET', 'https://www.cheboyi.com/wap/index/park22/14926');
         $html = $response->getBody()->getContents();
 
-        foreach($parking as $key => $item){
-            if(preg_match("/onclick=\"tc\($item\)\"/", $html, $match)){
+        foreach ($parking as $key => $item) {
+            if (preg_match("/onclick=\"tc\($item\)\"/", $html, $match)) {
                 $status = true;
             } else {
                 $status = false;
             }
             $data[] = [
                 'id' => $key,
-                'status' => $status
+                'status' => $status,
             ];
         }
 
@@ -78,7 +79,7 @@ class ApiController extends Controller
     }
 
     /**
-     * 随机获取一张图片作为登录背景
+     * 随机获取一张图片作为登录背景.
      */
     public function random()
     {
@@ -91,7 +92,7 @@ class ApiController extends Controller
             '你的名字.jpg',
             '塞尔达荒野之息.jpg',
             '守望先锋.jpg',
-            '骑士.jpeg'
+            '骑士.jpeg',
         ];
 
         $random = rand(0, count($wallpapers) - 1);
@@ -126,7 +127,7 @@ class ApiController extends Controller
     {
         $uri = '/favicon.ico';
         switch ($action) {
-            case 'url' :
+            case 'url':
                 return url($uri);
                 break;
             case 'download':
@@ -145,6 +146,7 @@ class ApiController extends Controller
     public function array($string)
     {
         header('Access-Control-Allow-Origin:*');
+
         return [1, 2, 3, 4];
     }
 
@@ -165,7 +167,7 @@ class ApiController extends Controller
 
     public function bankcard($cardNo)
     {
-        return file_get_contents("https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=".$cardNo."&cardBinCheck=true");
+        return file_get_contents('https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true');
     }
 
     public function secret($string)
@@ -180,7 +182,7 @@ class ApiController extends Controller
 
     public function htmlSC($string)
     {
-        if (substr($string, 0, 1) === '&') {
+        if ('&' === substr($string, 0, 1)) {
             return response()->json(htmlspecialchars_decode($string));
         } else {
             return response()->json(htmlspecialchars($string));
@@ -190,7 +192,8 @@ class ApiController extends Controller
     public function ip($ip = null)
     {
         if ($ip ?? null) {
-            $content = file_get_contents("http://ip.taobao.com/service/getIpInfo.php?ip=".$ip);
+            $content = file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);
+
             return response($content)->header('Content-Type', 'application/json');
         } else {
             return response()->json($_SERVER['REMOTE_ADDR']);

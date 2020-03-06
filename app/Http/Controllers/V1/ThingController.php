@@ -5,8 +5,8 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Thing;
 use Illuminate\Http\Request;
-use Upyun\Upyun;
 use Upyun\Config;
+use Upyun\Upyun;
 
 class ThingController extends Controller
 {
@@ -25,18 +25,20 @@ class ThingController extends Controller
      */
     public function index()
     {
-        //
     }
 
     public function love()
     {
         $path = __FUNCTION__;
-        $data = $this->client->read($path, null, array());;
+        $data = $this->client->read($path, null, []);
+
         $fileAddSrc = array_map(function (&$file) use ($path) {
             $file['src'] = env('CDN_URL')."/{$path}/{$file['name']}";
+
             return $file;
         }, $data['files']);
         $data['files'] = $fileAddSrc;
+
         return $data;
     }
 
@@ -47,23 +49,21 @@ class ThingController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $key = 'love';
 
-        if ($request->hasFile($key) === false) {
+        if (false === $request->hasFile($key)) {
             return response()->json('没有文件');
         }
-        if ($request->file($key)->isValid() === false) {
+        if (false === $request->file($key)->isValid()) {
             return response()->json('上传失败');
         }
 
@@ -71,51 +71,43 @@ class ThingController extends Controller
 
         // 放到又拍云
         $file = fopen($request->file($key), 'r');
+
         return $this->client->write($key.'/'.$filename, $file);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Thing  $thing
      * @return \Illuminate\Http\Response
      */
     public function show(Thing $thing)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Thing  $thing
      * @return \Illuminate\Http\Response
      */
     public function edit(Thing $thing)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Thing  $thing
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Thing $thing)
     {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Thing  $thing
      * @return \Illuminate\Http\Response
      */
     public function destroy(Thing $thing)
     {
-        //
     }
 }

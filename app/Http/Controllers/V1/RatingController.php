@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
-    public function site(){
+    public function site()
+    {
         return response()->json([
-
         ]);
     }
 
@@ -21,7 +21,6 @@ class RatingController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -31,62 +30,50 @@ class RatingController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Rating  $rating
      * @return \Illuminate\Http\Response
      */
     public function show(Rating $rating)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Rating  $rating
      * @return \Illuminate\Http\Response
      */
     public function edit(Rating $rating)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Rating  $rating
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Rating $rating)
     {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Rating  $rating
      * @return \Illuminate\Http\Response
      */
     public function destroy(Rating $rating)
     {
-        //
     }
 }

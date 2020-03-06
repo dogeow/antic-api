@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Validator;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -23,18 +21,19 @@ class AuthController extends Controller
         return $this->response->array([
             [
                 'name' => 'lab-api',
-                'content' => 'test'
-            ]
+                'content' => 'test',
+            ],
         ]);
     }
 
     /**
-     * 创建用户
+     * 创建用户.
      *
      * @param  [string] name
      * @param  [string] email
      * @param  [string] password
      * @param  [string] password_confirmation
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function register()
@@ -46,7 +45,7 @@ class AuthController extends Controller
             'name' => ['required'],
             'email' => ['required', 'unique:users'],
             'password' => ['required', 'min:8', 'max:16'],
-            'password_confirmation' => ['same:password']
+            'password_confirmation' => ['same:password'],
         ];
         $validator = Validator::make($payload, $rules);
         if ($validator->fails()) {
@@ -60,18 +59,20 @@ class AuthController extends Controller
             'password' => bcrypt($payload['password']),
         ]);
 
-        return $this->response->array($user
+        return $this->response->array(
+            $user
             ? ['success' => '创建用户成功']
             : ['error' => '创建用户失败']
         )->setStatusCode(201);
     }
 
     /**
-     * 登录并创建 JWT
+     * 登录并创建 JWT.
      *
      * @param  [string] email
      * @param  [string] password
      * @param  [boolean] remember_me
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function login()
@@ -83,15 +84,15 @@ class AuthController extends Controller
         $rules = [
             'email' => ['required'],
             'password' => ['required', 'min:8', 'max:16'],
-	        'remember_me' => 'boolean'
+            'remember_me' => 'boolean',
         ];
         $validator = Validator::make($credentials, $rules);
         if ($validator->fails()) {
             return $this->response->array(['errors' => $validator->errors()])->setStatusCode(202);
         }
 
-        if($rememberMe){
-            $token = $this->guard()->setTTL(60*24*7)->attempt($credentials);
+        if ($rememberMe) {
+            $token = $this->guard()->setTTL(60 * 24 * 7)->attempt($credentials);
         } else {
             $token = $this->guard()->attempt($credentials);
         }
@@ -104,7 +105,7 @@ class AuthController extends Controller
     }
 
     /**
-     * 获取已认证的用户信息
+     * 获取已认证的用户信息.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -114,7 +115,7 @@ class AuthController extends Controller
     }
 
     /**
-     * 注销用户（使令牌无效）
+     * 注销用户（使令牌无效）.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -126,7 +127,7 @@ class AuthController extends Controller
     }
 
     /**
-     * 刷新 token
+     * 刷新 token.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -136,9 +137,9 @@ class AuthController extends Controller
     }
 
     /**
-     * 获取 token 结构
+     * 获取 token 结构.
      *
-     * @param  string  $token
+     * @param string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -147,13 +148,12 @@ class AuthController extends Controller
         return $this->response->array([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
+            'expires_in' => $this->guard()->factory()->getTTL() * 60,
         ]);
     }
 
-
     /**
-     * 获取守卫
+     * 获取守卫.
      *
      * @return \Illuminate\Contracts\Auth\Guard
      */

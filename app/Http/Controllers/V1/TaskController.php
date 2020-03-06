@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Task;
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function todo(){
+    public function todo()
+    {
         $project = Project::where('user_id', 1)->first();
         $data = $project ? $project->tasks()->where('is_completed', '0')->get() : [];
 

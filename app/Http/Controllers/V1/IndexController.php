@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\WeiboHot;
-use App\Models\User;
 use App\Models\Topping;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
@@ -28,6 +26,7 @@ class IndexController extends Controller
         if ($lastReadTimeViaInput && $user) {
             $user->last_read_time = $lastReadTimeViaInput;
             $user->update();
+
             return redirect()->route('index');
         }
 
@@ -53,10 +52,10 @@ class IndexController extends Controller
         $lastReadTime = $news[0]->created_at ?? $now;
 
         $news = $news->reject(function ($item) {
-            foreach (array('昆凌', '周杰伦', '郭京飞', '温宇', '湖人', 'J姐', '拜仁', '惠若琪', '巩俐', '黄子韬', '林俊杰', '吴亦凡', '杨幂', 'iG', 'SKT', '林更新', 'YM', '范丞丞', '魏大勋', '贾乃亮', 'LGD', 'NIP', '张颜齐', '杨超越') as $keyword) {
-                if (stripos($item->title, $keyword) !== false) {
+            foreach (['昆凌', '周杰伦', '郭京飞', '温宇', '湖人', 'J姐', '拜仁', '惠若琪', '巩俐', '黄子韬', '林俊杰', '吴亦凡', '杨幂', 'iG', 'SKT', '林更新', 'YM', '范丞丞', '魏大勋', '贾乃亮', 'LGD', 'NIP', '张颜齐', '杨超越'] as $keyword) {
+                if (false !== stripos($item->title, $keyword)) {
                     return true;
-                };
+                }
             }
 
             return false;
@@ -66,7 +65,7 @@ class IndexController extends Controller
             'news' => $news,
             'topping' => topping($topping),
             'lastReadTime' => $lastReadTime, 'user' => $user,
-            'lastNews' => $lastNews
+            'lastNews' => $lastNews,
         ]);
     }
 
@@ -85,6 +84,7 @@ class IndexController extends Controller
             ['name' => 'page4', 'children' => ['name' => 'page7']],
             ['name' => 'page5', 'children' => []],
         ]);
+
         return view('test')->with(compact('users', 'pages'));
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -57,7 +56,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    
+
     public function mooncakes()
     {
         return $this->hasMany('App\Models\Mooncake');
@@ -66,7 +65,8 @@ class User extends Authenticatable implements JWTSubject
     /**
      * Route notifications for the Slack channel.
      *
-     * @param  \Illuminate\Notifications\Notification  $notification
+     * @param \Illuminate\Notifications\Notification $notification
+     *
      * @return string
      */
     public function routeNotificationForSlack($notification)

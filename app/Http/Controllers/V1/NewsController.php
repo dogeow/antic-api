@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\Topping;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
@@ -27,6 +27,7 @@ class NewsController extends Controller
         if ($lastReadTimeViaInput && $user) {
             $user->last_read_time = $lastReadTimeViaInput;
             $user->update();
+
             return redirect()->route('index');
         }
 
@@ -57,7 +58,7 @@ class NewsController extends Controller
                 'topping' => topping($topping),
                 'lastReadTime' => $lastReadTime,
                 'user' => $user,
-                'lastNews' => $lastNews
+                'lastNews' => $lastNews,
             ]
         );
     }

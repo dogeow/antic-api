@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,7 +15,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => 'api'], function ($api) {
     // 文章
-    $api->resource('/post','PostController');
+    $api->resource('/post', 'PostController');
 
     // 我的物品，Love
     $api->get('/thing/love', 'ThingController@love');

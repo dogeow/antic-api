@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Site;
-use Illuminate\Support\Carbon;
 
 class SiteController extends Controller
 {
     public function index()
     {
         return response()->json([
-            'sites' => Site::with('todayLatest')->get()
+            'sites' => Site::with('todayLatest')->get(),
         ]);
     }
 
