@@ -23,3 +23,5 @@ _ide_helper_models.php
 .DS_store
 
 laravel-echo-server.json
+
+.php_cs.cache
