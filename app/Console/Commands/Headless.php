@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Nesk\Puphpeteer\Puppeteer;
-use Nesk\Rialto\Data\JsFunction;
 
 class Headless extends Command
 {
@@ -44,7 +43,7 @@ class Headless extends Command
      */
     public function handle()
     {
-        $this->url = "https://www.learnku.com";
+        $this->url = 'https://www.learnku.com';
         self::spider();
     }
 
@@ -58,9 +57,9 @@ class Headless extends Command
         $page = $browser->newPage();
         $page->emulate([
             'viewport' => [
-                'isMobile' => true, 'width' => $this->width, 'height' => $this->height, 'deviceScaleFactor' => 2
+                'isMobile' => true, 'width' => $this->width, 'height' => $this->height, 'deviceScaleFactor' => 2,
             ],
-            'userAgent' => 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Mobile Safari/537.36'
+            'userAgent' => 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Mobile Safari/537.36',
         ]);
 
         $page->goto($this->url);
