@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "algolia/algoliasearch-client-php": "^2.2",
         "barryvdh/laravel-cors": "^0.11.4",
         "caouecs/laravel-lang": "~4.0",
         "dingo/api": "^2.4",
@@ -16,6 +17,7 @@
         "fukuball/jieba-php": "dev-master",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^6.7",
+        "laravel/scout": "^8.0",
         "laravel/slack-notification-channel": "^2.0",
         "laravel/tinker": "^1.0",
         "nesk/puphpeteer": "^1.6",

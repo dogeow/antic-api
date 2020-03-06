@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Inspiring;
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,7 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('test', function () {
-    broadcast(new App\Events\TestBroadcastingEvent('233'));
+    Post::all()->searchable();
+//    broadcast(new App\Events\TestBroadcastingEvent('233'));
 });
+
