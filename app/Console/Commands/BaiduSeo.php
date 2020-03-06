@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Site;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
-use App\Models\Site;
 
 class BaiduSeo extends Command
 {
@@ -51,8 +51,8 @@ class BaiduSeo extends Command
                 'Sec-Fetch-User' => '?1',
                 'Upgrade-Insecure-Requests' => '1',
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
-                'Cookie' => env('COOKIE')
-            ]
+                'Cookie' => env('COOKIE'),
+            ],
         ]);
     }
 
@@ -79,12 +79,12 @@ class BaiduSeo extends Command
         $count = null;
 
         $url = 'http://www.baidu.com/s?wd=site:'.$domain;
-        print $url.PHP_EOL;
+        echo $url.PHP_EOL;
 
         try {
             $response = $this->guzzleClient->request('GET', $url);
         } catch (\Exception  $e) {
-            print  $e->getMessage();
+            echo $e->getMessage();
         }
 
         $content = $response->getBody()->getContents();
@@ -100,7 +100,7 @@ class BaiduSeo extends Command
 //                    $count = str_replace(',', '', $match['count']);
 //                }
             } catch (\Exception $e) {
-                print  $e->getMessage();
+                echo  $e->getMessage();
             }
         }
 
@@ -110,7 +110,7 @@ class BaiduSeo extends Command
             }
         }
 
-        print $count.PHP_EOL;
+        echo $count.PHP_EOL;
 
         return $count;
     }
