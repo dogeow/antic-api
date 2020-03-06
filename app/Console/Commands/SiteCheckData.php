@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Site;
 use App\Models\SiteCheck;
 use Carbon\Carbon;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
-use App\Models\Site;
 
 class SiteCheckData extends Command
 {
