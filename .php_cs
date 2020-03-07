@@ -1,6 +1,7 @@
 <?php
 
 $excluded_folders = [
+    'bootstrap/cache',
     'node_modules',
     'storage',
     'vendor'
@@ -8,17 +9,21 @@ $excluded_folders = [
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude($excluded_folders)
+    ->name('*.php')
+    ->notName('*.blade.php')
     ->notName('AcceptanceTester.php')
     ->notName('FunctionalTester.php')
     ->notName('UnitTester.php')
-    ->in(__DIR__);
+    ->in(__DIR__)
+    ->ignoreDotFiles(true)
+    ->ignoreVCS(true);
 ;
 
 return PhpCsFixer\Config::create()
     ->setRules(array(
-        '@Symfony' => true,
+        '@Laravel' => true,
+        '@Laravel:risky' => true,
         'phpdoc_summary' => false,
-        'binary_operator_spaces' => ['align_double_arrow' => true],
         'array_syntax' => ['syntax' => 'short'],
         'linebreak_after_opening_tag' => true,
         'not_operator_with_successor_space' => true,
