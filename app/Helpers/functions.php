@@ -256,7 +256,7 @@ function cutstr($data, $no, $le = '')
     $data = strip_tags(htmlspecialchars_decode($data));
     $data = str_replace(["\r\n", "\n\n", "\r\r", "\n", "\r"], '', $data);
     $str = msubstr($data, 0, $no);
-    if ( strlen($data) > strlen($str)) {
+    if (strlen($data) > strlen($str)) {
         $str .= $le;
     }
 
@@ -303,7 +303,7 @@ function object_array($array)
  * asc正向排序 desc逆向排序 nat自然排序
  * @return array
  */
-function list_sort_by(Array $list, $field, $sortby = 'asc')
+function list_sort_by(array $list, $field, $sortby = 'asc')
 {
     $refer = $resultSet = [];
     foreach ($list as $i => $data) {
@@ -335,7 +335,7 @@ function list_sort_by(Array $list, $field, $sortby = 'asc')
  * @return array
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-function list_to_tree(Array $list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0)
+function list_to_tree(array $list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0)
 {
     // 创建Tree
     $tree = [];
@@ -371,7 +371,7 @@ function list_to_tree(Array $list, $pk = 'id', $pid = 'pid', $child = '_child', 
  * @return array        返回排过序的列表数组
  * @author yangweijie <yangweijiester@gmail.com>
  */
-function tree_to_list(Array $tree, $child = '_child', $order = 'id', &$list = [])
+function tree_to_list(array $tree, $child = '_child', $order = 'id', &$list = [])
 {
     foreach ($tree as $key => $value) {
         $refer = $value;
