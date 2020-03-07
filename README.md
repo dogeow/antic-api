@@ -1,4 +1,7 @@
-# antic-api
+antic-api
+=======
+
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></img></a>
 
 [中文](https://github.com/likunyan/react/blob/master/README_zh.md).
 

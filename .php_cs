@@ -134,6 +134,7 @@ $finder = Finder::create()
     ->notName('*.blade.php')
     ->notName('index.php')
     ->notName('server.php')
+    ->notName('_ide_helper.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
