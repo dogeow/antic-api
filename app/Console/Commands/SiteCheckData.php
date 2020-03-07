@@ -61,7 +61,7 @@ class SiteCheckData extends Command
 
         foreach ($sites as $key => $site) {
             $this->site = $site;
-            print $site->domain.PHP_EOL;
+            echo $site->domain.PHP_EOL;
             $date = self::getDate();
             if ($date === false) {
                 $site->online = false;
@@ -104,7 +104,7 @@ class SiteCheckData extends Command
     {
         SiteCheck::create([
             'site_id' => $this->site->id,
-            'status' => $status
+            'status' => $status,
         ]);
     }
 

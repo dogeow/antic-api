@@ -53,7 +53,7 @@ class MooncakeController extends Controller
 
         // 摇骰子
         $numbers = [];
-        for ($i = 1; $i <= 6; ++$i) {
+        for ($i = 1; $i <= 6; $i++) {
             $numbers[] = $this->number[array_rand($this->number, 1)];
         }
         $numbers = collect($numbers);
@@ -97,7 +97,7 @@ class MooncakeController extends Controller
         }
 
         echo $mooncake['name'];
-        if (!empty($mooncake['name'])) {
+        if (! empty($mooncake['name'])) {
             $message = '提交成功，请勿重复提交';
         } else {
             $mooncake->name = $request->name;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 use Closure;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
 class VerifyCsrfToken extends Middleware
 {
@@ -20,8 +20,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-    	'api/*',
-	'webhook'
+        'api/*',
+        'webhook',
     ];
 
     public function handle($request, Closure $next)

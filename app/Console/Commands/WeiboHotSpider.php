@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\WeiboHot;
 use App\Models\WeiboToTop;
+use Illuminate\Console\Command;
 
 class WeiboHotSpider extends Command
 {
@@ -40,9 +40,9 @@ class WeiboHotSpider extends Command
     public function handle()
     {
         $html = file_get_contents('https://s.weibo.com/top/summary');
-        $htmlNoBlank = preg_replace("/>\n\s*/i", ">", $html);
+        $htmlNoBlank = preg_replace("/>\n\s*/i", '>', $html);
         preg_match('/td-02.*?="(.*?)".*?>(.*?)<\/a>.*?<i.*?>(.*?)<\/i>/i', $htmlNoBlank, $topping);
-        $deleteTopping = preg_replace('/<tbody.*?<\/tr>/i', "", $htmlNoBlank);
+        $deleteTopping = preg_replace('/<tbody.*?<\/tr>/i', '', $htmlNoBlank);
         $pattern = "/td-02.*?><a.*?href=\"(.*?)\".*?>(.*?)<\/a><span>(.*?)<\/span>.*?td-03.*?>(.*?)<\/td>/i";
         preg_match_all($pattern, $deleteTopping, $matches, PREG_SET_ORDER);
 
@@ -50,14 +50,14 @@ class WeiboHotSpider extends Command
         $toppingData = [
             'title' => $topping[2],
             'url' => $topping[1],
-            'status' => status($topping[3])
+            'status' => status($topping[3]),
         ];
-        if (!WeiboToTop::where('title', $toppingData['title'])->exists()) {
+        if (! WeiboToTop::where('title', $toppingData['title'])->exists()) {
             try {
                 WeiboToTop::create($toppingData);
             } catch (\Illuminate\Database\QueryException $e) {
                 $errorCode = $e->errorInfo[1];
-                print $errorCode;
+                echo $errorCode;
             }
         }
 
@@ -85,7 +85,7 @@ class WeiboHotSpider extends Command
                 'rank' => $rank,
                 'emoji' => $emoji,
                 'status' => status($status),
-                'url' => $url
+                'url' => $url,
             ];
             WeiboHot::updateOrCreate(['title' => $title], $updateData);
         }

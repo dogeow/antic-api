@@ -40,7 +40,7 @@ class TestBroadcastingEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'data' => $this->message
+            'data' => $this->message,
         ];
     }
 }

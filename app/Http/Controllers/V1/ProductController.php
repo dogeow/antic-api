@@ -4,8 +4,8 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use JWTAuth;
 use Illuminate\Http\Request;
+use JWTAuth;
 
 class ProductController extends Controller
 {
@@ -28,10 +28,10 @@ class ProductController extends Controller
     {
         $product = $this->user->products()->find($id);
 
-        if (!$product) {
+        if (! $product) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, product with id ' . $id . ' cannot be found'
+                'message' => 'Sorry, product with id '.$id.' cannot be found',
             ], 400);
         }
 
@@ -43,7 +43,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'price' => 'required|integer',
-            'quantity' => 'required|integer'
+            'quantity' => 'required|integer',
         ]);
 
         $product = new Product();
@@ -51,26 +51,27 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->quantity = $request->quantity;
 
-        if ($this->user->products()->save($product))
+        if ($this->user->products()->save($product)) {
             return response()->json([
                 'success' => true,
-                'product' => $product
+                'product' => $product,
             ]);
-        else
+        } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, product could not be added'
+                'message' => 'Sorry, product could not be added',
             ], 500);
+        }
     }
 
     public function update(Request $request, $id)
     {
         $product = $this->user->products()->find($id);
 
-        if (!$product) {
+        if (! $product) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, product with id ' . $id . ' cannot be found'
+                'message' => 'Sorry, product with id '.$id.' cannot be found',
             ], 400);
         }
 
@@ -79,12 +80,12 @@ class ProductController extends Controller
 
         if ($updated) {
             return response()->json([
-                'success' => true
+                'success' => true,
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, product could not be updated'
+                'message' => 'Sorry, product could not be updated',
             ], 500);
         }
     }
@@ -93,21 +94,21 @@ class ProductController extends Controller
     {
         $product = $this->user->products()->find($id);
 
-        if (!$product) {
+        if (! $product) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, product with id ' . $id . ' cannot be found'
+                'message' => 'Sorry, product with id '.$id.' cannot be found',
             ], 400);
         }
 
         if ($product->delete()) {
             return response()->json([
-                'success' => true
+                'success' => true,
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Product could not be deleted'
+                'message' => 'Product could not be deleted',
             ], 500);
         }
     }

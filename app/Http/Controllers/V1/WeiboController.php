@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\WeiboHot;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\WeiboHot;
 
 class WeiboController extends Controller
 {
@@ -31,7 +31,7 @@ class WeiboController extends Controller
         $data = [
             'total' => WeiboHot::count(),
             'startDate' => WeiboHot::min('created_at'),
-            'endDate' => WeiboHot::max('created_at')
+            'endDate' => WeiboHot::max('created_at'),
         ];
 
         return response()->json($data);

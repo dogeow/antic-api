@@ -134,7 +134,7 @@ class ApiController extends Controller
                 return response()->download(public_path($uri), '滑稽.ico');
                 break;
             default:
-                return null;
+                return;
         }
     }
 

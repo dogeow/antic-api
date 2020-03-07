@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Jobs\ProcessGithubWebHook;
+use Illuminate\Http\Request;
 
 class GitHubController extends Controller
 {
@@ -13,15 +13,15 @@ class GitHubController extends Controller
         $secret = env('WEB_HOOK_SECRET');
         $path = env('WEB_HOOK_PATH');
         $cmdArray = [
-            'cd ' . $path,
+            'cd '.$path,
             'git reset --hard origin/master',
             'git clean -f',
             'git pull',
             'npm install',
-            'cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js'
+            'cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js',
         ];
-        $build = join(" && ",$cmdArray);
-        $pull = join(" && ", array_slice($cmdArray, 0, -2));
+        $build = implode(' && ', $cmdArray);
+        $pull = implode(' && ', array_slice($cmdArray, 0, -2));
 
         $rawPost = $request->getContent();
         $arrayPost = json_decode($rawPost, 1);
@@ -29,8 +29,8 @@ class GitHubController extends Controller
 
         if (hash_equals($hash, hash_hmac($algo, $rawPost, $secret))) {
             $isBuild = false;
-            foreach($arrayPost['head_commit']['modified'] as $key => $value){
-                if('resources/' === substr($value,0,10)){
+            foreach ($arrayPost['head_commit']['modified'] as $key => $value) {
+                if ('resources/' === substr($value, 0, 10)) {
                     $isBuild = true;
                     break;
                 }
