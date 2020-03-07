@@ -1,8 +1,14 @@
 preset: laravel
-risky: true
+
+enabled:
+  - alpha_ordered_imports
+
+disabled:
+  - length_ordered_imports
+  -
 finder:
   exclude:
-    - modules
+    - tests
     - node_modules
     - storage
     - vendor
@@ -11,3 +17,6 @@ finder:
     - index.php
     - server.php
     - "*.blade.php"
+    - "AcceptanceTester.php"
+    - "FunctionalTester.php"
+    - "UnitTester.php"
