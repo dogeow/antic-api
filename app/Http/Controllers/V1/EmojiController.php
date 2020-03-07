@@ -44,7 +44,7 @@ class EmojiController extends Controller
 
     public function index()
     {
-        return response()->json(self::get());
+        return response()->json($this->get());
     }
 
     public function get()

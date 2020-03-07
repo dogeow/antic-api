@@ -62,13 +62,13 @@ class SiteCheckData extends Command
         foreach ($sites as $key => $site) {
             $this->site = $site;
             echo $site->domain.PHP_EOL;
-            $date = self::getDate();
+            $date = $this->getDate();
             if ($date === false) {
                 $site->online = false;
                 $site->save();
             } else {
-                $status = self::checkDateStatus($date);
-                self::saveStatus($status);
+                $status = $this->checkDateStatus($date);
+                $this->saveStatus($status);
                 $site->online = true;
                 $site->save();
             }

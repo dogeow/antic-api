@@ -249,64 +249,14 @@ function get_file_folder_List($pathname, $fileFlag = 0, $pattern = '*')
 }
 
 /**
- * PHP 非递归实现查询该目录下所有文件.
- * @param  unknown  $dir
- * @return multitype:|multitype:string
- */
-function scanfiles($dir)
-{
-    if (! is_dir($dir)) {
-        return [];
-    }
-
-    // 兼容各操作系统
-    $dir = rtrim(str_replace('\\', '/', $dir), '/').'/';
-
-    // 栈，默认值为传入的目录
-    $dirs = [$dir];
-
-    // 放置所有文件的容器
-    $rt = [];
-    do {
-        // 弹栈
-        $dir = array_pop($dirs);
-        // 扫描该目录
-        $tmp = scandir($dir);
-        foreach ($tmp as $f) {
-
-            // 过滤. ..
-            if ($f == '.' || $f == '..') {
-                continue;
-            }
-
-            // 组合当前绝对路径
-            $path = $dir.$f;
-
-            // 如果是目录，压栈。
-            if (is_dir($path)) {
-                array_push($dirs, $path.'/');
-            } else {
-                if (is_file($path)) { // 如果是文件，放入容器中
-                    $rt[] = $path;
-                }
-            }
-        }
-    } while ($dirs); // 直到栈中没有目录
-
-    return $rt;
-}
-
-/**
  * 反字符 去标签 自动加点 去换行 截取字符串.
  */
 function cutstr($data, $no, $le = '')
 {
     $data = strip_tags(htmlspecialchars_decode($data));
     $data = str_replace(["\r\n", "\n\n", "\r\r", "\n", "\r"], '', $data);
-    $datal = strlen($data);
     $str = msubstr($data, 0, $no);
-    $datae = strlen($str);
-    if ($datal > $datae) {
+    if ( strlen($data) > strlen($str)) {
         $str .= $le;
     }
 
@@ -316,15 +266,16 @@ function cutstr($data, $no, $le = '')
 /**
  * 将一个字符串转换成数组，支持中文.
  * @param  string  $string  待转换成数组的字符串
- * @return string   转换后的数组
+ * @return array   转换后的数组
  */
 function strToArray($string)
 {
-    $strlen = mb_strlen($string);
-    while ($strlen) {
+    $array = [];
+    $strLen = mb_strlen($string);
+    while ($strLen) {
         $array[] = mb_substr($string, 0, 1, 'utf8');
-        $string = mb_substr($string, 1, $strlen, 'utf8');
-        $strlen = mb_strlen($string);
+        $string = mb_substr($string, 1, $strLen, 'utf8');
+        $strLen = mb_strlen($string);
     }
 
     return $array;
@@ -352,32 +303,28 @@ function object_array($array)
  * asc正向排序 desc逆向排序 nat自然排序
  * @return array
  */
-function list_sort_by($list, $field, $sortby = 'asc')
+function list_sort_by(Array $list, $field, $sortby = 'asc')
 {
-    if (is_array($list)) {
-        $refer = $resultSet = [];
-        foreach ($list as $i => $data) {
-            $refer[$i] = &$data[$field];
-        }
-        switch ($sortby) {
-            case 'asc': // 正向排序
-                asort($refer);
-                break;
-            case 'desc':// 逆向排序
-                arsort($refer);
-                break;
-            case 'nat': // 自然排序
-                natcasesort($refer);
-                break;
-        }
-        foreach ($refer as $key => $val) {
-            $resultSet[] = &$list[$key];
-        }
-
-        return $resultSet;
+    $refer = $resultSet = [];
+    foreach ($list as $i => $data) {
+        $refer[$i] = &$data[$field];
+    }
+    switch ($sortby) {
+        case 'asc': // 正向排序
+            asort($refer);
+            break;
+        case 'desc':// 逆向排序
+            arsort($refer);
+            break;
+        case 'nat': // 自然排序
+            natcasesort($refer);
+            break;
+    }
+    foreach ($refer as $key => $val) {
+        $resultSet[] = &$list[$key];
     }
 
-    return false;
+    return $resultSet;
 }
 
 /**
@@ -388,29 +335,26 @@ function list_sort_by($list, $field, $sortby = 'asc')
  * @return array
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0)
+function list_to_tree(Array $list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0)
 {
     // 创建Tree
     $tree = [];
 
-    if (is_array($list)) {
+    // 创建基于主键的数组引用
+    $refer = [];
+    foreach ($list as $key => $val) {
+        $refer[$val[$pk]] = &$list[$key];
+    }
 
-        // 创建基于主键的数组引用
-        $refer = [];
-        foreach ($list as $key => $val) {
-            $refer[$val[$pk]] = &$list[$key];
-        }
-
-        foreach ($list as $key => $val) {
-            // 判断是否存在parent
-            $parentId = $val[$pid];
-            if ($root == $parentId) {
-                $tree[] = &$list[$key];
-            } else {
-                if (isset($refer[$parentId])) {
-                    $parent = &$refer[$parentId];
-                    $parent[$child][] = &$list[$key];
-                }
+    foreach ($list as $key => $val) {
+        // 判断是否存在parent
+        $parentId = $val[$pid];
+        if ($root == $parentId) {
+            $tree[] = &$list[$key];
+        } else {
+            if (isset($refer[$parentId])) {
+                $parent = &$refer[$parentId];
+                $parent[$child][] = &$list[$key];
             }
         }
     }
@@ -427,20 +371,17 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
  * @return array        返回排过序的列表数组
  * @author yangweijie <yangweijiester@gmail.com>
  */
-function tree_to_list($tree, $child = '_child', $order = 'id', &$list = [])
+function tree_to_list(Array $tree, $child = '_child', $order = 'id', &$list = [])
 {
-    if (is_array($tree)) {
-        $refer = [];
-        foreach ($tree as $key => $value) {
-            $reffer = $value;
-            if (isset($reffer[$child])) {
-                unset($reffer[$child]);
-                tree_to_list($value[$child], $child, $order, $list);
-            }
-            $list[] = $reffer;
+    foreach ($tree as $key => $value) {
+        $refer = $value;
+        if (isset($refer[$child])) {
+            unset($refer[$child]);
+            tree_to_list($value[$child], $child, $order, $list);
         }
-        $list = list_sort_by($list, $order, $sortby = 'asc');
+        $list[] = $refer;
     }
+    $list = list_sort_by($list, $order, $sortby = 'asc');
 
     return $list;
 }

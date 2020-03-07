@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Dingo\Api\Http\Response;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -34,7 +35,7 @@ class AuthController extends Controller
      * @param  [string] password
      * @param  [string] password_confirmation
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Response
      */
     public function register()
     {
@@ -73,7 +74,7 @@ class AuthController extends Controller
      * @param  [string] password
      * @param  [boolean] remember_me
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Response
      */
     public function login()
     {
@@ -107,7 +108,7 @@ class AuthController extends Controller
     /**
      * 获取已认证的用户信息.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Response
      */
     public function profile()
     {
@@ -117,7 +118,7 @@ class AuthController extends Controller
     /**
      * 注销用户（使令牌无效）.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Response
      */
     public function logout()
     {
@@ -129,7 +130,7 @@ class AuthController extends Controller
     /**
      * 刷新 token.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Response
      */
     public function refresh()
     {
@@ -141,7 +142,7 @@ class AuthController extends Controller
      *
      * @param string $token
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Response
      */
     protected function respondWithToken($token)
     {

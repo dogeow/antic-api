@@ -44,7 +44,7 @@ class Headless extends Command
     public function handle()
     {
         $this->url = 'https://www.learnku.com';
-        self::spider();
+        $this->spider();
     }
 
     public function spider()
