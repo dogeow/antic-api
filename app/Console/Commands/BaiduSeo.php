@@ -68,7 +68,7 @@ class BaiduSeo extends Command
         $sites = Site::all();
         // 轮流查询
         foreach ($sites as $site) {
-            $count = self::spider($site->domain);
+            $count = $this->spider($site->domain);
             $site->seo = $count;
             $site->save();
         }
