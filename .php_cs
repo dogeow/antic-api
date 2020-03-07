@@ -17,6 +17,7 @@ $finder = PhpCsFixer\Finder::create()
 return PhpCsFixer\Config::create()
     ->setRules(array(
         '@Symfony' => true,
+        'phpdoc_summary' => false,
         'binary_operator_spaces' => ['align_double_arrow' => true],
         'array_syntax' => ['syntax' => 'short'],
         'linebreak_after_opening_tag' => true,
