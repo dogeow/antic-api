@@ -25,7 +25,7 @@ class GitHubController extends Controller
 
         $rawPost = $request->getContent();
         $arrayPost = json_decode($rawPost, 1);
-        list($algo, $hash) = explode('=', $request->header('X-Hub-Signature'), 2);
+        [$algo, $hash] = explode('=', $request->header('X-Hub-Signature'), 2);
 
         if (hash_equals($hash, hash_hmac($algo, $rawPost, $secret))) {
             $isBuild = false;

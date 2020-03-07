@@ -4,6 +4,7 @@ use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $rules = [
+    'list_syntax' => ['syntax' => 'short'],
     'array_syntax' => ['syntax' => 'short'],
     'binary_operator_spaces' => [
         'default' => 'single_space',
