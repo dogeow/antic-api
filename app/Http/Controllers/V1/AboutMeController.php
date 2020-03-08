@@ -11,10 +11,10 @@ class AboutMeController extends Controller
     {
         $newData = [];
         $data = collect(AboutMe::all())->groupBy('category')->toArray();
-        foreach($data as $key => $value){
+        foreach ($data as $key => $value) {
             $newData[] = [
                 'category' => $key,
-                'list' => $value
+                'list' => $value,
             ];
         }
 
