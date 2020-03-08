@@ -15,6 +15,7 @@ class CreateAboutMesTable extends Migration
     {
         Schema::create('about_mes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('category');
             $table->string('content');
             $table->timestamps();
         });
