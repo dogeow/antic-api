@@ -23,7 +23,7 @@ class WeiboController extends Controller
             $query->take($number);
         }
 
-        return response()->json($query->get());
+        return $query->get();
     }
 
     public function about()
@@ -34,6 +34,6 @@ class WeiboController extends Controller
             'endDate' => WeiboHot::max('created_at'),
         ];
 
-        return response()->json($data);
+        return $data;
     }
 }

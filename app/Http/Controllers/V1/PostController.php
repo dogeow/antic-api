@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json(Post::all());
+        return Post::all();
     }
 
     /**
@@ -46,7 +46,7 @@ class PostController extends Controller
             'content' => $content,
         ]);
 
-        return response()->json($resp);
+        return $resp;
     }
 
     /**
@@ -56,7 +56,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return response()->json($post);
+        return $post;
     }
 
     /**
@@ -77,7 +77,7 @@ class PostController extends Controller
     {
         $post->update($request->all());
 
-        return response()->json($post);
+        return $post;
     }
 
     /**

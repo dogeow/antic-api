@@ -14,7 +14,7 @@ class TaskController extends Controller
         $project = Project::where('user_id', 1)->first();
         $data = $project ? $project->tasks()->where('is_completed', '0')->get() : [];
 
-        return response()->json($data);
+        return $data;
     }
 
     public function store(Request $request)
@@ -23,7 +23,7 @@ class TaskController extends Controller
 
         $project = Project::where('id', $request->project_id)->first();
         if ($request->user()->id !== $project->user_id) {
-            return response()->json('兄弟你做啥？');
+            return '兄弟你做啥？';
         }
 
         $task = Task::create([
@@ -32,17 +32,17 @@ class TaskController extends Controller
             'is_completed' => 0,
         ]);
 
-        return response()->json($task);
+        return $task;
     }
 
     public function markAsCompleted(Task $task, Request $request)
     {
         if ($request->user()->id !== $task->project->user_id) {
-            return response()->json('兄弟你做啥？');
+            return '兄弟你做啥？';
         }
         $task->is_completed = true;
         $task->update();
 
-        return response()->json('Task updated!');
+        return 'Task updated!';
     }
 }

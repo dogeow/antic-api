@@ -9,9 +9,9 @@ class SiteController extends Controller
 {
     public function index()
     {
-        return response()->json([
+        return [
             'sites' => Site::with('todayLatest')->get(),
-        ]);
+        ];
     }
 
     public function check()
@@ -23,6 +23,6 @@ class SiteController extends Controller
             $item->humans = date('H:i', strtotime($item->created_at));
         }
 
-        return response()->json($history);
+        return $history;
     }
 }

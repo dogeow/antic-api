@@ -37,14 +37,14 @@ class EmojiController extends Controller
             'public'
         );
 
-        return response()->json([
+        return [
             'url' => env('APP_URL').'/storage/'.$path,
-        ]);
+        ];
     }
 
     public function index()
     {
-        return response()->json($this->get());
+        return $this->get();
     }
 
     public function get()

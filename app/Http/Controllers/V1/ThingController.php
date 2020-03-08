@@ -18,15 +18,6 @@ class ThingController extends Controller
         $this->client = new Upyun($serviceConfig);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-    }
-
     public function love()
     {
         $path = __FUNCTION__;
@@ -42,29 +33,15 @@ class ThingController extends Controller
         return $data;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $key = 'love';
 
         if (false === $request->hasFile($key)) {
-            return response()->json('没有文件');
+            return '没有文件';
         }
         if (false === $request->file($key)->isValid()) {
-            return response()->json('上传失败');
+            return '上传失败';
         }
 
         $filename = $request->file($key)->getClientOriginalName();
@@ -73,41 +50,5 @@ class ThingController extends Controller
         $file = fopen($request->file($key), 'r');
 
         return $this->client->write($key.'/'.$filename, $file);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Thing $thing)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Thing $thing)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Thing $thing)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Thing $thing)
-    {
     }
 }

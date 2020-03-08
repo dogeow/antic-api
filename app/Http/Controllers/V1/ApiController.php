@@ -13,7 +13,7 @@ class ApiController extends Controller
 
     public function index()
     {
-        return response()->json(Api::all());
+        return Api::all();
     }
 
     public function parking()
@@ -44,7 +44,7 @@ class ApiController extends Controller
             ];
         }
 
-        return response()->json($data);
+        return $data;
     }
 
     public function punycode($domain)
@@ -183,9 +183,9 @@ class ApiController extends Controller
     public function htmlSC($string)
     {
         if ('&' === substr($string, 0, 1)) {
-            return response()->json(htmlspecialchars_decode($string));
+            return htmlspecialchars_decode($string);
         } else {
-            return response()->json(htmlspecialchars($string));
+            return htmlspecialchars($string);
         }
     }
 
@@ -196,7 +196,7 @@ class ApiController extends Controller
 
             return response($content)->header('Content-Type', 'application/json');
         } else {
-            return response()->json($_SERVER['REMOTE_ADDR']);
+            return $_SERVER['REMOTE_ADDR'];
         }
     }
 }

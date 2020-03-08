@@ -17,7 +17,7 @@ class ProjectController extends Controller
             }])
             ->get();
 
-        return response()->json($projects);
+        return $projects;
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class ProjectController extends Controller
             'description' => $validatedData['description'],
         ]);
 
-        return response()->json('Project created!');
+        return 'Project created!';
     }
 
     public function show($id, Request $request)
@@ -44,17 +44,17 @@ class ProjectController extends Controller
             $query->where('is_completed', false);
         }])->find($id);
 
-        return response()->json($project);
+        return $project;
     }
 
     public function markAsCompleted(Project $project, Request $request)
     {
         if ($request->user()->id !== $project->user_id) {
-            return response()->json('兄弟你做啥？');
+            return '兄弟你做啥？';
         }
         $project->is_completed = true;
         $project->update();
 
-        return response()->json('Project updated!');
+        return 'Project updated!';
     }
 }

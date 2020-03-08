@@ -24,9 +24,6 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
 
     $api->get('/about_me', 'AboutMeController@index');
 
-    // 网站评级
-    $api->post('/rating', 'RatingController@site');
-
     $api->post('/api', 'ApiController@index');
 
     // 网站 Todo

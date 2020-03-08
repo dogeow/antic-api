@@ -13,7 +13,7 @@ class SearchController extends Controller
     {
         $q = $request->get('q', null);
         if (null === $q) {
-            return response()->json(['error']);
+            return ['error'];
         }
 
         $puppeteer = new Puppeteer();
@@ -49,9 +49,9 @@ class SearchController extends Controller
             ];
         });
 
-        return response()->json([
+        return [
             'data' => array_filter($result),
             'count' => $count,
-        ]);
+        ];
     }
 }

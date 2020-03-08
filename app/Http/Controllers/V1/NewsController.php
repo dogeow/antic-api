@@ -52,14 +52,13 @@ class NewsController extends Controller
 
         $lastReadTime = $news[0]->created_at ?? $now;
 
-        return response()->json(
+        return
             [
                 'news' => $news,
                 'topping' => topping($topping),
                 'lastReadTime' => $lastReadTime,
                 'user' => $user,
                 'lastNews' => $lastNews,
-            ]
-        );
+            ];
     }
 }

@@ -52,10 +52,10 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
 
         if ($this->user->products()->save($product)) {
-            return response()->json([
+            return[
                 'success' => true,
                 'product' => $product,
-            ]);
+            ];
         } else {
             return response()->json([
                 'success' => false,
@@ -79,9 +79,9 @@ class ProductController extends Controller
             ->save();
 
         if ($updated) {
-            return response()->json([
+            return [
                 'success' => true,
-            ]);
+            ];
         } else {
             return response()->json([
                 'success' => false,
