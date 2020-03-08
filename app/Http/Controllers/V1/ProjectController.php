@@ -29,7 +29,7 @@ class ProjectController extends Controller
             'description' => 'required',
         ]);
 
-        $project = Project::create([
+        Project::create([
             'user_id' => $user->id,
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],

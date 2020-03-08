@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class QuoteController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
         return Quote::all();
     }

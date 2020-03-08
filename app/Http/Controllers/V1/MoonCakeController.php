@@ -7,7 +7,7 @@ use App\Models\Mooncake;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class MooncakeController extends Controller
+class MoonCakeController extends Controller
 {
     public $number;
     public $ip;
@@ -42,13 +42,13 @@ class MooncakeController extends Controller
             $user = User::firstOrCreate(['ip' => $this->ip], ['name' => $request->input('name')]);
         }
 
-        $mooncakes = $user->mooncakes;
+        $moonCakes = $user->mooncakes;
 
         // 有摇过了
-        if ($mooncakes->isEmpty()) {
+        if ($moonCakes->isEmpty()) {
             $count = 0;
         } else {
-            $count = count($mooncakes);
+            $count = count($moonCakes);
         }
 
         // 摇骰子
@@ -63,23 +63,23 @@ class MooncakeController extends Controller
             Mooncake::create(
                 [
                     'user_id' => $user['id'],
-                    'one' => $numbers[0],
-                    'two' => $numbers[1],
-                    'three' => $numbers[2],
-                    'four' => $numbers[3],
-                    'five' => $numbers[4],
-                    'six' => $numbers[5],
+                    'one'     => $numbers[0],
+                    'two'     => $numbers[1],
+                    'three'   => $numbers[2],
+                    'four'    => $numbers[3],
+                    'five'    => $numbers[4],
+                    'six'     => $numbers[5],
                 ]
             );
         }
 
         return view('welcome')->with(
             [
-                'count' => $count,
-                'record' => $record,
-                'user' => $user,
-                'mooncakes' => $mooncakes,
-                'numbers' => $numbers ?? null,
+                'count'     => $count,
+                'record'    => $record,
+                'user'      => $user,
+                'mooncakes' => $moonCakes,
+                'numbers'   => $numbers ?? null,
             ]
         );
     }
@@ -90,18 +90,18 @@ class MooncakeController extends Controller
             return view('welcome')->with('error', '请署名');
         }
 
-        $mooncake = Mooncake::where()->first();
+        $moonCake = Mooncake::where()->first();
 
-        if (is_null($mooncake)) {
+        if (is_null($moonCake)) {
             exit;
         }
 
-        echo $mooncake['name'];
-        if (! empty($mooncake['name'])) {
+        echo $moonCake['name'];
+        if (! empty($moonCake['name'])) {
             $message = '提交成功，请勿重复提交';
         } else {
-            $mooncake->name = $request->name;
-            if ($mooncake->save()) {
+            $moonCake->name = $request->name;
+            if ($moonCake->save()) {
                 $message = '提交成功';
             }
         }

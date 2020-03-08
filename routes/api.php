@@ -20,7 +20,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
     // 我的物品，Love
     $api->get('/thing/love', 'ThingController@love');
 
-    $api->get('/quotes', 'QuoteController@index');
+    $api->get('/quotes', 'QuoteController');
 
     $api->get('/about_me', 'AboutMeController');
 
