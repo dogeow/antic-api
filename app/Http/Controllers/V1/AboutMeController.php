@@ -17,7 +17,7 @@ class AboutMeController extends Controller
                 'list' => $value
             ];
         }
-        
+
         return $newData;
     }
 }
