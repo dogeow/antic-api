@@ -22,7 +22,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
 
     $api->get('/quotes', 'QuoteController@index');
 
-    $api->get('/about_me', 'AboutMeController@index');
+    $api->get('/about_me', 'AboutMeController');
 
     $api->post('/api', 'ApiController@index');
 

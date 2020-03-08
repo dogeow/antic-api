@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class GitHubController extends Controller
 {
-    public function webhook(Request $request)
+    public function __invoke(Request $request)
     {
         $secret = env('WEB_HOOK_SECRET');
         $path = env('WEB_HOOK_PATH');
