@@ -28,12 +28,10 @@ class WeiboController extends Controller
 
     public function about()
     {
-        $data = [
+        return [
             'total' => WeiboHot::count(),
             'startDate' => WeiboHot::min('created_at'),
             'endDate' => WeiboHot::max('created_at'),
         ];
-
-        return $data;
     }
 }

@@ -34,9 +34,9 @@ class TodoController extends Controller
         );
         if ($status) {
             return ['success' => true, 'todos' => Todo::all()];
-        } else {
-            return ['success' => false];
         }
+
+        return ['success' => false];
     }
 
     public function destroy($id)

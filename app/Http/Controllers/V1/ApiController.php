@@ -113,12 +113,12 @@ class ApiController extends Controller
         return base64_decode($string);
     }
 
-    public function url_encode($string)
+    public function urlEncode($string)
     {
         return urlencode($string);
     }
 
-    public function url_decode($string)
+    public function urlDecode($string)
     {
         return urldecode($string);
     }

@@ -14,14 +14,8 @@ use Illuminate\Support\Facades\Notification;
 class ProcessGithubWebHook implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $cmd;
 
-    /**
-     * 任务可以执行的最大秒数 (超时时间)。
-     *
-     * @var int
-     */
-    public $timeout = 360;
+    private $cmd;
 
     /**
      * Create a new job instance.

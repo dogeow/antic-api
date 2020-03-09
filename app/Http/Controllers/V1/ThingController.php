@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use App\Thing;
 use Illuminate\Http\Request;
 use Upyun\Config;
 use Upyun\Upyun;

@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 
 class MoonCakeController extends Controller
 {
-    public $number;
-    public $ip;
+    private $number;
+    private $ip;
 
     public function __construct(Request $request)
     {

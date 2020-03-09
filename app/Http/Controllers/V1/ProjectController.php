@@ -10,14 +10,12 @@ class ProjectController extends Controller
 {
     public function index(Request $request)
     {
-        $projects = Project::where('user_id', $request->user()->id)->where('is_completed', false)
+        return Project::where('user_id', $request->user()->id)->where('is_completed', false)
             ->orderBy('created_at', 'desc')
             ->withCount(['tasks' => function ($query) {
                 $query->where('is_completed', false);
             }])
             ->get();
-
-        return $projects;
     }
 
     public function store(Request $request)
@@ -40,11 +38,9 @@ class ProjectController extends Controller
 
     public function show($id, Request $request)
     {
-        $project = Project::where('user_id', $request->user()->id)->with(['tasks' => function ($query) {
+        return Project::where('user_id', $request->user()->id)->with(['tasks' => function ($query) {
             $query->where('is_completed', false);
         }])->find($id);
-
-        return $project;
     }
 
     public function markAsCompleted(Project $project, Request $request)

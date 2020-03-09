@@ -12,9 +12,8 @@ class TaskController extends Controller
     public function todo()
     {
         $project = Project::where('user_id', 1)->first();
-        $data = $project ? $project->tasks()->where('is_completed', '0')->get() : [];
 
-        return $data;
+        return $project ? $project->tasks()->where('is_completed', '0')->get() : [];
     }
 
     public function store(Request $request)
@@ -26,13 +25,11 @@ class TaskController extends Controller
             return '兄弟你做啥？';
         }
 
-        $task = Task::create([
+        return Task::create([
             'title' => $validatedData['title'],
             'project_id' => $request->project_id,
             'is_completed' => 0,
         ]);
-
-        return $task;
     }
 
     public function markAsCompleted(Task $task, Request $request)

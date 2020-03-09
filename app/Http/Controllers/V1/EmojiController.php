@@ -28,8 +28,6 @@ class EmojiController extends Controller
         }
 
         $filename = $request->file($key)->getClientOriginalName();
-        $extension = $request->file($key)->getClientOriginalExtension();
-        // getClientOriginalExtension
 
         $path = $request->file($key)->storeAs(
             'images/emoji',

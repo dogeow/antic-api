@@ -52,7 +52,7 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
 
         if ($this->user->products()->save($product)) {
-            return[
+            return [
                 'success' => true,
                 'product' => $product,
             ];
@@ -82,12 +82,12 @@ class ProductController extends Controller
             return [
                 'success' => true,
             ];
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, product could not be updated',
-            ], 500);
         }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Sorry, product could not be updated',
+        ], 500);
     }
 
     public function destroy($id)

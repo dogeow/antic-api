@@ -26,7 +26,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
 
     $api->post('/api', 'ApiController@index');
 
-    // 网站 Todo
+    // 网站
     $api->get('/todo', 'TaskController@todo');
 
     // Site
@@ -50,8 +50,8 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
     $api->get('/secret/{string}', 'ApiController@secret');
     $api->get('/array', 'ApiController@array');
     $api->get('/random', 'ApiController@random');
-    $api->get('/url_decode/{string}', 'ApiController@url_decode');
-    $api->get('/url_encode/{string}', 'ApiController@url_encode');
+    $api->get('/url_decode/{string}', 'ApiController@urlDecode');
+    $api->get('/url_encode/{string}', 'ApiController@urlEncode');
     $api->get('/base64_encode/{string}', 'ApiController@base64_encode');
     $api->get('/base64_decode/{string}', 'ApiController@base64_decode');
     $api->get('/utf8_to_unicode/{string}', 'ApiController@utf8_to_unicode');
@@ -66,7 +66,6 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
     $api->get('/bankcard/{cardNo}', 'ApiController@bankcard')->where(['cardNo' => '[0-9]+']);
 
     $api->group(['middleware' => 'api.auth'], function ($api) {
-        // Todo
         $api->get('/projects', 'ProjectController@index');
         $api->get('/projects/{id}', 'ProjectController@show');
         $api->post('/projects', 'ProjectController@store');

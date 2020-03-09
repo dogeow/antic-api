@@ -22,12 +22,11 @@ class PostController extends Controller
 
         $content = $request->input('content');
         $title = $request->input('title');
-        $resp = Post::create([
+
+        return Post::create([
             'title' => $title,
             'content' => $content,
         ]);
-
-        return $resp;
     }
 
     public function show(Post $post)

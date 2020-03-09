@@ -11,8 +11,8 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $q = $request->get('q', null);
-        if (null === $q) {
+        $query = $request->get('q', null);
+        if (null === $query) {
             return ['error'];
         }
 
@@ -22,7 +22,7 @@ class SearchController extends Controller
         ]);
 
         $page = $browser->newPage();
-        $page->goto("https://www.google.com/search?q={$q}&num=10&start=0&hl=zh-CN");
+        $page->goto("https://www.google.com/search?q={$query}&num=10&start=0&hl=zh-CN");
         $html = $page->content();
 
         $browser->close();

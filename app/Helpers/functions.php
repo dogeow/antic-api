@@ -103,69 +103,11 @@ function my_mkdir($Folder)
 }
 
 /**
- * 循环删除目录和文件函数.
- * @param  string  $dirName  路径
- * @param  bool  $bFlag  是否删除目录
- * @return void
- */
-function del_dir_file($dirName, $bFlag = false)
-{
-    if ($handle = opendir("$dirName")) {
-        while (false !== ($item = readdir($handle))) {
-            if ($item != '.' && $item != '..') {
-                if (is_dir("$dirName/$item")) {
-                    del_dir_file("$dirName/$item", $bFlag);
-                } else {
-                    unlink("$dirName/$item");
-                }
-            }
-        }
-        closedir($handle);
-        if ($bFlag) {
-            rmdir($dirName);
-        }
-    }
-}
-
-/**
- * 删除目录及目录下所有文件或删除指定文件.
- * @param  string  $path  待删除目录路径
- * @param  bool  $delDir  是否删除目录，1或true删除目录，0或false则只删除文件保留目录（包含子目录）
- * @return bool 返回删除状态
- */
-function del_dir_and_file($path, $delDir = false): bool
-{
-    $handle = opendir($path);
-    if ($handle) {
-        while (false !== ($item = readdir($handle))) {
-            if ($item != '.' && $item != '..') {
-                is_dir("$path/$item") ? del_dir_and_file("$path/$item", $delDir) : unlink("$path/$item");
-            }
-        }
-        closedir($handle);
-        if ($delDir) {
-            return rmdir($path);
-        }
-    } else {
-        if (file_exists($path)) {
-            return unlink($path);
-        } else {
-            return false;
-        }
-    }
-
-    return false;
-}
-
-/**
  *  作用：将xml转为array.
  */
 function xmlToArray($xml)
 {
-    //将XML转为array
-    $array_data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
-
-    return $array_data;
+    return json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
 }
 
 /**
@@ -328,41 +270,6 @@ function list_sort_by(array $list, $field, $sortby = 'asc')
 }
 
 /**
- * 把返回的数据集转换成Tree.
- * @param  array  $list  要转换的数据集
- * @param  string  $pid  parent标记字段
- * @param  string  $level  level标记字段
- * @return array
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
- */
-function list_to_tree(array $list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0)
-{
-    // 创建Tree
-    $tree = [];
-
-    // 创建基于主键的数组引用
-    $refer = [];
-    foreach ($list as $key => $val) {
-        $refer[$val[$pk]] = &$list[$key];
-    }
-
-    foreach ($list as $key => $val) {
-        // 判断是否存在parent
-        $parentId = $val[$pid];
-        if ($root == $parentId) {
-            $tree[] = &$list[$key];
-        } else {
-            if (isset($refer[$parentId])) {
-                $parent = &$refer[$parentId];
-                $parent[$child][] = &$list[$key];
-            }
-        }
-    }
-
-    return $tree;
-}
-
-/**
  * 将list_to_tree的树还原成列表.
  * @param  array  $tree  原来的树
  * @param  string  $child  孩子节点的键
@@ -414,57 +321,6 @@ function array_sort($arrays, $sort_key, $sort_order = SORT_ASC, $sort_type = SOR
     array_multisort($key_arrays, $sort_order, $sort_type, $arrays);
 
     return $arrays;
-}
-
-function array_sort2($arr, $key, $value)
-{
-    $temp = [];
-    foreach ($arr as $k => $v) {
-        if ($v[$key] == $value) {
-            $temp[] = $arr[$k];
-            unset($arr[$k]);
-        }
-    }
-    foreach ($temp as $m => $n) {
-        array_push($arr, $n);
-    }
-
-    return $arr;
-}
-
-/**
- * 获取二维数组中的一个键的值的数组.
- * @param $input
- * @param $columnKey
- * @param  null  $indexKey
- * @return array
- */
-function arrayColumn($input, $columnKey, $indexKey = null)
-{
-    $columnKeyIsNumber = (is_numeric($columnKey)) ? true : false;
-    $indexKeyIsNull = (is_null($indexKey)) ? true : false;
-    $indexKeyIsNumber = (is_numeric($indexKey)) ? true : false;
-    $result = [];
-    foreach ((array) $input as $key => $row) {
-        if ($columnKeyIsNumber) {
-            $tmp = array_slice($row, $columnKey, 1);
-            $tmp = (is_array($tmp) && ! empty($tmp)) ? current($tmp) : null;
-        } else {
-            $tmp = isset($row[$columnKey]) ? $row[$columnKey] : null;
-        }
-        if (! $indexKeyIsNull) {
-            if ($indexKeyIsNumber) {
-                $key = array_slice($row, $indexKey, 1);
-                $key = (is_array($key) && ! empty($key)) ? current($key) : null;
-                $key = is_null($key) ? 0 : $key;
-            } else {
-                $key = isset($row[$indexKey]) ? $row[$indexKey] : 0;
-            }
-        }
-        $result[$key] = $tmp;
-    }
-
-    return $result;
 }
 
 function searchDir($path, &$files)

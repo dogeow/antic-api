@@ -36,8 +36,9 @@ class GitHubController extends Controller
                 }
             }
             $cmd = $isBuild ? $build : $pull;
-            echo $cmd;
             ProcessGithubWebhook::dispatch($cmd);
+
+            return $cmd;
         } else {
             return http_response_code(404);
         }
