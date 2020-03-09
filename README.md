@@ -13,20 +13,6 @@ Personal study project.
 
 Use frontend and backend separation.
 
-## Powered by
-
-* Laravel 6
-    * JWT
-* React 16
-* Material-UI 4
-
-## Server
-
-* Ubuntu 18.04 LTS
-* Nginx 1.14.0(nginx-full)
-* MySQL 5.7
-* PHP 7.2
-    
 ## Build
 
 1. Laravel
@@ -44,43 +30,16 @@ Use frontend and backend separation.
         * Production: npm run prod
 3. Web Server：php artisan serve
 
-## Deploy
+## Powered by
 
-Learning -> PhpStorm(Coding) -> GitHub -> WebHook -> Linux Server -> Customize Build(Filter) -> Slack Notification
+* Laravel 6
+    * JWT
+* React 16
+* Material-UI 4
 
-## Something
+## Server
 
-- webpack-bundle-analyzer
-- [Laravel IDE Helper Generator](https://github.com/barryvdh/laravel-ide-helper)
-
-## Attention something
-
-- [Tailwind CSS](https://next.tailwindcss.com/)
-- [Next.js](https://nextjs.org)
-- [Recharts](http://recharts.org)
-
-## Note for myself
-
-* http://gravatar.com/
-* [SweetAlert2](https://sweetalert2.github.io/)
-* axios, moment, lodash or others library what look at package.json please
-* Material-UI
-* Slack notification
-    - [pagination](https://github.com/szmslab/material-ui-flat-pagination)
-    - [notistack](https://iamhosseindhv.com/notistack)
-    - [wertarbyte](https://mui.wertarbyte.com)
-    - [material-table](https://material-table.com/#/docs/features/remote-data)
-    - Icon
-        - [字体图标](https://material.io/resources/icons)
-        - https://github.com/Templarian/MaterialDesign-React
-        - https://dev.materialdesignicons.com/icons
-        - [mdi-material-ui](https://github.com/TeamWertarbyte/mdi-material-ui)
-        - https://templarian.github.io/@mdi/react/
-        - https://github.com/levrik/mdi-react
-        - https://materialdesignicons.com/
-        - [Material Icons](https://material-ui.com/zh/components/material-icons/)
-* React
-    - [react-router-dom](https://reacttraining.com/react-router/)
-    - [Redux]("https://redux.js.org/basics/usage-with-react)
-    - Route Redux
-    - [React Redux](https://react-redux.js.org/introduction/quick-start)
+* Ubuntu 18.04 LTS
+* Nginx 1.14.0(nginx-full)
+* MySQL 5.7
+* PHP 7.2
