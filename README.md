@@ -20,7 +20,6 @@ Use frontend and backend separation.
     2. cp .env.example .env
         * modify DB and other
     3. php artisan migrate
-    4. php artisan passport:install
     5. php artisan key:generate
     6. php artisan storage:link
 2. React
