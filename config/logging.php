@@ -35,6 +35,12 @@ return [
     */
 
     'channels' => [
+        'file_download' => [
+            'driver' => 'daily',
+            'path'   => storage_path('logs/file_download/file_download_job.log'),
+            'level'  => 'debug',
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['daily'],
