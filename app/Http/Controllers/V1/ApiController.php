@@ -143,6 +143,11 @@ class ApiController extends Controller
         return md5($string);
     }
 
+    public function userAgent()
+    {
+        return $_SERVER['HTTP_USER_AGENT'];
+    }
+
     public function array($string)
     {
         header('Access-Control-Allow-Origin:*');

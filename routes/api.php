@@ -59,6 +59,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
     $api->get('/punycode/{string}', 'ApiController@punycode');
     $api->get('/image/{action}', 'ApiController@image');
     $api->get('/md5/{string}', 'ApiController@md5');
+    $api->get('/user-agent', 'ApiController@userAgent');
     $api->get('/hash/{string}', 'ApiController@hash');
     $api->get('/ip/{ip?}', 'ApiController@ip')->where(['ip' => '[0-9.]+']);
     $api->get('/date/{date?}', 'ApiController@date');
