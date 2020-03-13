@@ -13,7 +13,7 @@ class TaskController extends Controller
     {
         $project = Project::where('user_id', 1)->first();
 
-        return $project ? $project->tasks()->where('is_completed', '0')->get() : [];
+        return $project ? $project->tasks()->where('is_completed', 0)->get() : [];
     }
 
     public function store(Request $request)
@@ -26,8 +26,8 @@ class TaskController extends Controller
         }
 
         return Task::create([
-            'title' => $validatedData['title'],
-            'project_id' => $request->project_id,
+            'title'        => $validatedData['title'],
+            'project_id'   => $request->project_id,
             'is_completed' => 0,
         ]);
     }
@@ -41,5 +41,12 @@ class TaskController extends Controller
         $task->update();
 
         return 'Task updated!';
+    }
+
+    function delete($projectId)
+    {
+        Project::where('id', $projectId)->update(['is_completed' => 1]);
+
+        return Project::where('is_completed', 0)->get();
     }
 }
