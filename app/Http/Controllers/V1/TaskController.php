@@ -43,7 +43,7 @@ class TaskController extends Controller
         return 'Task updated!';
     }
 
-    function delete($projectId)
+    public function delete($projectId)
     {
         Project::where('id', $projectId)->update(['is_completed' => 1]);
 
