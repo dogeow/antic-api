@@ -23,7 +23,7 @@ class SiteCheckData extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '用接口获取站点更新时间';
 
     public $guzzleClient;
     public $crawler;
@@ -51,6 +51,7 @@ class SiteCheckData extends Command
     public function handle()
     {
         $checkFailed = $this->option('failed');
+        $failed = [];
         if ($checkFailed) {
             $failed = Site::with('todayLatest')->get()->filter(function ($site) {
                 return $site->online === 0 || $site->todayLatest->status === 0;
@@ -77,11 +78,7 @@ class SiteCheckData extends Command
 
     public function getDate()
     {
-        if ($this->site->get_type === 'api') {
-            $url = $this->site->domain.'/api/date';
-        } else {
-            $url = $this->site->domain;
-        }
+        $url = $this->site->get_type === 'api' ? $this->site->domain.'/api/date' : $this->site->domain;
 
         try {
             $response = $this->guzzleClient->request('GET', $url);
@@ -91,13 +88,7 @@ class SiteCheckData extends Command
 
         $crawler = new Crawler($response->getBody()->getContents());
 
-        if ($this->site->get_type === 'api') {
-            $date = $crawler->text();
-        } else {
-            $date = $crawler->filterXPath($this->site->date_xpath)->text();
-        }
-
-        return $date;
+        return $this->site->get_type === 'api' ? $crawler->text() : $crawler->filterXPath($this->site->date_xpath)->text();
     }
 
     public function saveStatus($status)

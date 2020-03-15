@@ -52,7 +52,8 @@ class WeiboHotSpider extends Command
             'url' => $topping[1],
             'status' => status($topping[3]),
         ];
-        if (! WeiboToTop::where('title', $toppingData['title'])->exists()) {
+
+        if (!WeiboToTop::where('title', $toppingData['title'])->exists()) {
             try {
                 WeiboToTop::create($toppingData);
             } catch (\Illuminate\Database\QueryException $e) {
@@ -87,6 +88,7 @@ class WeiboHotSpider extends Command
                 'status' => status($status),
                 'url' => $url,
             ];
+
             WeiboHot::updateOrCreate(['title' => $title], $updateData);
         }
     }
