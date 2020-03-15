@@ -19,10 +19,10 @@ class Headless extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '无头浏览器';
 
-    protected $time = 3000;
     protected $url;
+    protected $time = 3000;
     protected $width = 450;
     protected $height = 900;
 
@@ -43,7 +43,7 @@ class Headless extends Command
      */
     public function handle()
     {
-        $this->url = 'https://www.learnku.com';
+        $this->url = 'https://233.sx';
         $this->spider();
     }
 
