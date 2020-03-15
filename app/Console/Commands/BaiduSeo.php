@@ -21,7 +21,7 @@ class BaiduSeo extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '百度收录量';
 
     public $guzzleClient;
     public $crawler;
@@ -63,14 +63,14 @@ class BaiduSeo extends Command
      */
     public function handle()
     {
-        // https://www.google.com/search?q=site:sodu.ee
-        // 获取所有站点
         $sites = Site::all();
         // 轮流查询
         foreach ($sites as $site) {
             $count = $this->spider($site->domain);
-            $site->seo = $count;
-            $site->save();
+            if (null !== $count) {
+                $site->seo = $count;
+                $site->save();
+            }
         }
     }
 
@@ -94,13 +94,9 @@ class BaiduSeo extends Command
         } else {
             $crawler = new Crawler($content);
             try {
-                $count = $crawler->filterXPath('//span/b')->text();
-                $count = str_replace(',', '', $count);
-//                if (preg_match('/该网站共有 (?P<count>[\d,]+) 个网页被百度收录/', $content, $match)) {
-//                    $count = str_replace(',', '', $match['count']);
-//                }
+                $count = str_replace(',', '', $crawler->filterXPath('//span/b')->text());
             } catch (\Exception $e) {
-                echo  $e->getMessage();
+                echo $e->getMessage();
             }
         }
 
