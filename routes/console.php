@@ -19,8 +19,9 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('test', function () {
-    Log::channel('file_download')->info('信息', ['xx' => 'xx']);
-    Log::channel('file_download')->debug('信息', ['xx' => 'xx']);
+    echo test();
+//    Log::channel('file_download')->info('信息', ['xx' => 'xx']);
+//    Log::channel('file_download')->debug('信息', ['xx' => 'xx']);
 //    Post::all()->searchable();
 //    broadcast(new App\Events\TestBroadcastingEvent('233'));
 });
