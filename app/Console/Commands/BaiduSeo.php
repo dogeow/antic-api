@@ -101,7 +101,7 @@ class BaiduSeo extends Command
         }
 
         if ($count === null) {
-            if (preg_match('/很抱歉，没有找到与/', $content, $matchs)) {
+            if (preg_match('/很抱歉，没有找到与/', $content, $matches)) {
                 $count = 0;
             }
         }
