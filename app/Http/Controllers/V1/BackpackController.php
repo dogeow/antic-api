@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Http\Controllers\Controller;
 use App\Models\Backpack;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class BackpackController extends Controller
 {

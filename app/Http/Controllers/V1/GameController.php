@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -12,6 +12,7 @@ class GameController extends Controller
     {
         $user = $this->auth->user();
         $exps = config('experience');
+
         return array_merge($user->toArray(), ['nextLevelNeedExp' => $exps[$user['level'] + 1]]);
     }
 }
