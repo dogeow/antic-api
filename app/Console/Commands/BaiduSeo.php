@@ -64,7 +64,6 @@ class BaiduSeo extends Command
     public function handle()
     {
         $sites = Site::all();
-        // 轮流查询
         foreach ($sites as $site) {
             $count = $this->spider($site->domain);
             if (null !== $count) {
@@ -88,21 +87,16 @@ class BaiduSeo extends Command
         }
 
         $content = $response->getBody()->getContents();
-
         if (preg_match('/找到相关结果数约(?P<count>[\d,]+)个/', $content, $match)) {
             $count = str_replace(',', '', $match['count']);
+        } elseif (preg_match('/很抱歉，没有找到与/', $content, $matches)) {
+            $count = 0;
         } else {
             $crawler = new Crawler($content);
             try {
                 $count = str_replace(',', '', $crawler->filterXPath('//span/b')->text());
             } catch (\Exception $e) {
                 echo $e->getMessage();
-            }
-        }
-
-        if ($count === null) {
-            if (preg_match('/很抱歉，没有找到与/', $content, $matches)) {
-                $count = 0;
             }
         }
 
