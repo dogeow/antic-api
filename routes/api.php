@@ -74,6 +74,9 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
         $api->put('/projects/{project}', 'ProjectController@markAsCompleted');
         $api->post('/tasks', 'TaskController@store');
         $api->put('/tasks/{task}', 'TaskController@markAsCompleted');
+        // Game
+        $api->get('/game', 'GameController@index');
+        $api->get('/backpack', 'BackpackController@index');
     });
 
     $api->group(['prefix' => 'user'], function ($api) {

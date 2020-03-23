@@ -19,6 +19,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedTinyInteger('level')->comment('等级')->default(1);
+            $table->unsignedTinyInteger('copper')->comment('铜币');
+            $table->unsignedTinyInteger('silver')->comment('银币');;
+            $table->unsignedSmallInteger('gold')->comment('金币');;
+            $table->unsignedBigInteger('exp')->comment('经验值');;
             $table->rememberToken();
             $table->timestamps();
         });
