@@ -19,7 +19,8 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('test', function () {
-    $result = OSS::put('233/robots.txt', file_get_contents(public_path('robots.txt')));\
+    $result = OSS::put('233/robots.txt', file_get_contents(public_path('robots.txt')));
+    \
     print_r($result);
 //    Log::channel('file_download')->info('信息', ['xx' => 'xx']);
 //    Log::channel('file_download')->debug('信息', ['xx' => 'xx']);

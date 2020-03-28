@@ -2,8 +2,8 @@
 
 namespace App\Utils;
 
-use OSS\OssClient;
 use OSS\Core\OssException;
+use OSS\OssClient;
 
 class Oss
 {
@@ -17,7 +17,7 @@ class Oss
         try {
             $this->ossClient = new OssClient(env('ACCESS_KEY_ID'), env('ACCESS_KEY_SECRET'), env('ENDPOINT'));
         } catch (OssException $e) {
-            print $e->getMessage();
+            echo $e->getMessage();
         }
     }
 
@@ -26,7 +26,7 @@ class Oss
         try {
             $result = $this->ossClient->putObject($this->bucket, $object, $content);
         } catch (OssException $e) {
-            print $e->getMessage();
+            echo $e->getMessage();
         }
 
         return $result;
@@ -37,7 +37,7 @@ class Oss
         try {
             $result = $this->ossClient->getObject($this->bucket, $object);
         } catch (OssException $e) {
-            print $e->getMessage();
+            echo $e->getMessage();
         }
 
         return $result;
@@ -48,7 +48,7 @@ class Oss
         try {
             $result = $this->ossClient->deleteObject($this->bucket, $object);
         } catch (OssException $e) {
-            print $e->getMessage();
+            echo $e->getMessage();
         }
 
         return $result;
@@ -59,7 +59,7 @@ class Oss
         try {
             $result = $this->ossClient->doesObjectExist($this->bucket, $object);
         } catch (OssException $e) {
-            print $e->getMessage();
+            echo $e->getMessage();
         }
 
         return $result;
