@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "algolia/algoliasearch-client-php": "^2.2",
+        "aliyuncs/oss-sdk-php": "^2.3",
         "barryvdh/laravel-cors": "^0.11.4",
         "caouecs/laravel-lang": "~4.0",
         "dingo/api": "^2.4",
