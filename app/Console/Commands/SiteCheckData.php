@@ -58,7 +58,7 @@ class SiteCheckData extends Command
         } else {
             $sites = Site::all();
         }
-        
+
         foreach ($sites as $key => $site) {
             $this->site = $site;
             echo $site->domain.PHP_EOL;
