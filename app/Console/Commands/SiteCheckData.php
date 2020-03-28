@@ -51,15 +51,14 @@ class SiteCheckData extends Command
     public function handle()
     {
         $checkFailed = $this->option('failed');
-        $failed = [];
         if ($checkFailed) {
-            $failed = Site::with('todayLatest')->get()->filter(function ($site) {
+            $sites = Site::with('todayLatest')->get()->filter(function ($site) {
                 return $site->online === 0 || $site->todayLatest->status === 0;
             });
+        } else {
+            $sites = Site::all();
         }
-
-        $sites = $failed ?? Site::all();
-
+        
         foreach ($sites as $key => $site) {
             $this->site = $site;
             echo $site->domain.PHP_EOL;
