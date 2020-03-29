@@ -12,11 +12,6 @@ class Post extends Model
 
     protected $fillable = ['title', 'content'];
 
-    public function getCreatedAtAttribute()
-    {
-        return Carbon::parse($this->attributes['created_at'])->diffForHumans();
-    }
-
     public function tags()
     {
         return $this->hasMany(PostTag::class);
