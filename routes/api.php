@@ -17,8 +17,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\V1', 'middleware' => '
     // 文章
     $api->resource('/post', 'PostController');
 
-    // 我的物品，Love
-    $api->get('/thing/love', 'ThingController@love');
+    $api->get('/like', 'LikeController@index');
 
     $api->get('/quotes', 'QuoteController');
 

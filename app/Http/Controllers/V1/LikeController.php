@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Models\Like;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Upyun\Config;
 use Upyun\Upyun;
 
-class ThingController extends Controller
+class LikeController extends Controller
 {
     public $client;
 
@@ -17,19 +18,19 @@ class ThingController extends Controller
         $this->client = new Upyun($serviceConfig);
     }
 
-    public function love()
+    public function index()
     {
-        $path = __FUNCTION__;
-        $data = $this->client->read($path, null, []);
+//        $path = __FUNCTION__;
+//        $data = $this->client->read($path, null, []);
+//
+//        $fileAddSrc = array_map(function (&$file) use ($path) {
+//            $file['src'] = env('CDN_URL')."/{$path}/{$file['name']}";
+//
+//            return $file;
+//        }, $data['files']);
+//        $data['files'] = $fileAddSrc;
 
-        $fileAddSrc = array_map(function (&$file) use ($path) {
-            $file['src'] = env('CDN_URL')."/{$path}/{$file['name']}";
-
-            return $file;
-        }, $data['files']);
-        $data['files'] = $fileAddSrc;
-
-        return $data;
+        return Like::all();
     }
 
     public function store(Request $request)
