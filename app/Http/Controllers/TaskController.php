@@ -25,19 +25,26 @@ class TaskController extends Controller
         }
 
         return Task::create([
-            'title'        => $validatedData['title'],
-            'project_id'   => $request->project_id,
+            'title' => $validatedData['title'],
+            'project_id' => $request->project_id,
             'is_completed' => 0,
         ]);
     }
 
-    public function markAsCompleted(Task $task, Request $request)
+    public function update(Task $task, Request $request)
     {
         if ($request->user()->id !== $task->project->user_id) {
             return '兄弟你做啥？';
         }
-        $task->is_completed = true;
-        $task->update();
+
+        $isCompleted = $request->get('is_completed');
+        if (isset($isCompleted)) {
+            $task->is_completed = true;
+            $task->update();
+        } else {
+            $task->title = $request->get('title');
+            $task->update();
+        }
 
         return 'Task updated!';
     }

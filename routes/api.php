@@ -72,7 +72,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
         $api->post('/projects', 'ProjectController@store');
         $api->put('/projects/{project}', 'ProjectController@markAsCompleted');
         $api->post('/tasks', 'TaskController@store');
-        $api->put('/tasks/{task}', 'TaskController@markAsCompleted');
+        $api->put('/tasks/{task}', 'TaskController@update');
         // Game
         $api->get('/game', 'GameController@index');
         $api->get('/backpack', 'BackpackController@index');
