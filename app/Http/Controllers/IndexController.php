@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Topping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;

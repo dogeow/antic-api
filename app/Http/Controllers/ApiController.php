@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Api;
 use GuzzleHttp\Client as GuzzleClient;
 use TrueBV\Punycode;
