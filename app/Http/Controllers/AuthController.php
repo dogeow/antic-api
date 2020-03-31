@@ -49,7 +49,7 @@ class AuthController extends Controller
         ];
         $validator = Validator::make($payload, $rules);
         if ($validator->fails()) {
-            return $this->response->array(['error' => $validator->errors()]);
+            return $this->response->array(['errors' => $validator->errors()]);
         }
 
         // 创建用户
