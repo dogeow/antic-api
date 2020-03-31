@@ -13,9 +13,9 @@ class WeiboController extends Controller
         $date = request('date');
         $query = WeiboHot::query();
         if ($date) {
-            $query->whereDate('created_at', $date);
+            $query->whereDate('updated_at', $date);
         } else {
-            $query->whereDate('created_at', Carbon::today());
+            $query->whereDate('updated_at', Carbon::today());
         }
         $query->orderBy('updated_at', 'DESC');
         if ($number) {
