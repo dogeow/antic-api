@@ -46,6 +46,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
 
     // API
     $api->get('parking', 'ApiController@parking');
+    $api->get('number/{start}/{end}/{action?}', 'ApiController@number');
     $api->get('/html_sc/{string}', 'ApiController@htmlSC');
     $api->get('/secret/{string}', 'ApiController@secret');
     $api->get('/array', 'ApiController@array');

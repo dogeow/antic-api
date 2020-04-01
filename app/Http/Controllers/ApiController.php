@@ -15,6 +15,20 @@ class ApiController extends Controller
         return Api::all();
     }
 
+    public function number($start, $end, $action = null)
+    {
+        $count = strlen($end);
+        $numberRange = range($start, $end);
+        foreach ($numberRange as &$number) {
+            $zeroCount = $count > strlen($number);
+            $number = str_repeat(0, $zeroCount).$number;
+        }
+
+        $action === 'shuffle' && shuffle($numberRange);
+
+        return $numberRange;
+    }
+
     public function parking()
     {
         $parking = [
