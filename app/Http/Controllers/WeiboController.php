@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class WeiboController extends Controller
 {
-    public function index($number = null)
+    public function index()
     {
         $date = request('date');
         $query = WeiboHot::query();
@@ -18,11 +18,8 @@ class WeiboController extends Controller
             $query->whereDate('updated_at', Carbon::today());
         }
         $query->orderBy('updated_at', 'DESC');
-        if ($number) {
-            $query->take($number);
-        }
 
-        return $query->get();
+        return $query->jsonPaginate();
     }
 
     public function about()
