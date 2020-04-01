@@ -20,8 +20,10 @@ class ApiController extends Controller
         $count = strlen($end);
         $numberRange = range($start, $end);
         foreach ($numberRange as &$number) {
-            $zeroCount = $count > strlen($number) && $count - strlen($number);
-            $number = str_repeat(0, $zeroCount).$number;
+            if ($count > strlen($number)) {
+                $zeroCount = $count - strlen($number);
+                $number = str_repeat(0, $zeroCount).$number;
+            }
         }
 
         $action === 'shuffle' && shuffle($numberRange);
