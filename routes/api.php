@@ -35,7 +35,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
 
     // 微博热搜榜
     $api->get('/weibo/about', 'WeiboController@about');
-    $api->get('/weibo', 'WeiboController@index');
+    $api->post('/weibo', 'WeiboController@index');
 
     // Emoji
     $api->get('/emoji', 'EmojiController@index');

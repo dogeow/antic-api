@@ -19,7 +19,7 @@ class WeiboController extends Controller
         }
         $query->orderBy('updated_at', 'DESC');
 
-        return $query->jsonPaginate();
+        return $query->jsonPaginate(20);
     }
 
     public function about()
