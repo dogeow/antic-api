@@ -19,17 +19,14 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array
      */
-    protected $except = [
-        'api/*',
-        'webhook',
-    ];
+    protected $except = ['github-web-hook'];
 
     public function handle($request, Closure $next)
     {
-        if ($request->getHost() === env('APP_DOMAIN')) {
-            // skip CSRF check
-            return $next($request);
-        }
+//        if ($request->getHost() === env('APP_DOMAIN')) {
+//            // skip CSRF check
+//            return $next($request);
+//        }
 
         return parent::handle($request, $next);
     }
