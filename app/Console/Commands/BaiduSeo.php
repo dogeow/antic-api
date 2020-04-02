@@ -51,7 +51,7 @@ class BaiduSeo extends Command
                 'Sec-Fetch-User' => '?1',
                 'Upgrade-Insecure-Requests' => '1',
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
-                'Cookie' => env('COOKIE'),
+                'Cookie' => env('BAIDU_COOKIE'),
             ],
         ]);
     }
