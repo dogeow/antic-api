@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             'cors',
-            'throttle:10|rate_limit,1',
+            'throttle:30|rate_limit,1',
             'bindings',
         ],
     ];
