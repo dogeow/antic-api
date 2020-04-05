@@ -64,8 +64,10 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
     $api->get('/timestamp/{timestamp?}', 'ApiController@timestamp')->where(['timestamp' => '[0-9]+']);
     $api->get('/bankcard/{cardNo}', 'ApiController@bankcard')->where(['cardNo' => '[0-9]+']);
 
+    $api->get('/posts', 'PostController@index');
+
     $api->group(['middleware' => 'api.auth'], function ($api) {
-        $api->resource('/posts', 'PostController');
+        $api->resource('/posts', 'PostController', ['except' => ['index']]);
         $api->resource('/projects', 'ProjectController');
         $api->post('/tasks', 'TaskController@store');
         $api->put('/tasks/{task}', 'TaskController@update');
