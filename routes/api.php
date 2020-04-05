@@ -36,6 +36,8 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
     $api->get('/weibo/about', 'WeiboController@about');
     $api->post('/weibo', 'WeiboController@index');
 
+    $api->get('powered-by', 'PoweredByController@index');
+
     // Emoji
     $api->get('/emoji', 'EmojiController@index');
     $api->post('/emoji', 'EmojiController@store');
