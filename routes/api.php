@@ -25,8 +25,8 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
     $api->post('/api', 'ApiController@index');
 
     // 网站
-    $api->get('/todo', 'TaskController@todo');
-    $api->delete('/todo/{projectId}', 'TaskController@delete');
+    $api->get('/todo', 'ProjectController@admin');
+    $api->resource('/projects', 'ProjectController');
 
     // Site
     $api->get('/site', 'SiteController@index');
