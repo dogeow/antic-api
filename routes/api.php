@@ -65,6 +65,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
     $api->get('/bankcard/{cardNo}', 'ApiController@bankcard')->where(['cardNo' => '[0-9]+']);
 
     $api->get('/posts', 'PostController@index');
+    $api->get('/posts/{post}', 'PostController@show');
 
     $api->group(['middleware' => 'api.auth'], function ($api) {
         $api->resource('/posts', 'PostController', ['except' => ['index', 'show']]);
