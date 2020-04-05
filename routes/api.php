@@ -67,7 +67,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
     $api->get('/posts', 'PostController@index');
 
     $api->group(['middleware' => 'api.auth'], function ($api) {
-        $api->resource('/posts', 'PostController', ['except' => ['index']]);
+        $api->resource('/posts', 'PostController', ['except' => ['index', 'show']]);
         $api->resource('/projects', 'ProjectController');
         $api->post('/tasks', 'TaskController@store');
         $api->put('/tasks/{task}', 'TaskController@update');

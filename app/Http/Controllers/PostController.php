@@ -9,7 +9,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Post::class, 'post', ['except' => ['index']]);
+        $this->authorizeResource(Post::class, 'post', ['except' => ['index, show']]);
     }
 
     public function index()
