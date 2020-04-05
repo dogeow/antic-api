@@ -24,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
+//        $this->registerPolicies();
         Gate::guessPolicyNamesUsing(function ($modelClass) {
             return Str::startsWith($modelClass, 'App\Models')
                 ? 'App\Policies\\'.str_replace('App\Models\\', '', $modelClass).'Policy'

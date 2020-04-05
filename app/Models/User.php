@@ -57,9 +57,9 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function mooncakes()
+    public function projects()
     {
-        return $this->hasMany('App\Models\Mooncake');
+        return $this->hasMany('App\Models\Project');
     }
 
     public function posts()

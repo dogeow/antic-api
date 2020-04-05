@@ -13,9 +13,6 @@
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api'], function ($api) {
-    // 文章
-    $api->resource('/posts', 'PostController');
-
     $api->get('/like', 'LikeController@index');
 
     $api->get('/quotes', 'QuoteController');
@@ -26,7 +23,6 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
 
     // 网站
     $api->get('/todo', 'ProjectController@admin');
-    $api->resource('/projects', 'ProjectController');
 
     // Site
     $api->get('/site', 'SiteController@index');
@@ -69,10 +65,8 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
     $api->get('/bankcard/{cardNo}', 'ApiController@bankcard')->where(['cardNo' => '[0-9]+']);
 
     $api->group(['middleware' => 'api.auth'], function ($api) {
-        $api->get('/projects', 'ProjectController@index');
-        $api->get('/projects/{id}', 'ProjectController@show');
-        $api->post('/projects', 'ProjectController@store');
-        $api->put('/projects/{project}', 'ProjectController@markAsCompleted');
+        $api->resource('/posts', 'PostController');
+        $api->resource('/projects', 'ProjectController');
         $api->post('/tasks', 'TaskController@store');
         $api->put('/tasks/{task}', 'TaskController@update');
         // Game

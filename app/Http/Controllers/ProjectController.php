@@ -14,7 +14,9 @@ class ProjectController extends Controller
 
     public function index(Request $request)
     {
-        return Project::where('user_id', $request->user()->id)->where('is_completed', false)
+        $user = $request->user();
+
+        return $user->projects()->where('is_completed', false)
             ->orderBy('created_at', 'desc')
             ->withCount([
                 'tasks' => function ($query) {
@@ -42,16 +44,16 @@ class ProjectController extends Controller
         return 'Project created!';
     }
 
-    public function show($id, Request $request)
+    public function show(Project $project, Request $request)
     {
-        return Project::where('user_id', $request->user()->id)->with([
+        return Project::with([
             'tasks' => function ($query) {
                 $query->where('is_completed', false);
             },
-        ])->find($id);
+        ])->first();
     }
 
-    public function markAsCompleted(Project $project, Request $request)
+    public function update(Project $project, Request $request)
     {
         $project->is_completed = true;
         $project->update();
@@ -59,11 +61,11 @@ class ProjectController extends Controller
         return 'Project updated!';
     }
 
-    public function destroy($project)
+    public function destroy(Project $project, Request $request)
     {
-        Project::where('id', $project)->update(['is_completed' => 1]);
+        $project->update(['is_completed' => 1]);
 
-        return Project::where('is_completed', 0)->get();
+        return $request->user()->projects()->where('is_completed', 0)->get();
     }
 
     public function admin()
