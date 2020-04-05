@@ -14,7 +14,7 @@
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api'], function ($api) {
     // 文章
-    $api->resource('/post', 'PostController');
+    $api->resource('/posts', 'PostController');
 
     $api->get('/like', 'LikeController@index');
 

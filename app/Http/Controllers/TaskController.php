@@ -10,7 +10,6 @@ class TaskController extends Controller
 {
     public function __construct()
     {
-//        $this->middleware('can:update,task');
         $this->authorizeResource(Task::class, 'task');
     }
 

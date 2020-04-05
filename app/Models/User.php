@@ -62,6 +62,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany('App\Models\Mooncake');
     }
 
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
+
     /**
      * Route notifications for the Slack channel.
      *
