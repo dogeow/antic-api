@@ -13,7 +13,7 @@ class CreatePoweredBiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('powered_bies', function (Blueprint $table) {
+        Schema::create('powered_bies', function (Blueprint $table) {
             $table->string('name', 100);
             $table->string('category', 100);
             $table->string('link')->nullable();
