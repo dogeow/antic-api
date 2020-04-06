@@ -9,7 +9,7 @@ class BackpackController extends Controller
 {
     public function index()
     {
-        $user = $this->auth->user();
+        $user = auth()->user();
 
         return Backpack::where('user_id', $user['id'])->get();
     }

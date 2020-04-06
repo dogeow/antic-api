@@ -12,9 +12,9 @@ class ProjectController extends Controller
         $this->authorizeResource(Project::class, 'project');
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $user = $request->user();
+        $user = auth()->user();
 
         return $user->projects()->where('is_completed', false)
             ->orderBy('created_at', 'desc')
@@ -28,7 +28,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $user = $request->user();
+        $user = auth()->user();
 
         $validatedData = $request->validate([
             'name' => 'required',

@@ -83,6 +83,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
         $api->post('refresh', 'AuthController@refresh');
 
         $api->group(['middleware' => 'api.auth'], function ($api) {
+            $api->put('password', 'UserController@password');
             $api->post('logout', 'AuthController@logout');
             $api->post('profile', 'AuthController@profile');
         });
