@@ -27,7 +27,7 @@ class PostController extends Controller
         $content = $request->input('content');
         $title = $request->input('title');
 
-        return Post::create([
+        return auth()->user()->posts()->create([
             'title' => $title,
             'content' => $content,
         ]);
