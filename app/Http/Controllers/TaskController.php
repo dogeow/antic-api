@@ -28,7 +28,7 @@ class TaskController extends Controller
     {
         $isCompleted = $request->get('is_completed');
         if (isset($isCompleted)) {
-            $task->is_completed = true;
+            $task->is_completed = $isCompleted;
             $task->update();
         } else {
             $task->title = $request->get('title');
