@@ -42,9 +42,9 @@ class AuthController extends Controller
 
         // 验证格式
         $rules = [
-            'name' => ['required'],
-            'email' => ['required', 'unique:users'],
-            'password' => ['required', 'min:8', 'max:16'],
+            'name' => ['required', 'not_regex:/\s+/'],
+            'email' => ['required', 'not_regex:/\s+/', 'email', 'unique:users'],
+            'password' => ['required', 'not_regex:/\s+/', 'min:8', 'max:16'],
             'password_confirmation' => ['same:password'],
         ];
         $validator = Validator::make($payload, $rules);
@@ -54,15 +54,15 @@ class AuthController extends Controller
 
         // 创建用户
         $user = User::create([
-            'name' => $payload['name'],
+            'name' => preg_replace('/\s+/', '', $payload['name']),
             'email' => $payload['email'],
             'password' => bcrypt($payload['password']),
         ]);
 
         return $this->response->array(
             $user
-            ? ['success' => '创建用户成功']
-            : ['error' => '创建用户失败']
+                ? ['success' => '创建用户成功']
+                : ['error' => '创建用户失败']
         )->setStatusCode(201);
     }
 
@@ -139,7 +139,7 @@ class AuthController extends Controller
     /**
      * 获取 token 结构.
      *
-     * @param string $token
+     * @param  string  $token
      *
      * @return Response
      */
