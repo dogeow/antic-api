@@ -46,11 +46,10 @@ class ProjectController extends Controller
 
     public function show(Project $project, Request $request)
     {
-        return Project::with([
-            'tasks' => function ($query) {
-                $query->where('is_completed', false);
-            },
-        ])->first();
+        $tasks = $project->tasks()->where('is_completed', false)->get();
+        $project['tasks'] = $tasks;
+
+        return $project;
     }
 
     public function update(Project $project, Request $request)
