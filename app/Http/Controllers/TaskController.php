@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -26,15 +25,7 @@ class TaskController extends Controller
 
     public function update(Task $task, Request $request)
     {
-        $isCompleted = $request->get('is_completed');
-        if (isset($isCompleted)) {
-            $task->is_completed = $isCompleted;
-            $task->update();
-        } else {
-            $task->title = $request->get('title');
-
-            return $task->update();
-        }
+        $task->update($request->all());
 
         return $task;
     }

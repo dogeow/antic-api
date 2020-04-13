@@ -11,16 +11,42 @@ antic-api
 
 [English](README.md)
 
-个人学习项目
+## 项目简介
 
-使用前后端分离
+个人学习用。使用前后端分离：Laravel + React。
+
+学以致用，比如
+
+- API 应用
+- 半自动化
+- 信息查看
+- 日后可快速使用
+
+## 一些功能
+
+- 登录注册
+- Markdown 编辑器
+- Todo 待办事项
+- 夜晚模式
+- 一些 API
+- 爬虫
+
+## 其他 Demo
+
+- 微博热搜榜采集
+- 表情搜索（单 JSON 文件）
+- 谷歌书签展示
+
+## 项目维护
+
+有学有需求就会有更新，基本上算是日常更新
     
 ## 构建
 
 1. Laravel
     1. composer install
     2. cp .env.example .env
-        * 修改 DB and other
+        * 修改 DB 和其他
     3. php artisan migrate
     5. php artisan key:generate
     6. php artisan storage:link
@@ -44,3 +70,7 @@ antic-api
 * Nginx 1.14.0(nginx-full)
 * MySQL 5.7
 * PHP 7.2
+
+## 鸣谢
+
+[LearnKu.com](https://learnku.com) 提供了人人可编辑的 Laravel 翻译文档，而且网站 UI 界面简洁优雅，让我愉快且方便地入门了 Laravel。
