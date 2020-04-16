@@ -107,11 +107,10 @@ class AuthController extends Controller
     /**
      * 获取已认证的用户信息.
      *
-     * @return Response
      */
     public function profile()
     {
-        return $this->response->array($this->guard()->user());
+        return $this->guard()->user();
     }
 
     /**
