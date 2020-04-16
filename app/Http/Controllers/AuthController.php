@@ -106,7 +106,6 @@ class AuthController extends Controller
 
     /**
      * 获取已认证的用户信息.
-     *
      */
     public function profile()
     {
