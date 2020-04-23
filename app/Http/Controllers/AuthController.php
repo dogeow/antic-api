@@ -11,11 +11,6 @@ class AuthController extends Controller
 {
     protected $guard = 'api';
 
-    public function __construct()
-    {
-        $this->middleware('refresh', ['except' => ['login', 'register', 'test']]);
-    }
-
     public function test()
     {
         return $this->response->array([

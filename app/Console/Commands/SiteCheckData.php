@@ -4,9 +4,12 @@ namespace App\Console\Commands;
 
 use App\Models\Site;
 use App\Models\SiteCheck;
+use App\Models\User;
+use App\Notifications\BuildNotification;
 use Carbon\Carbon;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\DomCrawler\Crawler;
 
 class SiteCheckData extends Command
@@ -118,6 +121,11 @@ class SiteCheckData extends Command
                 return false;
             }
             $diff = Carbon::now()->diffInDays($targetDate);
+            if ($this->site->domain === 'sodu.ee') {
+                if (Carbon::now()->diffInHours($targetDate) >= 1) {
+                    Notification::send(new User, new BuildNotification($this->site->domphpain.' 超过一小时'));
+                }
+            }
             $status = $diff ? false : true;
         }
 
