@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
-    public function index()
+    public function url()
     {
         return [
             'powered-by' => config('app.url').'/powered-by',
