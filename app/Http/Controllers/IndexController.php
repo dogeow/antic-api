@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Topping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
-    protected function index(Request $request)
+    public function index(){
+        return [
+            'powered-by' => config('app.url').'/powered-by'
+        ];
+    }
+
+    protected function untitled(Request $request)
     {
         $news = null;
         $topping = null;

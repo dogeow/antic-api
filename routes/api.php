@@ -13,6 +13,7 @@
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api'], function ($api) {
+    $api->get('/', 'IndexController@index');
     $api->get('/like', 'LikeController@index');
 
     $api->get('/quotes', 'QuoteController');
