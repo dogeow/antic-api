@@ -35,11 +35,11 @@ task('deploy:secrets', function () {
 });
 
 // Hosts
-host('production.app.com') // Name of the server
-->hostname('178.128.84.15') // Hostname or IP address
+host('api.233.sx') // Name of the server
+->hostname('kunyan.li') // Hostname or IP address
 ->stage('production') // Deployment stage (production, staging, etc)
 ->user('dep') // SSH user
-->set('deploy_path', '/var/www'); // Deploy path
+->set('deploy_path', '/var/www/antic-api'); // Deploy path
 
 after('deploy:failed', 'deploy:unlock'); // Unlock after failed deploy
 
