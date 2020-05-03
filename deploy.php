@@ -35,7 +35,7 @@ task('deploy:secrets', function () {
 });
 
 // Hosts
-host('api.233.sx') // Name of the server
+host('kunyan.li') // Name of the server
 ->hostname('kunyan.li') // Hostname or IP address
 ->stage('production') // Deployment stage (production, staging, etc)
 ->user('dep') // SSH user
