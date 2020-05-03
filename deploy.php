@@ -7,7 +7,6 @@ require 'recipe/laravel.php';
 require 'recipe/rsync.php';
 
 set('application', 'antic-api');
-set('repository', 'git@github.com:likunyan/antic-api.git');
 set('ssh_multiplexing', true); // Speeds up deployments
 
 set('rsync_src', function () {
