@@ -39,7 +39,7 @@ task('deploy:secrets', function () {
 host('kunyan.li') // Name of the server
 ->hostname('kunyan.li') // Hostname or IP address
 ->stage('production') // Deployment stage (production, staging, etc)
-->user('dep') // SSH user
+->user('root') // SSH user
 ->set('deploy_path', '/var/www/antic-api'); // Deploy path
 
 after('deploy:failed', 'deploy:unlock'); // Unlock after failed deploy
