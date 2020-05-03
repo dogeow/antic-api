@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3b0af8562b5dab110e27f05fa3ab70b",
+    "content-hash": "e40b91c24e3e592db6c1676ba6e7e503",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -2436,63 +2436,6 @@
                 "rest"
             ],
             "time": "2017-06-12T11:04:56+00:00"
-        },
-        {
-            "name": "lorisleiva/laravel-deployer",
-            "version": "v0.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lorisleiva/laravel-deployer.git",
-                "reference": "615ef1b18845bee60a22118c16cf532c95b57cb2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lorisleiva/laravel-deployer/zipball/615ef1b18845bee60a22118c16cf532c95b57cb2",
-                "reference": "615ef1b18845bee60a22118c16cf532c95b57cb2",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "deployer/deployer": "^6.1",
-                "deployer/recipes": "^6.0",
-                "illuminate/support": "^5.8|^6.0|^7.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "~5.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Lorisleiva\\LaravelDeployer\\LaravelDeployerServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Lorisleiva\\LaravelDeployer\\": "src/LaravelDeployer"
-                },
-                "files": [
-                    "src/autoload.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Loris LEIVA",
-                    "email": "loris.leiva@gmail.com"
-                }
-            ],
-            "description": "Laravel Deployer is a lightweight wrapper of Deployer giving Artisan the power of zero-downtime deployment.",
-            "time": "2020-04-07T13:22:32+00:00"
         },
         {
             "name": "monolog/monolog",
