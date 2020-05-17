@@ -15,6 +15,8 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api'], function ($api) {
     $api->get('/', 'IndexController@url');
 
+    $api->get('/recaptcha', 'AuthController@recaptcha');
+
     $api->get('/like', 'LikeController@index');
 
     $api->get('/quotes', 'QuoteController');

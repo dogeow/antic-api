@@ -154,4 +154,22 @@ class AuthController extends Controller
     {
         return \Auth::guard($this->guard);
     }
+
+    public function recaptcha(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
+            $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+            $recaptcha_secret = config('auth.recaptcha');
+            $token = $_POST['token'];
+
+            $recaptcha = file_get_contents($recaptcha_url.'?secret='.$recaptcha_secret.'&response='.$token);
+            $recaptcha = json_decode($recaptcha);
+
+            if ($recaptcha->score >= 0.5) {
+                Log::notice('yes');
+            } else {
+                Log::notice('no');
+            }
+
+        }
+    }
 }
