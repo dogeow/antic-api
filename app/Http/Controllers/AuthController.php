@@ -100,7 +100,7 @@ class AuthController extends Controller
 
         return $this->response->array(['errors' => [
             'email' => [$text],
-            'password' => [$text]
+            'password' => [$text],
         ]])->setStatusCode(202);
     }
 
@@ -160,7 +160,8 @@ class AuthController extends Controller
         return \Auth::guard($this->guard);
     }
 
-    public function recaptcha(){
+    public function recaptcha()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
             $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
             $recaptcha_secret = config('auth.recaptcha');
@@ -174,7 +175,6 @@ class AuthController extends Controller
             } else {
                 Log::notice('no');
             }
-
         }
     }
 }
