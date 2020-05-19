@@ -96,7 +96,12 @@ class AuthController extends Controller
             return $this->respondWithToken($token);
         }
 
-        return $this->response->array(['error' => '邮箱不存在或密码错误']);
+        $text = '邮箱不存在或密码错误';
+
+        return $this->response->array(['errors' => [
+            'email' => [$text],
+            'password' => [$text]
+        ]])->setStatusCode(202);
     }
 
     /**
