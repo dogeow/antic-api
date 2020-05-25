@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use GuzzleHttp\Client as GuzzleClient;
+use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Novel extends Command
@@ -50,10 +50,9 @@ class Novel extends Command
             }
 
             $name = $node->filterXPath('//dd/a')->text();
-            $url = $node->filterXPath("//dd/a/@href")->text();
+            $url = $node->filterXPath('//dd/a/@href')->text();
 
             return compact('name', 'url');
-
         });
 
         $lists = array_filter($lists);
