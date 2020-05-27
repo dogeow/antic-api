@@ -35,7 +35,7 @@ class EmojiController extends Controller
         );
 
         return [
-            'url' => env('APP_URL').'/storage/'.$path,
+            'url' => config('app.url').'/storage/'.$path,
         ];
     }
 
