@@ -15,6 +15,8 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api'], function ($api) {
     $api->get('/', 'IndexController@url');
 
+    $api->get('/index', 'IndexController@index');
+
     $api->get('/recaptcha', 'AuthController@recaptcha');
 
     $api->get('/like', 'LikeController@index');
@@ -25,7 +27,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api
 
     $api->post('/api', 'ApiController@index');
 
-    // 网站
+    // 网站 todo
     $api->get('/todo', 'ProjectController@admin');
 
     // Site

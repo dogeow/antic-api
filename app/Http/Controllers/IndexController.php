@@ -2,12 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
+    public function index()
+    {
+        $project = Project::where('user_id', 1)->first();
+
+        return [
+            'todos' => $project ? $project->tasks()->where('is_completed', 0)->get() : [],
+            'projects' => Post::with('tags')->with('categories')->get(),
+        ];
+    }
+
     public function url()
     {
         return [
@@ -38,26 +50,34 @@ class IndexController extends Controller
         if ($user) {
             if ($lastReadTime) {
                 $news = News::where('created_at', '>', $lastReadTime)->orderBy('created_at', 'DESC')->get();
-                $topping = Topping::where('created_at', '>', $lastReadTime)->orderBy('created_at', 'DESC')->take(2)->get();
+                $topping = Topping::where('created_at', '>', $lastReadTime)->orderBy('created_at',
+                    'DESC')->take(2)->get();
                 if ($news->isEmpty()) {
                     // 没有新闻看，显示最后一条新闻的时间
                     $lastNews = News::orderBy('created_at', 'DESC')->first();
                 }
             } else {
                 // 登录了，但是还没有点击过全部设为已读。
-                $news = News::where('created_at', '>', $hours24Ago)->where('created_at', '<=', $now)->orderBy('created_at', 'DESC')->get();
-                $topping = Topping::where('created_at', '>', $hours24Ago)->where('created_at', '<=', $now)->orderBy('created_at', 'DESC')->take(2)->get();
+                $news = News::where('created_at', '>', $hours24Ago)->where('created_at', '<=',
+                    $now)->orderBy('created_at', 'DESC')->get();
+                $topping = Topping::where('created_at', '>', $hours24Ago)->where('created_at', '<=',
+                    $now)->orderBy('created_at', 'DESC')->take(2)->get();
             }
         } else {
             // 没有登录的用户
-            $news = News::where('created_at', '>', $hours24Ago)->where('created_at', '<=', $now)->orderBy('created_at', 'DESC')->get();
-            $topping = Topping::where('created_at', '>', $hours24Ago)->where('created_at', '<=', $now)->orderBy('created_at', 'DESC')->take(2)->get();
+            $news = News::where('created_at', '>', $hours24Ago)->where('created_at', '<=', $now)->orderBy('created_at',
+                'DESC')->get();
+            $topping = Topping::where('created_at', '>', $hours24Ago)->where('created_at', '<=',
+                $now)->orderBy('created_at', 'DESC')->take(2)->get();
         }
 
         $lastReadTime = $news[0]->created_at ?? $now;
 
         $news = $news->reject(function ($item) {
-            foreach (['昆凌', '周杰伦', '郭京飞', '温宇', '湖人', 'J姐', '拜仁', '惠若琪', '巩俐', '黄子韬', '林俊杰', '吴亦凡', '杨幂', 'iG', 'SKT', '林更新', 'YM', '范丞丞', '魏大勋', '贾乃亮', 'LGD', 'NIP', '张颜齐', '杨超越'] as $keyword) {
+            foreach ([
+                         '昆凌', '周杰伦', '郭京飞', '温宇', '湖人', 'J姐', '拜仁', '惠若琪', '巩俐', '黄子韬', '林俊杰', '吴亦凡', '杨幂', 'iG',
+                         'SKT', '林更新', 'YM', '范丞丞', '魏大勋', '贾乃亮', 'LGD', 'NIP', '张颜齐', '杨超越',
+                     ] as $keyword) {
                 if (false !== stripos($item->title, $keyword)) {
                     return true;
                 }
