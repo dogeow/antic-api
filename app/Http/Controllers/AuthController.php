@@ -11,16 +11,6 @@ class AuthController extends Controller
 {
     protected $guard = 'api';
 
-    public function test()
-    {
-        return $this->response->array([
-            [
-                'name' => 'lab-api',
-                'content' => 'test',
-            ],
-        ]);
-    }
-
     /**
      * 创建用户.
      *
