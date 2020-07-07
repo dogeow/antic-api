@@ -48,7 +48,7 @@ class ApiController extends Controller
         $html = $response->getBody()->getContents();
 
         foreach ($parking as $key => $item) {
-            if (preg_match("/onclick=\"tc\($item\)\"/", $html, $match)) {
+            if (preg_match("/onclick='tc\(\"$item\".*?\)'/", $html, $match)) {
                 $status = true;
             } else {
                 $status = false;
