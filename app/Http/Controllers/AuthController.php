@@ -34,7 +34,7 @@ class AuthController extends Controller
         ];
         $validator = Validator::make($payload, $rules);
         if ($validator->fails()) {
-            return $this->response->array(['errors' => $validator->errors()]);
+            return response()->array(['errors' => $validator->errors()]);
         }
 
         // 创建用户
@@ -44,7 +44,7 @@ class AuthController extends Controller
             'password' => bcrypt($payload['password']),
         ]);
 
-        return $this->response->array(
+        return response()->array(
             $user
                 ? ['success' => '创建用户成功']
                 : ['error' => '创建用户失败']
@@ -73,7 +73,7 @@ class AuthController extends Controller
         ];
         $validator = Validator::make($credentials, $rules);
         if ($validator->fails()) {
-            return $this->response->array(['errors' => $validator->errors()])->setStatusCode(202);
+            return response()->array(['errors' => $validator->errors()])->setStatusCode(202);
         }
 
         $ttl = 60 * 24 * 7;
@@ -85,7 +85,7 @@ class AuthController extends Controller
 
         $text = '邮箱不存在或密码错误';
 
-        return $this->response->array([
+        return response()->array([
             'errors' => [
                 'email' => [$text],
                 'password' => [$text],
@@ -110,7 +110,7 @@ class AuthController extends Controller
     {
         $this->guard()->logout();
 
-        return $this->response->array(['message' => '成功退出']);
+        return response()->array(['message' => '成功退出']);
     }
 
     /**
@@ -132,7 +132,7 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return $this->response->array([
+        return response()->array([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60,
