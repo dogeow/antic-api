@@ -76,11 +76,8 @@ class AuthController extends Controller
             return $this->response->array(['errors' => $validator->errors()])->setStatusCode(202);
         }
 
-        if ($rememberMe) {
-            $token = $this->guard()->setTTL(60 * 24 * 7)->attempt($credentials);
-        } else {
-            $token = $this->guard()->attempt($credentials);
-        }
+        $ttl = 60 * 24 * 7;
+        $token = $rememberMe ? $this->guard()->setTTL($ttl)->attempt($credentials) : $this->guard()->attempt($credentials);
 
         if ($token) {
             return $this->respondWithToken($token);
@@ -88,10 +85,12 @@ class AuthController extends Controller
 
         $text = '邮箱不存在或密码错误';
 
-        return $this->response->array(['errors' => [
-            'email' => [$text],
-            'password' => [$text],
-        ]])->setStatusCode(202);
+        return $this->response->array([
+            'errors' => [
+                'email' => [$text],
+                'password' => [$text],
+            ],
+        ])->setStatusCode(202);
     }
 
     /**
