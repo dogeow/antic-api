@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Dingo\Api\Http\Response;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -18,8 +17,6 @@ class AuthController extends Controller
      * @param  [string] email
      * @param  [string] password
      * @param  [string] password_confirmation
-     *
-     * @return Response
      */
     public function register()
     {
@@ -34,7 +31,7 @@ class AuthController extends Controller
         ];
         $validator = Validator::make($payload, $rules);
         if ($validator->fails()) {
-            return response()->array(['errors' => $validator->errors()]);
+            return response()->json(['errors' => $validator->errors()]);
         }
 
         // 创建用户
@@ -44,7 +41,7 @@ class AuthController extends Controller
             'password' => bcrypt($payload['password']),
         ]);
 
-        return response()->array(
+        return response()->json(
             $user
                 ? ['success' => '创建用户成功']
                 : ['error' => '创建用户失败']
@@ -57,8 +54,6 @@ class AuthController extends Controller
      * @param  [string] email
      * @param  [string] password
      * @param  [boolean] remember_me
-     *
-     * @return Response
      */
     public function login()
     {
@@ -73,7 +68,7 @@ class AuthController extends Controller
         ];
         $validator = Validator::make($credentials, $rules);
         if ($validator->fails()) {
-            return response()->array(['errors' => $validator->errors()])->setStatusCode(202);
+            return response()->json(['errors' => $validator->errors()])->setStatusCode(202);
         }
 
         $ttl = 60 * 24 * 7;
@@ -85,7 +80,7 @@ class AuthController extends Controller
 
         $text = '邮箱不存在或密码错误';
 
-        return response()->array([
+        return response()->json([
             'errors' => [
                 'email' => [$text],
                 'password' => [$text],
@@ -103,20 +98,16 @@ class AuthController extends Controller
 
     /**
      * 注销用户（使令牌无效）.
-     *
-     * @return Response
      */
     public function logout()
     {
         $this->guard()->logout();
 
-        return response()->array(['message' => '成功退出']);
+        return response()->json(['message' => '成功退出']);
     }
 
     /**
      * 刷新 token.
-     *
-     * @return Response
      */
     public function refresh()
     {
@@ -127,12 +118,10 @@ class AuthController extends Controller
      * 获取 token 结构.
      *
      * @param  string  $token
-     *
-     * @return Response
      */
     protected function respondWithToken($token)
     {
-        return response()->array([
+        return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60,
