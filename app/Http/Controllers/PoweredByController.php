@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\PoweredBy;
 use Illuminate\Http\Request;
-use PhpParser\Node\Expr\AssignOp\Pow;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\AssignOp\Pow;
 
 class PoweredByController extends Controller
 {
@@ -14,7 +14,7 @@ class PoweredByController extends Controller
         $searchAble = ['name', 'category', 'note', 'link'];
         $query = PoweredBy::query();
         if ($request->search !== null) {
-            $query->where(DB::raw("concat_ws(name, note, link)"), 'like', '%'.$request->search.'%');
+            $query->where(DB::raw('concat_ws(name, note, link)'), 'like', '%'.$request->search.'%');
         }
         if ($request->filters !== null) {
             foreach ($request->filters as $key => $value) {
@@ -23,7 +23,6 @@ class PoweredByController extends Controller
                 }
             }
         }
-
 
         return $query->jsonPaginate(request('size'));
     }
