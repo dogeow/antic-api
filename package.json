@@ -10,6 +10,7 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "dependencies": {
+    "@nesk/rialto": "^1.4.0",
     "lodash": "^4.17.20",
     "puppeteer": "^5.2.1"
   }
