@@ -36,7 +36,7 @@ class SearchController extends Controller
 
         $count = null;
         try {
-            $searchResultCount = $crawler->filterXPath("//div[@id='resultStats']")->text();
+            $searchResultCount = $crawler->filterXPath("//div[@id='result-stats']")->text();
             if (preg_match('/找到约 (.*?) 条结果/', $searchResultCount, $match)) {
                 $count = str_replace(',', '', $match[1]);
             }
