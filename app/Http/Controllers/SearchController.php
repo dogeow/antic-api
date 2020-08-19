@@ -8,6 +8,11 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SearchController extends Controller
 {
+    const empty = [
+        'data' => [],
+        'count' => 0,
+    ];
+
     public function search(Request $request)
     {
         $query = $request->get('q', null);
@@ -30,23 +35,27 @@ class SearchController extends Controller
         $crawler->addHtmlContent($html);
 
         $count = null;
-        $searchResultCount = $crawler->filterXPath("//div[@id='resultStats']")->text();
-        if (preg_match('/找到约 (.*?) 条结果/', $searchResultCount, $match)) {
-            $count = str_replace(',', '', $match[1]);
-        }
-
-        $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node, $i) {
-            if (0 === $node->filterXPath('//h3')->count() || 0 === $node->filterXPath('//cite')->count()
-                || 0 === $node->filterXPath('//span[@class="st"]')->count()) {
-                return;
+        try {
+            $searchResultCount = $crawler->filterXPath("//div[@id='resultStats']")->text();
+            if (preg_match('/找到约 (.*?) 条结果/', $searchResultCount, $match)) {
+                $count = str_replace(',', '', $match[1]);
             }
 
-            return [
-                'title' => $node->filterXPath('//h3')->text(),
-                'url' => $node->filterXPath('//cite')->text(),
-                'intro' => $node->filterXPath('//span[@class="st"]')->html(),
-            ];
-        });
+            $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node, $i) {
+                if (0 === $node->filterXPath('//h3')->count() || 0 === $node->filterXPath('//cite')->count()
+                    || 0 === $node->filterXPath('//span[@class="st"]')->count()) {
+                    return null;
+                }
+
+                return [
+                    'title' => $node->filterXPath('//h3')->text(),
+                    'url' => $node->filterXPath('//cite')->text(),
+                    'intro' => $node->filterXPath('//span[@class="st"]')->html(),
+                ];
+            });
+        } catch (\InvalidArgumentException $e) {
+            return self::empty;
+        }
 
         return [
             'data' => array_filter($result),
