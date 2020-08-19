@@ -44,7 +44,7 @@ class SearchController extends Controller
             $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node, $i) {
                 if (0 === $node->filterXPath('//h3')->count() || 0 === $node->filterXPath('//cite')->count()
                     || 0 === $node->filterXPath('//span[@class="st"]')->count()) {
-                    return null;
+                    return;
                 }
 
                 return [
