@@ -41,19 +41,8 @@ class EmojiController extends Controller
 
     public function index()
     {
-        return $this->get();
-    }
-
-    public function get()
-    {
-        // 获取现有文件
-        $data = [];
-        $wallpaperFolder = public_path().'/storage/images/emoji/';
-        $wallpapers = \File::files($wallpaperFolder);
-        foreach ($wallpapers as $wallpaper) {
-            $data[] = '/storage/images/emoji/'.$wallpaper->getFilename();
-        }
-
-        return $data;
+        return collect(\File::files(public_path().'/storage/images/emoji/'))->map(function ($item) {
+                return '/storage/images/emoji/'.$item->getFilename();
+            }) ?? [];
     }
 }
