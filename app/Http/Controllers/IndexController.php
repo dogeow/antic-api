@@ -15,11 +15,10 @@ class IndexController extends Controller
         $project = Project::where('user_id', 1)->first();
         $posts = Post::with(['tags:post_id,name', 'category:post_id,name'])->get();
         $data = $posts->toArray();
-        foreach($posts as $key => $post){
+        foreach ($posts as $key => $post) {
             $data[$key]['tags'] = $post->tags->pluck('name');
             $data[$key]['category'] = $post->category ? $post->category->value('name') : null;
         }
-
 
         return [
             'todos' => $project ? $project->tasks()->where('is_completed', 0)->get() : [],
