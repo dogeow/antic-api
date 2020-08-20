@@ -16,7 +16,7 @@ class IndexController extends Controller
 
         return [
             'todos' => $project ? $project->tasks()->where('is_completed', 0)->get() : [],
-            'projects' => Post::with('tags')->with('categories')->get(),
+            'projects' => Post::with('tags:name')->with('category:name')->get(),
         ];
     }
 

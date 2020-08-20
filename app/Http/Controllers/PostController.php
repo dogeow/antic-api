@@ -14,7 +14,7 @@ class PostController extends Controller
 
     public function index()
     {
-        return Post::with('tags')->with('categories')->get();
+        return Post::with('tags:name')->with('category:name')->get();
     }
 
     public function store(Request $request)
@@ -35,11 +35,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return array_merge(
-            $post->toArray(),
-            ['category' => $post->category->name],
-            ['tags' => $post->tags->pluck('name')]
-        );
+        return Post::with('tags:name')->with('category:name')->get();
     }
 
     public function update(Request $request, Post $post)
