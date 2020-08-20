@@ -17,9 +17,9 @@ class Post extends Model
         return $this->hasMany(PostTag::class);
     }
 
-    public function categories()
+    public function category()
     {
-        return $this->hasMany(PostCategory::class);
+        return $this->hasOne(PostCategory::class);
     }
 
     public function user()

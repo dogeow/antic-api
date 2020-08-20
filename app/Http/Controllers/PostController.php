@@ -35,7 +35,11 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return $post;
+        return array_merge(
+            $post->toArray(),
+            ['category' => $post->category->name],
+            ['tags' => $post->tags->pluck('name')]
+        );
     }
 
     public function update(Request $request, Post $post)
