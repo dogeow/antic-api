@@ -35,7 +35,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return Post::with('tags:name')->with('category:name')->get();
+        return $post->with('tags:name')->with('category:name')->get();
     }
 
     public function update(Request $request, Post $post)
