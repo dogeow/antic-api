@@ -74,10 +74,11 @@ class IndexController extends Controller
         $lastReadTime = $news[0]->created_at ?? $now;
 
         $news = $news->reject(function ($item) {
-            foreach ([
-                         '昆凌', '周杰伦', '郭京飞', '温宇', '湖人', 'J姐', '拜仁', '惠若琪', '巩俐', '黄子韬', '林俊杰', '吴亦凡', '杨幂', 'iG',
-                         'SKT', '林更新', 'YM', '范丞丞', '魏大勋', '贾乃亮', 'LGD', 'NIP', '张颜齐', '杨超越',
-                     ] as $keyword) {
+            $peoples = [
+                '昆凌', '周杰伦', '郭京飞', '温宇', '湖人', 'J姐', '拜仁', '惠若琪', '巩俐', '黄子韬', '林俊杰', '吴亦凡', '杨幂', 'iG',
+                'SKT', '林更新', 'YM', '范丞丞', '魏大勋', '贾乃亮', 'LGD', 'NIP', '张颜齐', '杨超越',
+            ];
+            foreach ($peoples as $keyword) {
                 if (false !== stripos($item->title, $keyword)) {
                     return true;
                 }
