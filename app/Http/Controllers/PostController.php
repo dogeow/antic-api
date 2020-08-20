@@ -33,9 +33,14 @@ class PostController extends Controller
         ]);
     }
 
-    public function show(Post $post)
+    public function show($id)
     {
-        return $post->with('tags:name')->with('category:name')->get();
+        $post = Post::where('id', $id)->with(['tags:post_id,name', 'category:post_id,name'])->firstOrFail();
+        $data = $post->toArray();
+        $data['tags'] = $post->tags->pluck('name');
+        $data['category'] = $post->category ? $post->category->value('name') : null;
+
+        return $data;
     }
 
     public function update(Request $request, Post $post)

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "498f6265eac954f48a6f28f5ad131ca5",
+    "content-hash": "87b0780ad337cf4bca6b38005140972f",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -10417,6 +10417,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
@@ -10944,6 +10945,7 @@
             ],
             "description": "FinderFacade is a convenience wrapper for Symfony's Finder component.",
             "homepage": "https://github.com/sebastianbergmann/finder-facade",
+            "abandoned": true,
             "time": "2020-01-16T08:08:45+00:00"
         },
         {
@@ -11580,6 +11582,71 @@
                 "standards"
             ],
             "time": "2020-01-30T22:20:29+00:00"
+        },
+        {
+            "name": "supliu/laravel-query-monitor",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/supliu/laravel-query-monitor.git",
+                "reference": "6578fd1ca53513abc758038aa755eb77ae595a64"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/supliu/laravel-query-monitor/zipball/6578fd1ca53513abc758038aa755eb77ae595a64",
+                "reference": "6578fd1ca53513abc758038aa755eb77ae595a64",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "laravel/framework": "^5.6|^6|^7",
+                "php": "^7.2.5",
+                "react/socket": "^1.4"
+            },
+            "require-dev": {
+                "orchestra/testbench": "5.*",
+                "phpunit/phpunit": "^9.2@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Supliu\\LaravelQueryMonitor\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Supliu\\LaravelQueryMonitor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jansen Felipe",
+                    "email": "jansen.felipe@gmail.com"
+                }
+            ],
+            "description": "Laravel Query Monitor",
+            "keywords": [
+                "eloquent",
+                "laravel",
+                "monitor",
+                "query",
+                "sql"
+            ],
+            "time": "2020-05-15T20:57:35+00:00"
         },
         {
             "name": "symfony/filesystem",
