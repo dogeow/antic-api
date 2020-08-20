@@ -42,7 +42,7 @@ class EmojiController extends Controller
     public function index()
     {
         return collect(\File::files(public_path().'/storage/images/emoji/'))->map(function ($item) {
-                return '/storage/images/emoji/'.$item->getFilename();
-            }) ?? [];
+            return '/storage/images/emoji/'.$item->getFilename();
+        }) ?? [];
     }
 }
