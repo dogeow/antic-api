@@ -16,7 +16,6 @@
         "caouecs/laravel-lang": "~4.0",
         "deployer/deployer": "^6.8",
         "deployer/recipes": "^6.2",
-        "dingo/api": "^2.4",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^6.7",

@@ -11,87 +11,86 @@
 |
 */
 
-$api = app('Dingo\Api\Routing\Router');
-$api->version('v1', ['namespace' => 'App\Http\Controllers', 'middleware' => 'api'], function ($api) {
-    $api->get('/', 'IndexController@url');
+Route::group(['middleware' => 'api'], function ($api) {
+    Route::get('/', 'IndexController@url');
 
-    $api->get('/index', 'IndexController@index');
+    Route::get('/index', 'IndexController@index');
 
-    $api->get('/recaptcha', 'AuthController@recaptcha');
+    Route::get('/recaptcha', 'AuthController@recaptcha');
 
-    $api->get('/like', 'LikeController@index');
+    Route::get('/like', 'LikeController@index');
 
-    $api->get('/quotes', 'QuoteController');
+    Route::get('/quotes', 'QuoteController@index');
 
-    $api->get('/about_me', 'AboutMeController');
+    Route::get('/about_me', 'AboutMeController@index');
 
-    $api->post('/api', 'ApiController@index');
+    Route::post('/api', 'ApiController@index');
 
     // 网站 todo
-    $api->get('/todo', 'ProjectController@admin');
+    Route::get('/todo', 'ProjectController@admin');
 
     // Site
-    $api->get('/site', 'SiteController@index');
-    $api->get('/site_check', 'SiteController@check');
+    Route::get('/site', 'SiteController@index');
+    Route::get('/site_check', 'SiteController@check');
 
     // 微博热搜榜
-    $api->get('/weibo/about', 'WeiboController@about');
-    $api->post('/weibo', 'WeiboController@index');
+    Route::get('/weibo/about', 'WeiboController@about');
+    Route::post('/weibo', 'WeiboController@index');
 
-    $api->get('powered-by', 'PoweredByController@index');
+    Route::get('powered-by', 'PoweredByController@index');
 
     // Emoji
-    $api->get('/emoji', 'EmojiController@index');
-    $api->post('/emoji', 'EmojiController@store');
+    Route::get('/emoji', 'ImageController@index');
+    Route::post('/emoji', 'ImageController@store');
 
     // Search
-    $api->get('/search', 'SearchController@search');
+    Route::get('/search', 'SearchController@search');
 
     // API
-    $api->get('parking', 'ApiController@parking');
-    $api->get('number/{start}/{end}/{action?}', 'ApiController@number');
-    $api->get('/html_sc/{string}', 'ApiController@htmlSC');
-    $api->get('/secret/{string}', 'ApiController@secret');
-    $api->get('/array', 'ApiController@array');
-    $api->get('/random', 'ApiController@random');
-    $api->get('/url_decode/{string}', 'ApiController@urlDecode');
-    $api->get('/url_encode/{string}', 'ApiController@urlEncode');
-    $api->get('/base64_encode/{string}', 'ApiController@base64_encode');
-    $api->get('/base64_decode/{string}', 'ApiController@base64_decode');
-    $api->get('/utf8_to_unicode/{string}', 'ApiController@utf8_to_unicode');
-    $api->get('/unicode_to_utf8/{string}', 'ApiController@unicode_to_utf8');
-    $api->get('/punycode/{string}', 'ApiController@punycode');
-    $api->get('/image/{action}', 'ApiController@image');
-    $api->get('/md5/{string}', 'ApiController@md5');
-    $api->get('/user-agent', 'ApiController@userAgent');
-    $api->get('/hash/{string}', 'ApiController@hash');
-    $api->get('/ip/{ip?}', 'ApiController@ip')->where(['ip' => '[0-9.]+']);
-    $api->get('/date/{date?}', 'ApiController@date');
-    $api->get('/timestamp/{timestamp?}', 'ApiController@timestamp')->where(['timestamp' => '[0-9]+']);
-    $api->get('/bankcard/{cardNo}', 'ApiController@bankcard')->where(['cardNo' => '[0-9]+']);
+    Route::get('parking', 'ApiController@parking');
+    Route::get('number/{start}/{end}/{action?}', 'ApiController@number');
+    Route::get('/html_sc/{string}', 'ApiController@htmlSC');
+    Route::get('/secret/{string}', 'ApiController@secret');
+    Route::get('/array', 'ApiController@array');
+    Route::get('/random', 'ApiController@random');
+    Route::get('/url_decode/{string}', 'ApiController@urlDecode');
+    Route::get('/url_encode/{string}', 'ApiController@urlEncode');
+    Route::get('/base64_encode/{string}', 'ApiController@base64_encode');
+    Route::get('/base64_decode/{string}', 'ApiController@base64_decode');
+    Route::get('/utf8_to_unicode/{string}', 'ApiController@utf8_to_unicode');
+    Route::get('/unicode_to_utf8/{string}', 'ApiController@unicode_to_utf8');
+    Route::get('/punycode/{string}', 'ApiController@punycode');
+    Route::get('/image/{action}', 'ApiController@image');
+    Route::get('/md5/{string}', 'ApiController@md5');
+    Route::get('/user-agent', 'ApiController@userAgent');
+    Route::get('/hash/{string}', 'ApiController@hash');
+    Route::get('/ip/{ip?}', 'ApiController@ip')->where(['ip' => '[0-9.]+']);
+    Route::get('/date/{date?}', 'ApiController@date');
+    Route::get('/timestamp/{timestamp?}', 'ApiController@timestamp')->where(['timestamp' => '[0-9]+']);
+    Route::get('/bankcard/{cardNo}', 'ApiController@bankcard')->where(['cardNo' => '[0-9]+']);
 
-    $api->get('/posts', 'PostController@index');
-    $api->get('/posts/{post}', 'PostController@show');
+    Route::get('/posts', 'PostController@index');
+    Route::get('/posts/{post}', 'PostController@show');
 
-    $api->group(['middleware' => 'api.auth'], function ($api) {
-        $api->resource('/posts', 'PostController', ['except' => ['index', 'show']]);
-        $api->resource('/projects', 'ProjectController');
-        $api->post('/tasks', 'TaskController@store');
-        $api->put('/tasks/{task}', 'TaskController@update');
+    Route::group(['middleware' => 'auth:api'], function ($api) {
+        Route::resource('/posts', 'PostController', ['except' => ['index', 'show']]);
+        Route::resource('/projects', 'ProjectController');
+        Route::post('/tasks', 'TaskController@store');
+        Route::put('/tasks/{task}', 'TaskController@update');
         // Game
-        $api->get('/game', 'GameController@index');
-        $api->get('/backpack', 'BackpackController@index');
+        Route::get('/game', 'GameController@index');
+        Route::get('/backpack', 'BackpackController@index');
     });
 
-    $api->group(['prefix' => 'user'], function ($api) {
-        $api->post('register', 'AuthController@register');
-        $api->post('login', 'AuthController@login');
-        $api->post('refresh', 'AuthController@refresh');
+    Route::group(['prefix' => 'user'], function ($api) {
+        Route::post('register', 'AuthController@register');
+        Route::post('login', 'AuthController@login');
+        Route::post('refresh', 'AuthController@refresh');
 
-        $api->group(['middleware' => 'api.auth'], function ($api) {
-            $api->put('password', 'UserController@password');
-            $api->post('logout', 'AuthController@logout');
-            $api->post('profile', 'AuthController@profile');
+        Route::group(['middleware' => 'auth:api'], function ($api) {
+            Route::put('password', 'UserController@password');
+            Route::post('logout', 'AuthController@logout');
+            Route::post('profile', 'AuthController@profile');
         });
     });
 });

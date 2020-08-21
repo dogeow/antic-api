@@ -6,7 +6,7 @@ use App\Models\AboutMe;
 
 class AboutMeController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $newData = [];
         $data = collect(AboutMe::all())->groupBy('category')->toArray();

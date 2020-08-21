@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Validator;
 
 class AuthController extends Controller
 {
@@ -29,12 +27,13 @@ class AuthController extends Controller
                     if (mb_strwidth($value) < 4 || mb_strwidth($value) > 16) {
                         $fail('昵称 宽度必须在 4 - 16 之间（一个中文文字为 2 个宽度）');
                     }
-                }, ],
+                },
+            ],
             'email' => ['required', 'not_regex:/\s+/', 'email', 'unique:users'],
             'password' => ['required', 'not_regex:/\s+/', 'min:8', 'max:16'],
             'password_confirmation' => ['same:password'],
         ];
-        $validator = Validator::make($payload, $rules);
+        $validator = \Validator::make($payload, $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         }
@@ -71,7 +70,7 @@ class AuthController extends Controller
             'password' => ['required', 'min:8', 'max:16'],
             'remember_me' => 'boolean',
         ];
-        $validator = Validator::make($credentials, $rules);
+        $validator = \Validator::make($credentials, $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()])->setStatusCode(202);
         }
