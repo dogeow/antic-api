@@ -29,7 +29,7 @@ class ImageController extends Controller
 
         $originalName = $request->file($key)->getClientOriginalName();
 
-        $existImage = Image::where('name', $originalName)->orderBy('id', 'desc')->first();
+        $existImage = Image::where('original_name', $originalName)->orderByDesc('id')->first();
         if ($existImage) {
             // 获取文件名和扩展名
             preg_match('/^(.*)\.(.*?)$/', $originalName, $matches);
@@ -39,7 +39,7 @@ class ImageController extends Controller
                 $filename = $name.'@2.'.$extension;
             } else {
                 // 获取相同文件名的编码
-                preg_match('/^.*#(.*)\..*?$/', $existImage['name'], $matches);
+                preg_match('/^.*@(.*)\..*?$/', $existImage['name'], $matches);
                 $number = $matches[1];
                 $filename = $name.'@'.($number + 1).'.'.$extension;
             }
