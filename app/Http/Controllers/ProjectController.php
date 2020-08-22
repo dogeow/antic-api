@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\models\PoweredBy;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller
 {
@@ -67,10 +70,15 @@ class ProjectController extends Controller
         return $request->user()->projects()->where('is_completed', 0)->get();
     }
 
-    public function admin()
+    public function admin(Request $request)
     {
         $project = Project::where('user_id', 1)->first();
 
-        return $project ? $project->tasks()->where('is_completed', 0)->get() : [];
+        $params = ['title'];
+        $query = $project->tasks()->where('is_completed', 0)->when($request->search, function ($query) use ($request) {
+            return $query->where('title', 'like', '%'.$request->search.'%');
+        });
+        return QueryBuilder::for($query)
+            ->allowedFilters($params)->jsonPaginate(request('size'));
     }
 }
