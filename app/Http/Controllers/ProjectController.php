@@ -78,6 +78,7 @@ class ProjectController extends Controller
         $query = $project->tasks()->where('is_completed', 0)->when($request->search, function ($query) use ($request) {
             return $query->where('title', 'like', '%'.$request->search.'%');
         });
+
         return QueryBuilder::for($query)
             ->allowedFilters($params)->jsonPaginate(request('size'));
     }
