@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\models\PoweredBy;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller
@@ -80,6 +78,7 @@ class ProjectController extends Controller
         });
 
         return QueryBuilder::for($query)
+            ->allowedSorts($params)
             ->allowedFilters($params)->jsonPaginate(request('size'));
     }
 }

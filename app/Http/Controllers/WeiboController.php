@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\WeiboHot;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class WeiboController extends Controller
 {
