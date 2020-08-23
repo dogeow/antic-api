@@ -73,9 +73,10 @@ class ProjectController extends Controller
         $project = Project::where('user_id', 1)->first();
 
         $params = ['title'];
-        $query = $project->tasks()->where('is_completed', 0)->when($request->search, function ($query) use ($request) {
-            return $query->where('title', 'like', '%'.$request->search.'%');
-        });
+        $query = $project->tasks()->where('is_completed', 0)->orderBy('priority', 'DESC')->when($request->search,
+            function ($query) use ($request) {
+                return $query->where('title', 'like', '%'.$request->search.'%');
+            });
 
         return QueryBuilder::for($query)
             ->allowedSorts($params)
