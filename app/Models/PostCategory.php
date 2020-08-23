@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostCategory extends Model
 {
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function post()
     {
