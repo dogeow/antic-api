@@ -14,7 +14,7 @@ class PostController extends Controller
 
     public function index()
     {
-        return Post::with(['tags', 'category',])->jsonPaginate(10);
+        return Post::with(['tags', 'category'])->jsonPaginate(10);
     }
 
     public function store(Request $request)
