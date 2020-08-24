@@ -14,14 +14,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::with(['tags:post_id,name', 'category:post_id,name'])->jsonPaginate(10);
-        $data = $posts->toArray();
-        foreach ($posts as $key => $post) {
-            $data['data'][$key]['tags'] = $post->tags->pluck('name');
-            $data['data'][$key]['category'] = $post->category ? $post->category->value('name') : null;
-        }
-
-        return $data;
+        return Post::with(['tags', 'category',])->jsonPaginate(10);
     }
 
     public function store(Request $request)
