@@ -78,7 +78,7 @@ class ProjectController extends Controller
             ->when($request->search, function ($query) use ($request) {
                 return $query->where('title', 'like', '%'.$request->search.'%');
             })
-            ->when(empty($request->sort), function ($query) use ($request) {
+            ->when(empty($request->sort), function ($query) {
                 return $query->orderBy('priority', 'DESC');
             });
 
