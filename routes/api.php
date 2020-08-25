@@ -71,6 +71,8 @@ Route::group(['middleware' => 'api'], function ($api) {
 
     Route::get('/posts', 'PostController@index');
     Route::get('/posts/{post}', 'PostController@show');
+    Route::get('/categories', 'PostCategoryController@index');
+    Route::get('/tags', 'PostTagController@index');
 
     Route::group(['middleware' => 'auth:api'], function ($api) {
         Route::resource('/posts', 'PostController', ['except' => ['index', 'show']]);
