@@ -47,9 +47,7 @@ class PostController extends Controller
     {
         $post->update($request->all());
 
-        $post->category()->updateOrCreate([
-            'name' => $request->category,
-        ]);
+        $post->category()->update(['name' => $request->category]);
 
         return $post;
     }
