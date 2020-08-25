@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\PostTag;
+use App\Models\PostTag;
 
 class PostTagController extends Controller
 {
