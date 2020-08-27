@@ -17,7 +17,7 @@ class PostController extends Controller
     {
         $query = Post::with(['tags:id,post_id,name', 'category:id,post_id,name']);
 
-        return QueryBuilder::for($query)->allowedFilters(['category.name','tags.name'])->jsonPaginate(10);
+        return QueryBuilder::for($query)->allowedFilters(['category.name', 'tags.name'])->jsonPaginate(10);
     }
 
     public function store(Request $request)
