@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PostController extends Controller
 {
@@ -14,7 +15,9 @@ class PostController extends Controller
 
     public function index()
     {
-        return Post::with(['tags:id,post_id,name', 'category:id,post_id,name'])->jsonPaginate(10);
+        $query = Post::with(['tags:id,post_id,name', 'category:id,post_id,name']);
+
+        return QueryBuilder::for($query)->allowedFilters(['category.name','tags.name'])->jsonPaginate(10);
     }
 
     public function store(Request $request)
