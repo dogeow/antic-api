@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MoonHistory;
 use App\Models\Moon;
+use App\Models\MoonHistory;
 use Illuminate\Http\Request;
 
 class MoonHistoryController extends Controller
@@ -25,7 +25,7 @@ class MoonHistoryController extends Controller
     }
 
     /**
-     * 获取筛子排名结果
+     * 获取筛子排名结果.
      * @param $dice
      * @return array
      */
@@ -44,7 +44,7 @@ class MoonHistoryController extends Controller
     }
 
     /**
-     * 掷骰子
+     * 掷骰子.
      * @return array
      */
     public function rollDice()
@@ -58,7 +58,7 @@ class MoonHistoryController extends Controller
     }
 
     /**
-     * 格式化掷骰子结果
+     * 格式化掷骰子结果.
      * @param  array  $list
      * @return array
      */
@@ -87,7 +87,7 @@ class MoonHistoryController extends Controller
     }
 
     /**
-     * 判断筛子结果的大小
+     * 判断筛子结果的大小.
      * @param $list
      * @return int|string
      */
@@ -95,7 +95,7 @@ class MoonHistoryController extends Controller
     {
         $ruleList = $this->getRule();
         $res = $this->defRank;
-        if (!empty($ruleList)) {
+        if (! empty($ruleList)) {
             foreach ($ruleList as $rank => $rankRules) {
                 foreach ($rankRules as $rule) {
                     foreach ($rule as $dian => $num) {
@@ -129,7 +129,7 @@ class MoonHistoryController extends Controller
     }
 
     /**
-     * 根据排序获取掷骰子结果名称
+     * 根据排序获取掷骰子结果名称.
      * @param  string  $rank
      * @return mixed
      */
@@ -150,7 +150,7 @@ class MoonHistoryController extends Controller
             'yx' => '一秀',
             'none' => '没有',
         ];
-        if (!empty($rank)) {
+        if (! empty($rank)) {
             if (isset($list[$rank])) {
                 return $list[$rank];
             }
@@ -160,7 +160,7 @@ class MoonHistoryController extends Controller
     }
 
     /**
-     * 返回规则
+     * 返回规则.
      * @return array
      */
     private function getRule()
@@ -221,27 +221,27 @@ class MoonHistoryController extends Controller
         ];
     }
 
-    public function start(Request  $request)
+    public function start(Request $request)
     {
-        $moon = Moon::where("name", $request->moon)->first();
+        $moon = Moon::where('name', $request->moon)->first();
         if (count($moon->moonHistory) >= 6) {
-            return "已满6次！";
+            return '已满6次！';
         }
         $lottery = $this->lottery();
-        $moon = Moon::where("name", $request->moon)->first();
+        $moon = Moon::where('name', $request->moon)->first();
         MoonHistory::create(
             [
-                "moon_id" => $moon->id,
-                "num1" => $lottery['dice'][0],
-                "num2" => $lottery['dice'][1],
-                "num3" => $lottery['dice'][2],
-                "num4" => $lottery['dice'][3],
-                "num5" => $lottery['dice'][4],
-                "num6" => $lottery['dice'][5],
-                'name' => $lottery['rankName']
+                'moon_id' => $moon->id,
+                'num1' => $lottery['dice'][0],
+                'num2' => $lottery['dice'][1],
+                'num3' => $lottery['dice'][2],
+                'num4' => $lottery['dice'][3],
+                'num5' => $lottery['dice'][4],
+                'num6' => $lottery['dice'][5],
+                'name' => $lottery['rankName'],
             ]
         );
 
-        return array_merge($lottery, ["history" => $moon->moonHistory->toArray()]);
+        return array_merge($lottery, ['history' => $moon->moonHistory->toArray()]);
     }
 }

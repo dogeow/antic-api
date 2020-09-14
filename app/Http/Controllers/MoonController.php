@@ -10,14 +10,15 @@ class MoonController extends Controller
     public function create(Request $request)
     {
         return Moon::create([
-            "ip" => $request->getClientIp(),
-            "name" => $request->moon,
+            'ip' => $request->getClientIp(),
+            'name' => $request->moon,
         ]);
     }
 
-    public function  index(Request $request)
+    public function index(Request $request)
     {
-        $moon = Moon::where("name", $request->moon)->first();
+        $moon = Moon::where('name', $request->moon)->first();
+
         return $moon->moonHistory;
     }
 }
