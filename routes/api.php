@@ -14,6 +14,10 @@
 Route::group(['middleware' => 'api'], function ($api) {
     Route::get('/', 'IndexController@url');
 
+    Route::post('/moon', 'MoonController@create');
+    Route::post('/history', 'MoonController@index');
+    Route::post('/start', 'MoonHistoryController@start');
+
     Route::get('/index', 'IndexController@index');
 
     Route::get('/recaptcha', 'AuthController@recaptcha');
