@@ -23,6 +23,7 @@ class CreateMoonHistoriesTable extends Migration
             $table->unsignedTinyInteger('num5');
             $table->unsignedTinyInteger('num6');
             $table->string('name');
+            $table->decimal('money', 4, 2)->default(0);
             $table->timestamps();
         });
     }

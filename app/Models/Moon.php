@@ -12,4 +12,13 @@ class Moon extends Model
     {
         return $this->hasMany(MoonHistory::class);
     }
+
+    public function statistics()
+    {
+        return [
+            'user' => Moon::count(),
+            'count' => MoonHistory::count(),
+            'money' => MoonHistory::sum('money'),
+        ];
+    }
 }

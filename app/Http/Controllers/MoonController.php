@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Moon;
+use App\Models\MoonHistory;
 use Illuminate\Http\Request;
 
 class MoonController extends Controller
@@ -11,14 +12,20 @@ class MoonController extends Controller
     {
         return Moon::create([
             'ip' => $request->getClientIp(),
-            'name' => $request->moon,
+            'name' => $request->user,
         ]);
     }
 
     public function index(Request $request)
     {
-        $moon = Moon::where('name', $request->moon)->first();
+        if (!empty($request->user)) {
+            $user = Moon::where('name', $request->user)->first();
+            $history = $user->moonHistory;
+        }
 
-        return $moon->moonHistory;
+        return [
+            'history' => $history ?? [],
+            'statistics' => (new Moon)->statistics(),
+        ];
     }
 }

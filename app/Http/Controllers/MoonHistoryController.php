@@ -15,31 +15,13 @@ class MoonHistoryController extends Controller
         $dice = $this->rollDice();
         $format = $this->formatDice($dice);
         $rank = $this->getRank($format);
-        $rankName = $this->getName($rank);
+        $rankNameAndMoney = $this->getName($rank);
 
         return [
             'dice' => $dice,
             'rank' => $rank,
-            'rankName' => $rankName,
-        ];
-    }
-
-    /**
-     * 获取筛子排名结果.
-     * @param $dice
-     * @return array
-     */
-    public function getRes($dice)
-    {
-        $format = $this->formatDice($dice);
-        $rank = $this->getRank($format);
-        $rankName = $this->getName($rank);
-
-        return [
-            'dice' => $dice,
-            'format' => $format,
-            'rank' => $rank,
-            'rankName' => $rankName,
+            'rankName' => $rankNameAndMoney['name'],
+            'money' => $rankNameAndMoney['money'],
         ];
     }
 
@@ -95,7 +77,7 @@ class MoonHistoryController extends Controller
     {
         $ruleList = $this->getRule();
         $res = $this->defRank;
-        if (! empty($ruleList)) {
+        if (!empty($ruleList)) {
             foreach ($ruleList as $rank => $rankRules) {
                 foreach ($rankRules as $rule) {
                     foreach ($rule as $dian => $num) {
@@ -136,27 +118,61 @@ class MoonHistoryController extends Controller
     public function getName($rank)
     {
         $list = [
-            'cjh' => '状元插金花',
-            'lbh' => '六杯红',
-            'bdj' => '遍地锦',
-            'ww' => '五王',
-            'wzdyx' => '五子带一秀',
-            'wzdk' => '五子登科',
-            'zy' => '状元',
-            'by' => '榜眼',
-            'sh' => '三红',
-            'sj' => '四进',
-            'eq' => '二举',
-            'yx' => '一秀',
-            'none' => '没有',
+            'cjh' => [
+                'name' => '状元插金花',
+                'money' => 2.33,
+            ],
+            'lbh' => [
+                'name' => '六杯红',
+                'money' => 2.33,
+            ],
+            'bdj' => [
+                'name' => '遍地锦',
+                'money' => 2.33,
+            ],
+            'ww' => [
+                'name' => '五王',
+                'money' => 1.68,
+            ],
+            'wzdyx' => [
+                'name' => '五子带一秀',
+                'money' => 1.88,
+            ],
+            'wzdk' => [
+                'name' => '五子登科',
+                'money' => 1.68,
+            ],
+            'zy' => [
+                'name' => '状元',
+                'money' => 1.11,
+            ],
+            'by' => [
+                'name' => '榜眼',
+                'money' => 1.23,
+            ],
+            'sh' => [
+                'name' => '三红',
+                'money' => 0.33,
+            ],
+            'sj' => [
+                'name' => '四进',
+                'money' => 0.4,
+            ],
+            'eq' => [
+                'name' => '二举',
+                'money' => 0.2,
+            ],
+            'yx' => [
+                'name' => '一秀',
+                'money' => 0.1,
+            ],
+            'none' => [
+                'name' => '没有',
+                'money' => 0.01,
+            ],
         ];
-        if (! empty($rank)) {
-            if (isset($list[$rank])) {
-                return $list[$rank];
-            }
-        }
 
-        return $list;
+        return $list[$rank];
     }
 
     /**
@@ -223,15 +239,14 @@ class MoonHistoryController extends Controller
 
     public function start(Request $request)
     {
-        $moon = Moon::where('name', $request->moon)->first();
-        if (count($moon->moonHistory) >= 6) {
+        $user = Moon::where('name', $request->user)->first();
+        if (count($user->moonHistory) >= 6) {
             return '已满6次！';
         }
         $lottery = $this->lottery();
-        $moon = Moon::where('name', $request->moon)->first();
         MoonHistory::create(
             [
-                'moon_id' => $moon->id,
+                'moon_id' => $user->id,
                 'num1' => $lottery['dice'][0],
                 'num2' => $lottery['dice'][1],
                 'num3' => $lottery['dice'][2],
@@ -239,9 +254,10 @@ class MoonHistoryController extends Controller
                 'num5' => $lottery['dice'][4],
                 'num6' => $lottery['dice'][5],
                 'name' => $lottery['rankName'],
+                'money' => $lottery['money'],
             ]
         );
 
-        return array_merge($lottery, ['history' => $moon->moonHistory->toArray()]);
+        return array_merge($lottery, ['history' => $user->moonHistory->toArray(), 'statistics' => (new Moon)->statistics()]);
     }
 }
