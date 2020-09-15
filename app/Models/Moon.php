@@ -16,7 +16,7 @@ class Moon extends Model
     public function statistics()
     {
         return [
-            'user' => Moon::count(),
+            'user' => self::count(),
             'count' => MoonHistory::count(),
             'money' => MoonHistory::sum('money'),
         ];
