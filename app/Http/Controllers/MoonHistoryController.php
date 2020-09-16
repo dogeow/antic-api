@@ -77,7 +77,7 @@ class MoonHistoryController extends Controller
     {
         $ruleList = $this->getRule();
         $res = $this->defRank;
-        if (! empty($ruleList)) {
+        if (!empty($ruleList)) {
             foreach ($ruleList as $rank => $rankRules) {
                 foreach ($rankRules as $rule) {
                     foreach ($rule as $dian => $num) {
@@ -258,6 +258,14 @@ class MoonHistoryController extends Controller
             ]
         );
 
-        return array_merge($lottery, ['history' => $user->moonHistory->toArray(), 'statistics' => (new Moon)->statistics()]);
+        $user = $user->fresh('moonHistory');
+
+        return array_merge(
+            $lottery,
+            [
+                'history' => $user->moonHistory->toArray(),
+                'statistics' => (new Moon)->statistics(),
+            ]
+        );
     }
 }
