@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -11,10 +13,11 @@ class AuthController extends Controller
     /**
      * 创建用户.
      *
-     * @param  [string] name
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [string] password_confirmation
+     * @param [string] name
+     * @param [string] email
+     * @param [string] password
+     * @param [string] password_confirmation
+     * @return JsonResponse
      */
     public function register()
     {
@@ -33,7 +36,7 @@ class AuthController extends Controller
             'password' => ['required', 'not_regex:/\s+/', 'min:8', 'max:16'],
             'password_confirmation' => ['same:password'],
         ];
-        $validator = \Validator::make($payload, $rules);
+        $validator = Validator::make($payload, $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         }
@@ -58,6 +61,7 @@ class AuthController extends Controller
      * @param  [string] email
      * @param  [string] password
      * @param  [boolean] remember_me
+     * @return JsonResponse
      */
     public function login()
     {
@@ -122,6 +126,7 @@ class AuthController extends Controller
      * 获取 token 结构.
      *
      * @param  string  $token
+     * @return JsonResponse
      */
     protected function respondWithToken($token)
     {
@@ -135,7 +140,7 @@ class AuthController extends Controller
     /**
      * 获取守卫.
      *
-     * @return \Illuminate\Contracts\Auth\Guard
+     * @return Guard
      */
     public function guard()
     {
@@ -153,9 +158,9 @@ class AuthController extends Controller
             $recaptcha = json_decode($recaptcha);
 
             if ($recaptcha->score >= 0.5) {
-                Log::notice('yes');
+                \Log::notice('yes');
             } else {
-                Log::notice('no');
+                \Log::notice('no');
             }
         }
     }

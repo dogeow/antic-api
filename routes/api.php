@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,92 +16,96 @@
 |
 */
 
-Route::group(['middleware' => 'api'], function ($api) {
-    Route::get('/', 'IndexController@url');
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'user',
+], function ($router) {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('profile', [AuthController::class, 'profile']);
+    Route::put('password', [UserController::class, 'password']);
+});
 
-    Route::post('/moon', 'MoonController@create');
-    Route::get('/moon', 'MoonController@index');
-    Route::post('/start', 'MoonHistoryController@start');
+Route::group(['middleware' => 'api'], function ($router) {
+    Route::resource('/posts', 'PostController', ['except' => ['index', 'show']]);
+    Route::resource('/projects', 'ProjectController');
+    Route::post('/tasks', [TaskController::class, 'store']);
+    Route::put('/tasks/{task}', [TaskController::class, 'update']);
+    // Game
+    Route::get('/game', [GameController::class, 'index']);
+    Route::get('/backpack', [BackpackController::class, 'index']);
+});
 
-    Route::get('/index', 'IndexController@index');
+Route::group(['middleware' => 'api'], function ($router) {
+    Route::get('/', [IndexController::class, 'url']);
 
-    Route::get('/recaptcha', 'AuthController@recaptcha');
+    // 首页，合并 API
+    Route::get('/index', [IndexController::class, 'index']);
 
-    Route::get('/like', 'LikeController@index');
+    // 博饼
+    Route::post('/moon', [MoonController::class, 'create']);
+    Route::get('/moon', [MoonController::class, 'index']);
+    Route::post('/start', [MoonHistoryController::class, 'start']);
 
-    Route::get('/quotes', 'QuoteController@index');
+    // 喜欢
+    Route::get('/like', [LikeController::class, 'index']);
 
-    Route::get('/about_me', 'AboutMeController@index');
+    // 自言自语
+    Route::get('/quotes', [QuoteController::class, 'index']);
 
-    Route::post('/api', 'ApiController@index');
+    // 关于我
+    Route::get('/about_me', [AboutMeController::class, 'index']);
+    Route::get('powered-by', [PoweredByController::class, 'index']);
 
-    // 网站 todo
-    Route::get('/todo', 'ProjectController@admin');
+    // 便民 API
+    Route::post('/api', [ApiController::class, 'index']);
+
+    // 待办事项
+    Route::get('/todo', [ProjectController::class, 'admin']);
 
     // Site
-    Route::get('/site', 'SiteController@index');
-    Route::get('/site_check', 'SiteController@check');
+    Route::get('/site', [SiteController::class, 'index']);
+    Route::get('/site_check', [SiteController::class, 'check']);
 
     // 微博热搜榜
-    Route::get('/weibo/about', 'WeiboController@about');
-    Route::post('/weibo', 'WeiboController@index');
-
-    Route::get('powered-by', 'PoweredByController@index');
+    Route::get('/weibo/about', [WeiboController::class, 'about']);
+    Route::post('/weibo', [WeiboController::class, 'index']);
 
     // Emoji
-    Route::get('/emoji', 'ImageController@index');
-    Route::post('/emoji', 'ImageController@store');
+    Route::get('/emoji', [ImageController::class, 'index']);
+    Route::post('/emoji', [ImageController::class, 'store']);
 
     // Search
-    Route::get('/search', 'SearchController@search');
+    Route::get('/search', [SearchController::class, 'search']);
 
     // API
-    Route::get('parking', 'ApiController@parking');
-    Route::get('number/{start}/{end}/{action?}', 'ApiController@number');
-    Route::get('/html_sc/{string}', 'ApiController@htmlSC');
-    Route::get('/secret/{string}', 'ApiController@secret');
-    Route::get('/array', 'ApiController@array');
-    Route::get('/random', 'ApiController@random');
-    Route::get('/url_decode/{string}', 'ApiController@urlDecode');
-    Route::get('/url_encode/{string}', 'ApiController@urlEncode');
-    Route::get('/base64_encode/{string}', 'ApiController@base64_encode');
-    Route::get('/base64_decode/{string}', 'ApiController@base64_decode');
-    Route::get('/utf8_to_unicode/{string}', 'ApiController@utf8_to_unicode');
-    Route::get('/unicode_to_utf8/{string}', 'ApiController@unicode_to_utf8');
-    Route::get('/punycode/{string}', 'ApiController@punycode');
-    Route::get('/image/{action}', 'ApiController@image');
-    Route::get('/md5/{string}', 'ApiController@md5');
-    Route::get('/user-agent', 'ApiController@userAgent');
-    Route::get('/hash/{string}', 'ApiController@hash');
-    Route::get('/ip/{ip?}', 'ApiController@ip')->where(['ip' => '[0-9.]+']);
-    Route::get('/date/{date?}', 'ApiController@date');
-    Route::get('/timestamp/{timestamp?}', 'ApiController@timestamp')->where(['timestamp' => '[0-9]+']);
-    Route::get('/bankcard/{cardNo}', 'ApiController@bankcard')->where(['cardNo' => '[0-9]+']);
+    Route::get('parking', [ApiController::class, 'parking']);
+    Route::get('number/{start}/{end}/{action?}', [ApiController::class, 'number']);
+    Route::get('/html_sc/{string}', [ApiController::class, 'htmlSC']);
+    Route::get('/secret/{string}', [ApiController::class, 'secret']);
+    Route::get('/array', [ApiController::class, 'array']);
+    Route::get('/random', [ApiController::class, 'random']);
+    Route::get('/url_decode/{string}', [ApiController::class, 'urlDecode']);
+    Route::get('/url_encode/{string}', [ApiController::class, 'urlEncode']);
+    Route::get('/base64_encode/{string}', [ApiController::class, 'base64_encode']);
+    Route::get('/base64_decode/{string}', [ApiController::class, 'base64_decode']);
+    Route::get('/utf8_to_unicode/{string}', [ApiController::class, 'utf8_to_unicode']);
+    Route::get('/unicode_to_utf8/{string}', [ApiController::class, 'unicode_to_utf8']);
+    Route::get('/punycode/{string}', [ApiController::class, 'punycode']);
+    Route::get('/image/{action}', [ApiController::class, 'image']);
+    Route::get('/md5/{string}', [ApiController::class, 'md5']);
+    Route::get('/user-agent', [ApiController::class, 'userAgent']);
+    Route::get('/hash/{string}', [ApiController::class, 'hash']);
+    Route::get('/ip/{ip?}', [ApiController::class, 'ip'])->where(['ip' => '[0-9.]+']);
+    Route::get('/date/{date?}', [ApiController::class, 'date']);
+    Route::get('/timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
+    Route::get('/bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
 
-    Route::get('/posts', 'PostController@index');
-    Route::get('/posts/{post}', 'PostController@show');
-    Route::get('/categories', 'PostCategoryController@index');
-    Route::get('/tags', 'PostTagController@index');
-
-    Route::group(['middleware' => 'auth:api'], function ($api) {
-        Route::resource('/posts', 'PostController', ['except' => ['index', 'show']]);
-        Route::resource('/projects', 'ProjectController');
-        Route::post('/tasks', 'TaskController@store');
-        Route::put('/tasks/{task}', 'TaskController@update');
-        // Game
-        Route::get('/game', 'GameController@index');
-        Route::get('/backpack', 'BackpackController@index');
-    });
-
-    Route::group(['prefix' => 'user'], function ($api) {
-        Route::post('register', 'AuthController@register');
-        Route::post('login', 'AuthController@login');
-        Route::post('refresh', 'AuthController@refresh');
-
-        Route::group(['middleware' => 'auth:api'], function ($api) {
-            Route::put('password', 'UserController@password');
-            Route::post('logout', 'AuthController@logout');
-            Route::post('profile', 'AuthController@profile');
-        });
-    });
+    // 文章
+    Route::get('/posts', [PostController::class, 'index']);
+    Route::get('/posts/{post}', [PostController::class, 'show']);
+    Route::get('/categories', [PostCategoryController::class, 'index']);
+    Route::get('/tags', [PostTagController::class, 'index']);
 });

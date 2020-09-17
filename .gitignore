@@ -25,3 +25,4 @@ _ide_helper_models.php
 
 ## Cache
 .php_cs.cache
+.phpunit.result.cache
