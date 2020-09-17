@@ -28,8 +28,7 @@
         "spatie/laravel-json-api-paginate": "^1.8",
         "spatie/laravel-query-builder": "^3.2",
         "symfony/dom-crawler": "^5.1",
-        "true/punycode": "^2.1",
-        "upyun/sdk": "^3.5"
+        "true/punycode": "^2.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
