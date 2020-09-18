@@ -16,28 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'user',
-], function ($router) {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('refresh', [AuthController::class, 'refresh']);
-    Route::post('profile', [AuthController::class, 'profile']);
-    Route::put('password', [UserController::class, 'password']);
-});
-
-Route::group(['middleware' => 'api'], function ($router) {
-    Route::resource('/posts', 'PostController', ['except' => ['index', 'show']]);
-    Route::resource('/projects', 'ProjectController');
-    Route::post('/tasks', [TaskController::class, 'store']);
-    Route::put('/tasks/{task}', [TaskController::class, 'update']);
-    // Game
-    Route::get('/game', [GameController::class, 'index']);
-    Route::get('/backpack', [BackpackController::class, 'index']);
-});
-
 Route::group(['middleware' => 'api'], function ($router) {
     Route::get('/', [IndexController::class, 'url']);
 
@@ -108,4 +86,22 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('/posts/{post}', [PostController::class, 'show']);
     Route::get('/categories', [PostCategoryController::class, 'index']);
     Route::get('/tags', [PostTagController::class, 'index']);
+
+    Route::group([
+        'prefix' => 'user',
+    ], function ($router) {
+        Route::post('register', [AuthController::class, 'register']);
+        Route::post('login', [AuthController::class, 'login']);
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+        Route::post('profile', [AuthController::class, 'profile']);
+        Route::put('password', [UserController::class, 'password']);
+    });
+
+    Route::group(['middleware' => 'auth:api'], function ($router) {
+        Route::resource('/posts', PostController::class, ['except' => ['index', 'show']]);
+        Route::resource('/projects', ProjectController::class);
+        Route::post('/tasks', [TaskController::class, 'store']);
+        Route::put('/tasks/{task}', [TaskController::class, 'update']);
+    });
 });
