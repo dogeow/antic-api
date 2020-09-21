@@ -12,4 +12,29 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    /**
+     * 数字转优先级
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getPriorityAttribute($value)
+    {
+        switch ($value) {
+            case 1:
+                $priority = '低';
+                break;
+            case 2:
+                $priority = '中';
+                break;
+            case 3:
+                $priority = '高';
+                break;
+            default:
+                $priority = '中';
+        }
+
+        return $priority;
+    }
 }
