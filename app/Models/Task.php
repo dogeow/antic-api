@@ -14,7 +14,7 @@ class Task extends Model
     }
 
     /**
-     * 数字转优先级
+     * 数字转优先级.
      *
      * @param  string  $value
      * @return string
