@@ -10,7 +10,7 @@ class MoonController extends Controller
     public function create(Request $request)
     {
         // 验证格式
-        $rules = ['name' => ['required']];
+        $rules = ['name' => ['required', 'unique:moons']];
         $validator = \Validator::make(request(['name']), $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
