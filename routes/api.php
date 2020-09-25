@@ -23,8 +23,8 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('/index', [IndexController::class, 'index']);
 
     // 博饼
-    Route::post('/moon', [MoonController::class, 'create']);
     Route::get('/moon', [MoonController::class, 'index']);
+    Route::post('/moon', [MoonController::class, 'create']);
     Route::post('/start', [MoonHistoryController::class, 'start']);
 
     // 喜欢
