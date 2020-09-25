@@ -239,7 +239,7 @@ class MoonHistoryController extends Controller
 
     public function start(Request $request)
     {
-        $user = Moon::where('name', $request->user)->first();
+        $user = Moon::where('name', $request->name)->first();
         if (count($user->moonHistory) >= 6) {
             return '已满6次！';
         }
