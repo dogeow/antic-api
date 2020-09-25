@@ -10,7 +10,7 @@ class MoonController extends Controller
     public function create(Request $request)
     {
         // 验证格式
-        $rules = ['name' => ['required'],];
+        $rules = ['name' => ['required']];
         $validator = \Validator::make(request(['name']), $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
@@ -24,7 +24,7 @@ class MoonController extends Controller
 
     public function index(Request $request)
     {
-        if (!empty($request->name)) {
+        if (! empty($request->name)) {
             $user = Moon::where('name', $request->name)->first();
             $history = $user->moonHistory;
         }
