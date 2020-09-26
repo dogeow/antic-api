@@ -37,4 +37,21 @@ class Task extends Model
 
         return $priority;
     }
+
+    public function setPriorityAttribute($value)
+    {
+        switch ($value) {
+            case '高':
+                $this->attributes['priority'] = 3;
+                break;
+            case '中':
+                $this->attributes['priority'] = 2;
+                break;
+            case '低':
+                $this->attributes['priority'] = 1;
+                break;
+            default:
+                $this->attributes['priority'] = $value;
+        }
+    }
 }
