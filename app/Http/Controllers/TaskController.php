@@ -25,7 +25,7 @@ class TaskController extends Controller
 
     public function update(Task $task, Request $request)
     {
-        if ($request->input('priority') && !in_array($request->input('priority'), [1, 2, 3, '低', '中', '高'])) {
+        if ($request->input('priority') && ! in_array($request->input('priority'), [1, 2, 3, '低', '中', '高'])) {
             return response()->json(['message' => '值在1（低）），2（中），3（高）范围'], 400);
         }
 
