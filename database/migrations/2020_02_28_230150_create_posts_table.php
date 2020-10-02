@@ -17,6 +17,8 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->mediumText('content');
+            $table->boolean('public')->default(1);
+            $table->string('secret')->nullable();
             $table->timestamps();
         });
     }
