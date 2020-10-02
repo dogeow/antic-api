@@ -99,7 +99,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     });
 
     Route::group(['middleware' => 'auth:api'], function ($router) {
-        Route::resource('/posts', PostController::class, ['except' => ['index', 'show']]);
+        Route::apiResource('/posts', PostController::class);
         Route::resource('/projects', ProjectController::class);
         Route::post('/tasks', [TaskController::class, 'store']);
         Route::put('/tasks/{task}', [TaskController::class, 'update']);

@@ -29,7 +29,8 @@
         "spatie/laravel-query-builder": "^3.2",
         "symfony/dom-crawler": "^5.1",
         "tcg/voyager": "^1.4",
-        "true/punycode": "^2.1"
+        "true/punycode": "^2.1",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
