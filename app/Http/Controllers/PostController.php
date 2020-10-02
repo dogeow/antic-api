@@ -18,7 +18,11 @@ class PostController extends Controller
 
     public function index()
     {
-        $query = Post::with(['tags:id,post_id,name', 'category:id,post_id,name'])->public();
+        $query = Post::with(['tags:id,post_id,name', 'category:id,post_id,name']);
+
+        if ((auth('api')->user()->id ?? null) !== 1) {
+            $query = $query->public();
+        }
 
         return QueryBuilder::for($query)->allowedFilters(['category.name', 'tags.name'])->jsonPaginate(10);
     }
