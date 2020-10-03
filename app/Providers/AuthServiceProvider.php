@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -14,7 +13,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
@@ -24,11 +22,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        $this->registerPolicies();
         Gate::guessPolicyNamesUsing(function ($modelClass) {
-            return Str::startsWith($modelClass, 'App\Models')
-                ? 'App\Policies\\'.str_replace('App\Models\\', '', $modelClass).'Policy'
-                : 'App\Policies\\'.class_basename($modelClass).'Policy';
+            return 'App\Policies\\'.class_basename($modelClass).'Policy';
         });
     }
 }
