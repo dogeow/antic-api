@@ -10,4 +10,9 @@ class QuoteController extends Controller
     {
         return Quote::all();
     }
+
+    public function random()
+    {
+        return Quote::all()->random(1)->first();
+    }
 }

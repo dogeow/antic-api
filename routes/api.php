@@ -32,6 +32,7 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     // 自言自语
     Route::get('/quotes', [QuoteController::class, 'index']);
+    Route::get('/quote', [QuoteController::class, 'random']);
 
     // 关于我
     Route::get('/about_me', [AboutMeController::class, 'index']);
