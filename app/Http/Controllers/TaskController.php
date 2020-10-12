@@ -19,6 +19,7 @@ class TaskController extends Controller
         return Task::create([
             'title' => $validatedData['title'],
             'project_id' => $request->project_id,
+            'priority' => (int) $request->priority,
             'is_completed' => 0,
         ]);
     }
