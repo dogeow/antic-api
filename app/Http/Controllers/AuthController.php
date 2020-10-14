@@ -36,7 +36,7 @@ class AuthController extends Controller
             'password' => ['required', 'not_regex:/\s+/', 'min:8', 'max:16'],
             'password_confirmation' => ['same:password'],
         ];
-        $validator = Validator::make($payload, $rules);
+        $validator = \Validator::make($payload, $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         }
@@ -70,7 +70,7 @@ class AuthController extends Controller
 
         // 验证格式
         $rules = [
-            'email' => ['required'],
+            'email' => ['required', 'email'],
             'password' => ['required', 'min:8', 'max:16'],
             'remember_me' => 'boolean',
         ];
