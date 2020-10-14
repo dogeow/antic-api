@@ -32,7 +32,7 @@ class AuthController extends Controller
                     }
                 },
             ],
-            'email' => ['required', 'not_regex:/\s+/', 'email', 'unique:users'],
+            'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'not_regex:/\s+/', 'min:8', 'max:16'],
             'password_confirmation' => ['same:password'],
         ];
