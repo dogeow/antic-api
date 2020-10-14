@@ -13,7 +13,7 @@ class PoweredByController extends Controller
     {
         $params = ['name', 'category', 'note'];
         $query = PoweredBy::when($request->search, function ($query) use ($request) {
-            return $query->where(DB::raw('concat_ws(name, note, link)'), 'like', '%'.$request->search.'%');
+            return $query->where(DB::raw('concat_ws(name, note)'), 'like', '%'.$request->search.'%');
         });
 
         return QueryBuilder::for($query)
