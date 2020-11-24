@@ -4,19 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use Illuminate\Http\Request;
-use Upyun\Config;
-use Upyun\Upyun;
 
 class ImageController extends Controller
 {
-    public $client;
-
-    public function __construct()
-    {
-        $serviceConfig = new Config(env('CDN_SERVICE_NAME'), env('CDN_OPERATOR_NAME'), env('CDN_OPERATOR_PASSWORD'));
-        $this->client = new Upyun($serviceConfig);
-    }
-
     public function store(Request $request)
     {
         $key = 'emoji';

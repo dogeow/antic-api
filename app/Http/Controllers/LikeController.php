@@ -4,19 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Like;
 use Illuminate\Http\Request;
-use Upyun\Config;
-use Upyun\Upyun;
 
 class LikeController extends Controller
 {
-    public $client;
-
-    public function __construct()
-    {
-        $serviceConfig = new Config(env('CDN_SERVICE_NAME'), env('CDN_OPERATOR_NAME'), env('CDN_OPERATOR_PASSWORD'));
-        $this->client = new Upyun($serviceConfig);
-    }
-
     public function index()
     {
 //        $path = __FUNCTION__;
@@ -45,9 +35,6 @@ class LikeController extends Controller
 
         $filename = $request->file($key)->getClientOriginalName();
 
-        // 放到又拍云
-        $file = fopen($request->file($key), 'r');
-
-        return $this->client->write($key.'/'.$filename, $file);
+//        $file = fopen($request->file($key), 'r');
     }
 }
