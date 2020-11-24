@@ -26,7 +26,7 @@ class Helpers
         return $ossClient;
     }
 
-    public static function getBucketName()
+    public static function getBucketName(): string
     {
         return self::bucket;
     }
@@ -34,7 +34,7 @@ class Helpers
     /**
      * A tool function which creates a bucket and exists the process if there are exceptions.
      */
-    public static function createBucket()
+    public static function createBucket(): void
     {
         $ossClient = self::getOssClient();
         if (is_null($ossClient)) {
@@ -49,7 +49,9 @@ class Helpers
             if (\OSS\Core\OssUtil::startsWith($message, 'http status: 403')) {
                 echo 'Please Check your AccessKeyId and AccessKeySecret'."\n";
                 exit(0);
-            } elseif (strpos($message, 'BucketAlreadyExists') !== false) {
+            }
+
+            if (strpos($message, 'BucketAlreadyExists') !== false) {
                 echo 'Bucket already exists. Please check whether the bucket belongs to you, or it was visited with correct endpoint. '."\n";
                 exit(0);
             }
@@ -61,10 +63,10 @@ class Helpers
         echo __FUNCTION__.': OK'."\n";
     }
 
-    public static function println($message)
+    public static function println($message): void
     {
         if (! empty($message)) {
-            echo strval($message)."\n";
+            echo (string) $message."\n";
         }
     }
 }
