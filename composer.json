@@ -30,7 +30,8 @@
         "symfony/dom-crawler": "^5.1",
         "tcg/voyager": "^1.4",
         "true/punycode": "^2.1",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",

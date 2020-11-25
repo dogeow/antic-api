@@ -29,7 +29,7 @@ class GitHubController extends Controller
         if (hash_equals($hash, hash_hmac($algo, $rawPost, $secret))) {
             $isBuild = false;
             foreach ($arrayPost['head_commit']['modified'] as $key => $value) {
-                if ('resources/' === substr($value, 0, 10)) {
+                if (strpos($value, 'resources/') === 0) {
                     $isBuild = true;
                     break;
                 }
@@ -38,8 +38,8 @@ class GitHubController extends Controller
             ProcessGithubWebhook::dispatch($cmd);
 
             return $cmd;
-        } else {
-            return http_response_code(404);
         }
+
+        return http_response_code(404);
     }
 }
