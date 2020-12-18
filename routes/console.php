@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Notification;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
 Artisan::command('test', function () {
 //    $result = OSS::put('233/robots.txt', file_get_contents(public_path('robots.txt')));
 //    \

@@ -11,6 +11,16 @@ class AuthController extends Controller
     protected $guard = 'api';
 
     /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
+
+    /**
      * 创建用户.
      *
      * @param [string] name
@@ -19,7 +29,7 @@ class AuthController extends Controller
      * @param [string] password_confirmation
      * @return JsonResponse
      */
-    public function register()
+    public function register(): JsonResponse
     {
         $payload = request(['name', 'email', 'password', 'password_confirmation']);
 
@@ -63,7 +73,7 @@ class AuthController extends Controller
      * @param  [boolean] remember_me
      * @return JsonResponse
      */
-    public function login()
+    public function login(): JsonResponse
     {
         $credentials = request(['email', 'password']);
         $rememberMe = request('remember_me');
@@ -99,17 +109,17 @@ class AuthController extends Controller
     /**
      * 获取已认证的用户信息.
      */
-    public function profile()
+    public function profile(): JsonResponse
     {
-        return $this->guard()->user();
+        return response()->json(auth()->user());
     }
 
     /**
      * 注销用户（使令牌无效）.
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
-        $this->guard()->logout();
+        auth()->logout();
 
         return response()->json(['message' => '成功退出']);
     }
@@ -117,9 +127,9 @@ class AuthController extends Controller
     /**
      * 刷新 token.
      */
-    public function refresh()
+    public function refresh(): JsonResponse
     {
-        return $this->respondWithToken($this->guard()->refresh());
+        return $this->respondWithToken(auth()->refresh());
     }
 
     /**
@@ -128,12 +138,12 @@ class AuthController extends Controller
      * @param  string  $token
      * @return JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($token): JsonResponse
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60,
+            'expires_in' => auth()->factory()->getTTL() * 60,
         ]);
     }
 
@@ -142,7 +152,7 @@ class AuthController extends Controller
      *
      * @return Guard
      */
-    public function guard()
+    public function guard(): Guard
     {
         return \Auth::guard($this->guard);
     }

@@ -8,40 +8,31 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3",
-        "algolia/algoliasearch-client-php": "^2.7",
+        "php": "^7.3|^8.0",
         "aliyuncs/oss-sdk-php": "^2.4",
-        "beyondcode/laravel-websockets": "^1.8",
-        "deployer/deployer": "^6.8",
-        "fideloper/proxy": "^4.2",
+        "dcat/laravel-admin": "^1.7",
+        "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel-lang/lang": "~7.0",
-        "laravel/framework": "^8.0",
-        "laravel/scout": "^8.3",
-        "laravel/slack-notification-channel": "^2.2",
-        "laravel/tinker": "^2.0",
-        "nesk/puphpeteer": "^1.6",
-        "predis/predis": "^1.1",
+        "laravel-lang/lang": "~8.0",
+        "laravel/framework": "^8.12",
+        "laravel/slack-notification-channel": "^2.3",
+        "laravel/tinker": "^2.5",
+        "nesk/puphpeteer": "^2.0",
         "pusher/pusher-php-server": "^4.1",
-        "sentry/sentry-laravel": "^1.9",
-        "spatie/laravel-json-api-paginate": "^1.8",
-        "spatie/laravel-query-builder": "^3.2",
-        "symfony/dom-crawler": "^5.1",
-        "tcg/voyager": "^1.4",
+        "sentry/sentry-laravel": "^2.3",
+        "spatie/laravel-json-api-paginate": "^1.10",
+        "spatie/laravel-query-builder": "^3.3",
+        "symfony/dom-crawler": "^5.2",
         "true/punycode": "^2.1",
-        "tymon/jwt-auth": "^1.0",
-        "ext-json": "*"
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.8",
-        "facade/ignition": "^2.3.6",
-        "fzaninotto/faker": "^1.9.1",
-        "laravel/telescope": "^4.0",
-        "mockery/mockery": "^1.3.1",
+        "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.9.1",
+        "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "phpstan/phpstan": "^0.12.51",
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^9.3.3"
     },
     "config": {
         "optimize-autoloader": true,
@@ -50,9 +41,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-                "laravel/telescope"
-            ]
+            "dont-discover": []
         }
     },
     "autoload": {
@@ -80,11 +69,5 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    },
-    "repositories": {
-        "hooks": {
-            "type": "composer",
-            "url": "https://larapack.io"
-        }
     }
 }

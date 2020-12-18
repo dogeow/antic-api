@@ -16,9 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->isLocal()) {
-            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
-        }
+        //
     }
 
     /**
@@ -28,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+        // Schema::defaultStringLength(191);
         if (env('SQL_DEBUG_LOG')) {
             DB::listen(function ($query) {
                 Log::debug('DB: '.$query->sql.'['.implode(',', $query->bindings).']');
