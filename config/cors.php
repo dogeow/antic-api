@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['233.sx', '127.0.0.1:3000'],
+    'allowed_origins' => ['https://233.sx', 'http://127.0.0.1:3000'],
 
     'allowed_origins_patterns' => [],
 
