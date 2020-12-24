@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Laravel\Scout\Searchable;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PostController extends Controller
 {
-    use Searchable;
-
     public function __construct()
     {
         $this->authorizeResource(Post::class, 'post', ['except' => ['index', 'show']]);
