@@ -9,16 +9,6 @@ class LikeController extends Controller
 {
     public function index()
     {
-//        $path = __FUNCTION__;
-//        $data = $this->client->read($path, null, []);
-//
-//        $fileAddSrc = array_map(function (&$file) use ($path) {
-//            $file['src'] = env('CDN_URL')."/{$path}/{$file['name']}";
-//
-//            return $file;
-//        }, $data['files']);
-//        $data['files'] = $fileAddSrc;
-
         return Like::all();
     }
 
