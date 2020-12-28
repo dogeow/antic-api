@@ -88,6 +88,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('/categories', [PostCategoryController::class, 'index']);
     Route::get('/tags', [PostTagController::class, 'index']);
 
+    // PHP 函数
+    Route::get('/php-function', [PHPFunctionController::class, 'index']);
+
     Route::group([
         'prefix' => 'user',
     ], function ($router) {
