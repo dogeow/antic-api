@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PoweredBy;
-use Illuminate\Http\Request;
 use App\Models\PhpFunction;
 use App\Models\PhpFunctionCategory;
+use App\Models\PoweredBy;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class PHPFunctionController extends Controller
+class PhpFunctionController extends Controller
 {
     /**
      * @return array
