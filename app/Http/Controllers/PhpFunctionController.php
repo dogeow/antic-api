@@ -17,12 +17,15 @@ class PhpFunctionController extends Controller
     public function index(Request $request)
     {
         $query = PhpFunction::when($request->search, function ($query) use ($request) {
-            return $query->where(DB::raw('concat_ws(name, intro)'), 'like', '%'.$request->search.'%');
+            return $query->where('name', 'LIKE', '%'.$request->search.'%')
+                ->orWhere('intro', 'LIKE', '%'.$request->search.'%');
         });
-        $function = QueryBuilder::for($query)->allowedFilters(['name', 'intro'])->first()->toArray();
-        $categories = PhpFunctionCategory::where('id', $function['category_id'])->first()->value('name');
-        $function['category'] = $categories;
+        $functions = QueryBuilder::for($query)->allowedFilters(['name', 'intro'])->get();
+        $categories = PhpFunctionCategory::all();
+        foreach ($functions as &$function) {
+            $function['category'] = $categories[$function['category_id'] - 1]['name'];
+        }
 
-        return $function;
+        return $functions;
     }
 }
