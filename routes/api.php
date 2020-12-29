@@ -89,7 +89,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('/tags', [PostTagController::class, 'index']);
 
     // PHP 函数
-    Route::post('/php-function', [PHPFunctionController::class, 'index']);
+    Route::post('/php-function', [PhpFunctionController::class, 'index']);
 
     Route::group([
         'prefix' => 'user',
