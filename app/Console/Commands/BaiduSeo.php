@@ -56,20 +56,16 @@ class BaiduSeo extends Command
         ]);
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): void
     {
         $sites = Site::all();
         foreach ($sites as $site) {
             $count = $this->spider($site->domain);
-            if (null !== $count) {
-                $site->seo = $count;
-                $site->save();
+            if (null === $count) {
+                continue;
             }
+            $site->seo = $count;
+            $site->save();
         }
     }
 
@@ -84,12 +80,13 @@ class BaiduSeo extends Command
             $response = $this->guzzleClient->request('GET', $url);
         } catch (\Exception  $e) {
             echo $e->getMessage();
+            exit;
         }
 
         $content = $response->getBody()->getContents();
-        if (preg_match('/找到相关结果数约(?P<count>[\d,]+)个/', $content, $match)) {
+        if (preg_match('/找到相关结果数约(?P<count>[\d,]+)个/u', $content, $match)) {
             $count = str_replace(',', '', $match['count']);
-        } elseif (preg_match('/很抱歉，没有找到与/', $content, $matches)) {
+        } elseif (preg_match('/很抱歉，没有找到与/u', $content, $matches)) {
             $count = 0;
         } else {
             $crawler = new Crawler($content);
