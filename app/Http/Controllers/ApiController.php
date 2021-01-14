@@ -223,6 +223,6 @@ class ApiController extends Controller
 
     public function howTime($content)
     {
-        return date("Y-m-d", strtotime($content));
+        return date('Y-m-d', strtotime($content));
     }
 }
