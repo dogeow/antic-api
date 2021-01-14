@@ -90,4 +90,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return env('SLACK_WEBHOOK_URL');
     }
+
+    public function isAuthorOf($model)
+    {
+        return $this->id === $model->user_id;
+    }
 }

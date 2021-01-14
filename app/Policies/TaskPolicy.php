@@ -53,7 +53,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        return $user->id === $task->project->user_id;
+        return $user->isAuthorOf($task->project);
     }
 
     /**
@@ -65,7 +65,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task)
     {
-        return $user->id === $task->project->user_id;
+        return $user->isAuthorOf($task->project);
     }
 
     /**
@@ -77,7 +77,7 @@ class TaskPolicy
      */
     public function restore(User $user, Task $task)
     {
-        return $user->id === $task->project->user_id;
+        return $user->isAuthorOf($task->project);
     }
 
     /**
@@ -89,6 +89,6 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task)
     {
-        return $user->id === $task->project->user_id;
+        return $user->isAuthorOf($task->project);
     }
 }
