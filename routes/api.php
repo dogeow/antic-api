@@ -79,6 +79,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('/hash/{string}', [ApiController::class, 'hash']);
     Route::get('/ip/{ip?}', [ApiController::class, 'ip'])->where(['ip' => '[0-9.]+']);
     Route::get('/date/{date?}', [ApiController::class, 'date']);
+    Route::get('/how-time/{content}', [ApiController::class, 'howTime']);
     Route::get('/timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
     Route::get('/bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
 

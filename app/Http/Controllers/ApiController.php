@@ -112,6 +112,7 @@ class ApiController extends Controller
 
         $random = rand(0, count($wallpapers) - 1);
         $wallpaperURL = $wallpaperFolder.$wallpapers[$random];
+
 //        $wallpaperURL = env('CDN_URL') . '/wallpaper/' . $wallpapers[$random];
         return response()->stream(function () use ($wallpaperURL) {
             echo file_get_contents($wallpaperURL);
@@ -204,9 +205,9 @@ class ApiController extends Controller
     {
         if ('&' === substr($string, 0, 1)) {
             return htmlspecialchars_decode($string);
-        } else {
-            return htmlspecialchars($string);
         }
+
+        return htmlspecialchars($string);
     }
 
     public function ip($ip = null)
@@ -215,8 +216,13 @@ class ApiController extends Controller
             $content = file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);
 
             return response($content)->header('Content-Type', 'application/json');
-        } else {
-            return $_SERVER['REMOTE_ADDR'];
         }
+
+        return $_SERVER['REMOTE_ADDR'];
+    }
+
+    public function howTime($content)
+    {
+        return date("Y-m-d", strtotime($content));
     }
 }
