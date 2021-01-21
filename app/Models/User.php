@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Post;
-use App\Models\Project;
-use App\Models\Task;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
