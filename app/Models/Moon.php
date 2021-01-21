@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Moon extends Model
 {
     protected $guarded = [];
 
-    public function moonHistory()
+    public function moonHistory(): HasMany
     {
         return $this->hasMany(MoonHistory::class);
     }
 
-    public function statistics()
+    public function statistics(): array
     {
         return [
             'user' => self::count(),

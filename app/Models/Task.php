@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
 {
     protected $fillable = ['title', 'project_id', 'is_completed', 'priority'];
 
-    public function project()
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
@@ -19,7 +20,7 @@ class Task extends Model
      * @param  string  $value
      * @return string
      */
-    public function getPriorityAttribute($value)
+    public function getPriorityAttribute($value): string
     {
         switch ($value) {
             case 1:

@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Post extends Model
 {
@@ -17,17 +20,17 @@ class Post extends Model
         'secret',
     ];
 
-    public function tags()
+    public function tags(): HasMany
     {
         return $this->hasMany(PostTag::class);
     }
 
-    public function category()
+    public function category(): HasOne
     {
         return $this->hasOne(PostCategory::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
