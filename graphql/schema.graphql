@@ -15,6 +15,9 @@ type Query {
     category(id: Int! @eq): PostCategory @find
     tags: [PostTag!]! @all
     tag(id: Int! @eq): PostTag @find
+    quote: String!
+    projects: [Project!]! @all  @guard(with: ["api"])
+    project(id: Int! @eq): Project! @find
 }
 
 type User {
@@ -24,6 +27,7 @@ type User {
     created_at: DateTime!
     updated_at: DateTime!
     posts: [Post!]! @hasMany
+    projects: [Project!]! @hasMany
 }
 
 type Post {
@@ -45,6 +49,24 @@ type PostTag {
     id: ID!
     name: String
     post: Post! @belongsTo
+}
+
+type Project {
+    id: ID!
+    name: String!
+    description: String!
+    is_completed: Boolean!
+    user: User! @belongsTo
+    tasks: [Tasks]! @hasMany
+    taskCount: Int! @count(relation: "tasks")
+}
+
+type Tasks {
+    id: ID!
+    title: String!
+    is_completed: Boolean!
+    priority: Int!
+    project: Project! @belongsTo
 }
 
 type Mutation {

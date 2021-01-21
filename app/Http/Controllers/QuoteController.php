@@ -13,6 +13,6 @@ class QuoteController extends Controller
 
     public function random()
     {
-        return Quote::all()->random(1)->first();
+        return Quote::all()->random(1)->first()->content;
     }
 }
