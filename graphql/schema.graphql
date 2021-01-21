@@ -16,8 +16,11 @@ type Query {
     tags: [PostTag!]! @all
     tag(id: Int! @eq): PostTag @find
     quote: String!
-    projects: [Project!]! @all  @guard(with: ["api"])
     project(id: Int! @eq): Project! @find
+}
+
+extend type Query @guard {
+    projects: [Project!]! @all(scopes: ["completed"])
 }
 
 type User {
@@ -57,7 +60,7 @@ type Project {
     description: String!
     is_completed: Boolean!
     user: User! @belongsTo
-    tasks: [Tasks]! @hasMany
+    tasks: [Tasks]! @hasMany(scopes: ["completed"])
     taskCount: Int! @count(relation: "tasks")
 }
 
