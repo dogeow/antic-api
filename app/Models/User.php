@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Post;
+use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -59,34 +65,32 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
 
-    public function projects()
+    public function projects(): hasMany
     {
-        return $this->hasMany('App\Models\Project');
+        return $this->hasMany(Project::class);
     }
 
-    public function tasks()
+    public function tasks(): HasManyThrough
     {
-        return $this->hasManyThrough('App\Models\Task', 'App\Models\Project');
+        return $this->hasManyThrough(Task::class, Project::class);
     }
 
-    public function posts()
+    public function posts(): HasMany
     {
-        return $this->hasMany('App\Models\Post');
+        return $this->hasMany(Post::class);
     }
 
     /**
      * Route notifications for the Slack channel.
      *
-     * @param \Illuminate\Notifications\Notification $notification
-     *
      * @return string
      */
-    public function routeNotificationForSlack($notification)
+    public function routeNotificationForSlack(): string
     {
         return env('SLACK_WEBHOOK_URL');
     }
