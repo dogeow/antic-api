@@ -30,7 +30,7 @@ class Post extends Model
         return $this->hasOne(PostCategory::class);
     }
 
-    public function author(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

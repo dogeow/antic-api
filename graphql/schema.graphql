@@ -11,6 +11,10 @@ type Query {
     users: [User!]! @paginate(defaultCount: 10)
     post(id: Int! @eq): Post @find
     posts: [Post!]! @all
+    categories: [PostCategory!]! @all
+    category(id: Int! @eq): PostCategory @find
+    tags: [PostTag!]! @all
+    tag(id: Int! @eq): PostTag @find
 }
 
 type User {
@@ -26,7 +30,21 @@ type Post {
     id: ID!
     title: String!
     content: String!
-    author: User! @belongsTo
+    user: User! @belongsTo
+    category: PostCategory! @hasOne
+    tags: [PostTag!]! @hasMany
+}
+
+type PostCategory {
+    id: ID!
+    name: String!
+    post: Post! @belongsTo
+}
+
+type PostTag {
+    id: ID!
+    name: String
+    post: Post! @belongsTo
 }
 
 type Mutation {
