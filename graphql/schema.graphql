@@ -18,6 +18,8 @@ type Query {
     quote: String!
     project(id: Int! @eq): Project! @find
     aboutMe: [AboutMe!]! @all
+    quotes: [Quote!]! @all
+    parking: [Parking!]!
 }
 
 extend type Query @guard {
@@ -81,4 +83,13 @@ type AboutMe {
     id: ID!
     category: String!
     content: String!
+}
+
+type Quote {
+    content: String!
+}
+
+type Parking {
+    id:ID!
+    status: Boolean!
 }
