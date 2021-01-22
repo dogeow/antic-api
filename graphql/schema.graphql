@@ -17,6 +17,7 @@ type Query {
     tag(id: Int! @eq): PostTag @find
     quote: String!
     project(id: Int! @eq): Project! @find
+    aboutMe: [AboutMe!]! @all
 }
 
 extend type Query @guard {
@@ -74,4 +75,10 @@ type Tasks {
 
 type Mutation {
     createUser(name: String!, email: String!): User! @create
+}
+
+type AboutMe {
+    id: ID!
+    category: String!
+    content: String!
 }
