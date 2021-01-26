@@ -12,8 +12,8 @@ class AboutMeTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
-        $this->assertIsArray((new AboutMeController)->index());
+        self::assertIsArray((new AboutMeController)->index());
     }
 }
