@@ -17,7 +17,7 @@ type Query {
     tag(id: Int! @eq): PostTag @find
     quote: String!
     project(id: Int! @eq): Project! @find
-    aboutme: [AboutMe!]! @all
+    aboutMe: [AboutMe!]! @all
     quotes: [Quote!]! @all
     parking: [Parking!]!
 }
