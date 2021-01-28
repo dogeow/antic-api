@@ -64,7 +64,7 @@ class ImageController extends Controller
     public function index()
     {
         return collect(\File::files(public_path().'/storage/'.$this->folder.'/'))->map(function ($item) {
-                return '/storage/'.$this->folder.'/'.$item->getFilename();
-            }) ?? [];
+            return '/storage/'.$this->folder.'/'.$item->getFilename();
+        }) ?? [];
     }
 }
