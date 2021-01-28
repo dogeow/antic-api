@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use App\Services\OSS;
 use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
+    public $folder = 'images/emoji';
+
     public function store(Request $request)
     {
+
         $key = 'emoji';
         if (false === $request->hasFile($key)) {
             return '没有文件';
@@ -38,7 +42,7 @@ class ImageController extends Controller
         }
 
         $path = $request->file($key)->storeAs(
-            'images/emoji',
+            $this->folder,
             $filename,
             'public'
         );
@@ -49,6 +53,8 @@ class ImageController extends Controller
             'name' => $filename,
         ]);
 
+        OSS::publicUpload('antic-lab', $filename, \Storage::disk('public')->path($this->folder.'/'.$filename));
+
         return [
             'url' => $path ? config('app.url').'/storage/'.$path : false,
         ];
@@ -56,8 +62,8 @@ class ImageController extends Controller
 
     public function index()
     {
-        return collect(\File::files(public_path().'/storage/images/emoji/'))->map(function ($item) {
-            return '/storage/images/emoji/'.$item->getFilename();
-        }) ?? [];
+        return collect(\File::files(public_path().'/storage/'.$this->folder.'/'))->map(function ($item) {
+                return '/storage/'.$this->folder.'/'.$item->getFilename();
+            }) ?? [];
     }
 }

@@ -26,7 +26,7 @@ class OSS
      */
     public function __construct($isInternal = false)
     {
-        if ($this->networkType === 'VPC' && ! $isInternal) {
+        if ($this->networkType === 'VPC' && !$isInternal) {
             throw new Exception('VPC 网络下不提供外网上传、下载等功能');
         }
 
@@ -34,8 +34,8 @@ class OSS
             $this->city,
             $this->networkType,
             $isInternal,
-            config('access_key_id'),
-            config('access_key_secret')
+            config('oss.access_key_id'),
+            config('oss.access_key_secret'),
         );
     }
 
