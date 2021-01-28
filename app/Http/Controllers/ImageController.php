@@ -25,9 +25,8 @@ class ImageController extends Controller
         $existImage = Image::where('original_name', $originalName)->orderByDesc('id')->first();
         if ($existImage) {
             // 获取文件名和扩展名
-            preg_match('/^(.*)\.(.*?)$/', $originalName, $matches);
-            $name = $matches[1];
-            $extension = $matches[2];
+            $name = $request->file($key)->getClientOriginalName();
+            $extension = $request->file($key)->extension();
             if ($existImage['name'] === $existImage['original_name']) { // 第二个同名文件
                 $filename = $name.'@2.'.$extension;
             } else {
