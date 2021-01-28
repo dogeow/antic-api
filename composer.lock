@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "289e400dea8e1ea53f9dda36c642030a",
+    "content-hash": "b408bc4059a62d54a8ac92df85ad78d4",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -2531,6 +2531,58 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/1.5.1"
             },
             "time": "2020-09-14T08:43:34+00:00"
+        },
+        {
+            "name": "johnlui/aliyun-oss-laravel7",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/johnlui/AliyunOSS-Laravel7.git",
+                "reference": "a0be45da8f49bd9268aff872c8e8ed007292101f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/johnlui/AliyunOSS-Laravel7/zipball/a0be45da8f49bd9268aff872c8e8ed007292101f",
+                "reference": "a0be45da8f49bd9268aff872c8e8ed007292101f",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/AliyunOSS.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Lui",
+                    "email": "wenhanlv@gmail.com"
+                }
+            ],
+            "description": "阿里云 OSS 官方 SDK 的 Composer 封装，支持任何 PHP 项目，包括 Laravel、Symfony、TinyLara 等等。",
+            "homepage": "https://github.com/johnlui/AliyunOSS",
+            "keywords": [
+                "AliyunOSS",
+                "aliyun",
+                "oss"
+            ],
+            "support": {
+                "issues": "https://github.com/johnlui/AliyunOSS-Laravel7/issues",
+                "source": "https://github.com/johnlui/AliyunOSS-Laravel7/tree/master"
+            },
+            "time": "2020-06-19T04:41:52+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
