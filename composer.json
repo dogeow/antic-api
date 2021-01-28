@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "aliyuncs/oss-sdk-php": "^2.4",
         "dcat/laravel-admin": "^1.7",
         "enlightn/enlightn": "^1.7",
         "fideloper/proxy": "^4.4",
