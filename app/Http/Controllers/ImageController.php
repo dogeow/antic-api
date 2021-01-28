@@ -52,17 +52,19 @@ class ImageController extends Controller
             'name' => $filename,
         ]);
 
-        OSS::publicUpload('antic-lab', $filename, \Storage::disk('public')->path($this->folder.'/'.$filename));
+        $filename = $this->folder.'/'.$filename;
+
+        OSS::publicUpload('antic-lab', $filename, \Storage::disk('public')->path($filename));
 
         return [
-            'url' => $path ? config('app.url').'/storage/'.$path : false,
+            'url' => $path ? \Storage::disk('public')->url($filename) : false,
         ];
     }
 
     public function index()
     {
         return collect(\File::files(public_path().'/storage/'.$this->folder.'/'))->map(function ($item) {
-            return '/storage/'.$this->folder.'/'.$item->getFilename();
-        }) ?? [];
+                return '/storage/'.$this->folder.'/'.$item->getFilename();
+            }) ?? [];
     }
 }
