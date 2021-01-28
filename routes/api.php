@@ -28,14 +28,14 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('/start', [MoonHistoryController::class, 'start']);
 
     // 喜欢
-    Route::get('/like', [LikeController::class, 'index']);
+    Route::get('/like', [MyStuffController::class, 'likes']);
+    Route::get('/about_me', [MyStuffController::class, 'aboutMe']);
 
     // 自言自语
-    Route::get('/quotes', [QuoteController::class, 'index']);
-    Route::get('/quote', [QuoteController::class, 'random']);
+    Route::get('/quotes', [MyStuffController::class, 'quotes']);
+    Route::get('/quote', [MyStuffController::class, 'quote']);
 
     // 关于我
-    Route::get('/about_me', [AboutMeController::class, 'index']);
     Route::get('powered-by', [PoweredByController::class, 'index']);
 
     // 便民 API

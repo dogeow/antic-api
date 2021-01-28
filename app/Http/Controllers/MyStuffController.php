@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\AboutMe;
+use App\Models\Like;
+use App\Models\Quote;
 
-class AboutMeController extends Controller
+class MyStuffController extends Controller
 {
-    public function index()
+    public function aboutMe()
     {
         $newData = [];
         $data = collect(AboutMe::all())->groupBy('category')->toArray();
@@ -18,5 +20,20 @@ class AboutMeController extends Controller
         }
 
         return $newData;
+    }
+
+    public function Likes()
+    {
+        return Like::all();
+    }
+
+    public function quotes()
+    {
+        return Quote::all();
+    }
+
+    public function quote()
+    {
+        return Quote::all()->random(1)->first()->content;
     }
 }
