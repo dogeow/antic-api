@@ -8,7 +8,7 @@ use App\Models\Quote;
 
 class MyStuffController extends Controller
 {
-    public function aboutMe()
+    public function aboutMe(): array
     {
         $newData = [];
         $data = collect(AboutMe::all())->groupBy('category')->toArray();

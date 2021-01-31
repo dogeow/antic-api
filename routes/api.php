@@ -15,11 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'api'], function ($router) {
-    Route::get('/', [IndexController::class, 'url']);
-
-    // 首页，合并 API
-    Route::get('/index', [IndexController::class, 'index']);
+Route::group(['middleware' => 'api'], function () {
 
     // 博饼
     Route::get('/moon', [MoonController::class, 'index']);
@@ -35,7 +31,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('/quote', [MyStuffController::class, 'quote']);
 
     // 关于我
-    Route::get('powered-by', [PoweredByController::class, 'index']);
+    Route::get('powered-by', [MyStuffController::class, 'aboutMe']);
 
     // 便民 API
     Route::post('/api', [ApiController::class, 'index']);
@@ -93,7 +89,7 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     Route::group([
         'prefix' => 'user',
-    ], function ($router) {
+    ], function () {
         Route::post('register', [AuthController::class, 'register']);
         Route::post('login', [AuthController::class, 'login']);
         Route::post('logout', [AuthController::class, 'logout']);
@@ -102,7 +98,7 @@ Route::group(['middleware' => 'api'], function ($router) {
         Route::put('password', [UserController::class, 'password']);
     });
 
-    Route::group(['middleware' => 'auth:api'], function ($router) {
+    Route::group(['middleware' => 'auth:api'], function () {
         Route::resource('/posts', PostController::class, ['except' => ['index', 'show']]);
         Route::resource('/projects', ProjectController::class);
         Route::post('/tasks', [TaskController::class, 'store']);
