@@ -27,6 +27,7 @@
         "sentry/sentry-laravel": "^2.3",
         "spatie/laravel-json-api-paginate": "^1.10",
         "spatie/laravel-query-builder": "^3.3",
+        "spatie/laravel-responsecache": "^6.6",
         "symfony/dom-crawler": "^5.2",
         "true/punycode": "^2.1",
         "tymon/jwt-auth": "^1.0"
