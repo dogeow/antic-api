@@ -4,17 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\PhpFunction;
 use App\Models\PhpFunctionCategory;
-use App\Models\PoweredBy;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PhpFunctionController extends Controller
 {
     /**
+     * @param  Request  $request
      * @return array
      */
-    public function index(Request $request)
+    public function index(Request $request): array
     {
         $query = PhpFunction::when($request->search, function ($query) use ($request) {
             return $query->where('name', 'LIKE', '%'.$request->search.'%')

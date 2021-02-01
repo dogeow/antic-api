@@ -21,7 +21,7 @@ class WeiboController extends Controller
         return $query->jsonPaginate(20);
     }
 
-    public function about()
+    public function about(): array
     {
         return [
             'total' => WeiboHot::count(),

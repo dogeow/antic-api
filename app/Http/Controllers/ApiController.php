@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Api;
 use GuzzleHttp\Client as GuzzleClient;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use TrueBV\Punycode;
 
 class ApiController extends Controller
@@ -15,7 +16,7 @@ class ApiController extends Controller
         return Api::all();
     }
 
-    public function number($start, $end, $action = null)
+    public function number($start, $end, $action = null): array
     {
         $count = strlen($end);
         $numberRange = range($start, $end);
@@ -25,20 +26,21 @@ class ApiController extends Controller
                 $number = str_repeat(0, $zeroCount).$number;
             }
         }
+        unset($number);
 
         $action === 'shuffle' && shuffle($numberRange);
 
         return $numberRange;
     }
 
-    public function parking()
+    public function parking(): array
     {
         $parking = [
-            21 => 558,
-            20 => 217,
-            19 => 345,
-            18 => 211,
             17 => 76,
+            18 => 211,
+            19 => 345,
+            20 => 217,
+            21 => 558,
         ];
         $data = [];
         $this->guzzleClient = new GuzzleClient([
@@ -62,7 +64,7 @@ class ApiController extends Controller
         return $data;
     }
 
-    public function punycode($domain)
+    public function punycode($domain): void
     {
         $Punycode = new Punycode();
         $preg = "/[\x{4e00}-\x{9fa5}]+/u";
@@ -73,7 +75,7 @@ class ApiController extends Controller
         }
     }
 
-    public function unicode_to_utf8($string)
+    public function unicode_to_utf8($string): string
     {
         $code = intval(hexdec($string));
         //这里注意转换出来的 code 一定得是整形，这样才会正确的按位操作
@@ -84,7 +86,7 @@ class ApiController extends Controller
         return chr(bindec($ord_1)).chr(bindec($ord_2)).chr(bindec($ord_3));
     }
 
-    public function utf8_to_unicode($string)
+    public function utf8_to_unicode($string): string
     {
         $unicode = (ord($string[0]) & 0x1F) << 12;
         $unicode |= (ord($string[1]) & 0x3F) << 6;
@@ -96,7 +98,7 @@ class ApiController extends Controller
     /**
      * 随机获取一张图片作为登录背景.
      */
-    public function random()
+    public function random(): StreamedResponse
     {
         $wallpaperFolder = public_path().'/images/wallpaper/';
 //        $wallpapers = \File::files($wallpaperFolder);
@@ -119,7 +121,7 @@ class ApiController extends Controller
         }, 200, ['Content-Type' => 'image/jpeg']);
     }
 
-    public function base64_encode($string)
+    public function base64_encode($string): string
     {
         return base64_encode($string);
     }
@@ -129,12 +131,12 @@ class ApiController extends Controller
         return base64_decode($string);
     }
 
-    public function urlEncode($string)
+    public function urlEncode($string): string
     {
         return urlencode($string);
     }
 
-    public function urlDecode($string)
+    public function urlDecode($string): string
     {
         return urldecode($string);
     }
@@ -145,16 +147,12 @@ class ApiController extends Controller
         switch ($action) {
             case 'url':
                 return url($uri);
-                break;
             case 'download':
                 return response()->download(public_path($uri), '滑稽.ico');
-                break;
-            default:
-                return;
         }
     }
 
-    public function md5($string)
+    public function md5($string): string
     {
         return md5($string);
     }
@@ -164,14 +162,7 @@ class ApiController extends Controller
         return $_SERVER['HTTP_USER_AGENT'];
     }
 
-    public function array($string)
-    {
-        header('Access-Control-Allow-Origin:*');
-
-        return [1, 2, 3, 4];
-    }
-
-    public function sha($string)
+    public function sha($string): string
     {
         return sha1($string);
     }
@@ -191,19 +182,19 @@ class ApiController extends Controller
         return file_get_contents('https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true');
     }
 
-    public function secret($string)
+    public function secret($string): string
     {
         return str_repeat('*', strlen($string));
     }
 
-    public function hash($string)
+    public function hash($string): string
     {
         return sha1($string);
     }
 
-    public function htmlSC($string)
+    public function htmlSC($string): string
     {
-        if ('&' === substr($string, 0, 1)) {
+        if (strpos($string, '&') === 0) {
             return htmlspecialchars_decode($string);
         }
 

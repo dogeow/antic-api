@@ -27,7 +27,7 @@ class ProjectController extends Controller
             ->get();
     }
 
-    public function store(Request $request)
+    public function store(Request $request): string
     {
         $user = auth()->user();
 
@@ -45,7 +45,7 @@ class ProjectController extends Controller
         return 'Project created!';
     }
 
-    public function show(Project $project, Request $request)
+    public function show(Project $project): Project
     {
         $tasks = $project->tasks()->where('is_completed', false)->get();
         $project['tasks'] = $tasks;
@@ -53,7 +53,7 @@ class ProjectController extends Controller
         return $project;
     }
 
-    public function update(Project $project, Request $request)
+    public function update(Project $project, Request $request): string
     {
         $project->is_completed = true;
         $project->update();

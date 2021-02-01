@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Moon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MoonController extends Controller
 {
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse
     {
         // 验证格式
         $rules = ['name' => ['required', 'unique:moons']];
@@ -22,7 +23,7 @@ class MoonController extends Controller
         ]);
     }
 
-    public function index(Request $request)
+    public function index(Request $request): array
     {
         if (! empty($request->name)) {
             $user = Moon::where('name', $request->name)->first();
