@@ -13,18 +13,18 @@ build:
   environment:
     php:
       version: 7.4
-nodes:
-  analysis:
-    tests:
-      override:
-        - php-scrutinizer-run
-  coverage:
-    tests:
-      override:
-        - command: php vendor/bin/phpunit --coverage-clover coverage.xml
-          coverage:
-            file: coverage.xml
-            format: clover
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
+    coverage:
+      tests:
+        override:
+          - command: php vendor/bin/phpunit --coverage-clover coverage.xml
+            coverage:
+              file: coverage.xml
+              format: clover
 tools:
   php_analyzer: true
   php_mess_detector: true
