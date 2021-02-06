@@ -13,16 +13,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: nanasess/setup-php@master
+      - name: Setup Enviroment
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-      - name: Create SSH key
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          sudo chmod 600 ~/.ssh/id_rsa
-          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-        shell: bash
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install Dependencies
@@ -41,11 +35,16 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
-      - name: Setup Deployer
-        uses: atymic/deployer-php-action@master
+      - name: Deployment
+        uses: appleboy/ssh-action@main
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-          ssh-disable-host-key-checking: true
-      - name: Deploy to Prod
-        run: dep deploy production -vvv
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ${{ secrets.SSH_USERNAME }}
+          script: |
+            cd /var/www/antic-api/
+            git checkout -f
+            git pull
+            composer install
+            php artisan migrate -q
+            php artisan optimize
