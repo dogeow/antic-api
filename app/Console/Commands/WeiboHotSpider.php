@@ -41,7 +41,7 @@ class WeiboHotSpider extends Command
     {
         $html = file_get_contents('https://s.weibo.com/top/summary');
         $htmlNoBlank = preg_replace("/>\n\s*/i", '>', $html);
-        preg_match('/td-02.*?="(.*?)".*?>(.*?)<\/a>.*?<i.*?>(.*?)<\/i>/i', $htmlNoBlank, $topping);
+        preg_match('/td-02.*?="(.*?)".*?>(.*?)<\/a>.*?<i.*?>(.*?)<\/i>/si', $htmlNoBlank, $topping);
         $deleteTopping = preg_replace('/<tbody.*?<\/tr>/i', '', $htmlNoBlank);
         $pattern = "/td-02.*?><a.*?href=\"(.*?)\".*?>(.*?)<\/a><span>(.*?)<\/span>.*?td-03.*?>(.*?)<\/td>/i";
         preg_match_all($pattern, $deleteTopping, $matches, PREG_SET_ORDER);
