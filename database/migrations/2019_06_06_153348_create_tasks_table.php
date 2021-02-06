@@ -20,8 +20,6 @@ class CreateTasksTable extends Migration
             $table->unsignedTinyInteger('priority')->default(0);
             $table->boolean('is_completed')->default(0);
             $table->timestamps();
-
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 
