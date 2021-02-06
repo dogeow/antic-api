@@ -8,14 +8,14 @@ use GuzzleHttp\Psr7\Request;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class giveName extends Command
+class giveNameOld extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'giveName {sex}';
+    protected $signature = 'giveNameOld {sex}';
 
     /**
      * The console command description.
@@ -29,10 +29,8 @@ class giveName extends Command
      */
     private $client;
 
-    private $firstName;
-
     private $concurrency = 50;  // 同时并发抓取
-    private $totalPageCount = 1e2;
+    private $totalPageCount = 1e1000;
 
     /**
      * Create a new command instance.
@@ -45,7 +43,6 @@ class giveName extends Command
         $this->client = new Client([
             'timeout' => 10,
         ]);
-        $this->firstName = config('firstname');
     }
 
     /**
@@ -55,12 +52,18 @@ class giveName extends Command
      */
     public function handle()
     {
-        $requests = function ($total) {
-            foreach ($this->firstName as $item) {
-                for ($i = 0; $i < $total; $i++) {
-                    $uri = 'http://www.517ming.com/datafile/517v2/t1/'.$this->argument('sex').'2/'.$item.'/';
-                    yield new Request('GET', $uri);
-                }
+        $sex = $this->argument('sex');
+
+        $requests = static function ($total) use ($sex) {
+            $uri = 'https://www.quming.com/quming/';
+            for ($i = 0; $i < $total; $i++) {
+                yield new Request('POST', $uri, [
+                    'form_params' => [
+                        'gsname' => '',
+                        'sex' => $sex,
+                        'action' => 'test',
+                    ],
+                ]);
             }
         };
 
@@ -70,16 +73,13 @@ class giveName extends Command
                 $this->info("请求第 $index 个请求");
                 $content = $response->getBody()->getContents();
 
-                $names = explode(',', $content);
-                $categoryId = array_search(mb_substr($names[0], 0, 1), $this->firstName, true);
-
-                $query = '';
-                foreach ($names as $name) {
-                    print_r($names);
-                    $sexId = self::sexId();
-                    $query .= "INSERT IGNORE INTO test (name, sex, category_id, count) VALUES ('$name', {$sexId}, $categoryId, 3);";
+                if (preg_match_all('/rel="nofollow">(.*?)</', $content, $matches)) {
+                    $query = '';
+                    foreach ($matches[1] as $name) {
+                        $query .= "INSERT IGNORE INTO test (name, sex) VALUES ('$name', {$this->argument('sex')});";
+                    }
+                    DB::unprepared($query);
                 }
-                DB::unprepared($query);
             },
             'rejected' => static function ($reason, $index) {
             },
@@ -87,15 +87,5 @@ class giveName extends Command
 
         $promise = $pool->promise();
         $promise->wait();
-    }
-
-    public function sexId()
-    {
-        switch ($this->argument('sex')) {
-            case 'f':
-                return 1;
-            case 'm':
-                return 0;
-        }
     }
 }
