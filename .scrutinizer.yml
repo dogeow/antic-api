@@ -9,6 +9,10 @@ filter:
     - 'resources/*'
     - 'vendor/*'
     - 'views/*'
+build:
+  environment:
+    php:
+      version: 7.4
 tools:
   php_analyzer: true
   php_mess_detector: true
