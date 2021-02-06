@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Image;
 use App\Services\OSS;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ImageController extends Controller
 {
@@ -53,16 +55,16 @@ class ImageController extends Controller
 
         $filename = $this->folder.'/'.$filename;
 
-        OSS::publicUpload('antic-lab', $filename, \Storage::disk('public')->path($filename));
+        OSS::publicUpload('antic-lab', $filename, Storage::disk('public')->path($filename));
 
         return [
-            'url' => $path ? \Storage::disk('public')->url($filename) : false,
+            'url' => $path ? Storage::disk('public')->url($filename) : false,
         ];
     }
 
     public function index()
     {
-        return collect(\File::files(public_path().'/storage/'.$this->folder.'/'))->map(function ($item) {
+        return collect(File::files(public_path().'/storage/'.$this->folder.'/'))->map(function ($item) {
             return '/storage/'.$this->folder.'/'.$item->getFilename();
         }) ?? [];
     }

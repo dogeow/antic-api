@@ -37,6 +37,7 @@
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
+        "phpstan/phpstan": "^0.12.71",
         "phpunit/phpunit": "^9.3.3"
     },
     "config": {

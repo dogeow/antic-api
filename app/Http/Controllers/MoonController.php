@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Moon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MoonController extends Controller
 {
@@ -12,7 +13,7 @@ class MoonController extends Controller
     {
         // 验证格式
         $rules = ['name' => ['required', 'unique:moons']];
-        $validator = \Validator::make(request(['name']), $rules);
+        $validator = Validator::make(request(['name']), $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         }

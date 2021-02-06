@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -26,7 +27,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        \Validator::make($request->all(), [
+        Validator::make($request->all(), [
             'title' => 'required',
             'content' => 'required',
         ])->validate();

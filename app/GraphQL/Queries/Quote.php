@@ -2,6 +2,8 @@
 
 namespace App\GraphQL\Queries;
 
+use App\Http\Controllers\MyStuffController;
+
 class Quote
 {
     /**
@@ -11,6 +13,6 @@ class Quote
      */
     public function __invoke($_, array $args): string
     {
-        return (new  \App\Http\Controllers\QuoteController)->random();
+        return (new  MyStuffController())->quote();
     }
 }

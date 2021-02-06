@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -46,7 +48,7 @@ class AuthController extends Controller
             'password' => ['required', 'not_regex:/\s+/', 'min:8', 'max:16'],
             'password_confirmation' => ['same:password'],
         ];
-        $validator = \Validator::make($payload, $rules);
+        $validator = Validator::make($payload, $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         }
@@ -84,7 +86,7 @@ class AuthController extends Controller
             'password' => ['required', 'min:8', 'max:16'],
             'remember_me' => 'boolean',
         ];
-        $validator = \Validator::make($credentials, $rules);
+        $validator = Validator::make($credentials, $rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()])->setStatusCode(202);
         }
@@ -154,6 +156,6 @@ class AuthController extends Controller
      */
     public function guard(): Guard
     {
-        return \Auth::guard($this->guard);
+        return Auth::guard($this->guard);
     }
 }
