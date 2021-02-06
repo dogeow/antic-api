@@ -46,5 +46,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          ssh-disable-host-key-checking: true
       - name: Deploy to Prod
         run: dep deploy production -vvv
