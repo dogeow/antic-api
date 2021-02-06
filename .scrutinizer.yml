@@ -24,6 +24,7 @@ build:
       tests:
         override:
           - command: |
+              cp .env.travis .env
               php artisan key:generate
               php vendor/bin/phpunit --coverage-clover coverage.xml
             coverage:
