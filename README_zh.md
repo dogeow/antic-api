@@ -1,7 +1,7 @@
 antic-api
 =======
 
-![Laravel](https://github.com/likunyan/antic/workflows/Laravel/badge.svg)
+![Laravel](https://github.com/likunyan/antic-api/workflows/Laravel/badge.svg)
 [![Build Status](http://img.shields.io/travis/likunyan/antic-api/master.svg?style=flat-square&logo=travis)](https://travis-ci.org/likunyan/antic-api)
 <a href="https://github.styleci.io/repos/229091867"><img src="https://styleci.io/repos/23680678/shield?style=flat-square" alt="StyleCI"></a>
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/likunyan/antic-api.svg?style=flat-square)](https://scrutinizer-ci.com/g/likunyan/antic-api/code-structure)
