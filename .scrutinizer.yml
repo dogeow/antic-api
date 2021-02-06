@@ -2,3 +2,5 @@ build:
   environment:
     php:
       version: 7.4
+    mysql:
+      version: 5.7
