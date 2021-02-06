@@ -26,7 +26,7 @@ build:
           - command: |
               cp .env.travis .env
               php artisan key:generate
-              php vendor/bin/phpunit --coverage-clover coverage.xml
+              vendor/bin/phpunit --coverage-clover coverage.xml
             coverage:
               file: coverage.xml
               format: clover
