@@ -10,6 +10,61 @@ class MoonHistoryController extends Controller
 {
     private $defRank = 'none';
 
+    public const RULE = [
+        'cjh' => [
+            [2 => 2, 4 => 4],
+        ],
+        'lbh' => [
+            [4 => 6],
+        ],
+        'bdj' => [
+            [1 => 6],
+            [2 => 6],
+            [3 => 6],
+            [5 => 6],
+            [6 => 6],
+        ],
+        'ww' => [
+            [4 => 5],
+        ],
+        'wzdyx' => [
+            [1 => 5, 4 => 1],
+            [2 => 5, 4 => 1],
+            [3 => 5, 4 => 1],
+            [5 => 5, 4 => 1],
+            [6 => 5, 4 => 1],
+        ],
+        'wzdk' => [
+            [1 => 5],
+            [2 => 5],
+            [3 => 5],
+            [5 => 5],
+            [6 => 5],
+        ],
+        'zy' => [
+            [4 => 4],
+        ],
+        'by' => [
+            [1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1, 6 => 1],
+        ],
+        'sh' => [
+            [4 => 3],
+        ],
+        'sj' => [
+            [1 => 4],
+            [2 => 4],
+            [3 => 4],
+            [5 => 4],
+            [6 => 4],
+        ],
+        'eq' => [
+            [4 => 2],
+        ],
+        'yx' => [
+            [4 => 1],
+        ],
+    ];
+
     public function lottery()
     {
         $dice = $this->rollDice();
@@ -75,34 +130,17 @@ class MoonHistoryController extends Controller
      */
     public function getRank($list)
     {
-        $ruleList = $this->getRule();
         $res = $this->defRank;
-        if (! empty($ruleList)) {
-            foreach ($ruleList as $rank => $rankRules) {
-                foreach ($rankRules as $rule) {
-                    foreach ($rule as $dian => $num) {
-                        if (isset($list[$dian])) {
-                            if ($list[$dian] == $num) {
-                                $res = $rank;
-                            } else {
-                                //规则中只要有一条不满足就跳出当前规则验证
-                                $res = $this->defRank;
-                                break;
-                            }
-                        } else {
-                            //规则中只要有一条不满足就跳出当前规则验证
-                            $res = $this->defRank;
-                            break;
-                        }
+        if (empty(self::RULE)) {
+            return $res;
+        }
+
+        foreach (self::RULE as $rank => $rankRules) {
+            foreach ($rankRules as $rule) {
+                foreach ($rule as $dian => $num) {
+                    if (isset($list[$dian]) && $list[$dian] === $num) {
+                        return $rank;
                     }
-                    //有一条规则匹配，跳出循环，
-                    if ($res != $this->defRank) {
-                        break;
-                    }
-                }
-                //有一条规则匹配，跳出循环，
-                if ($res != $this->defRank) {
-                    break;
                 }
             }
         }
@@ -173,68 +211,6 @@ class MoonHistoryController extends Controller
         ];
 
         return $list[$rank];
-    }
-
-    /**
-     * 返回规则.
-     * @return array
-     */
-    private function getRule()
-    {
-        return [
-            'cjh' => [
-                [2 => 2, 4 => 4],
-            ],
-            'lbh' => [
-                [4 => 6],
-            ],
-            'bdj' => [
-                [1 => 6],
-                [2 => 6],
-                [3 => 6],
-                [5 => 6],
-                [6 => 6],
-            ],
-            'ww' => [
-                [4 => 5],
-            ],
-            'wzdyx' => [
-                [1 => 5, 4 => 1],
-                [2 => 5, 4 => 1],
-                [3 => 5, 4 => 1],
-                [5 => 5, 4 => 1],
-                [6 => 5, 4 => 1],
-            ],
-            'wzdk' => [
-                [1 => 5],
-                [2 => 5],
-                [3 => 5],
-                [5 => 5],
-                [6 => 5],
-            ],
-            'zy' => [
-                [4 => 4],
-            ],
-            'by' => [
-                [1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1, 6 => 1],
-            ],
-            'sh' => [
-                [4 => 3],
-            ],
-            'sj' => [
-                [1 => 4],
-                [2 => 4],
-                [3 => 4],
-                [5 => 4],
-                [6 => 4],
-            ],
-            'eq' => [
-                [4 => 2],
-            ],
-            'yx' => [
-                [4 => 1],
-            ],
-        ];
     }
 
     public function start(Request $request)
