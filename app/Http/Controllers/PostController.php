@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Validator;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PostController extends Controller
 {

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
