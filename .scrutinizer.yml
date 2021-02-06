@@ -15,18 +15,3 @@ build:
       version: 7.4
     mysql:
       version: 5.7
-  nodes:
-    analysis:
-      tests:
-        override:
-          - php-scrutinizer-run
-    coverage:
-      tests:
-        override:
-          - command: |
-              cp .env.travis .env
-              php artisan key:generate
-              vendor/bin/phpunit --coverage-clover coverage.xml
-            coverage:
-              file: coverage.xml
-              format: clover
