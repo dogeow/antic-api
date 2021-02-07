@@ -62,17 +62,17 @@ antic-api
 
 ## 驱动
 
-* Laravel 6
+* Laravel 8
     * JWT
-* React 16
-* Material-UI 4
+* React 17
+* Material-UI 5
 
 ## 服务器
 
-* Ubuntu 18.04 LTS
+* Ubuntu 20.04 LTS
 * Nginx 1.14.0(nginx-full)
 * MySQL 5.7
-* PHP 7.2
+* PHP 7.4
 
 ## 鸣谢
 
