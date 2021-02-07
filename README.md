@@ -13,7 +13,7 @@ antic-api
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/likunyan?locale.x=zh_XC)
 
 
-[中文](README_zh.md).
+[中文](README_zh.md)
 
 Personal study project.
 
@@ -37,14 +37,14 @@ Use frontend and backend separation.
 
 ## Powered by
 
-* Laravel 6
+* Laravel 8
     * JWT
-* React 16
-* Material-UI 4
+* React 17
+* Material-UI 5
 
 ## Server
 
-* Ubuntu 18.04 LTS
+* Ubuntu 20.04 LTS
 * Nginx 1.14.0(nginx-full)
 * MySQL 5.7
-* PHP 7.2
+* PHP 7.4
