@@ -4,3 +4,6 @@ build:
       version: 7.4
     mysql:
       version: 5.7
+  dependencies:
+    before:
+      - mysql -uroot -e 'CREATE DATABASE testing'
