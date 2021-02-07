@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "dcat/laravel-admin": "^1.7",
+        "elasticsearch/elasticsearch": "^7.10",
         "enlightn/enlightn": "^1.7",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -18,6 +19,7 @@
         "johnlui/aliyun-oss-laravel7": "~3.0",
         "laravel-lang/lang": "~8.0",
         "laravel/framework": "^8.12",
+        "laravel/scout": "^8.6",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.5",
         "mll-lab/laravel-graphql-playground": "^2.4",
@@ -29,6 +31,7 @@
         "spatie/laravel-query-builder": "^3.3",
         "spatie/laravel-responsecache": "^6.6",
         "symfony/dom-crawler": "^5.2",
+        "tamayo/laravel-scout-elastic": "^8.0",
         "true/punycode": "^2.1",
         "tymon/jwt-auth": "^1.0"
     },

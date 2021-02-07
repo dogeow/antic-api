@@ -68,6 +68,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('/bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
 
     // 文章
+    Route::get('/posts/search', [PostController::class, 'search']);
     Route::get('/posts', [PostController::class, 'index']);
     Route::get('/posts/{post}', [PostController::class, 'show']);
     Route::get('/categories', [PostCategoryController::class, 'index']);

@@ -68,4 +68,10 @@ class PostController extends Controller
 
         return [];
     }
+
+
+    public function search(Request $request)
+    {
+        return Post::search($request->search)->get();
+    }
 }
