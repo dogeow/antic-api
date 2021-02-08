@@ -33,7 +33,7 @@ class TestBroadcastingEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('push');
+        return new Channel('chat');
     }
 
     public function broadcastAs()
@@ -44,7 +44,8 @@ class TestBroadcastingEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'data' => $this->message,
+            'name' => auth()->user()->name,
+            'message' => $this->message,
         ];
     }
 }
