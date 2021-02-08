@@ -44,8 +44,10 @@ class TestBroadcastingEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'name' => auth()->user()->name,
-            'message' => $this->message,
+            'data' => [
+                'name' => auth()->user()->name,
+                'message' => $this->message,
+            ]
         ];
     }
 }
