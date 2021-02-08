@@ -38,7 +38,7 @@ class TestBroadcastingEvent implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'test';
+        return 'chat';
     }
 
     public function broadcastWith()
