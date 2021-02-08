@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 class TestBroadcastingEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     public $message;
 
     /**
@@ -33,6 +34,11 @@ class TestBroadcastingEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         return new Channel('push');
+    }
+
+    public function broadcastAs()
+    {
+        return 'test';
     }
 
     public function broadcastWith()
