@@ -25,7 +25,6 @@
         "mll-lab/laravel-graphql-playground": "^2.4",
         "nesk/puphpeteer": "^2.0",
         "nuwave/lighthouse": "^5.0",
-        "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^4.1",
         "sentry/sentry-laravel": "^2.3",
         "spatie/laravel-json-api-paginate": "^1.10",
