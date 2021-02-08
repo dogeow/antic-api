@@ -29,6 +29,7 @@ npm-debug.log
 
 # PhpStorm
 .idea
+
 # Laravel IDE Helper
 _ide_helper.php
 _ide_helper_models.php
@@ -40,7 +41,6 @@ _ide_helper_models.php
 ## Cache
 .php_cs.cache
 .phpunit.result.cache
-
 
 # GraphQL
 schema-directives.graphql
