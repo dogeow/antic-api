@@ -26,7 +26,6 @@ Homestead.json
 yarn-error.log
 npm-debug.log
 .phpunit.result.cache
-laravel-echo-server.json
 
 # PhpStorm
 .idea
@@ -47,3 +46,7 @@ _ide_helper_models.php
 schema-directives.graphql
 programmatic-types.graphql
 _lighthouse_ide_helper.php
+
+# WebSocket
+laravel-echo-server.json
+laravel-echo-server.lock
