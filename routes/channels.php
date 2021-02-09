@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 Broadcast::channel('chat', function ($user) {
-    return $user->name;
+    return (object)[
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' =>  $user->email
+    ];
 });
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
