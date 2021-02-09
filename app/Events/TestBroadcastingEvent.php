@@ -47,7 +47,7 @@ class TestBroadcastingEvent implements ShouldBroadcast
             'data' => [
                 'name' => auth()->user()->name,
                 'message' => $this->message,
-            ]
+            ],
         ];
     }
 }
