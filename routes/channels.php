@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 Broadcast::channel('chat', function ($user) {
-    return (object)[
+    return (object) [
         'id' => $user->id,
         'name' => $user->name,
-        'email' =>  $user->email
+        'email' =>  $user->email,
     ];
 });
 
