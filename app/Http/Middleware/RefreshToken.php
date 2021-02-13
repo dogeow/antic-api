@@ -28,7 +28,6 @@ class RefreshToken
                 ]);
             }
         } catch (TokenExpiredException $e) {
-            // If the token is expired, then it will be refreshed and added to the headers
             try {
                 $refreshed = JWTAuth::refresh(JWTAuth::getToken());
                 $user = JWTAuth::setToken($refreshed)->toUser();
@@ -46,7 +45,6 @@ class RefreshToken
             ]);
         }
 
-        // Login the user instance for global usage
         Auth::login($user, false);
 
         return $next($request);
