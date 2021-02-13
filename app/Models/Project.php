@@ -21,8 +21,13 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scopeCompleted(Builder $query): Builder
+    public function scopeUndone(Builder $query): Builder
     {
         return $query->where('is_completed', 0);
+    }
+
+    public function scopeCompleted(Builder $query): Builder
+    {
+        return $query->where('is_completed', 1);
     }
 }

@@ -23,7 +23,7 @@ type Query {
 }
 
 extend type Query @guard {
-    projects: [Project!]! @all(scopes: ["completed"])
+    projects: [Project!]! @all(scopes: ["undone"])
 }
 
 type User {
@@ -63,8 +63,8 @@ type Project {
     description: String!
     is_completed: Boolean!
     user: User! @belongsTo
-    tasks: [Tasks]! @hasMany(scopes: ["completed"])
-    taskCount: Int! @count(relation: "tasks")
+    tasks: [Tasks]! @hasMany(scopes: ["undone"])
+    taskCount: Int! @count(relation: "tasks", scopes: ["undone"])
 }
 
 type Tasks {

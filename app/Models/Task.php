@@ -17,6 +17,11 @@ class Task extends Model
 
     public function scopeCompleted(Builder $query): Builder
     {
+        return $query->where('is_completed', 1);
+    }
+
+    public function scopeUndone(Builder $query): Builder
+    {
         return $query->where('is_completed', 0);
     }
 
