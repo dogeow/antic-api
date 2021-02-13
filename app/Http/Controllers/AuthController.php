@@ -13,16 +13,6 @@ class AuthController extends Controller
     protected $guard = 'api';
 
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'guest']]);
-    }
-
-    /**
      * 创建用户.
      *
      * @param [string] name
