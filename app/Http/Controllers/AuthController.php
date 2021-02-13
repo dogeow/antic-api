@@ -19,7 +19,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'guest']]);
     }
 
     /**
@@ -65,6 +65,28 @@ class AuthController extends Controller
                 ? ['success' => '创建用户成功']
                 : ['error' => '创建用户失败']
         )->setStatusCode(201);
+    }
+
+    public function guest()
+    {
+        if (request('name')) {
+            $faker = app(\Faker\Generator::class);
+
+            $user = User::create([
+                'name' => preg_replace('/\s+/', '', request('name')),
+                'email' => $faker->email,
+                'password' => bcrypt($faker->password),
+            ]);
+
+            $token = auth()->login($user);
+
+            return $this->respondWithToken($token);
+        }
+
+        $user = User::find(2);
+        $token = auth()->login($user);
+
+        return $this->respondWithToken($token);
     }
 
     /**
