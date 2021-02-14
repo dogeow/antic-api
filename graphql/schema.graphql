@@ -41,8 +41,8 @@ type Post {
     title: String!
     content: String!
     user: User! @belongsTo
-    category: PostCategory! @hasOne
-    tags: [PostTag!]! @hasMany
+    category: PostCategory @hasOne
+    tags: [PostTag] @hasMany
 }
 
 type PostCategory {
