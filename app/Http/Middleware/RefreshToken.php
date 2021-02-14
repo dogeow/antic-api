@@ -20,29 +20,20 @@ class RefreshToken
      */
     public function handle(Request $request, Closure $next)
     {
+        if ($request->header('Authorization') === null) {
+            return $next($request);
+        }
+
         try {
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json([
-                    'code' => 101,
-                    'response' => null,
-                ]);
-            }
+            $user = JWTAuth::parseToken()->authenticate();
         } catch (TokenExpiredException $e) {
             try {
                 $refreshed = JWTAuth::refresh(JWTAuth::getToken());
                 $user = JWTAuth::setToken($refreshed)->toUser();
                 header('Authorization: Bearer '.$refreshed);
             } catch (JWTException $e) {
-                return response()->json([
-                    'code' => 103,
-                    'response' => null,
-                ]);
             }
         } catch (JWTException $e) {
-            return response()->json([
-                'code' => 101,
-                'response' => null,
-            ]);
         }
 
         Auth::login($user, false);
