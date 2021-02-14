@@ -43,6 +43,8 @@ type Post {
     user: User! @belongsTo
     category: PostCategory @hasOne
     tags: [PostTag] @hasMany
+    created_at: DateTime!
+    updated_at: DateTime!
 }
 
 type PostCategory {
