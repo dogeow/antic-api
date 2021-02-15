@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Faker;
 
 class DatabaseSeeder extends Seeder
 {
