@@ -43,7 +43,7 @@ class TaskController extends Controller
                     $item->save();
                 }
             } else {
-                $tasks = Task::whereBetween('order', [$request->order, $request->order - 1])->get();
+                $tasks = Task::whereBetween('order', [$request->order, $task->order - 1])->get();
                 foreach ($tasks as $item) {
                     $item->order++;
                     $item->save();
