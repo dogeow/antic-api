@@ -18,12 +18,11 @@ class TaskController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required',
-            'priority' => ['nullable', Rule::in([1, 2, 3])],
         ]);
 
         return $project->tasks()->save(new Task([
             'title' => $validatedData['title'],
-            'priority' => $request->priority,
+            'order' => $project->tasks()->max('order') + 1,
         ]));
     }
 
@@ -31,7 +30,6 @@ class TaskController extends Controller
     {
         $request->validate([
             'is_completed' => ['nullable', 'boolean'],
-            'priority' => ['nullable', Rule::in([1, 2, 3])],
             'order' => ['nullable'], // todo
         ]);
 
