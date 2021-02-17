@@ -32,7 +32,29 @@ class TaskController extends Controller
         $request->validate([
             'is_completed' => ['nullable', 'boolean'],
             'priority' => ['nullable', Rule::in([1, 2, 3])],
+            'order' => ['nullable'], // todo
         ]);
+
+        if ($request->has('order')) {
+            if ($task->order < $request->order) {
+                $tasks = Task::whereBetween('order', [$task->order + 1, $request->order])->get();
+                foreach ($tasks as $item) {
+                    $item->order--;
+                    $item->save();
+                }
+            } else {
+                $tasks = Task::whereBetween('order', [$request->order, $request->order - 1])->get();
+                foreach ($tasks as $item) {
+                    $item->order++;
+                    $item->save();
+                }
+            }
+
+            $task->order = $request->order;
+            $task->save();
+
+            return $task;
+        }
 
         $task->update($request->all());
 
