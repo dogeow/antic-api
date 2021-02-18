@@ -25,7 +25,7 @@ Route::group(['middleware' => ['api']], function () {
             });
 
             Route::post('/projects/{project}/task', [TaskController::class, 'store']);
-            Route::resource('/posts', PostController::class);
+            Route::resource('/posts', PostController::class, ['except' => ['index', 'show', 'search']]);
             Route::resource('/projects', ProjectController::class);
             Route::put('/tasks/{task}', [TaskController::class, 'update']);
         });
