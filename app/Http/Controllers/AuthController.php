@@ -107,7 +107,13 @@ class AuthController extends Controller
         $token = $rememberMe ? $this->guard()->setTTL($ttl)->attempt($credentials) : $this->guard()->attempt($credentials);
 
         if ($token) {
-            return $this->respondWithToken($token);
+            return response()->json(
+                array_merge([
+                    'access_token' => $token,
+                    'token_type' => 'bearer',
+                    'expires_in' => auth()->factory()->getTTL() * 60,
+                ], auth()->user()->toArray())
+            );
         }
 
         $text = '邮箱不存在或密码错误';
