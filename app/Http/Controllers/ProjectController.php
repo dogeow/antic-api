@@ -70,7 +70,7 @@ class ProjectController extends Controller
 
     public function admin(Request $request)
     {
-        $project = Project::where('user_id', 1)->first();
+        $project = Project::where('user_id', 1)->firstOrFail();
 
         $params = ['title'];
         $query = $project->tasks()

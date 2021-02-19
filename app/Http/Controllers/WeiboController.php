@@ -12,13 +12,13 @@ class WeiboController extends Controller
         $date = request('date');
         $query = WeiboHot::query();
         if ($date) {
-            $query->whereDate('updated_at', $date);
+            $query::whereDate('updated_at', $date);
         } else {
-            $query->whereDate('updated_at', Carbon::today());
+            $query::whereDate('updated_at', Carbon::today());
         }
-        $query->orderBy('updated_at', 'DESC');
+        $query::orderBy('updated_at', 'DESC');
 
-        return $query->jsonPaginate(20);
+        return $query::jsonPaginate(20);
     }
 
     public function about(): array

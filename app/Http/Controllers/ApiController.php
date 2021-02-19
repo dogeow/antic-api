@@ -77,7 +77,7 @@ class ApiController extends Controller
 
     public function unicode_to_utf8($string): string
     {
-        $code = intval(hexdec($string));
+        $code = (int) hexdec($string);
         //这里注意转换出来的 code 一定得是整形，这样才会正确的按位操作
         $ord_1 = decbin(0xe0 | ($code >> 12));
         $ord_2 = decbin(0x80 | (($code >> 6) & 0x3f));
@@ -112,7 +112,7 @@ class ApiController extends Controller
             '骑士.jpeg',
         ];
 
-        $random = rand(0, count($wallpapers) - 1);
+        $random = random_int(0, count($wallpapers) - 1);
         $wallpaperURL = $wallpaperFolder.$wallpapers[$random];
 
 //        $wallpaperURL = env('CDN_URL') . '/wallpaper/' . $wallpapers[$random];
