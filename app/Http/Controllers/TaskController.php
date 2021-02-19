@@ -25,29 +25,32 @@ class TaskController extends Controller
         ]));
     }
 
-    public function update(Task $task, Request $request)
+    public function update(Project $project, Task $task, Request $request)
     {
         $request->validate([
             'is_completed' => ['nullable', 'boolean'],
             'order' => ['nullable'], // todo
         ]);
 
+        $tasksCount = $project->tasks()->count();
+
         if ($request->has('order')) {
-            if ($task->order < $request->order) {
-                $tasks = Task::whereBetween('order', [$task->order + 1, $request->order])->get();
+            $newOrder = $tasksCount - $request->order - 1;
+            if ($task->order < $newOrder) { // UI 上升
+                $tasks = $project->tasks()->whereBetween('order', [$task->order + 1, $newOrder])->get();
                 foreach ($tasks as $item) {
                     $item->order--;
                     $item->save();
                 }
-            } else {
-                $tasks = Task::whereBetween('order', [$request->order, $task->order - 1])->get();
+            } elseif ($task->order > $newOrder) {
+                $tasks = $project->tasks()->whereBetween('order', [$newOrder, $task->order - 1])->get();
                 foreach ($tasks as $item) {
                     $item->order++;
                     $item->save();
                 }
             }
 
-            $task->order = $request->order;
+            $task->order = $newOrder;
             $task->save();
 
             return $task;
