@@ -32,8 +32,8 @@ class ProjectController extends Controller
         $user = auth()->user();
 
         $validatedData = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
+            'name' => ['required', 'unique:App\Models\Project,user_id,name', 'max:255'],
+            'description' => ['nullable', 'max:255'],
         ]);
 
         Project::create([
