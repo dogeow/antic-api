@@ -4,7 +4,7 @@
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "https://api.233.sx/graphql",
+        "url": "https://api.gugelong.com/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

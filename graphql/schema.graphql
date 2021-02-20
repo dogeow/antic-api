@@ -62,7 +62,7 @@ type PostTag {
 type Project {
     id: ID!
     name: String!
-    description: String!
+    description: String
     is_completed: Boolean!
     user: User! @belongsTo
     tasks: [Tasks]! @hasMany(scopes: ["undone"])
