@@ -50,3 +50,7 @@ _lighthouse_ide_helper.php
 # WebSocket
 laravel-echo-server.json
 laravel-echo-server.lock
+
+# Laravel Sail
+supervisord.log
+supervisord.pid
