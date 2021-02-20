@@ -6,7 +6,8 @@ use App\Models\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\AuthRegister;
+use App\Http\Requests\AuthLogin;
 
 class AuthController extends Controller
 {
@@ -15,39 +16,18 @@ class AuthController extends Controller
     /**
      * 创建用户.
      *
-     * @param [string] name
-     * @param [string] email
-     * @param [string] password
-     * @param [string] password_confirmation
+     * @param  AuthRegister  $request
      * @return JsonResponse
      */
-    public function register(): JsonResponse
+    public function register(AuthRegister $request): JsonResponse
     {
-        $payload = request(['name', 'email', 'password', 'password_confirmation']);
-
-        // 验证格式
-        $rules = [
-            'name' => [
-                'required', 'not_regex:/\s+/', function ($attribute, $value, $fail) {
-                    if (mb_strwidth($value) < 4 || mb_strwidth($value) > 16) {
-                        $fail('昵称 宽度必须在 4 - 16 之间（一个中文文字为 2 个宽度）');
-                    }
-                },
-            ],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'not_regex:/\s+/', 'min:8', 'max:16'],
-            'password_confirmation' => ['same:password'],
-        ];
-        $validator = Validator::make($payload, $rules);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
-        }
+        $validated = $request->validated();
 
         // 创建用户
         $user = User::create([
-            'name' => preg_replace('/\s+/', '', $payload['name']),
-            'email' => $payload['email'],
-            'password' => bcrypt($payload['password']),
+            'name' => preg_replace('/\s+/', '', $validated['name']),
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
         ]);
 
         return response()->json(
@@ -82,31 +62,23 @@ class AuthController extends Controller
     /**
      * 登录并创建 JWT.
      *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
+     * @param  AuthLogin  $request
      * @return JsonResponse
      */
-    public function login(): JsonResponse
+    public function login(AuthLogin $request): JsonResponse
     {
-        $credentials = request(['email', 'password']);
-        $rememberMe = request('remember_me');
+        $validated = $request->validated();
 
-        // 验证格式
-        $rules = [
-            'email' => ['required', 'email'],
-            'password' => ['required', 'min:8', 'max:16'],
-            'remember_me' => 'boolean',
+        $credentials = [
+            'email' => $validated['email'],
+            'password' => $validated['password'],
         ];
-        $validator = Validator::make($credentials, $rules);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()])->setStatusCode(202);
-        }
+        $rememberMeTtl = 60 * 24 * 7;
+        $notMatchedText = '邮箱不存在或密码错误';
 
-        $ttl = 60 * 24 * 7;
-        $token = $rememberMe ? $this->guard()->setTTL($ttl)->attempt($credentials) : $this->guard()->attempt($credentials);
+        $token = $validated['remember_me'] ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
 
-        if ($token) {
+        if (is_string($token)) {
             return response()->json(
                 array_merge([
                     'access_token' => $token,
@@ -116,12 +88,10 @@ class AuthController extends Controller
             );
         }
 
-        $text = '邮箱不存在或密码错误';
-
         return response()->json([
             'errors' => [
-                'email' => [$text],
-                'password' => [$text],
+                'email' => [$notMatchedText],
+                'password' => [$notMatchedText],
             ],
         ])->setStatusCode(202);
     }
