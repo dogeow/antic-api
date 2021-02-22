@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -63,9 +64,9 @@ class AuthController extends Controller
      * 登录并创建 JWT.
      *
      * @param  AuthLogin  $request
-     * @return JsonResponse
+     * @return array|JsonResponse|object
      */
-    public function login(AuthLogin $request): JsonResponse
+    public function login(AuthLogin $request)
     {
         $validated = $request->validated();
 
@@ -79,13 +80,11 @@ class AuthController extends Controller
         $token = $validated['remember_me'] ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
 
         if (is_string($token)) {
-            return response()->json(
-                array_merge([
-                    'access_token' => $token,
-                    'token_type' => 'bearer',
-                    'expires_in' => auth()->factory()->getTTL() * 60,
-                ], auth()->user()->toArray())
-            );
+            return array_merge([
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60,
+            ], auth()->user()->toArray());
         }
 
         return response()->json([
@@ -97,27 +96,25 @@ class AuthController extends Controller
     }
 
     /**
-     * 获取已认证的用户信息.
+     * @return Authenticatable|null
      */
-    public function profile(): JsonResponse
+    public function profile(): ?Authenticatable
     {
-        return response()->json(auth()->user());
+        return auth()->user();
     }
 
     /**
      * 注销用户（使令牌无效）.
      */
-    public function logout(): JsonResponse
+    public function logout(): void
     {
         auth()->logout();
-
-        return response()->json(['message' => '成功退出']);
     }
 
     /**
      * 刷新 token.
      */
-    public function refresh(): JsonResponse
+    public function refresh(): array
     {
         return $this->respondWithToken(auth()->refresh());
     }
@@ -126,15 +123,15 @@ class AuthController extends Controller
      * 获取 token 结构.
      *
      * @param  string  $token
-     * @return JsonResponse
+     * @return array
      */
-    protected function respondWithToken($token): JsonResponse
+    protected function respondWithToken($token): array
     {
-        return response()->json([
+        return [
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-        ]);
+        ];
     }
 
     /**
