@@ -152,7 +152,7 @@ class ApiController extends Controller
         }
     }
 
-    public function md5($string): string
+    public function md5($string = ''): string
     {
         return md5($string);
     }

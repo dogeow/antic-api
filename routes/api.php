@@ -84,7 +84,7 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/unicode_to_utf8/{string}', [ApiController::class, 'unicode_to_utf8']);
         Route::get('/punycode/{string}', [ApiController::class, 'punycode']);
         Route::get('/image/{action}', [ApiController::class, 'image']);
-        Route::get('/md5/{string}', [ApiController::class, 'md5']);
+        Route::get('/md5/{string?}', [ApiController::class, 'md5']);
         Route::get('/user-agent', [ApiController::class, 'userAgent']);
         Route::get('/hash/{string?}', [ApiController::class, 'hash']);
         Route::get('/ip/{ip?}', [ApiController::class, 'ip'])->where(['ip' => '[0-9.]+']);
