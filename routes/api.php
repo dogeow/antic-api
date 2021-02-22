@@ -76,13 +76,13 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/secret/{string}', [ApiController::class, 'secret']);
         Route::get('/array', [ApiController::class, 'array']);
         Route::get('/random', [ApiController::class, 'random']);
-        Route::get('/url_decode/{string}', [ApiController::class, 'urlDecode']);
-        Route::get('/url_encode/{string}', [ApiController::class, 'urlEncode']);
-        Route::get('/base64_encode/{string}', [ApiController::class, 'base64_encode']);
-        Route::get('/base64_decode/{string}', [ApiController::class, 'base64_decode']);
+        Route::get('/url_decode/{string?}', [ApiController::class, 'urlDecode']);
+        Route::get('/url_encode/{string?}', [ApiController::class, 'urlEncode']);
+        Route::get('/base64_encode/{string?}', [ApiController::class, 'base64_encode']);
+        Route::get('/base64_decode/{string?}', [ApiController::class, 'base64_decode']);
         Route::get('/utf8_to_unicode/{string}', [ApiController::class, 'utf8_to_unicode']);
         Route::get('/unicode_to_utf8/{string}', [ApiController::class, 'unicode_to_utf8']);
-        Route::get('/punycode/{string}', [ApiController::class, 'punycode']);
+        Route::get('/punycode/{string?}', [ApiController::class, 'punycode']);
         Route::get('/image/{action}', [ApiController::class, 'image']);
         Route::get('/md5/{string?}', [ApiController::class, 'md5']);
         Route::get('/user-agent', [ApiController::class, 'userAgent']);

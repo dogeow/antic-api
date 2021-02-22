@@ -64,15 +64,15 @@ class ApiController extends Controller
         return $data;
     }
 
-    public function punycode($domain): void
+    public function punycode($domain = ''): string
     {
         $Punycode = new Punycode();
         $preg = "/[\x{4e00}-\x{9fa5}]+/u";
         if (preg_match_all($preg, $domain, $matches)) {
-            var_dump($Punycode->encode($domain));
-        } else {
-            var_dump($Punycode->decode($domain));
+            return $Punycode->encode($domain);
         }
+
+        return $domain;
     }
 
     public function unicode_to_utf8($string): string
@@ -121,22 +121,22 @@ class ApiController extends Controller
         }, 200, ['Content-Type' => 'image/jpeg']);
     }
 
-    public function base64_encode($string): string
+    public function base64_encode($string = ''): string
     {
         return base64_encode($string);
     }
 
-    public function base64_decode($string)
+    public function base64_decode($string = '')
     {
         return base64_decode($string);
     }
 
-    public function urlEncode($string): string
+    public function urlEncode($string = ''): string
     {
         return urlencode($string);
     }
 
-    public function urlDecode($string): string
+    public function urlDecode($string = ''): string
     {
         return urldecode($string);
     }
