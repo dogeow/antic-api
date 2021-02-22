@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Api;
 use GuzzleHttp\Client as GuzzleClient;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use TrueBV\Punycode;
-use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -217,7 +217,6 @@ class ApiController extends Controller
     {
         return date('Y-m-d', strtotime($content));
     }
-
 
     public function sp($content)
     {
