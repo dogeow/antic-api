@@ -187,7 +187,7 @@ class ApiController extends Controller
         return str_repeat('*', strlen($string));
     }
 
-    public function hash($string): string
+    public function hash($string = ''): string
     {
         return sha1($string);
     }
