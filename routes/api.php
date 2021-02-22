@@ -73,7 +73,7 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('parking', [ApiController::class, 'parking']);
         Route::get('number/{start}/{end}/{action?}', [ApiController::class, 'number']);
         Route::get('/html_sc/{string}', [ApiController::class, 'htmlSC']);
-        Route::get('/secret/{string}', [ApiController::class, 'secret']);
+        Route::get('/secret/{string?}', [ApiController::class, 'secret']);
         Route::get('/array', [ApiController::class, 'array']);
         Route::get('/random', [ApiController::class, 'random']);
         Route::get('/url_decode/{string?}', [ApiController::class, 'urlDecode']);

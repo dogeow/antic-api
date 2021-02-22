@@ -182,7 +182,7 @@ class ApiController extends Controller
         return file_get_contents('https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true');
     }
 
-    public function secret($string): string
+    public function secret($string = ''): string
     {
         return str_repeat('*', strlen($string));
     }
