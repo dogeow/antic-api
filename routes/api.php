@@ -92,6 +92,7 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/how-time/{content}', [ApiController::class, 'howTime']);
         Route::get('/timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
         Route::get('/bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
+        Route::get('/sp/{string}', [ApiController::class, 'sp'])->middleware('doNotCacheResponse');
 
         // 文章
         Route::get('/posts/search', [PostController::class, 'search']);

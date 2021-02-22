@@ -6,6 +6,7 @@ use App\Models\Api;
 use GuzzleHttp\Client as GuzzleClient;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use TrueBV\Punycode;
+use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -215,5 +216,11 @@ class ApiController extends Controller
     public function howTime($content)
     {
         return date('Y-m-d', strtotime($content));
+    }
+
+
+    public function sp($content)
+    {
+        return Str::singular($content) === $content ? Str::plural($content) : Str::singular($content);
     }
 }
