@@ -23,7 +23,7 @@ class TaskController extends Controller
 
         return $project->tasks()->save(new Task([
             'title' => $validatedData['title'],
-            'order' => $maxOrder === null ? 0: $maxOrder + 1,
+            'order' => $maxOrder === null ? 0 : $maxOrder + 1,
         ]));
     }
 
