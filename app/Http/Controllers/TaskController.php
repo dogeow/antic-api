@@ -21,10 +21,10 @@ class TaskController extends Controller
 
         $maxOrder = $project->tasks()->max('order');
 
-        return $project->tasks()->save(new Task([
+        return $project->tasks()->create([
             'title' => $validatedData['title'],
             'order' => $maxOrder === null ? 0 : $maxOrder + 1,
-        ]));
+        ]);
     }
 
     public function update(Project $project, Task $task, Request $request)
