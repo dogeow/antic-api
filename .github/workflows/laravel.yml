@@ -46,4 +46,6 @@ jobs:
             git pull
             composer install
             php artisan migrate -q
+            php artisan lighthouse:clear-cache
+            php artisan lighthouse:cache
             php artisan optimize
