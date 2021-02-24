@@ -57,7 +57,7 @@ class AuthController extends Controller
         $user = User::find(2);
         $token = auth()->login($user);
 
-        return $this->respondWithToken($token);
+        return $this->withProfile($token);
     }
 
     /**
@@ -80,11 +80,7 @@ class AuthController extends Controller
         $token = $validated['remember_me'] ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
 
         if (is_string($token)) {
-            return array_merge([
-                'access_token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60,
-            ], auth()->user()->toArray());
+            return $this->withProfile($token);
         }
 
         return response()->json([
@@ -142,5 +138,20 @@ class AuthController extends Controller
     public function guard(): Guard
     {
         return Auth::guard($this->guard);
+    }
+
+
+    /**
+     * @param  string  $token
+     * @return array
+     */
+    public function withProfile (string $token): array
+    {
+        return array_merge([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+        ], auth()->user()->toArray());
+
     }
 }
