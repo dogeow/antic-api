@@ -140,18 +140,16 @@ class AuthController extends Controller
         return Auth::guard($this->guard);
     }
 
-
     /**
      * @param  string  $token
      * @return array
      */
-    public function withProfile (string $token): array
+    public function withProfile(string $token): array
     {
         return array_merge([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
         ], auth()->user()->toArray());
-
     }
 }
