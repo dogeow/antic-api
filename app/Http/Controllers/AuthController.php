@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class AuthController extends Controller
 {
@@ -45,15 +46,26 @@ class AuthController extends Controller
     public function guest(): array
     {
         if (request('name')) {
-            $faker = app(\Faker\Generator::class);
+            $onlineUser = Redis::get('presence-chat:members');
+            if ($onlineUser) {
+                $onlineUser = collect(json_decode($onlineUser, true));
+                $availableUser = User::whereNotIn('id',
+                    array_merge($onlineUser->pluck('user_id')->toArray(), [1, 2]))->first();
+                if ($availableUser) {
+                    $availableUser->name = request('name');
+                    $availableUser->save();
+                } else {
+                    $faker = app(\Faker\Generator::class);
 
-            $user = User::create([
-                'name' => preg_replace('/\s+/', '', request('name')),
-                'email' => $faker->email,
-                'password' => bcrypt($faker->password),
-            ]);
+                    $availableUser = User::create([
+                        'name' => preg_replace('/\s+/', '', request('name')),
+                        'email' => $faker->email,
+                        'password' => bcrypt($faker->password),
+                    ]);
+                }
+            }
 
-            $token = auth()->login($user);
+            $token = auth()->login($availableUser);
 
             return $this->withProfile($token);
         }
