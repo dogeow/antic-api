@@ -39,7 +39,7 @@ class AuthController extends Controller
     }
 
     /**
-     * 测试账号、聊天账号
+     * 测试账号、聊天账号.
      * @return array
      */
     public function guest(): array
