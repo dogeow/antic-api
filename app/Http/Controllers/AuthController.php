@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    protected $guard = 'api';
+    protected string $guard = 'api';
 
     /**
      * 创建用户.
@@ -38,7 +38,11 @@ class AuthController extends Controller
         )->setStatusCode(201);
     }
 
-    public function guest()
+    /**
+     * 测试账号、聊天账号
+     * @return array
+     */
+    public function guest(): array
     {
         if (request('name')) {
             $faker = app(\Faker\Generator::class);
@@ -51,7 +55,7 @@ class AuthController extends Controller
 
             $token = auth()->login($user);
 
-            return $this->respondWithToken($token);
+            return $this->withProfile($token);
         }
 
         $user = User::find(2);
