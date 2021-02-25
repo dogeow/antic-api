@@ -9,7 +9,6 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
 
 class AuthController extends Controller
 {
@@ -53,14 +52,13 @@ class AuthController extends Controller
                 'email' => $faker->email,
                 'password' => bcrypt($faker->password),
             ]);
-
         } else {
             $user = User::find(2);
         }
 
         $token = auth()->login($user);
 
-        return $this->withProfile($token);
+        return self::withProfile($token);
     }
 
     /**
@@ -83,7 +81,7 @@ class AuthController extends Controller
         $token = $validated['remember_me'] ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
 
         if (is_string($token)) {
-            return $this->withProfile($token);
+            return self::withProfile($token);
         }
 
         return response()->json([
@@ -115,7 +113,7 @@ class AuthController extends Controller
      */
     public function refresh(): array
     {
-        return $this->respondWithToken(auth()->refresh());
+        return self::withToken(auth()->refresh());
     }
 
     /**
@@ -124,7 +122,7 @@ class AuthController extends Controller
      * @param  string  $token
      * @return array
      */
-    protected function respondWithToken($token): array
+    protected static function withToken(string $token): array
     {
         return [
             'access_token' => $token,
@@ -147,12 +145,8 @@ class AuthController extends Controller
      * @param  string  $token
      * @return array
      */
-    public function withProfile(string $token): array
+    public static function withProfile(string $token): array
     {
-        return array_merge([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-        ], auth()->user()->toArray());
+        return array_merge(self::withToken($token), auth()->user()->toArray());
     }
 }
