@@ -46,31 +46,18 @@ class AuthController extends Controller
     public function guest(): array
     {
         if (request('name')) {
-            $onlineUser = Redis::get('presence-chat:members');
-            if ($onlineUser) {
-                $onlineUser = collect(json_decode($onlineUser, true));
-                $availableUser = User::whereNotIn('id',
-                    array_merge($onlineUser->pluck('user_id')->toArray(), [1, 2]))->first();
-                if ($availableUser) {
-                    $availableUser->name = request('name');
-                    $availableUser->save();
-                } else {
-                    $faker = app(\Faker\Generator::class);
+            $faker = app(\Faker\Generator::class);
 
-                    $availableUser = User::create([
-                        'name' => preg_replace('/\s+/', '', request('name')),
-                        'email' => $faker->email,
-                        'password' => bcrypt($faker->password),
-                    ]);
-                }
-            }
+            $user = User::create([
+                'name' => preg_replace('/\s+/', '', request('name')),
+                'email' => $faker->email,
+                'password' => bcrypt($faker->password),
+            ]);
 
-            $token = auth()->login($availableUser);
-
-            return $this->withProfile($token);
+        } else {
+            $user = User::find(2);
         }
 
-        $user = User::find(2);
         $token = auth()->login($user);
 
         return $this->withProfile($token);
