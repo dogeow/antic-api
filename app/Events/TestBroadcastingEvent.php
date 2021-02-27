@@ -13,17 +13,18 @@ class TestBroadcastingEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+    public $isRobot;
 
     /**
      * Create a new event instance.
      *
      * @param  string  $message
-     * @return void
+     * @param  bool  $isRobot
      */
-    public function __construct($message)
+    public function __construct($message, $isRobot = false)
     {
-        // 简单的消息列表
         $this->message = $message;
+        $this->isRobot = $isRobot;
     }
 
     /**
@@ -45,8 +46,8 @@ class TestBroadcastingEvent implements ShouldBroadcast
     {
         return [
             'data' => [
-                'id' => auth()->user()->id,
-                'name' => auth()->user()->name,
+                'id' => $this->isRobot ? 0 : auth()->user()->id,
+                'name' => $this->isRobot ? "机器人" : auth()->user()->name,
                 'message' => $this->message,
             ],
         ];

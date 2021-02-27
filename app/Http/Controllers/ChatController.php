@@ -18,5 +18,30 @@ class ChatController extends Controller
         }
 
         broadcast(new TestBroadcastingEvent($request->message))->toOthers();
+
+        // 机器人
+        if (preg_match('/^ (?P<message>.*?)( (?P<content>.*))?$/', $request->message, $matches)) {
+            \Log::info($matches);
+            $robotMessage = "我暂时还没有加入这个功能。";
+
+            $api = new ApiController();
+            switch ($matches['message']) {
+                case "时间":
+                    $robotMessage = date('Y-m-d H:i:s');
+                    break;
+                case "大小写":
+                    $robotMessage = $api->sp($matches['content']);
+                    break;
+                case "md5":
+                    $robotMessage = $api->md5($matches['content']);
+                    break;
+                case "ip":
+                    $robotMessage = $request->ip();
+                    \Log::info($request->ip());
+                    break;
+            }
+
+            broadcast(new TestBroadcastingEvent($robotMessage, true));
+        }
     }
 }

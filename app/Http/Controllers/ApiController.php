@@ -204,7 +204,7 @@ class ApiController extends Controller
 
     public function ip($ip = null)
     {
-        if ($ip ?? null) {
+        if ($ip) {
             $content = file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);
 
             return response($content)->header('Content-Type', 'application/json');
