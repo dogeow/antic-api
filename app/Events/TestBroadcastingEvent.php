@@ -47,7 +47,7 @@ class TestBroadcastingEvent implements ShouldBroadcast
         return [
             'data' => [
                 'id' => $this->isRobot ? 0 : auth()->user()->id,
-                'name' => $this->isRobot ? "机器人" : auth()->user()->name,
+                'name' => $this->isRobot ? '机器人' : auth()->user()->name,
                 'message' => $this->message,
             ],
         ];
