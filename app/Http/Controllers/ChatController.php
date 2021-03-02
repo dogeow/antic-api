@@ -21,23 +21,25 @@ class ChatController extends Controller
 
         // 机器人
         if (preg_match('/^ (?P<message>.*?)( (?P<content>.*))?$/', $request->message, $matches)) {
-            \Log::info($matches);
-            $robotMessage = "我暂时还没有加入这个功能。";
+            $robotMessage = '我暂时还没有加入这个功能。';
 
+            $content = $matches['content'];
             $api = new ApiController();
             switch ($matches['message']) {
-                case "时间":
+                case '时间':
                     $robotMessage = date('Y-m-d H:i:s');
                     break;
-                case "大小写":
-                    $robotMessage = $api->sp($matches['content']);
+                case '大小写':
+                    $robotMessage = $api->sp($content);
                     break;
-                case "md5":
-                    $robotMessage = $api->md5($matches['content']);
+                case 'md5':
+                    $robotMessage = $api->md5($content);
                     break;
-                case "ip":
+                case 'ip':
                     $robotMessage = $request->ip();
-                    \Log::info($request->ip());
+                    break;
+                case '长度':
+                    $robotMessage = mb_strlen($content);
                     break;
             }
 
