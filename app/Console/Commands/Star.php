@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Notifications\BuildNotification;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 

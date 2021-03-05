@@ -27,10 +27,10 @@ class giveNameOld extends Command
     /**
      * @var Client
      */
-    private $client;
+    private Client $client;
 
-    private $concurrency = 50;  // 同时并发抓取
-    private $totalPageCount = 1e1000;
+    private int $concurrency = 50;  // 同时并发抓取
+    private float $totalPageCount = 1e1000;
 
     /**
      * Create a new command instance.
@@ -48,9 +48,9 @@ class giveNameOld extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $sex = $this->argument('sex');
 

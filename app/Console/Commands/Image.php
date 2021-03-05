@@ -43,9 +43,9 @@ class Image extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $urlPrefix = 'https://car.autohome.com.cn/jingxuan/list-0-p';
         $urlSuffix = '.html';
@@ -67,7 +67,7 @@ class Image extends Command
         }
     }
 
-    public function getDate($url)
+    public function getDate($url): bool|array
     {
         try {
             $response = $this->guzzleClient->request('GET', $url);

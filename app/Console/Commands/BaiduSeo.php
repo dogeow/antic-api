@@ -23,7 +23,7 @@ class BaiduSeo extends Command
      */
     protected $description = '百度收录量';
 
-    public $guzzleClient;
+    public GuzzleClient $guzzleClient;
     public $crawler;
 
     /**
@@ -78,23 +78,21 @@ class BaiduSeo extends Command
 
         try {
             $response = $this->guzzleClient->request('GET', $url);
-        } catch (\Exception  $e) {
-            echo $e->getMessage();
-            exit;
-        }
-
-        $content = $response->getBody()->getContents();
-        if (preg_match('/找到相关结果数约(?P<count>[\d,]+)个/u', $content, $match)) {
-            $count = str_replace(',', '', $match['count']);
-        } elseif (preg_match('/很抱歉，没有找到与/u', $content, $matches)) {
-            $count = 0;
-        } else {
-            $crawler = new Crawler($content);
-            try {
-                $count = str_replace(',', '', $crawler->filterXPath('//span/b')->text());
-            } catch (\Exception $e) {
-                echo $e->getMessage();
+            $content = $response->getBody()->getContents();
+            if (preg_match('/找到相关结果数约(?P<count>[\d,]+)个/u', $content, $match)) {
+                $count = str_replace(',', '', $match['count']);
+            } elseif (preg_match('/很抱歉，没有找到与/u', $content, $matches)) {
+                $count = 0;
+            } else {
+                $crawler = new Crawler($content);
+                try {
+                    $count = str_replace(',', '', $crawler->filterXPath('//span/b')->text());
+                } catch (\Exception $e) {
+                    \Log::error($e->getMessage());
+                }
             }
+        } catch (\Exception  $e) {
+            \Log::error($e->getMessage());
         }
 
         echo $count.PHP_EOL;

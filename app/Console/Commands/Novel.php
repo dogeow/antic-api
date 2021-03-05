@@ -35,9 +35,9 @@ class Novel extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $url = 'http://www.dingdianxs.com/5/5155/';
         $client = new GuzzleClient();

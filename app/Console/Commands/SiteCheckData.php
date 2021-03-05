@@ -28,7 +28,7 @@ class SiteCheckData extends Command
      */
     protected $description = '用接口获取站点更新时间';
 
-    public $guzzleClient;
+    public GuzzleClient $guzzleClient;
     public $crawler;
     public $site;
 
@@ -93,7 +93,7 @@ class SiteCheckData extends Command
         return $this->site->get_type === 'api' ? $crawler->text() : $crawler->filterXPath($this->site->date_xpath)->text();
     }
 
-    public function saveStatus($status)
+    public function saveStatus($status): void
     {
         SiteCheck::create([
             'site_id' => $this->site->id,
@@ -101,7 +101,7 @@ class SiteCheckData extends Command
         ]);
     }
 
-    public function checkDateStatus($date)
+    public function checkDateStatus($date): bool
     {
         $status = false;
         $dataTime = new \DateTime;
@@ -121,10 +121,8 @@ class SiteCheckData extends Command
                 return false;
             }
             $diff = Carbon::now()->diffInDays($targetDate);
-            if ($this->site->domain === 'sodu.ee') {
-                if (Carbon::now()->diffInHours($targetDate) >= 1) {
-                    Notification::send(new User, new BuildNotification($this->site->domphpain.' 超过一小时'));
-                }
+            if (($this->site->domain === 'sodu.ee') && Carbon::now()->diffInHours($targetDate) >= 1) {
+                Notification::send(new User, new BuildNotification($this->site->domphpain.' 超过一小时'));
             }
             $status = $diff ? false : true;
         }

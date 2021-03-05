@@ -27,12 +27,12 @@ class giveName extends Command
     /**
      * @var Client
      */
-    private $client;
+    private Client $client;
 
     private $firstName;
 
-    private $concurrency = 50;  // 同时并发抓取
-    private $totalPageCount = 1e2;
+    private int $concurrency = 50;  // 同时并发抓取
+    private float $totalPageCount = 1e2;
 
     /**
      * Create a new command instance.
@@ -51,9 +51,9 @@ class giveName extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $requests = function ($total) {
             foreach ($this->firstName as $item) {
@@ -89,7 +89,7 @@ class giveName extends Command
         $promise->wait();
     }
 
-    public function sexId()
+    public function sexId(): int
     {
         switch ($this->argument('sex')) {
             case 'f':

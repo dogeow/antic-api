@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Moon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class MoonController extends Controller
 {
-    public function create(Request $request): JsonResponse
+    public function create(Request $request): Moon|Model
     {
         // 验证格式
         $rules = ['name' => ['required', 'unique:moons']];

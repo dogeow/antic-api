@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Api;
 use GuzzleHttp\Client as GuzzleClient;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use JetBrains\PhpStorm\Pure;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use TrueBV\Punycode;
 
@@ -12,7 +17,7 @@ class ApiController extends Controller
 {
     public $guzzleClient;
 
-    public function index()
+    public function index(): Collection|array
     {
         return Api::all();
     }
@@ -76,7 +81,7 @@ class ApiController extends Controller
         return $domain;
     }
 
-    public function unicode_to_utf8($string): string
+    #[Pure] public function unicode_to_utf8($string): string
     {
         $code = (int) hexdec($string);
         //这里注意转换出来的 code 一定得是整形，这样才会正确的按位操作
@@ -87,7 +92,7 @@ class ApiController extends Controller
         return chr(bindec($ord_1)).chr(bindec($ord_2)).chr(bindec($ord_3));
     }
 
-    public function utf8_to_unicode($string): string
+    #[Pure] public function utf8_to_unicode($string): string
     {
         $unicode = (ord($string[0]) & 0x1F) << 12;
         $unicode |= (ord($string[1]) & 0x3F) << 6;
@@ -122,27 +127,27 @@ class ApiController extends Controller
         }, 200, ['Content-Type' => 'image/jpeg']);
     }
 
-    public function base64_encode($string = ''): string
+    #[Pure] public function base64_encode($string = ''): string
     {
         return base64_encode($string);
     }
 
-    public function base64_decode($string = '')
+    #[Pure] public function base64_decode($string = '')
     {
         return base64_decode($string);
     }
 
-    public function urlEncode($string = ''): string
+    #[Pure] public function urlEncode($string = ''): string
     {
         return urlencode($string);
     }
 
-    public function urlDecode($string = ''): string
+    #[Pure] public function urlDecode($string = ''): string
     {
         return urldecode($string);
     }
 
-    public function image($action = null)
+    public function image($action = null): BinaryFileResponse|string|UrlGenerator|Application
     {
         $uri = '/favicon.ico';
         switch ($action) {
@@ -153,7 +158,7 @@ class ApiController extends Controller
         }
     }
 
-    public function md5($string = ''): string
+    #[Pure] public function md5($string = ''): string
     {
         return md5($string);
     }
@@ -163,39 +168,39 @@ class ApiController extends Controller
         return $_SERVER['HTTP_USER_AGENT'];
     }
 
-    public function sha($string): string
+    #[Pure] public function sha($string): string
     {
         return sha1($string);
     }
 
-    public function date($date = null)
+    public function date($date = null): bool|int|string
     {
         return $date ? strtotime($date) : date('Y-m-d H:i:s', time());
     }
 
-    public function timestamp($timestamp = null)
+    public function timestamp($timestamp = null): bool|int|string
     {
         return $timestamp ? date('Y-m-d H:i:s', $timestamp) : time();
     }
 
-    public function bankcard($cardNo)
+    public function bankcard($cardNo): bool|string
     {
         return file_get_contents('https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true');
     }
 
-    public function secret($string = ''): string
+    #[Pure] public function secret($string = ''): string
     {
         return str_repeat('*', strlen($string));
     }
 
-    public function hash($string = ''): string
+    #[Pure] public function hash($string = ''): string
     {
         return sha1($string);
     }
 
     public function htmlSC($string): string
     {
-        if (strpos($string, '&') === 0) {
+        if (str_starts_with($string, '&')) {
             return htmlspecialchars_decode($string);
         }
 
@@ -213,12 +218,12 @@ class ApiController extends Controller
         return $_SERVER['REMOTE_ADDR'];
     }
 
-    public function howTime($content)
+    #[Pure] public function howTime($content)
     {
         return date('Y-m-d', strtotime($content));
     }
 
-    public function sp($content)
+    public function sp($content): string
     {
         return Str::singular($content) === $content ? Str::plural($content) : Str::singular($content);
     }
