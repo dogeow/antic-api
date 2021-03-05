@@ -20,7 +20,7 @@ class ChatController extends Controller
         broadcast(new TestBroadcastingEvent($request->message))->toOthers();
 
         // 机器人
-        if (preg_match('/^ (?P<message>.*?)( (?P<content>.*))?$/', $request->message, $matches)) {
+        if (preg_match('/^ +(?P<message>.*?)( +(?P<content>.*))?$/', $request->message, $matches)) {
             $content = $matches['content'] ?? null;
             $api = new ApiController();
             $robotMessage = match ($matches['message']) {
