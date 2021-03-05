@@ -22,7 +22,7 @@ class PhpFunctionController extends Controller
         });
         $functions = QueryBuilder::for($query)->allowedFilters(['name', 'intro'])->get();
 
-        if(empty($functions)){
+        if (empty($functions)) {
             return [];
         }
 
