@@ -42,7 +42,7 @@ class SiteCheckData extends Command
         parent::__construct();
 
         $this->guzzleClient = new GuzzleClient([
-            'timeout' => 10,
+            'timeout' => 30,
         ]);
     }
 
