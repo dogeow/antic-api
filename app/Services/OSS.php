@@ -13,10 +13,10 @@ class OSS
      *  经典网络下可选：杭州、上海、青岛、北京、张家口、深圳、香港、硅谷、弗吉尼亚、新加坡、悉尼、日本、法兰克福、迪拜
      *  VPC 网络下可选：杭州、上海、青岛、北京、张家口、深圳、硅谷、弗吉尼亚、新加坡、悉尼、日本、法兰克福、迪拜
      */
-    private $city = '香港';
+    private $city = '上海';
 
     // 经典网络 or VPC
-    private $networkType = '经典网络';
+    private $networkType = 'VPC';
 
     private $ossClient;
 
