@@ -41,32 +41,25 @@ class ImageController extends Controller
             $filename = $originalName;
         }
 
-        $path = $request->file($key)->storeAs(
-            $this->folder,
-            $filename,
-            'public'
-        );
-
         Image::create([
             'user_id' => 1,
             'original_name' => $originalName,
             'name' => $filename,
         ]);
 
-        $filename = $this->folder.'/'.$filename;
+        $request->file($key)->storeAs($this->folder, $filename, 'oss');
 
-        $disk = Storage::disk('oss');
-        $disk->put($filename, Storage::disk('public')->get($filename));
+        $filenameWithPath = $this->folder.'/'.$filename;
 
         return [
-            'url' => $path ? Storage::disk('public')->url($filename) : false,
+            'url' => "https://antic-lab.oss-cn-shanghai.aliyuncs.com/{$filenameWithPath}",
         ];
     }
 
     public function index()
     {
         return collect(File::files(public_path().'/storage/'.$this->folder.'/'))->map(function ($item) {
-            return '/storage/'.$this->folder.'/'.$item->getFilename();
-        }) ?? [];
+                return '/storage/'.$this->folder.'/'.$item->getFilename();
+            }) ?? [];
     }
 }
