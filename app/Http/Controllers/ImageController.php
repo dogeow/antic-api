@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
-use App\Services\OSS;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
