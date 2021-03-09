@@ -1,6 +1,7 @@
 preset: laravel
 disabled:
   - unused_use
+  - phpdoc_summary
 finder:
   not-name:
     - index.php
