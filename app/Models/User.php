@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -127,5 +128,10 @@ class User extends Authenticatable implements JWTSubject
     public function isAuthorOf($model)
     {
         return $this->id === $model->user_id;
+    }
+
+    public function image(): morphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

@@ -18,6 +18,8 @@ class CreateImagesTable extends Migration
             $table->bigInteger('user_id');
             $table->string('original_name');
             $table->string('name');
+            $table->unsignedInteger('imageable_id');
+            $table->string('imageable_type');
             $table->timestamps();
         });
     }

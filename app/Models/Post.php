@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\morphMany;
 use Laravel\Scout\Searchable;
+use App\Models\Image;
 
 /**
  * App\Models\Post.
@@ -71,5 +73,10 @@ class Post extends Model
     public function scopePublic($query)
     {
         return $query->where('public', 1);
+    }
+
+    public function image(): morphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }
