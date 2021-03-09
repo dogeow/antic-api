@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\morphMany;
-use Laravel\Scout\Searchable;
 
 /**
  * App\Models\Post.
@@ -41,7 +40,7 @@ use Laravel\Scout\Searchable;
  */
 class Post extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $fillable = ['title', 'content'];
 
