@@ -63,7 +63,6 @@ Route::group(['middleware' => ['api']], function () {
         Route::post('/weibo', [WeiboController::class, 'index']);
 
         // Emoji
-        Route::get('/emoji', [ImageController::class, 'index']);
         Route::post('/emoji', [ImageController::class, 'store']);
 
         // Search

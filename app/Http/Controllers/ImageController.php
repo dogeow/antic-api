@@ -8,16 +8,20 @@ use Illuminate\Support\Facades\File;
 
 class ImageController extends Controller
 {
-    public $folder = 'images/emoji';
+    public string $folder = 'images/emoji';
 
-    public function store(Request $request)
+    public function store(Request $request): array
     {
         $key = 'emoji';
         if (false === $request->hasFile($key)) {
-            return '没有文件';
+            return [
+                'url' => "",
+            ];
         }
         if (false === $request->file($key)->isValid()) {
-            return '上传失败';
+            return [
+                'url' => "",
+            ];
         }
 
         $originalName = $request->file($key)->getClientOriginalName();
@@ -52,12 +56,5 @@ class ImageController extends Controller
         return [
             'url' => "https://oss.gugelong.com/{$filenameWithPath}",
         ];
-    }
-
-    public function index()
-    {
-        return collect(File::files(public_path().'/storage/'.$this->folder.'/'))->map(function ($item) {
-            return '/storage/'.$this->folder.'/'.$item->getFilename();
-        }) ?? [];
     }
 }
