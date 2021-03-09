@@ -55,7 +55,8 @@ class ImageController extends Controller
 
         $filename = $this->folder.'/'.$filename;
 
-        OSS::publicUpload('antic-lab', $filename, Storage::disk('public')->path($filename));
+        $disk = Storage::disk('oss');
+        $disk->put($filename, Storage::disk('public')->get($filename));
 
         return [
             'url' => $path ? Storage::disk('public')->url($filename) : false,
