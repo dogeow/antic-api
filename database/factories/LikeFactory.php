@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Like;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class LikeFactory extends Factory
 {
