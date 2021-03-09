@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\morphMany;
 use Laravel\Scout\Searchable;
-use App\Models\Image;
 
 /**
  * App\Models\Post.
