@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 
 class ImageController extends Controller
 {
@@ -15,12 +14,12 @@ class ImageController extends Controller
         $key = 'emoji';
         if (false === $request->hasFile($key)) {
             return [
-                'url' => "",
+                'url' => '',
             ];
         }
         if (false === $request->file($key)->isValid()) {
             return [
-                'url' => "",
+                'url' => '',
             ];
         }
 
