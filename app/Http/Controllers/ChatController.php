@@ -41,7 +41,7 @@ class ChatController extends Controller
      * @param $content
      * @return null|string
      */
-    public static function checkParam($content): null|string
+    public static function checkParam($content): null | string
     {
         if ($content === null) {
             return '请键入参数';

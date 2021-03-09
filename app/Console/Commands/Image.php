@@ -67,7 +67,7 @@ class Image extends Command
         }
     }
 
-    public function getDate($url): bool|array
+    public function getDate($url): bool | array
     {
         try {
             $response = $this->guzzleClient->request('GET', $url);
