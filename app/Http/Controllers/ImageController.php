@@ -50,7 +50,7 @@ class ImageController extends Controller
         $filenameWithPath = $this->folder.'/'.$filename;
 
         return [
-            'url' => "https://antic-lab.oss-cn-shanghai.aliyuncs.com/{$filenameWithPath}",
+            'url' => "https://oss.gugelong.com/{$filenameWithPath}",
         ];
     }
 
