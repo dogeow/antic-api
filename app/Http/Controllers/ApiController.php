@@ -15,7 +15,7 @@ class ApiController extends Controller
 {
     public $guzzleClient;
 
-    public function index(): Collection|array
+    public function index(): Collection | array
     {
         return Api::all();
     }
@@ -119,7 +119,7 @@ class ApiController extends Controller
         return urldecode($string);
     }
 
-    public function image($action = null): BinaryFileResponse|string|UrlGenerator|Application
+    public function image($action = null): BinaryFileResponse | string | UrlGenerator | Application
     {
         $uri = '/favicon.ico';
         switch ($action) {
@@ -145,17 +145,17 @@ class ApiController extends Controller
         return sha1($string);
     }
 
-    public function date($date = null): bool|int|string
+    public function date($date = null): bool | int | string
     {
         return $date ? strtotime($date) : date('Y-m-d H:i:s');
     }
 
-    public function timestamp($timestamp = null): bool|int|string
+    public function timestamp($timestamp = null): bool | int | string
     {
         return $timestamp ? date('Y-m-d H:i:s', $timestamp) : time();
     }
 
-    public function bankcard($cardNo): bool|string
+    public function bankcard($cardNo): bool | string
     {
         return file_get_contents('https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true');
     }
