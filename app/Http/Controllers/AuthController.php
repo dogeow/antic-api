@@ -84,17 +84,16 @@ class AuthController extends Controller
         $pattern = '/^((13\d)|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18\d)|(19[1|3])|(19[5|6])|(19[8|9]))\d{8}$/';
         if (preg_match($pattern, $validated['account'], $matches)) {
             $credentials = [
-                'phone' => $validated['phone'],
+                'phone' => $validated['account'],
                 'password' => $validated['password'],
             ];
             $errorMsg = [
                 'phone' => [$notMatchedText],
                 'password' => [$notMatchedText],
             ];
-        }
-        elseif (filter_var($validated['email'], FILTER_VALIDATE_EMAIL)) {
+        } elseif (filter_var($validated['account'], FILTER_VALIDATE_EMAIL)) {
             $credentials = [
-                'email' => $validated['email'],
+                'email' => $validated['account'],
                 'password' => $validated['password'],
             ];
             $errorMsg = [
