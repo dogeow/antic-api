@@ -24,7 +24,8 @@ class AuthLogin extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email'],
+            'email' => ['nullable', 'email'],
+            'phone' => ['nullable', 'regex:/^((13[0-9])|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18[0-9])|(19[1|3])|(19[5|6])|(19[8|9]))\d{8}$/'],
             'password' => ['required', 'min:8', 'max:16'],
             'remember_me' => 'boolean',
         ];

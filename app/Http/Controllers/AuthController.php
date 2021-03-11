@@ -69,26 +69,40 @@ class AuthController extends Controller
      */
     public function login(AuthLogin $request)
     {
+        $notMatchedText = '账号不存在或密码错误';
+
         $validated = $request->validated();
 
-        $credentials = [
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-        ];
-        $rememberMeTtl = 60 * 24 * 7;
-        $notMatchedText = '邮箱不存在或密码错误';
+        if ($validated['phone'] ?? null) {
+            $credentials = [
+                'phone' => $validated['phone'],
+                'password' => $validated['password'],
+            ];
+            $errorMsg = [
+                'phone' => [$notMatchedText],
+                'password' => [$notMatchedText],
+            ];
+        } elseif ($validated['email'] ?? null) {
+            $credentials = [
+                'email' => $validated['email'],
+                'password' => $validated['password'],
+            ];
+            $errorMsg = [
+                'email' => [$notMatchedText],
+                'password' => [$notMatchedText],
+            ];
+        }
 
-        $token = $validated['remember_me'] ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
+        $rememberMeTtl = 60 * 24 * 7;
+
+        $token = ($validated['remember_me'] ?? false) ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
 
         if (is_string($token)) {
             return self::withProfile($token);
         }
 
         return response()->json([
-            'errors' => [
-                'email' => [$notMatchedText],
-                'password' => [$notMatchedText],
-            ],
+            'errors' => $errorMsg
         ])->setStatusCode(202);
     }
 
