@@ -25,11 +25,19 @@ class AuthController extends Controller
         $validated = $request->validated();
 
         // 创建用户
-        $user = User::create([
-            'name' => preg_replace('/\s+/', '', $validated['name']),
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
-        ]);
+        if ($validated['email'] ?? null) {
+            $user = User::create([
+                'name' => preg_replace('/\s+/', '', $validated['name']),
+                'email' => $validated['email'],
+                'password' => bcrypt($validated['password']),
+            ]);
+        } elseif ($validated['phone'] ?? null) {
+            $user = User::create([
+                'name' => preg_replace('/\s+/', '', $validated['name']),
+                'email' => $validated['phone'],
+                'password' => bcrypt($validated['password']),
+            ]);
+        }
 
         return response()->json(
             $user
@@ -73,7 +81,8 @@ class AuthController extends Controller
 
         $validated = $request->validated();
 
-        if ($validated['phone'] ?? null) {
+        $pattern = '/^((13\d)|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18\d)|(19[1|3])|(19[5|6])|(19[8|9]))\d{8}$/';
+        if (preg_match($pattern, $validated['account'], $matches)) {
             $credentials = [
                 'phone' => $validated['phone'],
                 'password' => $validated['password'],
@@ -82,7 +91,8 @@ class AuthController extends Controller
                 'phone' => [$notMatchedText],
                 'password' => [$notMatchedText],
             ];
-        } elseif ($validated['email'] ?? null) {
+        }
+        elseif (filter_var($validated['email'], FILTER_VALIDATE_EMAIL)) {
             $credentials = [
                 'email' => $validated['email'],
                 'password' => $validated['password'],
