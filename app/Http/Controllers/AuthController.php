@@ -102,7 +102,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'errors' => $errorMsg
+            'errors' => $errorMsg,
         ])->setStatusCode(202);
     }
 
