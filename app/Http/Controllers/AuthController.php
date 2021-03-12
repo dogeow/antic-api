@@ -34,7 +34,7 @@ class AuthController extends Controller
         } elseif ($validated['phone'] ?? null) {
             $user = User::create([
                 'name' => preg_replace('/\s+/', '', $validated['name']),
-                'email' => $validated['phone'],
+                'phone' => $validated['phone'],
                 'password' => bcrypt($validated['password']),
             ]);
         }
