@@ -8,7 +8,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::group([
         'prefix' => 'user',
     ], function () {
-        Route::post('register', [AuthController::class, 'register']);
+        Route::post('register-by-email', [AuthController::class, 'registerByEmail']);
+        Route::post('register-by-phone', [AuthController::class, 'registerByPhone']);
         Route::post('login', [AuthController::class, 'login']);
         Route::post('guest', [AuthController::class, 'guest']);
     });
@@ -31,6 +32,8 @@ Route::group(['middleware' => ['api']], function () {
         });
 
         Route::post('/chat', [ChatController::class, 'message']);
+
+        Route::post('/recaptcha', [AuthController::class, 'recaptcha']);
 
         // 博饼
         Route::get('/moon', [MoonController::class, 'index']);

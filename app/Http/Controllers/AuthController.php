@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthLogin;
-use App\Http\Requests\AuthRegister;
+use App\Http\Requests\AuthRegisterByEmail;
+use App\Http\Requests\AuthRegisterByPhone;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Overtrue\EasySms\EasySms;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -17,27 +20,48 @@ class AuthController extends Controller
     /**
      * 创建用户.
      *
-     * @param  AuthRegister  $request
+     * @param  AuthRegisterByEmail  $request
      * @return JsonResponse
      */
-    public function register(AuthRegister $request): JsonResponse
+    public function registerByEmail(AuthRegisterByEmail $request): JsonResponse
     {
         $validated = $request->validated();
 
         // 创建用户
-        if ($validated['email'] ?? null) {
-            $user = User::create([
-                'name' => preg_replace('/\s+/', '', $validated['name']),
-                'email' => $validated['email'],
-                'password' => bcrypt($validated['password']),
-            ]);
-        } elseif ($validated['phone'] ?? null) {
-            $user = User::create([
-                'name' => preg_replace('/\s+/', '', $validated['name']),
-                'phone' => $validated['phone'],
-                'password' => bcrypt($validated['password']),
-            ]);
+        $user = User::create([
+            'name' => preg_replace('/\s+/', '', $validated['name']),
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
+        ]);
+
+        return response()->json(
+            $user
+                ? ['success' => '创建用户成功']
+                : ['error' => '创建用户失败']
+        )->setStatusCode(201);
+    }
+
+    /**
+     * 创建用户通过手机号码
+     *
+     * @param  AuthRegisterByPhone  $request
+     * @return JsonResponse
+     */
+    public function registerByPhone(AuthRegisterByPhone $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        if (\Cache::get('phone-'.$validated['phone']) !== $validated['verify']) {
+            return response()->json(
+                ['error' => '创建用户失败']
+            )->setStatusCode(201);
         }
+        // 创建用户
+        $user = User::create([
+            'name' => preg_replace('/\s+/', '', $validated['name']),
+            'phone' => $validated['phone'],
+            'password' => bcrypt($validated['password']),
+        ]);
 
         return response()->json(
             $user
@@ -171,5 +195,69 @@ class AuthController extends Controller
     public static function withProfile(string $token): array
     {
         return array_merge(self::withToken($token), auth()->user()->toArray());
+    }
+
+    public function recaptcha(Request $request): array
+    {
+        $token = $request->token;
+        $phone = $request->phone;
+        $secret = config('services.recaptcha');
+
+        $resp = $this->httpPost("https://www.recaptcha.net/recaptcha/api/siteverify",
+            "secret={$secret}&response={$token}");
+        $resp = json_decode($resp, true);
+
+        if ($resp['success']) {
+            \Cache::put('human-'.$resp['hostname'], true, 86400);
+            if ($phone) {
+                $this->sendSms($phone);
+            }
+        }
+
+        return $resp;
+    }
+
+    public function httpPost($url, $postBody)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postBody);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return $response;
+    }
+
+    public function sendSms($phone)
+    {
+        $easySms = new EasySms([
+            'timeout' => 5.0,
+            'default' => [
+                'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class,
+                'gateways' => ['aliyun'],
+            ],
+            'gateways' => [
+                'errorlog' => [
+                    'file' => '/tmp/easy-sms.log',
+                ],
+                'aliyun' => [
+                    'access_key_id' => config('services.access_key_id'),
+                    'access_key_secret' => config('services.access_key_secret'),
+                    'sign_name' => '技术笔记',
+                ],
+            ],
+        ]);
+
+        $random = random_int(1000, 9999);
+        \Cache::put('phone-'.$phone, $random, 60 * 5);
+
+        $easySms->send($phone, [
+            'template' => 'SMS_212706541',
+            'data' => [
+                'code' => $random,
+            ],
+        ]);
     }
 }

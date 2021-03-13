@@ -54,8 +54,8 @@ return [
         'oss' => [
             'driver' => 'oss',
             'root' => '',
-            'access_key' => env('OSS_ACCESS_KEY'),
-            'secret_key' => env('OSS_SECRET_KEY'),
+            'access_key' => env('ACCESS_KEY_ID'),
+            'secret_key' => env('ACCESS_KEY_SECRET'),
             'endpoint'   => env('OSS_ENDPOINT'),
             'bucket'     => env('OSS_BUCKET'),
             'isCName'    => env('OSS_IS_CNAME', false),

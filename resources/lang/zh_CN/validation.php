@@ -152,6 +152,7 @@ return [
         'email'                 => '邮箱',
         'first_name'            => '名',
         'last_name'             => '姓',
+        'verify'                => '验证码',
         'password'              => '密码',
         'password_confirmation' => '确认密码',
         'city'                  => '城市',
