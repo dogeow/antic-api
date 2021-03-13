@@ -51,7 +51,7 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
 
-        if (\Cache::get('phone-'.$validated['phone']) !== $validated['verify']) {
+        if (\Cache::get('phone-'.$validated['phoneNumber']) !== $validated['verify']) {
             return response()->json(
                 ['error' => '创建用户失败']
             )->setStatusCode(201);
@@ -59,7 +59,7 @@ class AuthController extends Controller
         // 创建用户
         $user = User::create([
             'name' => preg_replace('/\s+/', '', $validated['name']),
-            'phone' => $validated['phone'],
+            'phone_number' => $validated['phoneNumber'],
             'password' => bcrypt($validated['password']),
         ]);
 
@@ -108,11 +108,11 @@ class AuthController extends Controller
         $pattern = '/^((13\d)|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18\d)|(19[1|3])|(19[5|6])|(19[8|9]))\d{8}$/';
         if (preg_match($pattern, $validated['account'], $matches)) {
             $credentials = [
-                'phone' => $validated['account'],
+                'phoneNumber' => $validated['account'],
                 'password' => $validated['password'],
             ];
             $errorMsg = [
-                'phone' => [$notMatchedText],
+                'phoneNumber' => [$notMatchedText],
                 'password' => [$notMatchedText],
             ];
         } elseif (filter_var($validated['account'], FILTER_VALIDATE_EMAIL)) {
@@ -200,7 +200,7 @@ class AuthController extends Controller
     public function recaptcha(Request $request): array
     {
         $token = $request->token;
-        $phone = $request->phone;
+        $phoneNumber = $request->phoneNumber;
         $secret = config('services.recaptcha');
 
         $resp = $this->httpPost('https://www.recaptcha.net/recaptcha/api/siteverify',
@@ -209,8 +209,8 @@ class AuthController extends Controller
 
         if ($resp['success']) {
             \Cache::put('human-'.$resp['hostname'], true, 86400);
-            if ($phone) {
-                $this->sendSms($phone);
+            if ($phoneNumber) {
+                $this->sendSms($phoneNumber);
             }
         }
 
@@ -230,7 +230,7 @@ class AuthController extends Controller
         return $response;
     }
 
-    public function sendSms($phone)
+    public function sendSms($phoneNumber)
     {
         $easySms = new EasySms([
             'timeout' => 5.0,
@@ -251,9 +251,9 @@ class AuthController extends Controller
         ]);
 
         $random = random_int(1000, 9999);
-        \Cache::put('phone-'.$phone, $random, 60 * 5);
+        \Cache::put('phone-'.phoneNumber, $random, 60 * 5);
 
-        $easySms->send($phone, [
+        $easySms->send(phoneNumber, [
             'template' => 'SMS_212706541',
             'data' => [
                 'code' => $random,
