@@ -8,8 +8,11 @@ use App\Http\Requests\AuthRegisterByPhone;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Overtrue\EasySms\EasySms;
 
@@ -45,29 +48,34 @@ class AuthController extends Controller
      * 创建用户通过手机号码
      *
      * @param  AuthRegisterByPhone  $request
-     * @return JsonResponse
+     * @return array|Application|ResponseFactory|JsonResponse|Response|object
      */
-    public function registerByPhone(AuthRegisterByPhone $request): JsonResponse
+    public function registerByPhone(AuthRegisterByPhone $request)
     {
         $validated = $request->validated();
 
-        if (\Cache::get('phone-'.$validated['phoneNumber']) !== $validated['verify']) {
+        $cacheKey = 'phone-'.$validated['phone_number'];
+
+        if (\Cache::get($cacheKey) !== $validated['verify']) {
             return response()->json(
-                ['error' => '创建用户失败']
-            )->setStatusCode(201);
+                ['errors' => ['verify' => ['验证码错误']]]
+            )->setStatusCode(422);
         }
+
         // 创建用户
         $user = User::create([
             'name' => preg_replace('/\s+/', '', $validated['name']),
-            'phone_number' => $validated['phoneNumber'],
+            'phone_number' => $validated['phone_number'],
             'password' => bcrypt($validated['password']),
         ]);
 
-        return response()->json(
-            $user
-                ? ['success' => '创建用户成功']
-                : ['error' => '创建用户失败']
-        )->setStatusCode(201);
+        if ($user) {
+            \Cache::forget($cacheKey);
+
+            return response($user, 201);
+        }
+
+        return [];
     }
 
     /**
@@ -108,11 +116,11 @@ class AuthController extends Controller
         $pattern = '/^((13\d)|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18\d)|(19[1|3])|(19[5|6])|(19[8|9]))\d{8}$/';
         if (preg_match($pattern, $validated['account'], $matches)) {
             $credentials = [
-                'phoneNumber' => $validated['account'],
+                'phone_number' => $validated['account'],
                 'password' => $validated['password'],
             ];
             $errorMsg = [
-                'phoneNumber' => [$notMatchedText],
+                'phone_number' => [$notMatchedText],
                 'password' => [$notMatchedText],
             ];
         } elseif (filter_var($validated['account'], FILTER_VALIDATE_EMAIL)) {
@@ -200,7 +208,7 @@ class AuthController extends Controller
     public function recaptcha(Request $request): array
     {
         $token = $request->token;
-        $phoneNumber = $request->phoneNumber;
+        $phoneNumber = $request->phone_number;
         $secret = config('services.recaptcha');
 
         $resp = $this->httpPost('https://www.recaptcha.net/recaptcha/api/siteverify',
@@ -208,7 +216,7 @@ class AuthController extends Controller
         $resp = json_decode($resp, true);
 
         if ($resp['success']) {
-            \Cache::put('human-'.$resp['hostname'], true, 86400);
+            \Cache::put('human-'.$resp['hostname'], 1, 86400);
             if ($phoneNumber) {
                 $this->sendSms($phoneNumber);
             }
@@ -251,9 +259,9 @@ class AuthController extends Controller
         ]);
 
         $random = random_int(1000, 9999);
-        \Cache::put('phone-'.phoneNumber, $random, 60 * 5);
+        \Cache::put('phone-'.$phoneNumber, $random, 86400);
 
-        $easySms->send(phoneNumber, [
+        $easySms->send($phoneNumber, [
             'template' => 'SMS_212706541',
             'data' => [
                 'code' => $random,
