@@ -9,9 +9,9 @@ use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Overtrue\EasySms\EasySms;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -203,7 +203,7 @@ class AuthController extends Controller
         $phone = $request->phone;
         $secret = config('services.recaptcha');
 
-        $resp = $this->httpPost("https://www.recaptcha.net/recaptcha/api/siteverify",
+        $resp = $this->httpPost('https://www.recaptcha.net/recaptcha/api/siteverify',
             "secret={$secret}&response={$token}");
         $resp = json_decode($resp, true);
 
