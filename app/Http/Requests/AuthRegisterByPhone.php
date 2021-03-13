@@ -31,12 +31,12 @@ class AuthRegisterByPhone extends FormRequest
                     }
                 },
             ],
-            'phone' => [
-                'nullable',
+            'phone_number' => [
+                'required',
                 'regex:/^((13[0-9])|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18[0-9])|(19[1|3])|(19[5|6])|(19[8|9]))\d{8}$/',
                 'unique:users',
             ],
-            'verify' => ['nullable', 'digits:4'],
+            'verify' => ['required', 'digits:4'],
             'password' => ['required', 'not_regex:/\s+/', 'min:8', 'max:16'],
             'password_confirmation' => ['nullable', 'same:password'],
         ];
