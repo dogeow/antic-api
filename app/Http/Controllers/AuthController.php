@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Overtrue\EasySms\EasySms;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -267,5 +268,32 @@ class AuthController extends Controller
                 'code' => $random,
             ],
         ]);
+    }
+
+    /**
+     * 将用户重定向到 GitHub 的授权页面
+     *
+     */
+    public function redirectToProvider()
+    {
+        return Socialite::driver('github')->stateless()->redirect()->getTargetUrl();
+    }
+
+    /**
+     * 从 GitHub 获取用户信息
+     *
+     */
+    public function handleProviderCallback()
+    {
+        $githubUser = Socialite::driver('github')->stateless()->user();
+
+        $user = User::where('github_name', $githubUser->name)->firstOrCreate([
+            'name' => $githubUser->name,
+            'email' => $githubUser->email,
+        ]);
+
+        $token = auth()->login($user);
+
+        return self::withProfile($token);
     }
 }

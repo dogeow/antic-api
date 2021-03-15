@@ -14,6 +14,9 @@ Route::group(['middleware' => ['api']], function () {
         Route::post('guest', [AuthController::class, 'guest']);
     });
 
+    Route::get('/oauth/github', [AuthController::class, 'redirectToProvider']);
+    Route::get('/oauth/github/callback', [AuthController::class, 'handleProviderCallback']);
+
     Route::group(['middleware' => ['token.refresh']], function () {
         Route::group(['middleware' => 'auth:api'], function () {
             Route::group([
@@ -94,7 +97,7 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/how-time/{content}', [ApiController::class, 'howTime']);
         Route::get('/timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
         Route::get('/bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
-        Route::get('/sp/{string}', [ApiController::class, 'sp'])->middleware('doNotCacheResponse');
+        Route::get('/sp/{string}', [ApiController::class, 'sp']);
 
         // 文章
         Route::get('/posts/search', [PostController::class, 'search']);
