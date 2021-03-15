@@ -14,8 +14,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Overtrue\EasySms\EasySms;
 use Laravel\Socialite\Facades\Socialite;
+use Overtrue\EasySms\EasySms;
 
 class AuthController extends Controller
 {
@@ -272,7 +272,6 @@ class AuthController extends Controller
 
     /**
      * 将用户重定向到 GitHub 的授权页面
-     *
      */
     public function redirectToProvider()
     {
@@ -281,7 +280,6 @@ class AuthController extends Controller
 
     /**
      * 从 GitHub 获取用户信息
-     *
      */
     public function handleProviderCallback()
     {
