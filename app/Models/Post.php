@@ -78,4 +78,9 @@ class Post extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function shouldBeSearchable()
+    {
+        return self::Public();
+    }
 }
