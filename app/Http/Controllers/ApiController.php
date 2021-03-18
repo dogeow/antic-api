@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use TrueBV\Punycode;
+use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
@@ -18,6 +19,16 @@ class ApiController extends Controller
     public function index(): Collection | array
     {
         return Api::all();
+    }
+
+    /**
+     * 返回第三方支付或美团外卖等的回调信息
+     * @param  Request  $request
+     * @return array
+     */
+    public function callback(Request $request): array
+    {
+        return $request->all();
     }
 
     public function number($start, $end, $action = null): array
