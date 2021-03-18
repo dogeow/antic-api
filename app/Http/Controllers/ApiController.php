@@ -29,6 +29,7 @@ class ApiController extends Controller
     public function callback(Request $request): array
     {
         \Log::info(var_export($request->all(), true));
+
         return $request->all();
     }
 
