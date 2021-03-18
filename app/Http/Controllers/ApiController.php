@@ -30,13 +30,12 @@ class ApiController extends Controller
     public function callback(Request $request): JsonResponse
     {
         \Log::info(var_export($request->all(), true));
+        $config = config('services.meituan');
+        $callbackCount = \Cache::get('meituan');
+        $returnData = $callbackCount <= 3 ? $config['error'] : $config['success'];
+        \Cache::increment('meituan');
 
-        return response()->json(
-            [
-                'errcode' => '0',
-                'errmsg' => 'ok',
-            ]
-        );
+        return response()->json($returnData);
     }
 
     public function number($start, $end, $action = null): array

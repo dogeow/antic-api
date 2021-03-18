@@ -9,4 +9,14 @@ return [
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
         'redirect' => '',
     ],
+    'meituan' => [
+        'error' => [
+            'errcode' => '1',
+            'errmsg' => 'err',
+        ],
+        'success' => [
+            'errcode' => '0',
+            'errmsg' => 'ok',
+        ],
+    ],
 ];
