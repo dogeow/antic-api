@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Account;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Rules\Account;
 
 class Forget extends FormRequest
 {
@@ -30,7 +29,7 @@ class Forget extends FormRequest
         return [
             'account' => [
                 'required',
-                new Account
+                new Account,
             ],
         ];
     }

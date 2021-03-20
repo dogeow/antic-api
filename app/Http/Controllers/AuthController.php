@@ -18,8 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
-use Overtrue\EasySms\EasySms;
 use Mail;
+use Overtrue\EasySms\EasySms;
 
 class AuthController extends Controller
 {
@@ -325,7 +325,6 @@ class AuthController extends Controller
     {
         $userId = \Cache::get('reset-'.$request->secret);
         if ($userId === null) {
-
         } else {
             $user = User::find($userId);
             $user->password = bcrypt($request->password);
