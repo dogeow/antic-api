@@ -17,6 +17,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('/oauth/github', [AuthController::class, 'redirectToProvider']);
     Route::get('/oauth/github/callback', [AuthController::class, 'handleProviderCallback']);
     Route::match(['get', 'post'], '/callback', [ApiController::class, 'callback']);
+    Route::post('/forget', [AuthController::class, 'forget']);
+    Route::post('/reset', [AuthController::class, 'reset']);
 
     Route::group(['middleware' => ['token.refresh']], function () {
         Route::group(['middleware' => 'auth:api'], function () {

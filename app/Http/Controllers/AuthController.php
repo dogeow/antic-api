@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AuthLogin;
 use App\Http\Requests\AuthRegisterByEmail;
 use App\Http\Requests\AuthRegisterByPhone;
+use App\Http\Requests\Forget as ForgetRequest;
+use App\Http\Requests\Reset;
+use App\Mail\Forget;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
@@ -16,6 +19,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Overtrue\EasySms\EasySms;
+use Mail;
 
 class AuthController extends Controller
 {
@@ -293,5 +297,43 @@ class AuthController extends Controller
         $token = auth()->login($user);
 
         return self::withProfile($token);
+    }
+
+    public function forget(ForgetRequest $request)
+    {
+        $user = User::where('email', $request->account)
+            ->orWhere('phone_number', $request->account
+            )->first();
+        if ($user) {
+            $secret = \Str::random(40);
+            $link = config('app.url').'/forget/'.$secret;
+            if ($user->email) {
+                Mail::to($user->email)->send(new Forget($user, $link));
+                if (Mail::failures()) {
+                    return response()->json();
+                }
+            } else {
+                // 发送短信
+            }
+            \Cache::put('reset-'.$secret, $user->id, 86400);
+        }
+
+        return response()->json([]);
+    }
+
+    public function reset(Reset $request)
+    {
+        $userId = \Cache::get('reset-'.$request->secret);
+        if ($userId === null) {
+
+        } else {
+            $user = User::find($userId);
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+            $token = auth()->login($user);
+
+            return self::withProfile($token);
+        }
     }
 }
