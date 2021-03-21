@@ -114,6 +114,15 @@ class AuthController extends Controller
      */
     public function login(AuthLogin $request)
     {
+        $user = User::where('email', $request->account)
+            ->orWhere('phone_number', $request->account
+            )->first();
+        if ($user && $user->email_verified_at === null) {
+            return response()->json([
+                'error' => "请先验证邮箱再登录",
+            ])->setStatusCode(422);
+        }
+
         $notMatchedText = '账号不存在或密码错误';
 
         $validated = $request->validated();
