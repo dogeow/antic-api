@@ -221,21 +221,31 @@ class AuthController extends Controller
     public function recaptcha(Request $request): array
     {
         $token = $request->token;
-        $phoneNumber = $request->phone_number;
+
         $secret = config('services.recaptcha');
 
         $resp = $this->httpPost('https://www.recaptcha.net/recaptcha/api/siteverify',
             "secret={$secret}&response={$token}");
         $resp = json_decode($resp, true);
 
-        if ($resp['success'] && $resp['score'] >= 0.5) {
-            \Cache::put('human-'.$resp['hostname'], 1, 86400);
-            if ($phoneNumber) {
-                $this->sendSms($phoneNumber);
-            }
+        if ($resp['success']) {
+            \Cache::put('recaptcha-'.$resp['hostname'], $resp['score'], 86400);
+        }
+    }
+
+    public function phoneNumberVerify(Request $request): void
+    {
+        $phoneNumber = $request->phone_number;
+
+        if (preg_match(config('preg.phone_number'), $phoneNumber) === false) {
+            exit;
         }
 
-        return $resp;
+        $recaptchaScore = \Cache::get('recaptcha-', $request->getClientIp());
+
+        if ($recaptchaScore && $recaptchaScore['score'] >= 0.5) {
+            $this->sendSms($phoneNumber);
+        }
     }
 
     public function httpPost($url, $postBody)
