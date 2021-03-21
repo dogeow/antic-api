@@ -25,8 +25,7 @@ class Account implements Rule
      */
     public function passes($attribute, $value)
     {
-        return preg_match('/^((13[\d])|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18[\d])|(19[1|3])|(19[5|6])|(19[8|9]))\d{8}$/',
-                $value) || filter_var($value, FILTER_VALIDATE_EMAIL);
+        return preg_match(config('preg.phone_number'), $value) || filter_var($value, FILTER_VALIDATE_EMAIL);
     }
 
     /**

@@ -127,8 +127,7 @@ class AuthController extends Controller
 
         $validated = $request->validated();
 
-        $pattern = '/^((13\d)|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18\d)|(19[1|3])|(19[5|6])|(19[8|9]))\d{8}$/';
-        if (preg_match($pattern, $validated['account'], $matches)) {
+        if (preg_match(config('preg.phone_number'), $validated['account'], $matches)) {
             $credentials = [
                 'phone_number' => $validated['account'],
                 'password' => $validated['password'],
