@@ -119,7 +119,7 @@ class AuthController extends Controller
             )->first();
         if ($user && $user->email_verified_at === null) {
             return response()->json([
-                'error' => "请先验证邮箱再登录",
+                'error' => '请先验证邮箱再登录',
             ])->setStatusCode(422);
         }
 
