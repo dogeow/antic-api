@@ -33,7 +33,7 @@ class RefreshToken
                 header('Authorization: Bearer '.$refreshed);
             } catch (JWTException $e) {
             }
-        } catch (\ErrorException | JWTException){
+        } catch (\ErrorException | JWTException) {
 
             // todo
         }
