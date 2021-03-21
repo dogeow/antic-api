@@ -33,7 +33,9 @@ class RefreshToken
                 header('Authorization: Bearer '.$refreshed);
             } catch (JWTException $e) {
             }
-        } catch (JWTException $e) {
+        } catch (\ErrorException | JWTException){
+
+            // todo
         }
 
         Auth::login($user, false);

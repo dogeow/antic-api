@@ -19,6 +19,7 @@ Route::group(['middleware' => ['api']], function () {
     Route::match(['get', 'post'], '/callback', [ApiController::class, 'callback']);
     Route::post('/forget', [AuthController::class, 'forget']);
     Route::post('/reset', [AuthController::class, 'reset']);
+    Route::post('/recaptcha', [AuthController::class, 'recaptcha']);
 
     Route::group(['middleware' => ['token.refresh']], function () {
         Route::group(['middleware' => 'auth:api'], function () {
@@ -38,8 +39,6 @@ Route::group(['middleware' => ['api']], function () {
         });
 
         Route::post('/chat', [ChatController::class, 'message']);
-
-        Route::post('/recaptcha', [AuthController::class, 'recaptcha']);
 
         // 博饼
         Route::get('/moon', [MoonController::class, 'index']);

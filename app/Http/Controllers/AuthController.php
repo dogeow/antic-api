@@ -229,7 +229,7 @@ class AuthController extends Controller
             "secret={$secret}&response={$token}");
         $resp = json_decode($resp, true);
 
-        if ($resp['score'] >= 0.5) {
+        if ($resp['success'] && $resp['score'] >= 0.5) {
             \Cache::put('human-'.$resp['hostname'], 1, 86400);
             if ($phoneNumber) {
                 $this->sendSms($phoneNumber);
