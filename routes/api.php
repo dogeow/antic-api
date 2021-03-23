@@ -105,9 +105,9 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/sp/{string}', [ApiController::class, 'sp']);
 
         // 文章
-        Route::get('/posts/search', [PostController::class, 'search']);
         Route::get('/posts', [PostController::class, 'index']);
         Route::get('/posts/{post}', [PostController::class, 'show']);
+        Route::get('/posts/search', [PostController::class, 'search']);
         Route::get('/categories', [PostCategoryController::class, 'index']);
         Route::get('/tags', [PostTagController::class, 'index']);
 

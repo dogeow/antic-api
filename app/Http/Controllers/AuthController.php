@@ -155,6 +155,9 @@ class AuthController extends Controller
      */
     public function login(AuthLogin $request)
     {
+        $rememberMeTtl = 60 * 24 * 7;
+        $notMatchedText = '账号不存在或密码错误';
+
         $user = User::where('email', $request->account)
             ->orWhere('phone_number', $request->account
             )->first();
@@ -164,8 +167,6 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        $notMatchedText = '账号不存在或密码错误';
-
         $validated = $request->validated();
 
         if (preg_match(config('preg.phone_number'), $validated['account'], $matches)) {
@@ -173,32 +174,26 @@ class AuthController extends Controller
                 'phone_number' => $validated['account'],
                 'password' => $validated['password'],
             ];
-            $errorMsg = [
-                'phone_number' => [$notMatchedText],
-                'password' => [$notMatchedText],
-            ];
         } elseif (filter_var($validated['account'], FILTER_VALIDATE_EMAIL)) {
             $credentials = [
                 'email' => $validated['account'],
                 'password' => $validated['password'],
             ];
-            $errorMsg = [
-                'email' => [$notMatchedText],
-                'password' => [$notMatchedText],
-            ];
         }
 
-        $rememberMeTtl = 60 * 24 * 7;
+        $token = $validated['remember_me'] ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
 
-        $token = ($validated['remember_me'] ?? false) ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
-
+        \Log::info($token);
         if (is_string($token)) {
             return self::withProfile($token);
         }
 
         return response()->json([
-            'errors' => $errorMsg,
-        ])->setStatusCode(202);
+            'errors' => [
+                'account' => [$notMatchedText],
+                'password' => [$notMatchedText],
+            ],
+        ])->setStatusCode(422);
     }
 
     /**

@@ -43,10 +43,10 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = Post::where('id', $id)->with(['tags:post_id,name', 'category:post_id,name'])->firstOrFail();
+        $post = Post::with(['category:post_id,name', 'tags:post_id,name'])->where('id', $id)->firstOrFail();
         $data = $post->toArray();
         $data['tags'] = $post->tags;
-        $data['category'] = $post->category ? $post->category->value('name') : null;
+        $data['category'] = $post->category->name ?? "";
 
         return $data;
     }
