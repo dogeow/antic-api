@@ -46,7 +46,7 @@ class PostController extends Controller
         $post = Post::with(['category:post_id,name', 'tags:post_id,name'])->where('id', $id)->firstOrFail();
         $data = $post->toArray();
         $data['tags'] = $post->tags;
-        $data['category'] = $post->category->name ?? "";
+        $data['category'] = $post->category->name ?? '';
 
         return $data;
     }
