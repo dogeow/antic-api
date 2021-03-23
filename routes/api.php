@@ -21,6 +21,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/reset', [AuthController::class, 'reset']);
     Route::post('/recaptcha', [AuthController::class, 'recaptcha']);
     Route::post('/phoneNumberVerify', [AuthController::class, 'phoneNumberVerify']);
+    Route::post('/emailVerify', [AuthController::class, 'emailVerify']);
+    Route::post('/autoLogin', [AuthController::class, 'autoLogin']);
 
     Route::group(['middleware' => ['token.refresh']], function () {
         Route::group(['middleware' => 'auth:api'], function () {
