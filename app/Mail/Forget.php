@@ -13,13 +13,13 @@ class Forget extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public User $user;
-    public $link;
+    public string $link;
 
     /**
      * Create a new message instance.
      *
      * @param  User  $user
-     * @param  string  $link
+     * @param  string  $link  重置链接
      */
     public function __construct(User $user, string $link)
     {
@@ -32,7 +32,7 @@ class Forget extends Mailable implements ShouldQueue
      *
      * @return $this
      */
-    public function build()
+    public function build(): self
     {
         return $this->view('emails.forget')->subject('重置密码');
     }
