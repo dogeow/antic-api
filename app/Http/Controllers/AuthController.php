@@ -69,6 +69,7 @@ class AuthController extends Controller
         if ($userId) {
             $user = User::find($userId);
             $user->email_verified_at = Carbon::now();
+            $user->save();
 
             return $user;
         }
