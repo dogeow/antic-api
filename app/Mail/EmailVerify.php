@@ -32,7 +32,7 @@ class EmailVerify extends Mailable implements ShouldQueue
      *
      * @return $this
      */
-    public function build(): EmailVerify
+    public function build(): self
     {
         return $this->view('emails.emailVerify')->subject('验证邮箱');
     }
