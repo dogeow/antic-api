@@ -8,6 +8,8 @@ use App\Http\Requests\AuthRegisterByPhone;
 use App\Http\Requests\Forget as ForgetRequest;
 use App\Http\Requests\Reset;
 use App\Mail\Forget;
+use Illuminate\Support\Carbon;
+use App\Mail\EmailVerify;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
@@ -42,11 +44,49 @@ class AuthController extends Controller
             'password' => bcrypt($validated['password']),
         ]);
 
+        $secret = \Str::random(40);
+        \Cache::put('emailVerify-'.$secret, $user->id, 86400);
+        $link = config('app.url').'/emailVerify/'.$secret;
+        Mail::to($user->email)->send(new EmailVerify($user, $link));
+        if (Mail::failures()) {
+            \Log::info(var_export(Mail::failures(), true));
+        }
+
         return response()->json(
             $user
                 ? ['success' => '创建用户成功']
                 : ['error' => '创建用户失败']
         )->setStatusCode(201);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return JsonResponse|object
+     */
+    public function emailVerify(Request $request)
+    {
+        $userId = \Cache::get('emailVerify-'.$request->secret);
+        if ($userId) {
+            $user = User::find($userId);
+            $user->email_verified_at = Carbon::now();
+
+            return $user;
+        }
+
+        return response()->json()->setStatusCode(422);
+    }
+
+    public function autoLogin(Request $request)
+    {
+        $userId = \Cache::get('emailVerify-'.$request->secret);
+        if ($userId) {
+            $user = User::find($userId);
+            $token = auth()->login($user);
+
+            return self::withProfile($token);
+        }
+
+        return response()->json()->setStatusCode(422);
     }
 
     /**
@@ -317,6 +357,10 @@ class AuthController extends Controller
         return self::withProfile($token);
     }
 
+    /**
+     * @param  ForgetRequest  $request
+     * @return JsonResponse
+     */
     public function forget(ForgetRequest $request)
     {
         $user = User::where('email', $request->account)
