@@ -45,7 +45,7 @@ class AuthController extends Controller
         ]);
 
         $secret = \Str::random(40);
-        \Cache::put('emailVerify-'.$secret, $user->id, 86400);
+        \Cache::put('emailVerify:'.$secret, $user->id, 86400);
         $link = config('app.url').'/emailVerify/'.$secret;
         Mail::to($user->email)->send(new EmailVerify($user, $link));
         if (Mail::failures()) {
@@ -65,7 +65,7 @@ class AuthController extends Controller
      */
     public function emailVerify(Request $request)
     {
-        $userId = \Cache::get('emailVerify-'.$request->secret);
+        $userId = \Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
             $user = User::find($userId);
             $user->email_verified_at = Carbon::now();
@@ -79,7 +79,7 @@ class AuthController extends Controller
 
     public function autoLogin(Request $request)
     {
-        $userId = \Cache::get('emailVerify-'.$request->secret);
+        $userId = \Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
             $user = User::find($userId);
             $token = auth()->login($user);
@@ -282,7 +282,7 @@ class AuthController extends Controller
             exit;
         }
 
-        $recaptchaScore = \Cache::get('recaptcha-'.$request->getClientIp(), 0);
+        $recaptchaScore = \Cache::get('recaptcha:'.$request->getClientIp(), 0);
 
         if ($recaptchaScore >= 0.5) {
             $this->sendSms($phoneNumber);
@@ -323,7 +323,7 @@ class AuthController extends Controller
         ]);
 
         $random = random_int(1000, 9999);
-        \Cache::put('phone-'.$phoneNumber, $random, 86400);
+        \Cache::put('phone:'.$phoneNumber, $random, 86400);
 
         $easySms->send($phoneNumber, [
             'template' => 'SMS_212706541',
@@ -378,7 +378,7 @@ class AuthController extends Controller
             } else {
                 // 发送短信
             }
-            \Cache::put('reset-'.$secret, $user->id, 86400);
+            \Cache::put('reset:'.$secret, $user->id, 86400);
         }
 
         return response()->json([]);
@@ -386,7 +386,7 @@ class AuthController extends Controller
 
     public function reset(Reset $request)
     {
-        $userId = \Cache::get('reset-'.$request->secret);
+        $userId = \Cache::get('reset:'.$request->secret);
         if ($userId === null) {
         } else {
             $user = User::find($userId);
