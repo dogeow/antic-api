@@ -20,6 +20,7 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/forget', [AuthController::class, 'forget']);
     Route::post('/reset', [AuthController::class, 'reset']);
     Route::post('/recaptcha', [AuthController::class, 'recaptcha']);
+    Route::post('/phoneNumberVerify', [AuthController::class, 'phoneNumberVerify']);
 
     Route::group(['middleware' => ['token.refresh']], function () {
         Route::group(['middleware' => 'auth:api'], function () {

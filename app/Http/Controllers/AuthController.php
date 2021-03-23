@@ -117,7 +117,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->account)
             ->orWhere('phone_number', $request->account
             )->first();
-        if ($user && $user->email_verified_at === null) {
+        if ($user && $user['phone_number'] === null && $user->email_verified_at === null) {
             return response()->json([
                 'error' => '请先验证邮箱再登录',
             ])->setStatusCode(422);
@@ -218,7 +218,7 @@ class AuthController extends Controller
         return array_merge(self::withToken($token), auth()->user()->toArray());
     }
 
-    public function recaptcha(Request $request): array
+    public function recaptcha(Request $request): void
     {
         $token = $request->token;
 
@@ -228,9 +228,9 @@ class AuthController extends Controller
             "secret={$secret}&response={$token}");
         $resp = json_decode($resp, true);
 
-        if ($resp['success']) {
-            \Cache::put('recaptcha-'.$resp['hostname'], $resp['score'], 86400);
-        }
+        $key = 'recaptcha-'.$resp['hostname'];
+        $score = $resp['success'] ? $resp['score'] : 0;
+        \Cache::put($key, $score, 86400);
     }
 
     public function phoneNumberVerify(Request $request): void
@@ -241,9 +241,9 @@ class AuthController extends Controller
             exit;
         }
 
-        $recaptchaScore = \Cache::get('recaptcha-', $request->getClientIp());
+        $recaptchaScore = \Cache::get('recaptcha-'.$request->getClientIp(), 0);
 
-        if ($recaptchaScore && $recaptchaScore['score'] >= 0.5) {
+        if ($recaptchaScore >= 0.5) {
             $this->sendSms($phoneNumber);
         }
     }
