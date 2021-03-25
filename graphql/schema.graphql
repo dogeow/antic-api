@@ -42,7 +42,7 @@ type Post {
     content: String!
     user: User! @belongsTo
     category: PostCategory @hasOne
-    tags: [PostTag] @hasMany
+    tags: [PostTag]! @hasMany
     created_at: DateTime!
     updated_at: DateTime!
 }
