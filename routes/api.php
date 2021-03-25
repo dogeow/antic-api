@@ -39,6 +39,8 @@ Route::group(['middleware' => ['api']], function () {
             Route::resource('/posts', PostController::class)->except(['index', 'show', 'search']);
             Route::resource('/projects', ProjectController::class);
             Route::put('/projects/{project}/tasks/{task}', [TaskController::class, 'update']);
+            Route::post('posts/{post}/tag', [PostTagController::class, 'store']);
+            Route::delete('posts/{post}/tag', [PostTagController::class, 'delete']);
         });
 
         Route::post('/chat', [ChatController::class, 'message']);

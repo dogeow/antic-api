@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class PostTag extends Model
 {
+    protected $fillable = ['name'];
+
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
