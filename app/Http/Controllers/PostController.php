@@ -51,7 +51,7 @@ class PostController extends Controller
     {
         $post->update($request->all());
 
-        return $post;
+        return Post::with(['category:id,name', 'tags:id,post_id,name'])->where('id', $post->id)->first();
     }
 
     public function destroy(Post $post)
