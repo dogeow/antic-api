@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\PostTag;
 use Illuminate\Http\Request;
+use App\Http\Requests\TagAdd;
 
 class PostTagController extends Controller
 {
@@ -18,7 +19,7 @@ class PostTagController extends Controller
         return $post->tags()->where('name', $request->name)->delete();
     }
 
-    public function store(Request $request, Post $post)
+    public function store(TagAdd $request, Post $post)
     {
         return $post->tags()->create([
             'name' => $request->name,

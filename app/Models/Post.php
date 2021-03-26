@@ -61,7 +61,7 @@ class Post extends Model
 
     public function category(): HasOne
     {
-        return $this->hasOne(PostCategory::class);
+        return $this->hasOne(PostCategory::class, 'id', 'category_id');
     }
 
     public function user(): BelongsTo

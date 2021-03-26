@@ -18,6 +18,8 @@ class CreatePostTagsTable extends Migration
             $table->unsignedBigInteger('post_id');
             $table->string('name', 100);
             $table->timestamps();
+
+            $table->unique('post_id', 'name');
         });
     }
 
