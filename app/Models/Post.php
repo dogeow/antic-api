@@ -43,7 +43,7 @@ class Post extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['title', 'content', 'category_id'];
 
     /**
      * The attributes that should be hidden for arrays.

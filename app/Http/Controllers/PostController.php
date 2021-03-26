@@ -27,37 +27,29 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = Post::with(['category:id,name', 'tags:post_id,name'])->where('id', $id)->firstOrFail();
-        $data = $post->toArray();
-        $data['tags'] = $post->tags;
-        $data['category'] = $post->category->name ?? '';
-
-        return $data;
+        return Post::with(['category:id,name', 'tags:id,post_id,name'])->where('id', $id)->firstOrFail();
     }
 
     public function store(Request $request)
     {
-        Validator::make($request->all(), [
+        $validData = Validator::make($request->all(), [
             'title' => 'required',
             'content' => 'required',
+            'category_id' => 'required',
+            'tags' => 'nullable|array',
         ])->validate();
 
-        $content = $request->input('content');
-        $title = $request->input('title');
+        $post = auth()->user()->posts()->create($validData);
+        if ($validData['tags']) {
+            $post->tags()->createMany($validData['tags']);
+        }
 
-        return auth()->user()->posts()->create([
-            'title' => $title,
-            'content' => $content,
-        ]);
+        return Post::with(['category:id,name', 'tags:id,post_id,name'])->where('id', $post->id)->first();
     }
 
     public function update(Request $request, Post $post)
     {
         $post->update($request->all());
-
-        if ($request->category) {
-            $post->category()->updateOrCreate(['post_id' => $post->id], ['name' => $request->category]);
-        }
 
         return $post;
     }
