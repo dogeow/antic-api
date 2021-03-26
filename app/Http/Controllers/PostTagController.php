@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TagAdd;
 use App\Models\Post;
 use App\Models\PostTag;
 use Illuminate\Http\Request;
-use App\Http\Requests\TagAdd;
 
 class PostTagController extends Controller
 {
