@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TagAdd;
 use App\Models\Post;
 use App\Models\PostTag;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class PostTagController extends Controller
 {
-    public function index()
+    public function index(): Collection
     {
-        return PostTag::groupBy('name')->pluck('name');
+        return PostTag::distinct()->get(['name']);
     }
 
     public function delete(Request $request, Post $post)
@@ -19,7 +21,7 @@ class PostTagController extends Controller
         return $post->tags()->where('name', $request->name)->delete();
     }
 
-    public function store(TagAdd $request, Post $post)
+    public function store(TagAdd $request, Post $post): Model
     {
         return $post->tags()->create([
             'name' => $request->name,
