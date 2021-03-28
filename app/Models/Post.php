@@ -83,4 +83,13 @@ class Post extends Model
     {
         return self::Public();
     }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $array['category'] = $this->category->name;
+
+        return $array;
+    }
 }
