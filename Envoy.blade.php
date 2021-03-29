@@ -3,7 +3,7 @@ $now = new DateTime();
 $environment = isset($env) ? $env : "testing";
 @endsetup
 
-@servers(['web' => 'root@gugelong.com', 'localhost' => '127.0.0.1'])
+@servers(['web' => 'root@dogeow.com', 'localhost' => '127.0.0.1'])
 
 @story('deploy', ['on' => 'web'])
 git
