@@ -24,6 +24,8 @@ class RefreshToken
             return $next($request);
         }
 
+        $user = null;
+
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (TokenExpiredException $e) {
@@ -37,7 +39,9 @@ class RefreshToken
             // todo
         }
 
-        Auth::login($user, false);
+        if ($user) {
+            Auth::login($user);
+        }
 
         return $next($request);
     }
