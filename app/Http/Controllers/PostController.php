@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -64,5 +66,28 @@ class PostController extends Controller
     public function search(Request $request)
     {
         return Post::search($request->search)->get();
+    }
+
+    public function categoriesCount()
+    {
+        $categoriesWithCount = \App\Models\Post::leftJoin('post_categories as category', 'category.id', '=',
+            'posts.category_id')
+            ->select('category.id', 'category.name', DB::raw('count(*) as count'))
+            ->groupBy('category.name')
+            ->get();
+
+        return array_values(collect($categoriesWithCount)
+            ->sortByDesc('count')
+            ->toArray()
+        );
+    }
+
+    public function tagsCount(): Collection
+    {
+        $tagsWithCount = \App\Models\PostTag::select([
+            'name', DB::raw('count(*) as count'),
+        ])->groupBy('name')->get();
+
+        return collect($tagsWithCount)->sortByDesc('count');
     }
 }

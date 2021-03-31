@@ -6,7 +6,7 @@ use App\Models\Site;
 
 class SiteController extends Controller
 {
-    public function index()
+    public function index(): array
     {
         return [
             'sites' => Site::with('todayLatest')->get(),

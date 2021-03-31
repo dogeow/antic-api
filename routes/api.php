@@ -14,6 +14,7 @@ Route::group(['middleware' => ['api']], function () {
         Route::post('guest', [AuthController::class, 'guest']);
     });
 
+    Route::get('/posts/tags/count', [PostController::class, 'tagsCount']);
     Route::get('/oauth/github', [AuthController::class, 'redirectToProvider']);
     Route::get('/oauth/github/callback', [AuthController::class, 'handleProviderCallback']);
     Route::match(['get', 'post'], '/callback', [ApiController::class, 'callback']);
@@ -23,6 +24,7 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/phoneNumberVerify', [AuthController::class, 'phoneNumberVerify']);
     Route::post('/emailVerify', [AuthController::class, 'emailVerify']);
     Route::post('/autoLogin', [AuthController::class, 'autoLogin']);
+    Route::get('/posts/categories/count', [PostController::class, 'categoriesCount']);
 
     Route::group(['middleware' => ['token.refresh']], function () {
         Route::group(['middleware' => 'auth:api'], function () {
