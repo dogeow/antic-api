@@ -222,7 +222,7 @@ class ApiController extends Controller
         return Str::singular($content) === $content ? Str::plural($content) : Str::singular($content);
     }
 
-    public function getTitle(Request $request): array
+    public function getTitle(Request $request)
     {
         $title = '';
         $charset = 'UTF-8';
@@ -230,7 +230,7 @@ class ApiController extends Controller
         try {
             $response = $this->guzzleClient->request('GET', $request->input('url'));
             $html = $response->getBody()->getContents();
-            if (preg_match('/charset=(.*?)"/i', $html, $matches)) {
+            if (preg_match('/charset=(.*?)[">]]/i', $html, $matches)) {
                 $charset = $matches[1];
             }
             $body = mb_convert_encoding($html, 'UTF-8', $charset ?: 'UTF-8');
@@ -239,6 +239,7 @@ class ApiController extends Controller
                 $title = $title[1];
             }
         } catch (\Exception  $e) {
+            return $e->getMessage();
         }
 
         return [
