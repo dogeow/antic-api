@@ -235,7 +235,7 @@ class ApiController extends Controller
             }
             $body = mb_convert_encoding($html, 'UTF-8', $charset ?: 'UTF-8');
             $str = trim(preg_replace('/\s+/', ' ', $body));
-            if (preg_match("/<title>(.*)<\/title>/i", $str, $title)) {
+            if (preg_match("/<title>(.*?)<\/title>/i", $str, $title)) {
                 $title = $title[1];
             }
         } catch (\Exception  $e) {
