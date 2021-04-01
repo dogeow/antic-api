@@ -88,6 +88,6 @@ class PostController extends Controller
             'name', DB::raw('count(*) as count'),
         ])->groupBy('name')->get();
 
-        return collect($tagsWithCount)->sortByDesc('count');
+        return array_values(collect($tagsWithCount)->sortByDesc('count')->toArray());
     }
 }
