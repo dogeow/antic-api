@@ -107,6 +107,8 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
         Route::get('/bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
         Route::get('/sp/{string}', [ApiController::class, 'sp']);
+        Route::post('/url-title', [ApiController::class, 'getTitle']);
+        Route::post('/bookmarks', [BookmarkController::class, 'create']);
 
         // 文章
         Route::get('/posts', [PostController::class, 'index']);

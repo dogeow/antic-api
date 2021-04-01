@@ -15,7 +15,14 @@ use TrueBV\Punycode;
 
 class ApiController extends Controller
 {
-    public $guzzleClient;
+    private GuzzleClient $guzzleClient;
+
+    public function __construct()
+    {
+        $this->guzzleClient = new GuzzleClient([
+            'timeout' => 10,
+        ]);
+    }
 
     public function index(): Collection | array
     {
@@ -65,9 +72,6 @@ class ApiController extends Controller
             21 => 558,
         ];
         $data = [];
-        $this->guzzleClient = new GuzzleClient([
-            'timeout' => 10,
-        ]);
         $response = $this->guzzleClient->request('GET', 'https://www.cheboyi.com/wap/index/park22/14926');
         $html = $response->getBody()->getContents();
 
@@ -216,5 +220,29 @@ class ApiController extends Controller
     public function sp($content): string
     {
         return Str::singular($content) === $content ? Str::plural($content) : Str::singular($content);
+    }
+
+    public function getTitle(Request $request): array
+    {
+        $title = '';
+        $charset = 'UTF-8';
+
+        try {
+            $response = $this->guzzleClient->request('GET', $request->input('url'));
+            $html = $response->getBody()->getContents();
+            if (preg_match('/charset=(.*?)"/i', $html, $matches)) {
+                $charset = $matches[1];
+            }
+            $body = mb_convert_encoding($html, 'UTF-8', $charset ?: 'UTF-8');
+            $str = trim(preg_replace('/\s+/', ' ', $body));
+            if (preg_match("/<title>(.*)<\/title>/i", $str, $title)) {
+                $title = $title[1];
+            }
+        } catch (\Exception  $e) {
+        }
+
+        return [
+            'title' => $title,
+        ];
     }
 }
