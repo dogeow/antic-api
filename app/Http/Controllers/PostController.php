@@ -68,7 +68,7 @@ class PostController extends Controller
         return Post::search($request->search)->get();
     }
 
-    public function categoriesCount()
+    public function categoriesCount(): array
     {
         $categoriesWithCount = \App\Models\Post::leftJoin('post_categories as category', 'category.id', '=',
             'posts.category_id')
@@ -82,7 +82,7 @@ class PostController extends Controller
         );
     }
 
-    public function tagsCount(): Collection
+    public function tagsCount(): array
     {
         $tagsWithCount = \App\Models\PostTag::select([
             'name', DB::raw('count(*) as count'),
