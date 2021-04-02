@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
+use Algolia\AlgoliaSearch\Config\SearchConfig;
+use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Support\UserAgent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Scout\EngineManager;
 use Laravel\Scout\Engines\AlgoliaEngine;
-use Algolia\AlgoliaSearch\SearchClient;
-use Algolia\AlgoliaSearch\Support\UserAgent;
-use Algolia\AlgoliaSearch\Config\SearchConfig;
 
 class AppServiceProvider extends ServiceProvider
 {
