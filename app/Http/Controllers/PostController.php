@@ -17,7 +17,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $query = Post::with(['category:id,name', 'tags:id,post_id,name']);
+        $query = Post::with(['category:id,name', 'tags:id,post_id,name'])->orderByDesc('updated_at');
 
         if ((auth('api')->user()->id ?? null) !== 1) {
             $query = $query->public();
