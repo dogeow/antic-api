@@ -239,7 +239,7 @@ class ApiController extends Controller
                 $title = $title[1];
             }
         } catch (\Exception  $e) {
-            return $e->getMessage();
+            return $e->getMessage(); // todo
         }
 
         return [

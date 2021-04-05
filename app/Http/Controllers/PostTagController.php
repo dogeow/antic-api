@@ -13,7 +13,7 @@ class PostTagController extends Controller
 {
     public function index(): Collection
     {
-        return PostTag::distinct()->get(['name']);
+        return PostTag::distinct()->get('name');
     }
 
     public function delete(Request $request, Post $post)
@@ -21,10 +21,15 @@ class PostTagController extends Controller
         return $post->tags()->where('name', $request->name)->delete();
     }
 
-    public function store(TagAdd $request, Post $post): Model
+    public function store(TagAdd $request, Post $post): \Illuminate\Database\Eloquent\Collection
     {
-        return $post->tags()->create([
-            'name' => $request->name,
-        ]);
+        $names =[];
+        foreach($request->name as $value){
+            $names[] = ['name' => $value];
+        }
+
+        $post->tags()->delete();
+
+        return $post->tags()->createMany($names);
     }
 }
