@@ -12,7 +12,7 @@ return [
         'web_hook_path' => env('WEB_HOOK_PATH'),
     ],
     'slack' => [
-        "webhook_url" => env('SLACK_WEBHOOK_URL'),
+        'webhook_url' => env('SLACK_WEBHOOK_URL'),
     ],
     'meituan' => [
         'error' => [
