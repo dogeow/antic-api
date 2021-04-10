@@ -124,7 +124,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function routeNotificationForSlack(): string
     {
-        return env('SLACK_WEBHOOK_URL');
+        return config('services.slack.webhook_url');
     }
 
     public function isAuthorOf($model)

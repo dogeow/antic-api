@@ -9,8 +9,8 @@ class GitHubController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $secret = env('WEB_HOOK_SECRET');
-        $path = env('WEB_HOOK_PATH');
+        $secret = config('services.github.web_hook_secret');
+        $path = config('services.github.web_hook_path');
         $cmdArray = [
             'cd '.$path,
             'git reset --hard origin/master',
