@@ -183,7 +183,6 @@ class AuthController extends Controller
 
         $token = $validated['remember_me'] ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
 
-        \Log::info($token);
         if (is_string($token)) {
             return self::withProfile($token);
         }
