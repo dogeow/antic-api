@@ -20,6 +20,7 @@ type Query {
     aboutMe: [AboutMe!]! @all
     quotes: [Quote!]! @all
     parking: [Parking!]!
+    bookmarks: [Bookmark]! @all
 }
 
 extend type Query @guard {
@@ -43,6 +44,14 @@ type Post {
     user: User! @belongsTo
     category: PostCategory @hasOne
     tags: [PostTag]! @hasMany
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Bookmark {
+    id: ID!
+    title: String!
+    url: String!
     created_at: DateTime!
     updated_at: DateTime!
 }
