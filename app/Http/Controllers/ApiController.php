@@ -27,15 +27,15 @@ class ApiController extends Controller
     public function random()
     {
         $wallpapers = [
-            "AIR.jpg",
-            "LiveForSpeed.jpg",
-            "你的名字.jpg",
-            "塞尔达荒野之息.jpg",
-            "守望先锋.jpg",
-            "骑士.jpeg",
+            'AIR.jpg',
+            'LiveForSpeed.jpg',
+            '你的名字.jpg',
+            '塞尔达荒野之息.jpg',
+            '守望先锋.jpg',
+            '骑士.jpeg',
         ];
 
-        $random = random_int(0, count($wallpapers)-1);
+        $random = random_int(0, count($wallpapers) - 1);
 
         return redirect('https://oss.dogeow.com/wallpaper/'.$wallpapers[$random]);
     }
