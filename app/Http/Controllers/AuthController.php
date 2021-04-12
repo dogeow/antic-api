@@ -259,9 +259,11 @@ class AuthController extends Controller
 
         $secret = config('services.recaptcha');
 
-        $resp = $this->httpPost('https://www.recaptcha.net/recaptcha/api/siteverify',
-            "secret={$secret}&response={$token}");
+        $url = 'https://www.recaptcha.net/recaptcha/api/siteverify',
+            "secret={$secret}&response={$token}";
+        $resp = $this->httpPost($url);
         $resp = json_decode($resp, true);
+        \Log::info($url);
         \Log::info(var_export($resp, true));
 
         $key = 'recaptcha-'.$resp['hostname'];
