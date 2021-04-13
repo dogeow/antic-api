@@ -38,6 +38,7 @@ class PostController extends Controller
             'content' => 'required',
             'category_id' => 'required',
             'tags' => 'nullable|array',
+            'public' => 'required|boolean',
         ])->validate();
 
         $post = auth()->user()->posts()->create($validData);
