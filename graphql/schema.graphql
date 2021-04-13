@@ -9,7 +9,7 @@ type Query {
     greet(name: String = "you"): String
     user(id: ID @eq): User @find
     users: [User!]! @paginate(defaultCount: 10)
-    post(id: Int! @eq): Post @find
+    post(id: Int! @eq): Post @find(scopes: ["public"])
     posts: [Post!]! @all
     categories: [PostCategory!]! @all
     category(id: Int! @eq): PostCategory @find

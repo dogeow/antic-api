@@ -28,7 +28,16 @@ class PostController extends Controller
 
     public function show($id)
     {
-        return Post::with(['category:id,name', 'tags:id,post_id,name'])->where('id', $id)->firstOrFail();
+        if (auth()->user()->id === 1) {
+            return Post::with(['category:id,name', 'tags:id,post_id,name'])
+                ->where('id', $id)
+                ->firstOrFail();
+        }
+
+        return Post::with(['category:id,name', 'tags:id,post_id,name'])
+            ->where('id', $id)
+            ->where('public',
+            1)->firstOrFail();
     }
 
     public function store(Request $request)
