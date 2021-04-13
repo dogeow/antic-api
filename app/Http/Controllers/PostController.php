@@ -28,7 +28,8 @@ class PostController extends Controller
 
     public function show($id)
     {
-        if (auth()->user()->id === 1) {
+        $userId = auth()->user()->id ?? 0;
+        if ($userId === 1) {
             return Post::with(['category:id,name', 'tags:id,post_id,name'])
                 ->where('id', $id)
                 ->firstOrFail();
