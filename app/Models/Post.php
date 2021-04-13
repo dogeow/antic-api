@@ -27,7 +27,7 @@ use Laravel\Scout\Searchable;
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post public()
+ * @method static \Illuminate\Database\Eloquent\Builder|Post public ()
  * @method static \Illuminate\Database\Eloquent\Builder|Post query()
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedAt($value)
@@ -43,7 +43,7 @@ class Post extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['title', 'content', 'category_id'];
+    protected $fillable = ['title', 'content', 'category_id', 'public'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -71,6 +71,11 @@ class Post extends Model
 
     public function scopePublic($query)
     {
+        $userId = auth()->user()->id ?? 0;
+        if ($userId === 1) {
+            return $query;
+        }
+
         return $query->where('public', 1);
     }
 
