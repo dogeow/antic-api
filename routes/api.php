@@ -8,22 +8,31 @@ Route::group(['middleware' => ['api']], function () {
     Route::group([
         'prefix' => 'user',
     ], function () {
+        // 注册
         Route::post('register-by-email', [AuthController::class, 'registerByEmail']);
         Route::post('register-by-phone', [AuthController::class, 'registerByPhone']);
+
+        // 登录
         Route::post('login', [AuthController::class, 'login']);
         Route::post('guest', [AuthController::class, 'guest']);
     });
 
     Route::get('/posts/tags/count', [PostController::class, 'tagsCount']);
+    Route::match(['get', 'post'], '/callback', [ApiController::class, 'callback']);
+
+    // 注册 认证
     Route::get('/oauth/github', [AuthController::class, 'redirectToProvider']);
     Route::get('/oauth/github/callback', [AuthController::class, 'handleProviderCallback']);
-    Route::match(['get', 'post'], '/callback', [ApiController::class, 'callback']);
-    Route::post('/forget', [AuthController::class, 'forget']);
-    Route::post('/reset', [AuthController::class, 'reset']);
     Route::post('/recaptcha', [AuthController::class, 'recaptcha']);
     Route::post('/phoneNumberVerify', [AuthController::class, 'phoneNumberVerify']);
     Route::post('/emailVerify', [AuthController::class, 'emailVerify']);
+
+    // 重置 自动登录
+    Route::post('/forget', [AuthController::class, 'forget']);
+    Route::post('/reset', [AuthController::class, 'reset']);
     Route::post('/autoLogin', [AuthController::class, 'autoLogin']);
+
+    // 文章
     Route::get('/posts/categories/count', [PostController::class, 'categoriesCount']);
 
     Route::group(['middleware' => ['token.refresh']], function () {
@@ -61,7 +70,7 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/quote', [MyStuffController::class, 'quote']);
 
         // 关于我
-        Route::get('powered-by', [MyStuffController::class, 'aboutMe']);
+        Route::get('powered_by', [MyStuffController::class, 'aboutMe']);
 
         // 便民 API
         Route::post('/api', [ApiController::class, 'index']);
