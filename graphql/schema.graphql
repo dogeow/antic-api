@@ -60,6 +60,7 @@ type PostCategory {
     id: ID!
     name: String!
     post: Post! @belongsTo
+    count: String  @count(relation: "posts")
 }
 
 type PostTag {
