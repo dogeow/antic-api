@@ -5,8 +5,6 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
 type Query {
-    hello: String!
-    greet(name: String = "you"): String
     user(id: ID @eq): User @find
     users: [User!]! @paginate(defaultCount: 10)
     post(id: Int! @eq): Post @find(scopes: ["public"])
