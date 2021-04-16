@@ -9,17 +9,28 @@ type Query {
     user(id: ID @eq): User @find
     users: [User!]! @paginate(defaultCount: 10)
     post(id: Int! @eq): Post @find(scopes: ["public"])
-    posts: [Post!]! @all
+    posts(first: Int!, page: Int): [Post!]! @paginate
     categories: [PostCategory!]! @all
-    category(id: Int! @eq): PostCategory @find
+    category(id: Int name: String @eq first: Int!, page: Int): PostCategory @paginate
     tags: [PostTag!]! @all
-    tag(id: Int! @eq): PostTag @find
+    tag(id: Int name: String @eq): PostTag @paginate
     quote: String!
     project(id: Int! @eq): Project! @find
     aboutMe: [AboutMe!]! @all
     quotes: [Quote!]! @all
     parking: [Parking!]!
     bookmarks: [Bookmark]! @all
+    likes: [Like]! @all
+}
+
+input OrderByClause{
+    column: String!
+    order: SortOrder!
+}
+
+enum SortOrder {
+    ASC
+    DESC
 }
 
 extend type Query @guard {
@@ -41,6 +52,7 @@ type Post {
     title: String!
     content: String!
     user: User! @belongsTo
+    public: Boolean!
     category: PostCategory @hasOne
     tags: [PostTag]! @hasMany
     created_at: DateTime!
@@ -59,6 +71,7 @@ type PostCategory {
     id: ID!
     name: String!
     post: Post! @belongsTo
+    posts: [Post]! @hasMany
     count: String  @count(relation: "posts")
 }
 
@@ -66,6 +79,7 @@ type PostTag {
     id: ID!
     name: String
     post: Post! @belongsTo
+    posts: [Post]! @hasMany
     count: Int
 }
 
@@ -90,6 +104,17 @@ type Tasks {
 
 type Mutation {
     createUser(name: String!, email: String!): User! @create
+    deletePost(id: ID!): Post @can(ability: "delete", find: "id") @delete
+}
+
+type Like{
+    id: ID!
+    name: String!
+    sub_header: String!
+    img: String!
+    intro: String!
+    link: String
+    feeling: String
 }
 
 type AboutMe {

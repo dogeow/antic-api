@@ -27,7 +27,6 @@ class TagAdd extends FormRequest
         return [
             'name' => [
                 'required',
-                'array',
 //                Rule::unique('post_tags', 'name')->where(function ($query) {
 //                    return $query->where('post_id', $this->route('post')->id);
 //                }),

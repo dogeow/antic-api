@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\PostTag.
@@ -31,5 +32,10 @@ class PostTag extends Model
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'id', 'post_id');
     }
 }

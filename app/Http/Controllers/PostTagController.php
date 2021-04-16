@@ -20,15 +20,15 @@ class PostTagController extends Controller
         return $post->tags()->where('name', $request->name)->delete();
     }
 
-    public function store(TagAdd $request, Post $post): \Illuminate\Database\Eloquent\Collection
+    public function store(TagAdd $request, Post $post)
     {
         $names = [];
-        foreach ($request->name as $value) {
+        foreach ((array)$request->name as $value) {
             $names[] = ['name' => $value];
         }
 
-        $post->tags()->delete();
+        $post->tags()->createMany($names);
 
-        return $post->tags()->createMany($names);
+        return $post->tags;
     }
 }

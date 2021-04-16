@@ -38,7 +38,7 @@ class PostPolicy
      *
      * @param  User  $user
      * @param  Post  $post
-     * @return mixed
+     * @return bool
      */
     public function delete(User $user, Post $post)
     {
