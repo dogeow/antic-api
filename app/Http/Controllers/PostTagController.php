@@ -23,7 +23,7 @@ class PostTagController extends Controller
     public function store(TagAdd $request, Post $post)
     {
         $names = [];
-        foreach ((array)$request->name as $value) {
+        foreach ((array) $request->name as $value) {
             $names[] = ['name' => $value];
         }
 
