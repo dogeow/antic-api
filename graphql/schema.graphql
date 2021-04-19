@@ -9,7 +9,7 @@ type Query {
     user(id: ID @eq): User @find
     users: [User!]! @paginate(defaultCount: 10)
     post(id: Int! @eq): Post @find(scopes: ["public"])
-    posts(first: Int!, page: Int): [Post!]! @paginate
+    posts(first: Int!, page: Int orderBy: _ @orderBy(columns: ["updated_at"])): [Post!]! @paginate
     categories: [PostCategory!]! @all
     category(id: Int name: String @eq first: Int!, page: Int): PostCategory @paginate
     tags: [PostTag!]! @all
