@@ -127,7 +127,7 @@ class User extends Authenticatable implements JWTSubject
         return config('services.slack.webhook_url');
     }
 
-    public function isAuthorOf($model)
+    public function isAuthorOf($model): bool
     {
         return $this->id === $model->user_id;
     }

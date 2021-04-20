@@ -77,7 +77,7 @@ class MoonHistoryController extends Controller
     {
         $ruleList = $this->getRule();
         $res = $this->defRank;
-        if (!empty($ruleList)) {
+        if (! empty($ruleList)) {
             foreach ($ruleList as $rank => $rankRules) {
                 foreach ($rankRules as $rule) {
                     foreach ($rule as $dian => $num) {
