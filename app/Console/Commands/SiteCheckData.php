@@ -29,8 +29,8 @@ class SiteCheckData extends Command
     protected $description = '用接口获取站点更新时间';
 
     public GuzzleClient $guzzleClient;
-    public $crawler;
-    public $site;
+    public Crawler $crawler;
+    public array $site;
 
     /**
      * Create a new command instance.
@@ -49,9 +49,9 @@ class SiteCheckData extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $checkFailed = $this->option('failed');
         if ($checkFailed) {
@@ -62,19 +62,18 @@ class SiteCheckData extends Command
             $sites = Site::all();
         }
 
-        foreach ($sites as $key => $site) {
+        foreach ($sites  as $site) {
             $this->site = $site;
             echo $site->domain.PHP_EOL;
             $date = $this->getDate();
             if ($date === false) {
                 $site->online = false;
-                $site->save();
             } else {
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
                 $site->online = true;
-                $site->save();
             }
+            $site->save();
         }
     }
 
@@ -124,7 +123,7 @@ class SiteCheckData extends Command
             if (($this->site->domain === 'sodu.ee') && Carbon::now()->diffInMinutes($targetDate) >= 10) {
                 Notification::send(new User, new BuildNotification($this->site->domain.' 超过十分钟'));
             }
-            $status = !$diff;
+            $status = ! $diff;
         }
 
         return $status;
