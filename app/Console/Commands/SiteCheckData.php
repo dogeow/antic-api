@@ -121,8 +121,8 @@ class SiteCheckData extends Command
                 return false;
             }
             $diff = Carbon::now()->diffInDays($targetDate);
-            if (($this->site->domain === 'sodu.ee') && Carbon::now()->diffInHours($targetDate) >= 1) {
-                Notification::send(new User, new BuildNotification($this->site->domphpain.' 超过一小时'));
+            if (($this->site->domain === 'sodu.ee') && Carbon::now()->diffInMinutes($targetDate) >= 10) {
+                Notification::send(new User, new BuildNotification($this->site->domain.' 超过十分钟'));
             }
             $status = $diff ? false : true;
         }
