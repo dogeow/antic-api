@@ -41,30 +41,36 @@ class NewsNet extends Command
     public function handle()
     {
         $urls = [
-            "https://temp.163.com/special/00804KVA/cm_yaowen20200213_04.js?callback=data_callback&date=20200115", // 要闻
-            "https://temp.163.com/special/00804KVA/cm_yaowen20200213.js?callback=data_callback&date=20200115", // 同上
-            "https://temp.163.com/special/00804KVA/cm_guoji.js?callback=data_callback", // 国际
-            "https://temp.163.com/special/00804KVA/cm_guonei.js?callback=data_callback", // 国内
-            "https://temp.163.com/special/00804KVA/cm_war.js?callback=data_callback", // 军事
-            "https://temp.163.com/special/00804KVA/cm_hangkong.js?callback=data_callback&a=2", // 航空
-            "https://tech.163.com/special/00097UHL/tech_datalist.js?callback=data_callback", // 科技
-            "https://temp.163.com/special/00804KVA/cm_auto.js?callback=data_callback&date=20200115", // 汽车
-            "https://temp.163.com/special/00804KVA/cm_dujia.js?callback=data_callback&date=20200115", // 独家
+            'https://temp.163.com/special/00804KVA/cm_yaowen20200213_04.js?callback=data_callback&date=20200115', // 要闻
+            'https://temp.163.com/special/00804KVA/cm_yaowen20200213.js?callback=data_callback&date=20200115', // 同上
+            'https://temp.163.com/special/00804KVA/cm_guoji.js?callback=data_callback', // 国际
+            'https://temp.163.com/special/00804KVA/cm_guonei.js?callback=data_callback', // 国内
+            'https://temp.163.com/special/00804KVA/cm_war.js?callback=data_callback', // 军事
+            'https://temp.163.com/special/00804KVA/cm_hangkong.js?callback=data_callback&a=2', // 航空
+            'https://tech.163.com/special/00097UHL/tech_datalist.js?callback=data_callback', // 科技
+            'https://temp.163.com/special/00804KVA/cm_auto.js?callback=data_callback&date=20200115', // 汽车
+            'https://temp.163.com/special/00804KVA/cm_dujia.js?callback=data_callback&date=20200115', // 独家
+            'https://temp.163.com/special/00804KVA/cm_jiankang.js?callback=data_callback&date=20200115', // 健康
+            'https://temp.163.com/special/00804KVA/cm_houseguangzhou.js?callback=data_callback&date=20200115', // 房产
+            'https://temp.163.com/special/00804KVA/cm_lady.js?callback=data_callback&date=20200115', // 时尚
+            'https://temp.163.com/special/00804KVA/cm_ent.js?callback=data_callback&date=20200115', // 娱乐
+            'https://temp.163.com/special/00804KVA/cm_sports.js?callback=data_callback&date=20200115', // 体育
+            'https://temp.163.com/special/00804KVA/cm_money.js?callback=data_callback&date=20200115', // 财经
         ];
 
         foreach ($urls as $url) {
             $content = file_get_contents($url);
 
-            if (preg_match_all('/"title":"(.*?)"/', $content, $matches) === false) {
-                exit("没有数据");
+            if (preg_match_all('/"title":"(.*?)",/', $content, $matches) === false) {
+                exit('没有数据');
             }
             $news = [];
             foreach ($matches[1] as $item) {
                 $news[] = [
-                    "title" => mb_convert_encoding($item, "UTF-8", "GBK"),
+                    'title' => mb_convert_encoding($item, 'UTF-8', 'GBK'),
                 ];
             }
-            \DB::table("news")->insertOrIgnore($news);
+            \DB::table('news')->insertOrIgnore($news);
         }
     }
 
