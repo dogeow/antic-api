@@ -25,9 +25,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('news:qq')
-                  ->everyMinute();
+            ->everyTwoMinutes();
         $schedule->command('news:net')
-            ->everyMinute();
+            ->everyTwoMinutes();
     }
 
     /**

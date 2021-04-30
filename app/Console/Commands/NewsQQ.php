@@ -46,7 +46,9 @@ class NewsQQ extends Command
         $count = 199;
 
         $subSrvIds = [
-            '24hours',
+            '24hours', "antip", "bj", "ent", "legal", "edu", "sports", "kepu", "nstock",
+            "house", "comic", "history", "pet", "baby", "football", "visit", "digi", "emotion", "auto", "finance",
+            "fashion", "world", "milite", "tech"
         ];
 
         foreach ($subSrvIds as $subSrvId) {
@@ -66,7 +68,7 @@ class NewsQQ extends Command
 
             $json = $response->getBody()->getContents();
 
-            if (! is_object($json)) {
+            if (!is_object($json)) {
                 $this->log($url, $params, $json, '返回结果不是 JSON');
             }
 
