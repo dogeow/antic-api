@@ -28,6 +28,8 @@ class Kernel extends ConsoleKernel
             ->everyTwoMinutes();
         $schedule->command('news:net')
             ->everyTwoMinutes();
+        $schedule->command('news:sina')
+            ->everyTwoMinutes();
     }
 
     /**
