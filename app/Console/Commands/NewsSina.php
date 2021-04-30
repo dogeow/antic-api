@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
-use Symfony\Component\DomCrawler\Crawler;
 
 class NewsSina extends Command
 {
@@ -48,7 +47,7 @@ class NewsSina extends Command
         $array = json_decode($content, true);
 
         if (empty($array['result']['data'])) {
-            exit("没有数据");
+            exit('没有数据');
         }
 
         $data = $array['result']['data'];
