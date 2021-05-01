@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 
-class NewsSina extends Command
+class NewsSohu extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'news:sina';
+    protected $signature = 'news:sohu';
 
     /**
      * The console command description.
@@ -40,29 +40,20 @@ class NewsSina extends Command
 
     public function handle()
     {
-        $urls = [
-            'http://feed.mix.sina.com.cn/api/roll/get?pageid=153&lid=2509&k=&num=50&page=1',
-            'http://feed.mix.sina.com.cn/api/roll/get?pageid=382&lid=2990&k=&num=50&page=1',
-            'http://feed.sina.com.cn/api/roll/get?pageid=51&lid=740&num=50&page=1',
-        ];
+        $categories = [1460, 1461, 1462, 1463, 1464];
 
-        foreach ($urls as $url) {
+        foreach ($categories as $category) {
+            $url = "https://v2.sohu.com/public-api/feed?scene=CATEGORY&sceneId={$category}&page=1&size=100";
             $content = file_get_contents($url);
-
-            $array = json_decode($content, true);
-
-            if (empty($array['result']['data'])) {
-                exit('没有数据');
-            }
-
-            $data = $array['result']['data'];
+            $array = json_decode($content, true,);
 
             $news = [];
-            foreach ($data as $item) {
+            foreach ($array as $item) {
                 $news[] = [
                     'title' => $item['title'],
                 ];
             }
+
             \DB::table('news')->insertOrIgnore($news);
         }
     }
@@ -73,5 +64,20 @@ class NewsSina extends Command
         \Log::error(var_export($params, true));
         \Log::error(var_export($response, true));
         \Log::error($message);
+    }
+
+    public function curl($url, $user_agent, $proxy)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_PROXY, $proxy);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 120);
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        return $result;
     }
 }
