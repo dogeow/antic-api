@@ -37,7 +37,7 @@ class NewsNetWap extends Command
      */
     public function handle()
     {
-        $url = "https://3g.163.com/touch/reconstruct/article/list/BBM54PGAwangning/1-10.html";
+        $url = 'https://3g.163.com/touch/reconstruct/article/list/BBM54PGAwangning/1-10.html';
         $content = file_get_contents($url);
         $json = substr($content, 9, -1);
         $array = json_decode($json, true);
@@ -50,6 +50,5 @@ class NewsNetWap extends Command
 
             \DB::table('news')->insertOrIgnore($news);
         }
-
     }
 }
