@@ -40,6 +40,8 @@ class Kernel extends ConsoleKernel
             ->everyTwoMinutes();
         $schedule->command('news:sina-api')
             ->everyMinute();
+        $schedule->command('news:net-wap')
+            ->everyMinute();
     }
 
     /**
