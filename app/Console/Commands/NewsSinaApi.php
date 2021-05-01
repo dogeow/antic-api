@@ -40,7 +40,7 @@ class NewsSinaApi extends Command
 
     public function handle()
     {
-        $url = "https://cre.mix.sina.com.cn/api/v3/get";
+        $url = 'https://cre.mix.sina.com.cn/api/v3/get';
 
         $content = file_get_contents($url);
 

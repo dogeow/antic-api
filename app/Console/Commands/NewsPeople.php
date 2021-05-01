@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
-use Symfony\Component\DomCrawler\Crawler;
 
 class NewsPeople extends Command
 {
@@ -41,7 +40,7 @@ class NewsPeople extends Command
 
     public function handle()
     {
-        $url = "http://news.people.com.cn/210801/211150/index.js";
+        $url = 'http://news.people.com.cn/210801/211150/index.js';
 
         $content = file_get_contents($url);
 

@@ -45,7 +45,7 @@ class NewsSohu extends Command
         foreach ($categories as $category) {
             $url = "https://v2.sohu.com/public-api/feed?scene=CATEGORY&sceneId={$category}&page=1&size=100";
             $content = file_get_contents($url);
-            $array = json_decode($content, true,);
+            $array = json_decode($content, true, );
 
             $news = [];
             foreach ($array as $item) {

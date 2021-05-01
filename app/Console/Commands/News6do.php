@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
-use Symfony\Component\DomCrawler\Crawler;
 
 class News6do extends Command
 {
@@ -41,13 +40,13 @@ class News6do extends Command
 
     public function handle()
     {
-        $url = "https://6do.news/api/article/recommend?page=1";
+        $url = 'https://6do.news/api/article/recommend?page=1';
 
-        $userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36";
-        $proxy = "http://127.0.0.1:1087";
+        $userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36';
+        $proxy = 'http://127.0.0.1:1087';
 
         $json = $this->curl($url, $userAgent, $proxy);
-        $array = json_decode($json, true,);
+        $array = json_decode($json, true, );
 
         if ($array['status_code'] !== 200) {
             exit($array['error']);

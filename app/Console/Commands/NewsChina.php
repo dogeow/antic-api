@@ -41,7 +41,7 @@ class NewsChina extends Command
 
     public function handle()
     {
-        $url = "http://www.chinanews.com/scroll-news/news1.html";
+        $url = 'http://www.chinanews.com/scroll-news/news1.html';
 
         $content = file_get_contents($url);
 
