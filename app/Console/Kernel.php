@@ -24,24 +24,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('news:qq')
-            ->everyTwoMinutes();
-        $schedule->command('news:net')
-            ->everyTwoMinutes();
-        $schedule->command('news:sina')
-            ->everyTwoMinutes();
-        $schedule->command('news:china')
-            ->everyTwoMinutes();
-        $schedule->command('news:people')
-            ->everyTwoMinutes();
-        $schedule->command('news:6do')
-            ->everyMinute();
-        $schedule->command('news:sohu')
-            ->everyTwoMinutes();
-        $schedule->command('news:sina-api')
-            ->everyMinute();
-        $schedule->command('news:net-wap')
-            ->everyMinute();
     }
 
     /**
