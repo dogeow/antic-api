@@ -30,7 +30,7 @@ class SiteCheckData extends Command
 
     public GuzzleClient $guzzleClient;
     public Crawler $crawler;
-    public array $site;
+    public $site;
 
     /**
      * Create a new command instance.
@@ -62,7 +62,7 @@ class SiteCheckData extends Command
             $sites = Site::all();
         }
 
-        foreach ($sites  as $site) {
+        foreach ($sites as $site) {
             $this->site = $site;
             echo $site->domain.PHP_EOL;
             $date = $this->getDate();
@@ -123,7 +123,7 @@ class SiteCheckData extends Command
             if (($this->site->domain === 'sodu.ee') && Carbon::now()->diffInMinutes($targetDate) >= 10) {
                 Notification::send(new User, new BuildNotification($this->site->domain.' 超过十分钟'));
             }
-            $status = ! $diff;
+            $status = !$diff;
         }
 
         return $status;
