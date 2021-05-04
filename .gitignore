@@ -48,3 +48,7 @@ laravel-echo-server.lock
 # Laravel Sail
 supervisord.log
 supervisord.pid
+
+# Laravel Admin
+
+public/vendor
