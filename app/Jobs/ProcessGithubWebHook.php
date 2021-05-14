@@ -15,7 +15,7 @@ class ProcessGithubWebHook implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $cmd;
+    private string $cmd;
 
     /**
      * Create a new job instance.
@@ -32,7 +32,7 @@ class ProcessGithubWebHook implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $output = shell_exec($this->cmd);
         Notification::send(new User, new BuildNotification($output));
