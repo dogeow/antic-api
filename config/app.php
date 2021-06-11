@@ -54,6 +54,10 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'frontend' => [
+        'url' => env('FRONTEND_URL', 'http://127.0.0.1:3000')
+    ],
+
     'asset_url' => env('ASSET_URL', null),
 
     /*

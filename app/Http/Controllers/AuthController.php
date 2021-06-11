@@ -367,12 +367,13 @@ class AuthController extends Controller
             )->first();
         if ($user) {
             $secret = \Str::random(40);
-            $link = config('app.url').'/emailVerify/'.$secret;
+            $link = config('app.frontend.url').'/emailVerify/'.$secret;
             if ($user->email) {
                 Mail::to($user->email)->send(new Forget($user, $link));
                 if (Mail::failures()) {
                     return response()->json();
                 }
+                \Cache::put('emailVerify:'.$secret, $user->id, 86400);
             } else {
                 // 发送短信
             }
