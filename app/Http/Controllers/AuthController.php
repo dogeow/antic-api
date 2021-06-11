@@ -367,7 +367,7 @@ class AuthController extends Controller
             )->first();
         if ($user) {
             $secret = \Str::random(40);
-            $link = config('app.frontend.url').'/emailVerify/'.$secret;
+            $link = config('app.frontend.url').'/forget/'.$secret;
             if ($user->email) {
                 Mail::to($user->email)->send(new Forget($user, $link));
                 if (Mail::failures()) {
