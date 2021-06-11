@@ -148,7 +148,7 @@ class AuthController extends Controller
     }
 
     /**
-     * 登录并创建 JWT.
+     * 登录并创建 JWT
      *
      * @param  AuthLogin  $request
      * @return array|JsonResponse|object
@@ -367,7 +367,7 @@ class AuthController extends Controller
             )->first();
         if ($user) {
             $secret = \Str::random(40);
-            $link = config('app.url').'/forget/'.$secret;
+            $link = config('app.url').'/emailVerify/'.$secret;
             if ($user->email) {
                 Mail::to($user->email)->send(new Forget($user, $link));
                 if (Mail::failures()) {
