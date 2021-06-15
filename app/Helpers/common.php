@@ -23,7 +23,7 @@ function getTitle($url)
 /**
  * 获取一张图片的主要颜色
  * @param  string  $imgUrl  图片的本地路径或者在线路径
- * @param  boolean  $isHex  是否获取16进制的主要颜色
+ * @param  bool  $isHex  是否获取16进制的主要颜色
  */
 function getMainColor(string $imgUrl, bool $isHex): string
 {
