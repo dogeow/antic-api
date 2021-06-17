@@ -21,10 +21,10 @@ class Headless extends Command
      */
     protected $description = '无头浏览器';
 
-    protected $url;
-    protected $time = 3000;
-    protected $width = 450;
-    protected $height = 900;
+    protected string $url;
+    protected int $time = 3000;
+    protected int $width = 450;
+    protected int $height = 900;
 
     /**
      * Create a new command instance.
@@ -39,7 +39,7 @@ class Headless extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
     public function handle()
     {
@@ -47,7 +47,7 @@ class Headless extends Command
         $this->spider();
     }
 
-    public function spider()
+    public function spider(): void
     {
         $puppeteer = new Puppeteer();
         $browser = $puppeteer->launch([
