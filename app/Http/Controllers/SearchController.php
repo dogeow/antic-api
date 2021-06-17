@@ -37,14 +37,14 @@ class SearchController extends Controller
         $count = null;
         try {
             $searchResultCount = $crawler->filterXPath("//div[@id='result-stats']")->text();
-            if (preg_match('/找到约 (.*?) 条结果/', $searchResultCount, $match)) {
+            if (preg_match('/找到约 (.*?) 条结果/u', $searchResultCount, $match)) {
                 $count = str_replace(',', '', $match[1]);
             }
 
             $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node, $i) {
                 if (0 === $node->filterXPath('//h3')->count() || 0 === $node->filterXPath('//cite')->count()
                     || 0 === $node->filterXPath('//span[@class="st"]')->count()) {
-                    return;
+                    return null;
                 }
 
                 return [
