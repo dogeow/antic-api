@@ -9,7 +9,7 @@ type Query {
     user(id: ID @eq): User @find
     users: [User!]! @paginate(defaultCount: 10)
     post(id: Int! @eq): Post @find(scopes: ["public"])
-    posts(first: Int!, page: Int orderBy: _ @orderBy(columns: ["updated_at"])): [Post!]! @paginate
+    posts(first: Int!, page: Int, where: _ @whereConditions(columns: ["category_id"]), orderBy: _ @orderBy(columns: ["updated_at"])): [Post!]! @paginate
     categories: [PostCategory!]! @all
     category(id: Int name: String @eq first: Int!, page: Int): PostCategory @paginate
     tags: [PostTag!]! @all
@@ -54,6 +54,7 @@ type Post {
     user: User! @belongsTo
     public: Boolean!
     category: PostCategory @hasOne
+    category_id: Int!
     tags: [PostTag]! @hasMany
     created_at: DateTime!
     updated_at: DateTime!
@@ -77,7 +78,7 @@ type PostCategory {
 
 type PostTag {
     id: ID!
-    name: String
+    name: String!
     post: Post! @belongsTo
     posts: [Post]! @hasMany
     count: Int
