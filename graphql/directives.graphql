@@ -1254,3 +1254,22 @@ Apply scopes to the underlying query.
 """
 scopes: [String!]
 )  on FIELD_DEFINITION
+
+"""
+Add a dynamically client-controlled WHERE condition to a fields query.
+"""
+directive @whereConditions(
+    """
+    Restrict the allowed column names to a well-defined list.
+    This improves introspection capabilities and security.
+    Mutually exclusive with the `columnsEnum` argument.
+    """
+    columns: [String!]
+
+    """
+    Use an existing enumeration type to restrict the allowed columns to a predefined list.
+    This allowes you to re-use the same enum for multiple fields.
+    Mutually exclusive with the `columns` argument.
+    """
+    columnsEnum: String
+) on ARGUMENT_DEFINITION
