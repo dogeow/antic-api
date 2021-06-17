@@ -12,12 +12,7 @@ class ImageController extends Controller
     public function store(Request $request): array
     {
         $key = 'emoji';
-        if (false === $request->hasFile($key)) {
-            return [
-                'url' => '',
-            ];
-        }
-        if (false === $request->file($key)->isValid()) {
+        if (false === $request->hasFile($key) || false === $request->file($key)->isValid()) {
             return [
                 'url' => '',
             ];
