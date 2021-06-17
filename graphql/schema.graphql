@@ -9,8 +9,8 @@ type Query {
     user(id: ID @eq): User @find
     users: [User!]! @paginate(defaultCount: 10)
     post(id: Int! @eq): Post @find(scopes: ["public"])
-    posts(first: Int!, page: Int, where: _ @whereConditions(columns: ["category_id"]), orderBy: _ @orderBy(columns: ["updated_at"])): [Post!]! @paginate
-    categories: [PostCategory!]! @all
+    posts(first: Int!, category_id: Int @eq, page: Int, where: _ @whereConditions(columns: ["category_id"]), orderBy: _ @orderBy(columns: ["updated_at"])): [Post!]! @paginate
+    categories(orderBy: [OrderByClause!] @orderBy): [PostCategory!]! @all
     category(id: Int name: String @eq first: Int!, page: Int): PostCategory @paginate
     tags: [PostTag!]! @all
     tag(id: Int name: String @eq): PostTag @paginate
@@ -23,7 +23,7 @@ type Query {
     likes: [Like]! @all
 }
 
-input OrderByClause{
+input OrderByClause {
     column: String!
     order: SortOrder!
 }
