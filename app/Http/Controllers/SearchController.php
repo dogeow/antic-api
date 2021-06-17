@@ -15,7 +15,7 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->get('q', null);
+        $query = $request->get('q');
         if (null === $query) {
             return ['error'];
         }
