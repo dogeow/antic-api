@@ -23,7 +23,7 @@ if (! function_exists('status')) {
 }
 
 /*
- * 格式化字节大小.
+ * 格式化字节大小
  * @param  int  $size  字节数
  * @param  int  $base  MiB 或 MB，即 1024 或 1000
  * @param  string  $delimiter  数字和单位分隔符
@@ -43,7 +43,7 @@ if (! function_exists('bytesForHuman')) {
 }
 
 /*
- * 微博热度.
+ * 微博热度
  * @param  int  $size  热度
  * @return string 格式化后的带单位的大小
  */
