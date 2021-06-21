@@ -17,6 +17,8 @@ Route::group(['middleware' => ['api']], function () {
         Route::post('guest', [AuthController::class, 'guest']);
     });
 
+    Route::get('/pics', [ImageController::class, 'index']);
+
     Route::get('/posts/tags/count', [PostController::class, 'tagsCount']);
     Route::match(['get', 'post'], '/callback', [ApiController::class, 'callback']);
 
@@ -87,7 +89,7 @@ Route::group(['middleware' => ['api']], function () {
         Route::post('/weibo', [WeiboController::class, 'index']);
 
         // Emoji
-        Route::post('/emoji', [ImageController::class, 'store']);
+        Route::post('/images', [ImageController::class, 'store']);
 
         // Search
         Route::get('/search', [SearchController::class, 'search']);
