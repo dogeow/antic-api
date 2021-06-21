@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
-    public string $folder = 'images/emoji';
+    public string $folderType = 'images';
 
     /**
      * @return Image[]|Collection
@@ -24,7 +24,7 @@ class ImageController extends Controller
      */
     public function store(Request $request): array
     {
-        $key = $request->input('name');
+        $key = $request->input('key');
 
         if (false === $request->hasFile($key) || is_null($file = $request->file($key))) {
             return [
@@ -49,16 +49,18 @@ class ImageController extends Controller
             $filename = $originalName;
         }
 
+        $fullFolder = "$this->folderType/$key";
+
         Image::create([
             'user_id' => 1,
             'original_name' => $originalName,
-            'folder' => $this->folder,
+            'folder' => $fullFolder,
             'name' => $filename,
         ]);
 
-        $file->storeAs($this->folder, $filename, 'oss');
+        $file->storeAs($fullFolder, $filename, 'oss');
 
-        $filenameWithPath = $this->folder.'/'.$filename;
+        $filenameWithPath = "$fullFolder/$filename";
 
         return [
             'url' => "https://oss.dogeow.com/{$filenameWithPath}",
