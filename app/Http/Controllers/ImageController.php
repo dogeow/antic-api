@@ -9,7 +9,8 @@ class ImageController extends Controller
 {
     public string $folder = 'images/emoji';
 
-    public function index(){
+    public function index()
+    {
         return Image::all();
     }
 
@@ -17,7 +18,7 @@ class ImageController extends Controller
     {
         $key = 'emoji';
 
-        if (false === $request->hasFile($key) || is_null( $file = $request->file($key)) ) {
+        if (false === $request->hasFile($key) || is_null($file = $request->file($key))) {
             return [
                 'url' => '',
             ];
@@ -28,8 +29,8 @@ class ImageController extends Controller
         $existImage = Image::where('original_name', $originalName)->orderByDesc('id')->first();
         if ($existImage) {
             // 获取文件名和扩展名
-            $name = $file ->getClientOriginalName();
-            $extension = $file ->extension();
+            $name = $file->getClientOriginalName();
+            $extension = $file->extension();
             if ($existImage['name'] === $existImage['original_name']) { // 第二个同名文件
                 $filename = $name.'@2.'.$extension;
             } else {
