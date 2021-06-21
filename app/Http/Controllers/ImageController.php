@@ -35,9 +35,8 @@ class ImageController extends Controller
                 $filename = $name.'@2.'.$extension;
             } else {
                 // 获取相同文件名的编码
-                preg_match('/^.*@(.*)\..*?$/', $existImage['name'], $matches);
-                $number = $matches[1];
-                $filename = $name.'@'.($number + 1).'.'.$extension;
+                preg_match('/^.*@(?<number>.*)\..*?$/', $existImage['name'], $matches);
+                $filename = $name.'@'.($matches['number'] + 1).'.'.$extension;
             }
         } else {
             $filename = $originalName;
