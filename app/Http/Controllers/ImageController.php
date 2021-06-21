@@ -3,20 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
     public string $folder = 'images/emoji';
 
-    public function index()
+    /**
+     * @return Image[]|Collection
+     */
+    public function index(): Collection|array
     {
         return Image::all();
     }
 
+    /**
+     * @param  Request  $request
+     * @return string[]
+     */
     public function store(Request $request): array
     {
-        $key = 'emoji';
+        $key = $request->input('name');
 
         if (false === $request->hasFile($key) || is_null($file = $request->file($key))) {
             return [
@@ -33,10 +41,9 @@ class ImageController extends Controller
             $extension = $file->extension();
             if ($existImage['name'] === $existImage['original_name']) { // 第二个同名文件
                 $filename = $name.'@2.'.$extension;
-            } else {
-                // 获取相同文件名的编码
-                preg_match('/^.*@(?<number>.*)\..*?$/', $existImage['name'], $matches);
-                $filename = $name.'@'.($matches['number'] + 1).'.'.$extension;
+            } elseif(preg_match('/^.*@(?<number>.*)\..*?$/', $existImage['name'], $matches)){
+                $number = $matches['number'] + 1;
+                $filename = "$name@$number.$extension";
             }
         } else {
             $filename = $originalName;
