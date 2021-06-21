@@ -9,22 +9,27 @@ class ImageController extends Controller
 {
     public string $folder = 'images/emoji';
 
+    public function index(){
+        return Image::all();
+    }
+
     public function store(Request $request): array
     {
         $key = 'emoji';
-        if (false === $request->hasFile($key) || false === $request->file($key)->isValid()) {
+
+        if (false === $request->hasFile($key) || is_null( $file = $request->file($key)) ) {
             return [
                 'url' => '',
             ];
         }
 
-        $originalName = $request->file($key)->getClientOriginalName();
+        $originalName = $file->getClientOriginalName();
 
         $existImage = Image::where('original_name', $originalName)->orderByDesc('id')->first();
         if ($existImage) {
             // 获取文件名和扩展名
-            $name = $request->file($key)->getClientOriginalName();
-            $extension = $request->file($key)->extension();
+            $name = $file ->getClientOriginalName();
+            $extension = $file ->extension();
             if ($existImage['name'] === $existImage['original_name']) { // 第二个同名文件
                 $filename = $name.'@2.'.$extension;
             } else {
@@ -40,10 +45,11 @@ class ImageController extends Controller
         Image::create([
             'user_id' => 1,
             'original_name' => $originalName,
+            'folder' => $this->folder,
             'name' => $filename,
         ]);
 
-        $request->file($key)->storeAs($this->folder, $filename, 'oss');
+        $file->storeAs($this->folder, $filename, 'oss');
 
         $filenameWithPath = $this->folder.'/'.$filename;
 
