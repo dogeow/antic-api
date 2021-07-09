@@ -30,4 +30,11 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
+
+    public function suspended()
+    {
+        return $this->state([
+            'account_status' => 'suspended',
+        ]);
+    }
 }

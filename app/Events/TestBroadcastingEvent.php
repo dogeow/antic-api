@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -12,8 +13,8 @@ class TestBroadcastingEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
-    public $isRobot;
+    public string $message;
+    public bool $isRobot;
 
     /**
      * Create a new event instance.
@@ -21,7 +22,7 @@ class TestBroadcastingEvent implements ShouldBroadcast
      * @param  string  $message
      * @param  bool  $isRobot
      */
-    public function __construct($message, $isRobot = false)
+    public function __construct(string $message, bool $isRobot = false)
     {
         $this->message = $message;
         $this->isRobot = $isRobot;
@@ -30,14 +31,14 @@ class TestBroadcastingEvent implements ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|PrivateChannel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): Channel|PrivateChannel|array
     {
         return new PrivateChannel('chat');
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'chat';
     }

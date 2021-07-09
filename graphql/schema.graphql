@@ -11,9 +11,9 @@ type Query {
     post(id: Int! @eq): Post @find(scopes: ["public"])
     posts(first: Int!, category_id: Int @eq, page: Int, where: _ @whereConditions(columns: ["category_id"]), orderBy: _ @orderBy(columns: ["updated_at"])): [Post!]! @paginate
     categories(orderBy: [OrderByClause!] @orderBy): [PostCategory!]! @all
-    category(id: Int name: String @eq first: Int!, page: Int): PostCategory @paginate
+    category(id: Int name: String @eq first: Int!, page: Int):  PostCategory @paginate
     tags: [PostTag!]! @all
-    tag(id: Int name: String @eq): PostTag @paginate
+    tag(id: Int  name: String @eq first: Int!, page: Int): PostTag @paginate
     quote: String!
     project(id: Int! @eq): Project! @find
     aboutMe: [AboutMe!]! @all
@@ -53,7 +53,7 @@ type Post {
     content: String!
     user: User! @belongsTo
     public: Boolean!
-    category: PostCategory @hasOne
+    category(name: String @eq): PostCategory @hasOne
     category_id: Int!
     tags: [PostTag]! @hasMany
     created_at: DateTime!
