@@ -4,7 +4,7 @@ use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $rules = [
-    '@PSR2' => true,
+    '@PHP80Migration' => true,
 ];
 
 $finder = Finder::create()
