@@ -75,11 +75,11 @@ class Tickets extends RadialBar
     {
         return $this->content(
             <<<HTML
-<div class="d-flex flex-column flex-wrap text-center">
-    <h1 class="font-lg-2 mt-2 mb-0">{$content}</h1>
-    <small>Tickets</small>
-</div>
-HTML
+                <div class="d-flex flex-column flex-wrap text-center">
+                    <h1 class="font-lg-2 mt-2 mb-0">{$content}</h1>
+                    <small>Tickets</small>
+                </div>
+                HTML
         );
     }
 
@@ -96,21 +96,21 @@ HTML
     {
         return $this->footer(
             <<<HTML
-<div class="d-flex justify-content-between p-1" style="padding-top: 0!important;">
-    <div class="text-center">
-        <p>New Tickets</p>
-        <span class="font-lg-1">{$new}</span>
-    </div>
-    <div class="text-center">
-        <p>Open Tickets</p>
-        <span class="font-lg-1">{$open}</span>
-    </div>
-    <div class="text-center">
-        <p>Response Time</p>
-        <span class="font-lg-1">{$response}</span>
-    </div>
-</div>
-HTML
+                <div class="d-flex justify-content-between p-1" style="padding-top: 0!important;">
+                    <div class="text-center">
+                        <p>New Tickets</p>
+                        <span class="font-lg-1">{$new}</span>
+                    </div>
+                    <div class="text-center">
+                        <p>Open Tickets</p>
+                        <span class="font-lg-1">{$open}</span>
+                    </div>
+                    <div class="text-center">
+                        <p>Response Time</p>
+                        <span class="font-lg-1">{$response}</span>
+                    </div>
+                </div>
+                HTML
         );
     }
 }

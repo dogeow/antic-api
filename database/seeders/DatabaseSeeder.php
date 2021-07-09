@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $faker = app(\Faker\Generator::class);
         \App\Models\User::create(
-           [
+            [
                'name' => 'test',
                'email' => 'test@test.com',
                'email_verified_at' => now(),

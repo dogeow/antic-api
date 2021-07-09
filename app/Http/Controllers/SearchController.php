@@ -8,7 +8,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SearchController extends Controller
 {
-    const empty = [
+    public const empty = [
         'data' => [],
         'count' => 0,
     ];

@@ -159,7 +159,9 @@ class AuthController extends Controller
         $notMatchedText = '账号不存在或密码错误';
 
         $user = User::where('email', $request->account)
-            ->orWhere('phone_number', $request->account
+            ->orWhere(
+                'phone_number',
+                $request->account
             )->first();
         if ($user && $user['phone_number'] === null && $user->email_verified_at === null) {
             return response()->json([
@@ -363,7 +365,9 @@ class AuthController extends Controller
     public function forget(ForgetRequest $request)
     {
         $user = User::where('email', $request->account)
-            ->orWhere('phone_number', $request->account
+            ->orWhere(
+                'phone_number',
+                $request->account
             )->first();
         if ($user) {
             $secret = \Str::random(40);

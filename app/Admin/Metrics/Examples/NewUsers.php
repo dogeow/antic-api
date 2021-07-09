@@ -98,11 +98,11 @@ class NewUsers extends Line
     {
         return $this->content(
             <<<HTML
-<div class="d-flex justify-content-between align-items-center mt-1" style="margin-bottom: 2px">
-    <h2 class="ml-1 font-lg-1">{$content}</h2>
-    <span class="mb-0 mr-1 text-80">{$this->title}</span>
-</div>
-HTML
+                <div class="d-flex justify-content-between align-items-center mt-1" style="margin-bottom: 2px">
+                    <h2 class="ml-1 font-lg-1">{$content}</h2>
+                    <span class="mb-0 mr-1 text-80">{$this->title}</span>
+                </div>
+                HTML
         );
     }
 }

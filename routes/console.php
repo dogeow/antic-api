@@ -70,7 +70,8 @@ Artisan::command('test2', function () {
     DB::enableQueryLog(); // Enable query log
 
     $a = \App\Models\Post::whereHas(
-        'tags', function ($query) {
+        'tags',
+        function ($query) {
             $query->where('name', '233');
         }
     )->get()->toArray();

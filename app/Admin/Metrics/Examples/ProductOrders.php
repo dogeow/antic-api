@@ -77,38 +77,38 @@ class ProductOrders extends Round
     {
         return $this->content(
             <<<HTML
-<div class="col-12 d-flex flex-column flex-wrap text-center" style="max-width: 220px">
-    <div class="chart-info d-flex justify-content-between mb-1 mt-2" >
-          <div class="series-info d-flex align-items-center">
-              <i class="fa fa-circle-o text-bold-700 text-primary"></i>
-              <span class="text-bold-600 ml-50">Finished</span>
-          </div>
-          <div class="product-result">
-              <span>{$finished}</span>
-          </div>
-    </div>
+                <div class="col-12 d-flex flex-column flex-wrap text-center" style="max-width: 220px">
+                    <div class="chart-info d-flex justify-content-between mb-1 mt-2" >
+                          <div class="series-info d-flex align-items-center">
+                              <i class="fa fa-circle-o text-bold-700 text-primary"></i>
+                              <span class="text-bold-600 ml-50">Finished</span>
+                          </div>
+                          <div class="product-result">
+                              <span>{$finished}</span>
+                          </div>
+                    </div>
 
-    <div class="chart-info d-flex justify-content-between mb-1">
-          <div class="series-info d-flex align-items-center">
-              <i class="fa fa-circle-o text-bold-700 text-warning"></i>
-              <span class="text-bold-600 ml-50">Pending</span>
-          </div>
-          <div class="product-result">
-              <span>{$pending}</span>
-          </div>
-    </div>
+                    <div class="chart-info d-flex justify-content-between mb-1">
+                          <div class="series-info d-flex align-items-center">
+                              <i class="fa fa-circle-o text-bold-700 text-warning"></i>
+                              <span class="text-bold-600 ml-50">Pending</span>
+                          </div>
+                          <div class="product-result">
+                              <span>{$pending}</span>
+                          </div>
+                    </div>
 
-     <div class="chart-info d-flex justify-content-between mb-1">
-          <div class="series-info d-flex align-items-center">
-              <i class="fa fa-circle-o text-bold-700 text-danger"></i>
-              <span class="text-bold-600 ml-50">Rejected</span>
-          </div>
-          <div class="product-result">
-              <span>{$rejected}</span>
-          </div>
-    </div>
-</div>
-HTML
+                     <div class="chart-info d-flex justify-content-between mb-1">
+                          <div class="series-info d-flex align-items-center">
+                              <i class="fa fa-circle-o text-bold-700 text-danger"></i>
+                              <span class="text-bold-600 ml-50">Rejected</span>
+                          </div>
+                          <div class="product-result">
+                              <span>{$rejected}</span>
+                          </div>
+                    </div>
+                </div>
+                HTML
         );
     }
 }

@@ -100,18 +100,18 @@ class Sessions extends Bar
 
         return $this->content(
             <<<HTML
-<div class="d-flex p-1 flex-column justify-content-between" style="padding-top: 0;width: 100%;height: 100%;min-height: {$minHeight}">
-    <div class="text-left">
-        <h1 class="font-lg-2 mt-2 mb-0">{$title}</h1>
-        <h5 class="font-medium-2" style="margin-top: 10px;">
-            <span class="text-{$style}">{$value} </span>
-            <span>vs {$label}</span>
-        </h5>
-    </div>
+                <div class="d-flex p-1 flex-column justify-content-between" style="padding-top: 0;width: 100%;height: 100%;min-height: {$minHeight}">
+                    <div class="text-left">
+                        <h1 class="font-lg-2 mt-2 mb-0">{$title}</h1>
+                        <h5 class="font-medium-2" style="margin-top: 10px;">
+                            <span class="text-{$style}">{$value} </span>
+                            <span>vs {$label}</span>
+                        </h5>
+                    </div>
 
-    <a href="#" class="btn btn-primary shadow waves-effect waves-light">View Details <i class="feather icon-chevrons-right"></i></a>
-</div>
-HTML
+                    <a href="#" class="btn btn-primary shadow waves-effect waves-light">View Details <i class="feather icon-chevrons-right"></i></a>
+                </div>
+                HTML
         );
     }
 }

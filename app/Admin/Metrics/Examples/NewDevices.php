@@ -82,19 +82,19 @@ class NewDevices extends Donut
 
         return $this->content(
             <<<HTML
-<div class="d-flex pl-1 pr-1 pt-1" style="{$style}">
-    <div style="width: {$labelWidth}px">
-        <i class="fa fa-circle text-primary"></i> {$this->labels[0]}
-    </div>
-    <div>{$desktop}</div>
-</div>
-<div class="d-flex pl-1 pr-1" style="{$style}">
-    <div style="width: {$labelWidth}px">
-        <i class="fa fa-circle" style="color: $blue"></i> {$this->labels[1]}
-    </div>
-    <div>{$mobile}</div>
-</div>
-HTML
+                <div class="d-flex pl-1 pr-1 pt-1" style="{$style}">
+                    <div style="width: {$labelWidth}px">
+                        <i class="fa fa-circle text-primary"></i> {$this->labels[0]}
+                    </div>
+                    <div>{$desktop}</div>
+                </div>
+                <div class="d-flex pl-1 pr-1" style="{$style}">
+                    <div style="width: {$labelWidth}px">
+                        <i class="fa fa-circle" style="color: $blue"></i> {$this->labels[1]}
+                    </div>
+                    <div>{$mobile}</div>
+                </div>
+                HTML
         );
     }
 }

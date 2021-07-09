@@ -37,8 +37,10 @@ class PostController extends Controller
 
         return Post::with(['category:id,name', 'tags:id,post_id,name'])
             ->where('id', $id)
-            ->where('public',
-            1)->firstOrFail();
+            ->where(
+                'public',
+                1
+            )->firstOrFail();
     }
 
     public function store(Request $request)
@@ -80,13 +82,18 @@ class PostController extends Controller
 
     public function categoriesCount(): array
     {
-        $categoriesWithCount = \App\Models\Post::leftJoin('post_categories as category', 'category.id', '=',
-            'posts.category_id')
+        $categoriesWithCount = \App\Models\Post::leftJoin(
+            'post_categories as category',
+            'category.id',
+            '=',
+            'posts.category_id'
+        )
             ->select('category.id', 'category.name', DB::raw('count(*) as count'))
             ->groupBy('category.name')
             ->get();
 
-        return array_values(collect($categoriesWithCount)
+        return array_values(
+            collect($categoriesWithCount)
             ->sortByDesc('count')
             ->toArray()
         );
