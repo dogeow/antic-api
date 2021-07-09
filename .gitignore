@@ -52,3 +52,5 @@ supervisord.pid
 # Laravel Admin
 
 public/vendor
+
+/*.cache
