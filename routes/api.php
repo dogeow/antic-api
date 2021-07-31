@@ -130,5 +130,7 @@ Route::group(['middleware' => ['api']], function () {
 
         // PHP 函数
         Route::post('/php-function', [PhpFunctionController::class, 'index']);
+
+        Route::post('/mediawiki-to-markdown', [ApiController::class, 'mediawikiToMarkdown']);
     });
 });

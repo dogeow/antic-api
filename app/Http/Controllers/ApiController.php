@@ -40,7 +40,7 @@ class ApiController extends Controller
         return redirect('https://oss.dogeow.com/wallpaper/'.$wallpapers[$random]);
     }
 
-    public function index(): Collection | array
+    public function index(): Collection|array
     {
         return Api::all();
     }
@@ -157,7 +157,7 @@ class ApiController extends Controller
         return urldecode($string);
     }
 
-    public function image($action = null): BinaryFileResponse | string | UrlGenerator | Application
+    public function image($action = null): BinaryFileResponse|string|UrlGenerator|Application
     {
         $uri = '/favicon.ico';
         switch ($action) {
@@ -183,17 +183,17 @@ class ApiController extends Controller
         return sha1($string);
     }
 
-    public function date($date = null): bool | int | string
+    public function date($date = null): bool|int|string
     {
         return $date ? strtotime($date) : date('Y-m-d H:i:s');
     }
 
-    public function timestamp($timestamp = null): bool | int | string
+    public function timestamp($timestamp = null): bool|int|string
     {
         return $timestamp ? date('Y-m-d H:i:s', $timestamp) : time();
     }
 
-    public function bankcard($cardNo): bool | string
+    public function bankcard($cardNo): bool|string
     {
         return file_get_contents('https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true');
     }
@@ -261,5 +261,81 @@ class ApiController extends Controller
         return [
             'title' => $title,
         ];
+    }
+
+    /**
+     * @param  Request  $request
+     * @return string
+     */
+    public function mediawikiToMarkdown(Request $request): string
+    {
+        $mediawiki = $request->input('mediawiki');
+
+        $contentArray = explode(PHP_EOL, $mediawiki);
+
+        $markdown = '';
+
+        foreach ($contentArray as $line => $string) {
+            if (strlen($string) > 2 && $string[0] === '*' && in_array($string[1], ['*', ' '], true) === false) {
+                $string = $string[0].' '.substr($string, 1);
+            }
+
+            // 替换 code
+            $string = str_replace(array('<code>', '</code>'), '`', $string);
+
+            // 替换 pre
+            if ($string === "<pre>") {
+                if (trim($contentArray[$line - 1]) !== ''){
+                    $string = str_replace('<pre>', PHP_EOL.'```shell', $string);
+                } else {
+                    $string = str_replace('<pre>', '```shell', $string);
+                }
+            }
+
+            if (isset($contentArray[$line + 1]) && trim($contentArray[$line + 1]) !== '') {
+                $string = str_replace('<pre>', PHP_EOL."```shell\n", $string);
+            } else {
+                $string = str_replace('<pre>', "```shell\n", $string);
+            }
+
+            if ($string === "</pre>") {
+                if (trim($contentArray[$line + 1]) !== '') {
+                    $string = str_replace('</pre>', "```".PHP_EOL, $string);
+                } else {
+                    $string = str_replace('</pre>', '```', $string);
+                }
+            } else {
+                if (isset($contentArray[$line + 1]) && trim($contentArray[$line + 1]) !== '') {
+                    $string = str_replace('</pre>', "\n```".PHP_EOL, $string);
+                } else {
+                    $string = str_replace('</pre>', '\n```', $string);
+                }
+            }
+
+            // 替换链接
+            $string = preg_replace('/^\[(http.*?) (.*?)]$/', "[$2]($1)\n", $string);
+
+            // ``` 后需要另起一行
+            $string = preg_replace('/^(.*?)```$/', "$1\n```\n", $string);
+            $string = preg_replace('/^```shell(.*?)$/', "```shell\n$1", $string);
+
+            // 替换 syntaxhighlight
+            $string = preg_replace('/<syntaxhighlight lang="(.*?)">/', "```$1", $string);
+            $string = preg_replace('/<\/syntaxhighlight>/', "```", $string);
+
+            // 替换 =
+            if (preg_match('/^(=+)(.*?)(=+)$/', $string, $matches)) {
+                if ($matches[1] === $matches[3]) {
+                    $string = str_repeat('#', strlen($matches[1])).' '.$matches[2];
+                    $string .= PHP_EOL;
+                }
+            } else {
+                $string .= PHP_EOL;
+            }
+
+            $markdown .= $string;
+        }
+
+        return $markdown;
     }
 }
