@@ -276,6 +276,7 @@ class ApiController extends Controller
         $mediawiki = $request->input('mediawiki');
 
         $contentArray = explode(PHP_EOL, $mediawiki);
+        $maxLine = count($contentArray);
 
         $markdown = '';
 
@@ -303,13 +304,13 @@ class ApiController extends Controller
             }
 
             if ($string === "</pre>") {
-                if (trim($contentArray[$line + 1]) !== '') {
+                if ($line !== $maxLine - 1 && trim($contentArray[$line + 1]) !== '') {
                     $string = str_replace('</pre>', "```".PHP_EOL, $string);
                 } else {
                     $string = str_replace('</pre>', '```', $string);
                 }
             } else {
-                if (isset($contentArray[$line + 1]) && trim($contentArray[$line + 1]) !== '') {
+                if ($line !== $maxLine - 1 && isset($contentArray[$line + 1]) && trim($contentArray[$line + 1]) !== '') {
                     $string = str_replace('</pre>', "\n```".PHP_EOL, $string);
                 } else {
                     $string = str_replace('</pre>', '\n```', $string);
