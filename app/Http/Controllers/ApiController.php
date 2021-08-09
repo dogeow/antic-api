@@ -343,4 +343,45 @@ class ApiController extends Controller
 
         return $markdown;
     }
+
+    public function sogou(Request $request)
+    {
+        $domain = $request->input('domain');
+        $response = $this->guzzleClient->request('GET', $domain);
+        $html = $response->getBody()->getContents();
+
+        $curl = curl_init();
+
+        $string =  preg_replace('/\t/', ' ', $html);
+        $string = preg_replace('/\n/', ' ', $string);
+        $string = preg_replace('/\t/', ' ', $string);
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://api.zhiyin.sogou.com/apis/mt/v1/translate_text',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '
+	{
+		"config": {
+			"source_language_code": "zh",
+			"target_language_code": "en"
+		},
+		"text": "'. $string . '"
+	}',
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json', 'Appid: 1wUpwfGC5c06IjnNwhjcrjxXbAc',
+                'Authorization: Bearer eyJhbGciOiJkaXIiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMTI4R0NNIiwidHlwIjoiSldUIiwiemlwIjoiREVGIn0..mS2LYoL41UhNX8aL.2RTyha1bo0Wp-74mhtAN7WQZ685tN344uYi8lis5Aiy-xAMrRg1Z2T6y4mVmcmO_0U_F8kcLADQFSbUH2KTzS9FyOSTetvYHj2py3Q5Y7mqmQZKNulfz3_WB8t_q7i4Fk3rCr3WliEpOg6xPoNlc34iA2TB47DmM3HZoVXkBWAXXCC3kTLVJQorB6g2N8v9LzXm4Dxf2z_N-iDHfTv9z45Sg54KRiI6dX6gJFX4P2dTap48_gblgVhQo_FH3RVaYBL_kXBU3t8j8TvFQRuFQm9l_kefBE6J8oTvG_3gB_oQogfMBQm-F-YEtX5R_GXaUVI1G.2Tt-E7sBXzJyIvYlApLYvw',
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return json_decode($response, 1);
+    }
 }

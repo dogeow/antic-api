@@ -17,6 +17,7 @@ Route::group(['middleware' => ['api']], function () {
         Route::post('guest', [AuthController::class, 'guest']);
     });
 
+    Route::get('/sogou', [ApiController::class, 'sogou']);
     Route::get('/pics', [ImageController::class, 'index']);
 
     Route::get('/posts/tags/count', [PostController::class, 'tagsCount']);
