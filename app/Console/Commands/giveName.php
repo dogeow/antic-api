@@ -89,7 +89,10 @@ class giveName extends Command
         $promise->wait();
     }
 
-    public function sexId(): int
+    /**
+     * @return int|void
+     */
+    public function sexId()
     {
         switch ($this->argument('sex')) {
             case 'f':
