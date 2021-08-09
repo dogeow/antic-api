@@ -63,12 +63,12 @@ function getMainColor(string $imgUrl, bool $isHex): string
 
 /**
  * RGB颜色转16进制颜色
- * @param  int|array  $r
+ * @param  array|int  $r
  * @param  int  $g
  * @param  int  $b
  * @return string
  */
-function rgb2Hex($r, int $g = -1, int $b = -1): string
+function rgb2Hex(array|int $r, int $g = -1, int $b = -1): string
 {
     if (is_array($r) && count($r) === 3) {
         [$r, $g, $b] = $r;
