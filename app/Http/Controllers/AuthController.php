@@ -252,7 +252,7 @@ class AuthController extends Controller
      */
     public static function withProfile(string $token): array
     {
-        return array_merge(self::withToken($token), auth()->user());
+        return array_merge(self::withToken($token), auth()->user()->toArray());
     }
 
     public function recaptcha(Request $request): void
