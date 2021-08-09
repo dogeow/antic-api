@@ -242,7 +242,7 @@ class ApiController extends Controller
         return Str::singular($content) === $content ? Str::plural($content) : Str::singular($content);
     }
 
-    public function getTitle(Request $request)
+    public function getTitle(Request $request): array|string
     {
         $title = '';
         $charset = 'UTF-8';
@@ -285,11 +285,11 @@ class ApiController extends Controller
             }
 
             // 替换 code
-            $string = str_replace(array('<code>', '</code>'), '`', $string);
+            $string = str_replace(['<code>', '</code>'], '`', $string);
 
             // 替换 pre
             if ($string === "<pre>") {
-                if (trim($contentArray[$line - 1]) !== ''){
+                if ($line !== 0 && trim($contentArray[$line - 1]) !== ''){
                     $string = str_replace('<pre>', PHP_EOL.'```shell', $string);
                 } else {
                     $string = str_replace('<pre>', '```shell', $string);
