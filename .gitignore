@@ -32,10 +32,6 @@ _ide_helper_models.php
 # macOS
 .DS_store
 
-## Cache
-.*.cache
-.phpunit.result.cache
-
 # GraphQL
 schema-directives.graphql
 programmatic-types.graphql
@@ -53,4 +49,5 @@ supervisord.pid
 
 public/vendor
 
-/.*.cache
+## Cache
+.*.cache
