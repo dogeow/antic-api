@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Api;
+use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -24,6 +25,9 @@ class ApiController extends Controller
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function random()
     {
         $wallpapers = [
@@ -68,7 +72,7 @@ class ApiController extends Controller
         foreach ($numberRange as &$number) {
             if ($count > strlen($number)) {
                 $zeroCount = $count - strlen($number);
-                $number = str_repeat(0, $zeroCount).$number;
+                $number = str_repeat('0', $zeroCount).$number;
             }
         }
         unset($number);
@@ -254,7 +258,7 @@ class ApiController extends Controller
             if (preg_match("/<title>(.*?)<\/title>/i", $str, $title)) {
                 $title = $title[1];
             }
-        } catch (\Exception  $e) {
+        } catch (Exception  $e) {
             return $e->getMessage(); // todo
         }
 
