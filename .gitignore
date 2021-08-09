@@ -33,7 +33,7 @@ _ide_helper_models.php
 .DS_store
 
 ## Cache
-.php_cs.cache
+*.cache
 .phpunit.result.cache
 
 # GraphQL
