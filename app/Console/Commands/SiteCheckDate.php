@@ -78,8 +78,10 @@ class SiteCheckDate extends Command
             if ($date) {
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
-                $this->last_updated_at = (new \DateTime)::createFromFormat($this->site->date_format ?? "Y-m-d H:i:s",
-                    $date);
+                $site->last_updated_at = (new \DateTime)::createFromFormat(
+                    $this->site->date_format ?? "Y-m-d H:i:s",
+                    $date
+                );
                 $site->online = true;
                 echo ' 🟢';
             } else {
