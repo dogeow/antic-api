@@ -44,6 +44,15 @@ class Site extends Model
         return $this->hasMany(SiteCheck::class);
     }
 
+    public function getLastUpdatedAtAttribute(): string
+    {
+        if (is_null($this->attributes['last_updated_at'])) {
+            return '更新信息错误';
+        }
+
+        return \Illuminate\Support\Carbon::parse($this->attributes['last_updated_at'])->diffForHumans();
+    }
+
     public function todayLatest(): HasOne
     {
         return $this->hasOne(SiteCheck::class)->whereDate('created_at', Carbon::today())->latest();
