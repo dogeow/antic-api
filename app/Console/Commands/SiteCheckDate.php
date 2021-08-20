@@ -78,7 +78,8 @@ class SiteCheckDate extends Command
             if ($date) {
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
-                $this->last_updated_at = $date;
+                $this->last_updated_at = (new \DateTime)::createFromFormat($this->site->date_format ?? "Y-m-d H:i:s",
+                    $date);
                 $site->online = true;
                 echo ' 🟢';
             } else {
@@ -132,7 +133,7 @@ class SiteCheckDate extends Command
 
         if (is_array($date)) {
             foreach ($date as $dateItem) {
-                $targetDate = $dataTime::createFromFormat($this->site->date_format, $dateItem);
+                $targetDate = $dataTime::createFromFormat($this->site->date_format ?? "Y-m-d H:i:s", $dateItem);
                 $diff = Carbon::now()->diffInDays($targetDate);
                 if ($diff === 0) {
                     $status = true;
