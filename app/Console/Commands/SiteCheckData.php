@@ -64,9 +64,9 @@ class SiteCheckData extends Command
                 return $site->online === 0;
             });
         } elseif ($onlyTheDomain) {
-            $sites = Site::where('domain', $onlyTheDomain)->get();
+            $sites = Site::whereNotNull('get_type')->where('domain', $onlyTheDomain)->get();
         } else {
-            $sites = Site::all();
+            $sites = Site::whereNotNull('get_type')->get();
         }
 
         foreach ($sites as $site) {
