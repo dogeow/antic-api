@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\BuildNotification;
 use Carbon\Carbon;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\DomCrawler\Crawler;
@@ -30,7 +31,9 @@ class SiteCheckData extends Command
 
     public GuzzleClient $guzzleClient;
     public Crawler $crawler;
-    public $site;
+    public Site $site;
+
+    public const TIMEOUT = 30;
 
     /**
      * Create a new command instance.
@@ -42,7 +45,7 @@ class SiteCheckData extends Command
         parent::__construct();
 
         $this->guzzleClient = new GuzzleClient([
-            'timeout' => 30,
+            'timeout' => self::TIMEOUT,
         ]);
     }
 
@@ -50,6 +53,7 @@ class SiteCheckData extends Command
      * Execute the console command.
      *
      * @return void
+     * @throws GuzzleException
      */
     public function handle(): void
     {
@@ -77,19 +81,27 @@ class SiteCheckData extends Command
         }
     }
 
-    public function getDate()
+    /**
+     * @return bool|string
+     * @throws GuzzleException
+     */
+    public function getDate(): bool|string
     {
-        $url = $this->site->get_type === 'api' ? $this->site->domain.'/api/date' : $this->site->domain;
+        $site = $this->site;
+
+        $url = $site->get_type === 'api' ? $site->domain.$site->path : $site->domain;
 
         try {
             $response = $this->guzzleClient->request('GET', $url);
         } catch (\Exception  $e) {
+            \Log::info($e->getMessage());
+
             return false;
         }
 
         $crawler = new Crawler($response->getBody()->getContents());
 
-        return $this->site->get_type === 'api' ? $crawler->text() : $crawler->filterXPath($this->site->date_xpath)->text();
+        return $site->get_type === 'api' ? $crawler->text() : $crawler->filterXPath($site->date_xpath)->text();
     }
 
     public function saveStatus($status): void
@@ -106,7 +118,7 @@ class SiteCheckData extends Command
         $dataTime = new \DateTime;
 
         if (is_array($date)) {
-            foreach ($date as $key => $dateItem) {
+            foreach ($date as $dateItem) {
                 $targetDate = $dataTime::createFromFormat($this->site->date_format, $dateItem);
                 $diff = Carbon::now()->diffInDays($targetDate);
                 if ($diff === 0) {
@@ -120,10 +132,10 @@ class SiteCheckData extends Command
                 return false;
             }
             $diff = Carbon::now()->diffInDays($targetDate);
-            if (($this->site->domain === 'sodu.ee') && Carbon::now()->diffInMinutes($targetDate) >= 10) {
+            if (Carbon::now()->diffInMinutes($targetDate) >= 1440) {
                 Notification::send(new User, new BuildNotification($this->site->domain.' 超过十分钟'));
             }
-            $status = ! $diff;
+            $status = !$diff;
         }
 
         return $status;
