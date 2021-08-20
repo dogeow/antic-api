@@ -78,6 +78,7 @@ class SiteCheckDate extends Command
             if ($date) {
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
+                $this->last_updated_at = $date;
                 $site->online = true;
                 echo ' 🟢';
             } else {
