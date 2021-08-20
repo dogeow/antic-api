@@ -13,7 +13,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\DomCrawler\Crawler;
 
-class SiteCheckData extends Command
+class SiteCheckDate extends Command
 {
     /**
      * The name and signature of the console command.
