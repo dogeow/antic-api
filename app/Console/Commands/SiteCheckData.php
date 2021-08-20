@@ -61,7 +61,7 @@ class SiteCheckData extends Command
         $onlyTheDomain = $this->option('domain');
         if ($checkFailed) {
             $sites = Site::whereNotNull('get_type')->with('todayLatest')->get()->filter(function ($site) {
-                return $site->online === 0;
+                return $site->online === 0 || (isset($site->todayLatest->status) && $site->todayLatest->status === 0);
             });
         } elseif ($onlyTheDomain) {
             $sites = Site::whereNotNull('get_type')->where('domain', $onlyTheDomain)->get();
@@ -73,12 +73,12 @@ class SiteCheckData extends Command
             $this->site = $site;
             echo $site->domain.PHP_EOL;
             $date = $this->getDate();
-            if ($date === false) {
-                $site->online = false;
-            } else {
+            if ($date) {
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
                 $site->online = true;
+            } else {
+                $site->online = false;
             }
             $site->save();
         }
@@ -130,10 +130,11 @@ class SiteCheckData extends Command
                 }
             }
         } else {
-            $targetDate = $dataTime::createFromFormat($this->site->date_format, $date);
+            $targetDate = $dataTime::createFromFormat($this->site->date_format ?? "Y-m-d H:i:s", $date);
             if ($targetDate === false) {
                 return false;
             }
+
             $diff = Carbon::now()->diffInDays($targetDate);
             if (Carbon::now()->diffInMinutes($targetDate) >= 1440) {
                 Notification::send(new User, new BuildNotification($this->site->domain.' 超过十分钟'));
