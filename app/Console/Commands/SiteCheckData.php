@@ -60,7 +60,7 @@ class SiteCheckData extends Command
         $checkFailed = $this->option('failed');
         $onlyTheDomain = $this->option('domain');
         if ($checkFailed) {
-            $sites = Site::with('todayLatest')->get()->filter(function ($site) {
+            $sites = Site::whereNotNull('get_type')->with('todayLatest')->get()->filter(function ($site) {
                 return $site->online === 0;
             });
         } elseif ($onlyTheDomain) {
