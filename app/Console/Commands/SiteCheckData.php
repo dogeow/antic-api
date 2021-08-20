@@ -70,16 +70,25 @@ class SiteCheckData extends Command
         }
 
         foreach ($sites as $site) {
+            $status = false;
+
             $this->site = $site;
-            echo $site->domain.PHP_EOL;
+            echo $site->domain;
             $date = $this->getDate();
             if ($date) {
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
                 $site->online = true;
+                echo ' 🟢';
             } else {
                 $site->online = false;
+                echo ' 🔴';
             }
+
+            echo $status ? ' ✅ ' : ' ❌ ';
+
+            echo PHP_EOL;
+
             $site->save();
         }
     }
