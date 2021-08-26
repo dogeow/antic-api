@@ -91,6 +91,10 @@ class SiteCheckDate extends Command
 
             echo $status ? ' ✅ ' : ' ❌ ';
 
+            if ($site->online && Carbon::now()->diffInMinutes($site->last_updated_at) >= 2880) {
+                Notification::send(new User, new BuildNotification($this->site->domain.' 在线，但更新时间超过两天'));
+            }
+
             echo PHP_EOL;
 
             $site->save();
@@ -149,9 +153,7 @@ class SiteCheckDate extends Command
             }
 
             $diff = Carbon::now()->diffInDays($targetDate);
-            if (Carbon::now()->diffInMinutes($targetDate) >= 1440) {
-                Notification::send(new User, new BuildNotification($this->site->domain.' 超过十分钟'));
-            }
+
             $status = !$diff;
         }
 
