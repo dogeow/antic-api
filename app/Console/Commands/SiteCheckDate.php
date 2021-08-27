@@ -80,10 +80,10 @@ class SiteCheckDate extends Command
                 $this->saveStatus($status);
                 $this->last_updated_at = $date;
                 $site->online = true;
-                echo ' �';
+                echo ' ✅ ';
             } else {
                 $site->online = false;
-                echo ' �';
+                echo ' ✅ ';
             }
 
             echo $status ? ' ✅ ' : ' ❌ ';
