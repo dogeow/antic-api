@@ -32,6 +32,7 @@ class SiteCheckDate extends Command
     public GuzzleClient $guzzleClient;
     public Crawler $crawler;
     public Site $site;
+    public bool $isOnline;
 
     public const TIMEOUT = 30;
 
@@ -76,14 +77,14 @@ class SiteCheckDate extends Command
             echo $site->domain;
             $date = $this->getDate();
             if ($date) {
+                $site->online = $this->isOnline = true;
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
                 $this->last_updated_at = $date;
-                $site->online = true;
                 echo ' ✅ ';
             } else {
                 $site->online = false;
-                echo ' ✅ ';
+                echo ' ❌ ';
             }
 
             echo $status ? ' ✅ ' : ' ❌ ';
@@ -146,7 +147,7 @@ class SiteCheckDate extends Command
             }
 
             $diff = Carbon::now()->diffInDays($targetDate);
-            if (Carbon::now()->diffInMinutes($targetDate) >= 2880) {
+            if ($this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 2880) {
                 Notification::send(new User, new BuildNotification($this->site->domain.' 超过两天'));
             }
             $status = !$diff;
