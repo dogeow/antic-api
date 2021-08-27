@@ -7,6 +7,7 @@ use App\Models\SiteCheck;
 use App\Models\User;
 use App\Notifications\BuildNotification;
 use Carbon\Carbon;
+use DateTime;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
@@ -74,14 +75,15 @@ class SiteCheckDate extends Command
 
             $this->site = $site;
             echo $site->domain;
+
             $date = $this->getDate();
+
             if ($date) {
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
-                $site->last_updated_at = (new \DateTime)::createFromFormat(
-                    $this->site->date_format ?? "Y-m-d H:i:s",
-                    $date
-                );
+
+                $site->last_updated_at = $date;
+
                 $site->online = true;
                 echo ' 🟢';
             } else {
@@ -90,8 +92,7 @@ class SiteCheckDate extends Command
             }
 
             echo $status ? ' ✅ ' : ' ❌ ';
-
-            if ($site->online && Carbon::now()->diffInMinutes($site->last_updated_at) >= 2880) {
+            if (Carbon::now()->diffInMinutes($site->last_updated_at) >= 2880) {
                 Notification::send(new User, new BuildNotification($this->site->domain.' 在线，但更新时间超过两天'));
             }
 
@@ -135,7 +136,7 @@ class SiteCheckDate extends Command
     public function checkDateStatus($date): bool
     {
         $status = false;
-        $dataTime = new \DateTime;
+        $dataTime = new DateTime;
 
         if (is_array($date)) {
             foreach ($date as $dateItem) {
