@@ -147,7 +147,7 @@ class SiteCheckDate extends Command
             }
 
             $diff = Carbon::now()->diffInDays($targetDate);
-            if (!$this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 2880) {
+            if ($this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 2880) {
                 Notification::send(new User, new BuildNotification($this->site->domain.' 超过两天'));
             }
             $status = !$diff;
