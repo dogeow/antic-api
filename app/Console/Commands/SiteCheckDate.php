@@ -80,7 +80,7 @@ class SiteCheckDate extends Command
                 $site->online = $this->isOnline = true;
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
-                $this->last_updated_at = $date;
+                $site->last_updated_at = $date;
                 echo ' ✅ ';
             } else {
                 $site->online = false;
@@ -89,9 +89,9 @@ class SiteCheckDate extends Command
 
             echo $status ? ' ✅ ' : ' ❌ ';
 
-            echo PHP_EOL;
-
             $site->save();
+
+            echo PHP_EOL;
         }
     }
 
