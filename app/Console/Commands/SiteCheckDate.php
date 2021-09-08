@@ -135,7 +135,7 @@ class SiteCheckDate extends Command
             foreach ($date as $dateItem) {
                 $targetDate = $dataTime::createFromFormat($this->site->date_format, $dateItem);
                 $diff = Carbon::now()->diffInDays($targetDate);
-                if ($diff === 0) {
+                if ($diff <= 2) {
                     $status = true;
                     break;
                 }
@@ -150,7 +150,9 @@ class SiteCheckDate extends Command
             if ($this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 2880) {
                 Notification::send(new User, new BuildNotification($this->site->domain.' 超过两天'));
             }
-            $status = !$diff;
+            if ($diff <= 2) {
+                $status = true;
+            }
         }
 
         return $status;
