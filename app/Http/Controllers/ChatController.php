@@ -25,7 +25,7 @@ class ChatController extends Controller
             $api = new ApiController();
             $robotMessage = match ($matches['message']) {
                 '时间' => date('Y-m-d H:i:s'),
-                '大小写' => self::checkParam($content) ?? $api->sp($content),
+                '单复数' => self::checkParam($content) ?? $api->sp($content),
                 'md5' => self::checkParam($content) ?? $api->md5($content),
                 'ip' => $request->ip(),
                 '长度' => self::checkParam($content) ?? mb_strlen($content),
@@ -41,7 +41,7 @@ class ChatController extends Controller
      * @param $content
      * @return null|string
      */
-    public static function checkParam($content): null | string
+    public static function checkParam($content): null|string
     {
         if ($content === null) {
             return '请键入参数';
