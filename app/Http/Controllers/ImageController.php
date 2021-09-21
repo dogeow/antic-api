@@ -31,7 +31,7 @@ class ImageController extends Controller
                 'url' => '',
             ];
         }
-
+        
         $originalName = $file->getClientOriginalName();
 
         $existImage = Image::where('original_name', $originalName)->orderByDesc('id')->first();
@@ -41,7 +41,7 @@ class ImageController extends Controller
             $extension = $file->extension();
             if ($existImage['name'] === $existImage['original_name']) { // 第二个同名文件
                 $filename = $name.'@2.'.$extension;
-            } elseif(preg_match('/^.*@(?<number>.*)\..*?$/', $existImage['name'], $matches)){
+            } elseif (preg_match('/^.*@(?<number>.*)\..*?$/', $existImage['name'], $matches)) {
                 $number = $matches['number'] + 1;
                 $filename = "$name@$number.$extension";
             }
