@@ -400,6 +400,6 @@ class ApiController extends Controller
      */
     public function keywords(string $content): ResponseInterface
     {
-        return $this->guzzleClient->request('GET', 'http://127.0.0.1:5200/api/cut?content='.$content);
+        return $this->guzzleClient->request('GET', 'http://127.0.0.1:5200/api/analyse?content='.$content);
     }
 }
