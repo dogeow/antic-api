@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Api;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use TrueBV\Punycode;
 
@@ -47,6 +49,11 @@ class ApiController extends Controller
     public function index(): Collection|array
     {
         return Api::all();
+    }
+
+    public function xlsx()
+    {
+        return response()->file(storage_path('app/public/medicine.xlsx'));
     }
 
     /**
@@ -290,7 +297,7 @@ class ApiController extends Controller
 
             // 替换 pre
             if ($string === "<pre>") {
-                if ($line !== 0 && trim($contentArray[$line - 1]) !== ''){
+                if ($line !== 0 && trim($contentArray[$line - 1]) !== '') {
                     $string = str_replace('<pre>', PHP_EOL.'```shell', $string);
                 } else {
                     $string = str_replace('<pre>', '```shell', $string);
@@ -352,7 +359,7 @@ class ApiController extends Controller
 
         $curl = curl_init();
 
-        $string =  preg_replace('/\t/', ' ', $html);
+        $string = preg_replace('/\t/', ' ', $html);
         $string = preg_replace('/\n/', ' ', $string);
         $string = preg_replace('/\t/', ' ', $string);
 
@@ -371,17 +378,28 @@ class ApiController extends Controller
 			"source_language_code": "zh",
 			"target_language_code": "en"
 		},
-		"text": "'. $string . '"
+		"text": "'.$string.'"
 	}',
             CURLOPT_HTTPHEADER => [
                 'Content-Type: application/json', 'Appid: 1wUpwfGC5c06IjnNwhjcrjxXbAc',
-                'Authorization: Bearer eyJhbGciOiJkaXIiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMTI4R0NNIiwidHlwIjoiSldUIiwiemlwIjoiREVGIn0..mS2LYoL41UhNX8aL.2RTyha1bo0Wp-74mhtAN7WQZ685tN344uYi8lis5Aiy-xAMrRg1Z2T6y4mVmcmO_0U_F8kcLADQFSbUH2KTzS9FyOSTetvYHj2py3Q5Y7mqmQZKNulfz3_WB8t_q7i4Fk3rCr3WliEpOg6xPoNlc34iA2TB47DmM3HZoVXkBWAXXCC3kTLVJQorB6g2N8v9LzXm4Dxf2z_N-iDHfTv9z45Sg54KRiI6dX6gJFX4P2dTap48_gblgVhQo_FH3RVaYBL_kXBU3t8j8TvFQRuFQm9l_kefBE6J8oTvG_3gB_oQogfMBQm-F-YEtX5R_GXaUVI1G.2Tt-E7sBXzJyIvYlApLYvw',
+                'Authorization: Bearer eyJhbGciOiJkaXIiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMTI4R0NNIiwidHlwIjoiSldUIiwiemlwIjoiREVGIn0..YWLLwIKfwx1BRKVv.tBMRsg8IcaXqqA8BbOuJGgCE-ZqFuZL9gNQDe2ytsJv4Yvs_RcrjU1A72HWAd8TSR4iTZB1KsqhNYHFCh2-q_G9mqwKl6EMxR8SmzDnnuyz3TQ94MgI2xR8OdmzRKCy8US61iUy9IJacGTrNYzjy2EM0IurEWO-lg-nOraqEQ3lQ-a_0ip-zTe9iypu99r7FA2nHFLsnxCoXGLvHWJc5wDXJR3ASQITTR0bfno3EpieGCCxk-b6McstdfB_x1QWUEY_3FXQSvUI4HUwnzsua74QMiE42QxAt6C_tbrvVcYpPlH6C-_gr8EzU2A8Ip_jyRz8.eaNoIudfUvndbg-X5oKcmA',
             ],
         ]);
 
         $response = curl_exec($curl);
 
         curl_close($curl);
+
         return json_decode($response, 1);
+    }
+
+    /**
+     * @param  string  $content
+     * @return ResponseInterface
+     * @throws GuzzleException
+     */
+    public function keywords(string $content): ResponseInterface
+    {
+        return $this->guzzleClient->request('GET', 'http://127.0.0.1:5200/api/cut?content='.$content);
     }
 }

@@ -121,6 +121,7 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/sp/{string}', [ApiController::class, 'sp']);
         Route::post('/url-title', [ApiController::class, 'getTitle']);
         Route::post('/bookmarks', [BookmarkController::class, 'create']);
+        Route::get('/keywords/{content}', [ApiController::class, 'keywords']);
 
         // 文章
         Route::get('/posts', [PostController::class, 'index']);
