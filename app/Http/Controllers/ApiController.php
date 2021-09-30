@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TestExport;
 use App\Models\Api;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
@@ -53,6 +54,8 @@ class ApiController extends Controller
 
     public function xlsx()
     {
+        return (new TestExport)->download('test.xlsx');
+
         return response()->file(storage_path('app/public/medicine.xlsx'));
     }
 

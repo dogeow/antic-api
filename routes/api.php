@@ -19,6 +19,7 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::get('/sogou', [ApiController::class, 'sogou']);
     Route::get('/pics', [ImageController::class, 'index']);
+    Route::get('/xlsx', [ApiController::class, 'xlsx']);
 
     Route::get('/posts/tags/count', [PostController::class, 'tagsCount']);
     Route::match(['get', 'post'], '/callback', [ApiController::class, 'callback']);
