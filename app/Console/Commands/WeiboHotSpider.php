@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\WeiboHot;
 use App\Models\WeiboToTop;
+use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 
 class WeiboHotSpider extends Command
@@ -22,6 +23,10 @@ class WeiboHotSpider extends Command
      */
     protected $description = '爬微博热搜榜';
 
+    public GuzzleClient $guzzleClient;
+
+    public const TIMEOUT = 30;
+
     /**
      * Create a new command instance.
      *
@@ -30,6 +35,13 @@ class WeiboHotSpider extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->guzzleClient = new GuzzleClient([
+            'timeout' => self::TIMEOUT,
+            'headers' => [
+                'Cookie' => 'login_sid_t=94eb15418d380f172601d0713b255b6f; cross_origin_proto=SSL; _s_tentry=passport.weibo.com; Apache=9304519184780.479.1629036803787; SINAGLOBAL=9304519184780.479.1629036803787; ULV=1629036803793:1:1:1:9304519184780.479.1629036803787:; SSOLoginState=1629036850; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9Wh_CnP7FrSm0UyUnLDEZX.S5JpX5KMhUgL.Fo2R1hqRSh-R1hB2dJLoIEBLxKML12eLB-zLxKML12zL1KMLxK-L1h-L1KBLxK-LB-BL1K5t; ALF=1667464173; SCF=AvsBt0VZMm9jEIdbbqz7vtOaxraoyDs5iprwMcJNe9XulU9aFhvRX9XNsfX3TMH7IXMYmJ0KgVLocJItJa25FlY.; SUB=_2A25Mhjg-DeRhGedG41QZ9CvEwziIHXVv8i72rDV8PUNbmtB-LVKjkW9NURz4_iXRVfZALFMEU87ZMAwQLe7MzKYy; UOR=,,login.sina.com.cn',
+            ],
+        ]);
     }
 
     /**
@@ -39,7 +51,8 @@ class WeiboHotSpider extends Command
      */
     public function handle()
     {
-        $html = file_get_contents('https://s.weibo.com/top/summary');
+        $response = $this->guzzleClient->request('GET', 'https://s.weibo.com/top/summary');
+        $html = $response->getBody()->getContents();
         $htmlNoBlank = preg_replace("/>\n\s*/i", '>', $html);
         preg_match('/td-02.*?="(.*?)".*?>(.*?)<\/a>.*?<i.*?>(.*?)<\/i>/si', $htmlNoBlank, $topping);
         $deleteTopping = preg_replace('/<tbody.*?<\/tr>/i', '', $htmlNoBlank);
@@ -53,7 +66,7 @@ class WeiboHotSpider extends Command
             'status' => status($topping[3]),
         ];
 
-        if (! WeiboToTop::where('title', $toppingData['title'])->exists()) {
+        if (!WeiboToTop::where('title', $toppingData['title'])->exists()) {
             try {
                 WeiboToTop::create($toppingData);
             } catch (\Illuminate\Database\QueryException $e) {
