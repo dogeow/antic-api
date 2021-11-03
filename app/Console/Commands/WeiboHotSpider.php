@@ -6,6 +6,7 @@ use App\Models\WeiboHot;
 use App\Models\WeiboToTop;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
+use Illuminate\Database\QueryException;
 
 class WeiboHotSpider extends Command
 {
@@ -69,7 +70,7 @@ class WeiboHotSpider extends Command
         if (!WeiboToTop::where('title', $toppingData['title'])->exists()) {
             try {
                 WeiboToTop::create($toppingData);
-            } catch (\Illuminate\Database\QueryException $e) {
+            } catch (QueryException $e) {
                 $errorCode = $e->errorInfo[1];
                 echo $errorCode;
             }
@@ -81,7 +82,14 @@ class WeiboHotSpider extends Command
             if ($url === 'javascript:void(0);') {
                 continue;
             }
-            $rank = $i[3];
+
+            $tmp = explode(' ', $i[3]);
+            if (count($tmp) === 1) {
+                $rank = $i[3];
+            } else {
+                $rank = $tmp[2];
+            }
+
             $title = $i[2];
             $status = $i[4] ?? null;
 
