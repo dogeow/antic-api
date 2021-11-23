@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('spider:date')->everyFiveMinutes()->withoutOverlapping();
+        $schedule->command('spider:date')->everyThirtyMinutes()->withoutOverlapping();
     }
 
     /**
