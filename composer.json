@@ -12,7 +12,6 @@
     "ext-curl": "*",
     "ext-gd": "*",
     "ext-json": "*",
-    "ext-soap": "*",
     "algolia/algoliasearch-client-php": "^2.7",
     "appstract/laravel-opcache": "^4.0",
     "dcat/laravel-admin": "2.*",
