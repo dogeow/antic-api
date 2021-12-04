@@ -40,11 +40,11 @@ class MoonHistoryController extends Controller
     }
 
     /**
-     * 格式化掷骰子结果.
+     * 格式化掷骰子结果。
      * @param  array  $list
      * @return array
      */
-    public function formatDice($list = [])
+    public function formatDice(array $list = []): array
     {
         $data = [
             1 => 0,
