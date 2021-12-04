@@ -28,7 +28,7 @@ class AuthController extends Controller
     protected string $guard = 'api';
 
     /**
-     * 创建用户.
+     * 创建用户。
      *
      * @param  AuthRegisterByEmail  $request
      * @return JsonResponse
