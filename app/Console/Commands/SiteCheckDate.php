@@ -30,8 +30,11 @@ class SiteCheckDate extends Command
     protected $description = '用接口获取站点更新时间';
 
     public GuzzleClient $guzzleClient;
+
     public Crawler $crawler;
+
     public Site $site;
+
     public bool $isOnline;
 
     public const TIMEOUT = 30;

@@ -24,6 +24,7 @@ class BaiduSeo extends Command
     protected $description = '百度收录量';
 
     public GuzzleClient $guzzleClient;
+
     public $crawler;
 
     /**

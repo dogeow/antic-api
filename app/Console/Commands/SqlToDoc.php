@@ -28,7 +28,7 @@ class SqlToDoc extends Command
     public function handle(): void
     {
         $tables = [
-            // 需要哪一些表明名？
+           
         ];
 
         $file = file_get_contents('mysqlStruct.sql');
@@ -56,7 +56,7 @@ class SqlToDoc extends Command
 
                 if (preg_match("/CREATE TABLE `(.*?)`/", $line, $matches)) {
                     $array['name'] = $matches['1'];
-                } elseif (preg_match('/ENGINE =.*?COMMENT = \'(.*?)\'/', $line, $matches)) {
+                } elseif (preg_match('/ENGINE ?=.*?COMMENT ?= ?\'(.*?)\'/', $line, $matches)) {
                     $array['comment'] = $matches['1'];
                 } elseif (preg_match('/`id` +(.*?) NOT NULL AUTO_INCREMENT/', $line, $matches)) {
                     $array['fields'][] = [
@@ -77,9 +77,9 @@ class SqlToDoc extends Command
                             break;
                         }
                     }
-                } elseif (preg_match('/UNIQUE INDEX.*?\(`(.*?)`\)/', $line, $matches)) {
+                } elseif (preg_match('/UNIQUE (INDEX|KEY).*?\(`(.*?)`\)/', $line, $matches)) {
                     foreach ($array['fields'] as $key => $field) {
-                        if ($field['id'] === $matches[1]) {
+                        if ($field['id'] === $matches[2]) {
                             if ($array['fields'][$key]['index'] === '') {
                                 $array['fields'][$key]['index'] .= '唯一';
                             } else {
@@ -88,7 +88,18 @@ class SqlToDoc extends Command
                             break;
                         }
                     }
-                } elseif (preg_match('/INDEX +`.*?`\(`(.*?)`\)/', $line, $matches)) {
+                } elseif (preg_match('/KEY.*?`.*?` ?\(`(.*?)`\)/', trim($line), $matches)) {
+                    foreach ($array['fields'] as $key => $field) {
+                        if ($field['id'] === $matches[1]) {
+                            if ($array['fields'][$key]['index'] === '') {
+                                $array['fields'][$key]['index'] .= '普通索引';
+                            } else {
+                                $array['fields'][$key]['index'] .= '|'.'普通索引';
+                            }
+                            break;
+                        }
+                    }
+                } elseif (preg_match('/KEY +`.*?`\(`(.*?)`\)/', trim($line), $matches)) {
                     foreach ($array['fields'] as $key => $field) {
                         if ($field['id'] === $matches[1]) {
                             if ($array['fields'][$key]['index'] === '') {
@@ -109,6 +120,18 @@ class SqlToDoc extends Command
                         $nullable = 'TRUE';
                     } elseif (str_contains($line, 'NULL COMMENT')) {
                         $nullable = 'TRUE';
+                    } elseif (str_contains($line, 'DEFAULT')) {
+                        if (preg_match('/DEFAULT \'(.*?)\'/', $line, $matches4)) {
+                            $nullable = 'FALSE';
+                        }
+                    } elseif (preg_match('/text (COLLATE|CHARACTER|COMMENT)/i', $line, $mathes5)) {
+                        $nullable = 'TRUE';
+                    } elseif (preg_match('/CREATE VIEW /i', $line)) {
+                        continue;
+                    } elseif (preg_match('/DEFINER=.*?SQL SECURITY DEFINER/i', $line)) {
+                        continue;
+                    } elseif (preg_match('/ VIEW `.*?`/i', $line)) {
+                        continue;
                     }
 
                     if (isset($nullable) === false) {
@@ -116,10 +139,10 @@ class SqlToDoc extends Command
                     }
 
                     if (str_contains($line, '`id`') === false && preg_match(
-                            '/int\(.*?\) UNSIGNED/',
-                            $line,
-                            $matches3
-                        )) {
+                        '/int\(.*?\) UNSIGNED/',
+                        $line,
+                        $matches3
+                    )) {
                         $unsigned = " UNSIGNED";
                     }
 

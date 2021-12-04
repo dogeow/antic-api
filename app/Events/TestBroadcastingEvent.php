@@ -14,6 +14,7 @@ class TestBroadcastingEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public string $message;
+
     public bool $isRobot;
 
     /**

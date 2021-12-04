@@ -30,6 +30,7 @@ class giveNameOld extends Command
     private Client $client;
 
     private int $concurrency = 50;  // 同时并发抓取
+
     private float $totalPageCount = 1e1000;
 
     /**

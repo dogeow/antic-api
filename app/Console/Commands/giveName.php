@@ -32,6 +32,7 @@ class giveName extends Command
     private $firstName;
 
     private int $concurrency = 50;  // 同时并发抓取
+
     private float $totalPageCount = 1e2;
 
     /**

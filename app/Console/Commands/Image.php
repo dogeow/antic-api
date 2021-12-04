@@ -23,7 +23,9 @@ class Image extends Command
     protected $description = '获取图片';
 
     public $guzzleClient;
+
     public $crawler;
+
     public $site;
 
     /**

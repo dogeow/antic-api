@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 class BuildNotification extends Notification
 {
     use Queueable;
+
     protected $message;
 
     /**

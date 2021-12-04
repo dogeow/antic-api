@@ -2,9 +2,9 @@
 
 namespace App\Console;
 
+use App\Console\Commands\SiteCheckDate;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Console\Commands\SiteCheckDate;
 
 class Kernel extends ConsoleKernel
 {

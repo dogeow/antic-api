@@ -22,8 +22,11 @@ class Headless extends Command
     protected $description = '无头浏览器';
 
     protected string $url;
+
     protected int $time = 3000;
+
     protected int $width = 450;
+
     protected int $height = 900;
 
     /**
