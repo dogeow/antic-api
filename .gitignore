@@ -33,7 +33,6 @@ _ide_helper_models.php
 .DS_store
 
 # GraphQL
-schema-directives.graphql
 programmatic-types.graphql
 _lighthouse_ide_helper.php
 
