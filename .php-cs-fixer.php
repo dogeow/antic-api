@@ -5,6 +5,17 @@ use PhpCsFixer\Finder;
 
 $rules = [
     '@PHP80Migration' => true,
+
+    'ordered_imports' => [
+        'sort_algorithm' => 'alpha',
+    ],
+    'class_attributes_separation' => [
+        'elements' => [
+            'const' => 'one',
+            'method' => 'one',
+            'property' => 'one',
+        ],
+    ],
 ];
 
 $finder = Finder::create()
