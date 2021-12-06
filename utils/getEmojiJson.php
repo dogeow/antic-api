@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 function list_files($dir)
 {
     $data = [];
@@ -26,9 +28,9 @@ foreach ($data as $key => $value) {
     $tmp = preg_split('/[-_.]/', $value);
     array_push($face, [
         'fileName' => $value,
-        'name'     => $tmp[2],
+        'name' => $tmp[2],
         'category' => substr($tmp[0], 1, -1),
-        'tag'      => explode(',', substr($tmp[1], 1, -1)),
+        'tag' => explode(',', substr($tmp[1], 1, -1)),
     ]);
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -17,9 +19,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $is_completed
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $tasks
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Task> $tasks
  * @property-read int|null $tasks_count
  * @property-read \App\Models\User $user
+ *
  * @method static Builder|Project completed()
  * @method static Builder|Project newModelQuery()
  * @method static Builder|Project newQuery()
@@ -32,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder|Project whereName($value)
  * @method static Builder|Project whereUpdatedAt($value)
  * @method static Builder|Project whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Project extends Model

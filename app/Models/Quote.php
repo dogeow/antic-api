@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $content
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Quote newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Quote newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Quote query()
@@ -18,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Quote whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Quote whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Quote whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Quote extends Model

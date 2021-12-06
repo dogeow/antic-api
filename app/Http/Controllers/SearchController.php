@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $query = $request->get('q');
-        if (null === $query) {
+        if ($query === null) {
             return ['error'];
         }
 
@@ -41,9 +43,9 @@ class SearchController extends Controller
                 $count = str_replace(',', '', $match[1]);
             }
 
-            $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node, $i) {
-                if (0 === $node->filterXPath('//h3')->count() || 0 === $node->filterXPath('//cite')->count()
-                    || 0 === $node->filterXPath('//span[@class="st"]')->count()) {
+            $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node, $i): void {
+                if ($node->filterXPath('//h3')->count() === 0 || $node->filterXPath('//cite')->count() === 0
+                    || $node->filterXPath('//span[@class="st"]')->count() === 0) {
                     return;
                 }
 

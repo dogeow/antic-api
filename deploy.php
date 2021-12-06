@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Deployer;
 
 require 'recipe/laravel.php';
@@ -19,7 +22,6 @@ add('shared_dirs', []);
 // Writable dirs by web server
 add('writable_dirs', []);
 
-
 // Hosts
 
 host('dogeow.com')
@@ -28,7 +30,7 @@ host('dogeow.com')
 
 // Tasks
 
-task('build', function () {
+task('build', function (): void {
     run('cd {{release_path}} && build');
 });
 
@@ -38,4 +40,3 @@ after('deploy:failed', 'deploy:unlock');
 // Migrate database before symlink new release.
 
 before('deploy:symlink', 'artisan:migrate');
-

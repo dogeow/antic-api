@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -9,10 +11,8 @@ class Reset extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -20,10 +20,9 @@ class Reset extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @param  Request  $request
      * @return array
      */
-    public function rules(Request $request)
+    public function rules(Request $request): array
     {
         return [
             'password' => [

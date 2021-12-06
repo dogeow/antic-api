@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 function br2nl($input)
 {
     return preg_replace(
@@ -25,6 +27,7 @@ function getTitle($url)
 
 /**
  * 获取一张图片的主要颜色
+ *
  * @param  string  $imgUrl  图片的本地路径或者在线路径
  * @param  bool  $isHex  是否获取16进制的主要颜色
  */
@@ -58,15 +61,11 @@ function getMainColor(string $imgUrl, bool $isHex): string
         return rgb2Hex($r, $g, $b);
     }
 
-    return "rgb($r, $g, $b)";
+    return "rgb(${r}, ${g}, ${b})";
 }
 
 /**
  * RGB颜色转16进制颜色
- * @param  array|int  $r
- * @param  int  $g
- * @param  int  $b
- * @return string
  */
 function rgb2Hex(array|int $r, int $g = -1, int $b = -1): string
 {
@@ -83,5 +82,5 @@ function rgb2Hex(array|int $r, int $g = -1, int $b = -1): string
     $color .= (strlen($g) < 2 ? '0' : '').$g;
     $color .= (strlen($b) < 2 ? '0' : '').$b;
 
-    return "#$color";
+    return "#${color}";
 }

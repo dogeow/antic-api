@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $money
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @property-read \App\Models\Moon $moon
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory query()
@@ -35,6 +39,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereNum5($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereNum6($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class MoonHistory extends Model

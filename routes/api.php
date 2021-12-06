@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['api']], function () {
+Route::group(['middleware' => ['api']], function (): void {
     Route::group([
         'prefix' => 'user',
-    ], function () {
+    ], function (): void {
         // 注册
         Route::post('register-by-email', [AuthController::class, 'registerByEmail']);
         Route::post('register-by-phone', [AuthController::class, 'registerByPhone']);
@@ -39,11 +41,11 @@ Route::group(['middleware' => ['api']], function () {
     // 文章
     Route::get('/posts/categories/count', [PostController::class, 'categoriesCount']);
 
-    Route::group(['middleware' => ['token.refresh']], function () {
-        Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['middleware' => ['token.refresh']], function (): void {
+        Route::group(['middleware' => 'auth:api'], function (): void {
             Route::group([
                 'prefix' => 'user',
-            ], function () {
+            ], function (): void {
                 Route::post('logout', [AuthController::class, 'logout']);
                 Route::post('refresh', [AuthController::class, 'refresh']);
                 Route::post('profile', [AuthController::class, 'profile']);

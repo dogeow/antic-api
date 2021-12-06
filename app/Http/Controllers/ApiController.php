@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Exports\TestExport;
@@ -54,15 +56,13 @@ class ApiController extends Controller
 
     public function xlsx()
     {
-        return (new TestExport)->download('test.xlsx');
+        return (new TestExport())->download('test.xlsx');
 
         return response()->file(storage_path('app/public/medicine.xlsx'));
     }
 
     /**
      * 返回第三方支付或美团外卖等的回调信息
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function callback(Request $request): JsonResponse
     {
@@ -106,7 +106,7 @@ class ApiController extends Controller
         $html = $response->getBody()->getContents();
 
         foreach ($parking as $key => $item) {
-            if (preg_match("/onclick='tc\(\"$item\".*?\)'/", $html, $match)) {
+            if (preg_match("/onclick='tc\(\"${item}\".*?\)'/", $html, $match)) {
                 $status = true;
             } else {
                 $status = false;
@@ -263,7 +263,7 @@ class ApiController extends Controller
             if (preg_match('/charset=(.*?)[">]]/i', $html, $matches)) {
                 $charset = $matches[1];
             }
-            $body = mb_convert_encoding($html, 'UTF-8', $charset ?: 'UTF-8');
+            $body = mb_convert_encoding($html, 'UTF-8', $charset ? $charset : 'UTF-8');
             $str = trim(preg_replace('/\s+/', ' ', $body));
             if (preg_match("/<title>(.*?)<\/title>/i", $str, $title)) {
                 $title = $title[1];
@@ -277,10 +277,6 @@ class ApiController extends Controller
         ];
     }
 
-    /**
-     * @param  Request  $request
-     * @return string
-     */
     public function mediawikiToMarkdown(Request $request): string
     {
         $mediawiki = $request->input('mediawiki');
@@ -299,7 +295,7 @@ class ApiController extends Controller
             $string = str_replace(['<code>', '</code>'], '`', $string);
 
             // 替换 pre
-            if ($string === "<pre>") {
+            if ($string === '<pre>') {
                 if ($line !== 0 && trim($contentArray[$line - 1]) !== '') {
                     $string = str_replace('<pre>', PHP_EOL.'```shell', $string);
                 } else {
@@ -313,9 +309,9 @@ class ApiController extends Controller
                 $string = str_replace('<pre>', "```shell\n", $string);
             }
 
-            if ($string === "</pre>") {
+            if ($string === '</pre>') {
                 if ($line !== $maxLine - 1 && trim($contentArray[$line + 1]) !== '') {
-                    $string = str_replace('</pre>', "```".PHP_EOL, $string);
+                    $string = str_replace('</pre>', '```'.PHP_EOL, $string);
                 } else {
                     $string = str_replace('</pre>', '```', $string);
                 }
@@ -335,8 +331,8 @@ class ApiController extends Controller
             $string = preg_replace('/^```shell(.*?)$/', "```shell\n$1", $string);
 
             // 替换 syntaxhighlight
-            $string = preg_replace('/<syntaxhighlight lang="(.*?)">/', "```$1", $string);
-            $string = preg_replace('/<\/syntaxhighlight>/', "```", $string);
+            $string = preg_replace('/<syntaxhighlight lang="(.*?)">/', '```$1', $string);
+            $string = preg_replace('/<\/syntaxhighlight>/', '```', $string);
 
             // 替换 =
             if (preg_match('/^(=+)(.*?)(=+)$/', $string, $matches)) {
@@ -397,8 +393,6 @@ class ApiController extends Controller
     }
 
     /**
-     * @param  string  $content
-     * @return ResponseInterface
      * @throws GuzzleException
      */
     public function keywords(string $content): ResponseInterface

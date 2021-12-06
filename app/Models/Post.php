@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,10 +23,12 @@ use Laravel\Scout\Searchable;
  * @property string|null $secret
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @property-read \App\Models\PostCategory|null $category
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PostTag[] $tags
+ * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\PostTag> $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post public ()
@@ -37,6 +41,7 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Post extends Model

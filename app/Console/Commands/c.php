@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -32,10 +34,8 @@ class C extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $needs = [
             'xzxkxxj',
@@ -60,7 +60,7 @@ class C extends Command
             'sydjblqks',
         ];
 
-        $files = glob("./task/*.php", GLOB_BRACE);
+        $files = glob('./task/*.php', GLOB_BRACE);
 
         foreach ($files as $file) {
             foreach ($needs as $need) {
@@ -109,7 +109,7 @@ class C extends Command
                                     'index' => '',
                                 ];
                             } else {
-                                exit("表：{$array['name']}，匹配字段失败：$line");
+                                exit("表：{$array['name']}，匹配字段失败：${line}");
                             }
                         }
                     } elseif (preg_match("/create\('(.*?)'/", $line, $matches)) {

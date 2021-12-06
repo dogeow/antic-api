@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use GuzzleHttp\Client;
@@ -24,9 +26,6 @@ class giveName extends Command
      */
     protected $description = '爬取名网';
 
-    /**
-     * @var Client
-     */
     private Client $client;
 
     private $firstName;
@@ -51,8 +50,6 @@ class giveName extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -67,8 +64,8 @@ class giveName extends Command
 
         $pool = new Pool($this->client, $requests($this->totalPageCount), [
             'concurrency' => $this->concurrency,
-            'fulfilled' => function ($response, $index) {
-                $this->info("请求第 $index 个请求");
+            'fulfilled' => function ($response, $index): void {
+                $this->info("请求第 ${index} 个请求");
                 $content = $response->getBody()->getContents();
 
                 $names = explode(',', $content);
@@ -78,11 +75,11 @@ class giveName extends Command
                 foreach ($names as $name) {
                     print_r($names);
                     $sexId = self::sexId();
-                    $query .= "INSERT IGNORE INTO test (name, sex, category_id, count) VALUES ('$name', {$sexId}, $categoryId, 3);";
+                    $query .= "INSERT IGNORE INTO test (name, sex, category_id, count) VALUES ('${name}', {$sexId}, ${categoryId}, 3);";
                 }
                 DB::unprepared($query);
             },
-            'rejected' => static function ($reason, $index) {
+            'rejected' => static function ($reason, $index): void {
             },
         ]);
 
@@ -90,10 +87,7 @@ class giveName extends Command
         $promise->wait();
     }
 
-    /**
-     * @return int|void
-     */
-    public function sexId()
+    public function sexId(): int|null
     {
         switch ($this->argument('sex')) {
             case 'f':

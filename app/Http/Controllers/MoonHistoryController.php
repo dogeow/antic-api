@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Moon;
@@ -27,9 +29,10 @@ class MoonHistoryController extends Controller
 
     /**
      * 掷骰子.
+     *
      * @return array
      */
-    public function rollDice()
+    public function rollDice(): array
     {
         $res = [];
         for ($i = 0; $i < 6; $i++) {
@@ -41,7 +44,9 @@ class MoonHistoryController extends Controller
 
     /**
      * 格式化掷骰子结果。
+     *
      * @param  array  $list
+     *
      * @return array
      */
     public function formatDice(array $list = []): array
@@ -70,10 +75,10 @@ class MoonHistoryController extends Controller
 
     /**
      * 判断筛子结果的大小.
+     *
      * @param $list
-     * @return int|string
      */
-    public function getRank($list)
+    public function getRank($list): int|string
     {
         $ruleList = $this->getRule();
         $res = $this->defRank;
@@ -82,7 +87,7 @@ class MoonHistoryController extends Controller
                 foreach ($rankRules as $rule) {
                     foreach ($rule as $dian => $num) {
                         if (isset($list[$dian])) {
-                            if ($list[$dian] == $num) {
+                            if ($list[$dian] === $num) {
                                 $res = $rank;
                             } else {
                                 //规则中只要有一条不满足就跳出当前规则验证
@@ -96,12 +101,12 @@ class MoonHistoryController extends Controller
                         }
                     }
                     //有一条规则匹配，跳出循环，
-                    if ($res != $this->defRank) {
+                    if ($res !== $this->defRank) {
                         break;
                     }
                 }
                 //有一条规则匹配，跳出循环，
-                if ($res != $this->defRank) {
+                if ($res !== $this->defRank) {
                     break;
                 }
             }
@@ -112,10 +117,8 @@ class MoonHistoryController extends Controller
 
     /**
      * 根据排序获取掷骰子结果名称.
-     * @param  string  $rank
-     * @return mixed
      */
-    public function getName($rank)
+    public function getName(string $rank): mixed
     {
         $list = [
             'cjh' => [
@@ -175,11 +178,44 @@ class MoonHistoryController extends Controller
         return $list[$rank];
     }
 
+    public function start(Request $request)
+    {
+        $user = Moon::where('name', $request->name)->first();
+        if (count($user->moonHistory) >= 6) {
+            return '已满6次！';
+        }
+        $lottery = $this->lottery();
+        MoonHistory::create(
+            [
+                'moon_id' => $user->id,
+                'num1' => $lottery['dice'][0],
+                'num2' => $lottery['dice'][1],
+                'num3' => $lottery['dice'][2],
+                'num4' => $lottery['dice'][3],
+                'num5' => $lottery['dice'][4],
+                'num6' => $lottery['dice'][5],
+                'name' => $lottery['rankName'],
+                'money' => $lottery['money'],
+            ]
+        );
+
+        $user = $user->fresh('moonHistory');
+
+        return array_merge(
+            $lottery,
+            [
+                'history' => $user->moonHistory->toArray(),
+                'statistics' => (new Moon())->statistics(),
+            ]
+        );
+    }
+
     /**
      * 返回规则.
+     *
      * @return array
      */
-    private function getRule()
+    private function getRule(): array
     {
         return [
             'cjh' => [
@@ -235,37 +271,5 @@ class MoonHistoryController extends Controller
                 [4 => 1],
             ],
         ];
-    }
-
-    public function start(Request $request)
-    {
-        $user = Moon::where('name', $request->name)->first();
-        if (count($user->moonHistory) >= 6) {
-            return '已满6次！';
-        }
-        $lottery = $this->lottery();
-        MoonHistory::create(
-            [
-                'moon_id' => $user->id,
-                'num1' => $lottery['dice'][0],
-                'num2' => $lottery['dice'][1],
-                'num3' => $lottery['dice'][2],
-                'num4' => $lottery['dice'][3],
-                'num5' => $lottery['dice'][4],
-                'num6' => $lottery['dice'][5],
-                'name' => $lottery['rankName'],
-                'money' => $lottery['money'],
-            ]
-        );
-
-        $user = $user->fresh('moonHistory');
-
-        return array_merge(
-            $lottery,
-            [
-                'history' => $user->moonHistory->toArray(),
-                'statistics' => (new Moon)->statistics(),
-            ]
-        );
     }
 }

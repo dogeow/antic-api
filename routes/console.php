@@ -1,30 +1,17 @@
 <?php
 
-use App\Models\Post;
+declare(strict_types=1);
+
 use App\Models\Quote;
-use App\Models\User;
-use App\Notifications\BuildNotification;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Notification;
-/*
-|--------------------------------------------------------------------------
-| Console Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of your Closure based console
-| commands. Each Closure is bound to a command instance allowing a
-| simple approach to interacting with each command's IO methods.
-|
-*/
-
 use Overtrue\EasySms\EasySms;
 
-Artisan::command('inspire', function () {
+Artisan::command('inspire', function (): void {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Artisan::command('test', function () {
+Artisan::command('test', function (): void {
     $config = [
         'timeout' => 5.0,
         'default' => [
@@ -62,7 +49,7 @@ Artisan::command('test', function () {
 //    Notification::send(new User, new BuildNotification('233'));
 });
 
-Artisan::command('test2', function () {
+Artisan::command('test2', function (): void {
     if (preg_match('/(.)\1{4,}/', '2333', $matches)) {
         echo '233';
     }
@@ -71,14 +58,14 @@ Artisan::command('test2', function () {
 
     $a = \App\Models\Post::whereHas(
         'tags',
-        function ($query) {
+        function ($query): void {
             $query->where('name', '233');
         }
     )->get()->toArray();
     dd(DB::getQueryLog()); // Show results of log
 });
 
-Artisan::command('test3', function () {
+Artisan::command('test3', function (): void {
     DB::enableQueryLog();
     $a = Quote::first();
     $a->timestamps = true;

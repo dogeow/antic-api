@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
@@ -19,9 +21,6 @@ class TestBroadcastingEvent implements ShouldBroadcast
 
     /**
      * Create a new event instance.
-     *
-     * @param  string  $message
-     * @param  bool  $isRobot
      */
     public function __construct(string $message, bool $isRobot = false)
     {
@@ -31,8 +30,6 @@ class TestBroadcastingEvent implements ShouldBroadcast
 
     /**
      * Get the channels the event should broadcast on.
-     *
-     * @return Channel|PrivateChannel|array
      */
     public function broadcastOn(): Channel|PrivateChannel|array
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\Site;
@@ -15,6 +17,16 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SiteCheckDate extends Command
 {
+    public const TIMEOUT = 30;
+
+    public GuzzleClient $guzzleClient;
+
+    public Crawler $crawler;
+
+    public Site $site;
+
+    public bool $isOnline;
+
     /**
      * The name and signature of the console command.
      *
@@ -28,16 +40,6 @@ class SiteCheckDate extends Command
      * @var string
      */
     protected $description = '用接口获取站点更新时间';
-
-    public GuzzleClient $guzzleClient;
-
-    public Crawler $crawler;
-
-    public Site $site;
-
-    public bool $isOnline;
-
-    public const TIMEOUT = 30;
 
     /**
      * Create a new command instance.
@@ -56,7 +58,6 @@ class SiteCheckDate extends Command
     /**
      * Execute the console command.
      *
-     * @return void
      * @throws GuzzleException
      */
     public function handle(): void
@@ -99,7 +100,6 @@ class SiteCheckDate extends Command
     }
 
     /**
-     * @return bool|string
      * @throws GuzzleException
      */
     public function getDate(): bool|string
@@ -132,7 +132,7 @@ class SiteCheckDate extends Command
     public function checkDateStatus($date): bool
     {
         $status = false;
-        $dataTime = new \DateTime;
+        $dataTime = new \DateTime();
 
         if (is_array($date)) {
             foreach ($date as $dateItem) {
@@ -144,14 +144,14 @@ class SiteCheckDate extends Command
                 }
             }
         } else {
-            $targetDate = $dataTime::createFromFormat($this->site->date_format ?? "Y-m-d H:i:s", $date);
+            $targetDate = $dataTime::createFromFormat($this->site->date_format ?? 'Y-m-d H:i:s', $date);
             if ($targetDate === false) {
                 return false;
             }
 
             $diff = Carbon::now()->diffInDays($targetDate);
             if ($this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
-                Notification::send(new User, new BuildNotification($this->site->domain.' 超过三天'));
+                Notification::send(new User(), new BuildNotification($this->site->domain.' 超过三天'));
             }
             if ($diff <= 3) {
                 $status = true;

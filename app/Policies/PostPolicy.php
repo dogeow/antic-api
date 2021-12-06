@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Post;
@@ -12,59 +14,40 @@ class PostPolicy
 
     /**
      * Determine whether the user can create posts.
-     *
-     * @param  User  $user
-     * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): mixed
     {
         return true;
     }
 
     /**
      * Determine whether the user can update the post.
-     *
-     * @param  User  $user
-     * @param  Post  $post
-     * @return mixed
      */
-    public function update(User $user, Post $post)
+    public function update(User $user, Post $post): mixed
     {
         return $user->isAuthorOf($post);
     }
 
     /**
      * Determine whether the user can delete the post.
-     *
-     * @param  User  $user
-     * @param  Post  $post
-     * @return bool
      */
-    public function delete(User $user, Post $post)
+    public function delete(User $user, Post $post): bool
     {
         return $user->isAuthorOf($post);
     }
 
     /**
      * Determine whether the user can restore the post.
-     *
-     * @param  User  $user
-     * @param  Post  $post
-     * @return mixed
      */
-    public function restore(User $user, Post $post)
+    public function restore(User $user, Post $post): mixed
     {
         return $user->isAuthorOf($post);
     }
 
     /**
      * Determine whether the user can permanently delete the post.
-     *
-     * @param  User  $user
-     * @param  Post  $post
-     * @return mixed
      */
-    public function forceDelete(User $user, Post $post)
+    public function forceDelete(User $user, Post $post): mixed
     {
         return $user->isAuthorOf($post);
     }

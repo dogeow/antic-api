@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\PhpFunction;
@@ -10,10 +12,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class PhpFunctionController extends Controller
 {
-    /**
-     * @param  Request  $request
-     * @return array|Collection
-     */
     public function index(Request $request): Collection | array
     {
         $query = PhpFunction::when($request->search, function ($query) use ($request) {

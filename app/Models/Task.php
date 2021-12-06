@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -16,7 +18,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $order
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @property-read \App\Models\Project $project
+ *
  * @method static Builder|Task completed()
  * @method static Builder|Task newModelQuery()
  * @method static Builder|Task newQuery()
@@ -29,6 +33,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder|Task whereProjectId($value)
  * @method static Builder|Task whereTitle($value)
  * @method static Builder|Task whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Task extends Model

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Project;
@@ -12,82 +14,56 @@ class ProjectPolicy
 
     /**
      * Determine whether the user can view any projects.
-     *
-     * @param  User  $user
-     * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): mixed
     {
         return true;
     }
 
     /**
      * Determine whether the user can view the project.
-     *
-     * @param  User  $user
-     * @param  Project  $project
-     * @return mixed
      */
-    public function view(User $user, Project $project)
+    public function view(User $user, Project $project): mixed
     {
         return $user->isAuthorOf($project);
     }
 
     /**
      * Determine whether the user can create projects.
-     *
-     * @param  User  $user
-     * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): mixed
     {
         return true;
     }
 
     /**
      * Determine whether the user can update the project.
-     *
-     * @param  User  $user
-     * @param  Project  $project
-     * @return mixed
      */
-    public function update(User $user, Project $project)
+    public function update(User $user, Project $project): mixed
     {
         return $user->isAuthorOf($project);
     }
 
     /**
      * Determine whether the user can delete the project.
-     *
-     * @param  User  $user
-     * @param  Project  $project
-     * @return mixed
      */
-    public function delete(User $user, Project $project)
+    public function delete(User $user, Project $project): mixed
     {
         return true;
     }
 
     /**
      * Determine whether the user can restore the project.
-     *
-     * @param  User  $user
-     * @param  Project  $project
-     * @return mixed
      */
-    public function restore(User $user, Project $project)
+    public function restore(User $user, Project $project): mixed
     {
         return $user->id === $project->user_id;
     }
 
     /**
      * Determine whether the user can permanently delete the project.
-     *
-     * @param  User  $user
-     * @param  Project  $project
-     * @return mixed
      */
-    public function forceDelete(User $user, Project $project)
+    public function forceDelete(User $user, Project $project): mixed
     {
         return $user->id === $project->user_id;
     }

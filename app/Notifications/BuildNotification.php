@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -26,23 +28,19 @@ class BuildNotification extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
         return ['slack'];
     }
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable): \Illuminate\Notifications\Messages\MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->line('The introduction to the notification.')
             ->action('Notification Action', url('/'))
             ->line('Thank you for using our application!');
@@ -51,13 +49,12 @@ class BuildNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray(mixed $notifiable): array
     {
         return [
-            //
+
         ];
     }
 
@@ -65,7 +62,7 @@ class BuildNotification extends Notification
     {
         $message = $this->message;
 
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->to('#V')
             ->content($message);
     }

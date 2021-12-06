@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Project;
@@ -20,7 +22,7 @@ class ProjectController extends Controller
         return $user->projects()->where('is_completed', false)
             ->orderBy('created_at', 'desc')
             ->withCount([
-                'tasks' => function ($query) {
+                'tasks' => function ($query): void {
                     $query->where('is_completed', false);
                 },
             ])

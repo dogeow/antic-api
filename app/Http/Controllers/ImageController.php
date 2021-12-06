@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Image;
@@ -11,7 +13,7 @@ class ImageController extends Controller
     public string $folderType = 'images';
 
     /**
-     * @return Image[]|Collection
+     * @return array<Image>|Collection
      */
     public function index(): Collection|array
     {
@@ -19,19 +21,18 @@ class ImageController extends Controller
     }
 
     /**
-     * @param  Request  $request
-     * @return string[]
+     * @return array<string>
      */
     public function store(Request $request): array
     {
         $key = $request->input('key');
 
-        if (false === $request->hasFile($key) || is_null($file = $request->file($key))) {
+        if ($request->hasFile($key) === false || is_null($file = $request->file($key))) {
             return [
                 'url' => '',
             ];
         }
-        
+
         $originalName = $file->getClientOriginalName();
 
         $existImage = Image::where('original_name', $originalName)->orderByDesc('id')->first();
@@ -43,13 +44,13 @@ class ImageController extends Controller
                 $filename = $name.'@2.'.$extension;
             } elseif (preg_match('/^.*@(?<number>.*)\..*?$/', $existImage['name'], $matches)) {
                 $number = $matches['number'] + 1;
-                $filename = "$name@$number.$extension";
+                $filename = "${name}@${number}.${extension}";
             }
         } else {
             $filename = $originalName;
         }
 
-        $fullFolder = "$this->folderType/$key";
+        $fullFolder = "{$this->folderType}/${key}";
 
         Image::create([
             'user_id' => 1,
@@ -60,7 +61,7 @@ class ImageController extends Controller
 
         $file->storeAs($fullFolder, $filename, 'oss');
 
-        $filenameWithPath = "$fullFolder/$filename";
+        $filenameWithPath = "${fullFolder}/${filename}";
 
         return [
             'url' => "https://oss.dogeow.com/{$filenameWithPath}",

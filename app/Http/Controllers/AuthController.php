@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthLogin;
@@ -29,9 +31,6 @@ class AuthController extends Controller
 
     /**
      * 创建用户。
-     *
-     * @param  AuthRegisterByEmail  $request
-     * @return JsonResponse
      */
     public function registerByEmail(AuthRegisterByEmail $request): JsonResponse
     {
@@ -59,11 +58,7 @@ class AuthController extends Controller
         )->setStatusCode(201);
     }
 
-    /**
-     * @param  Request  $request
-     * @return JsonResponse|object
-     */
-    public function emailVerify(Request $request)
+    public function emailVerify(Request $request): JsonResponse|object
     {
         $userId = \Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
@@ -92,11 +87,8 @@ class AuthController extends Controller
 
     /**
      * 创建用户通过手机号码
-     *
-     * @param  AuthRegisterByPhone  $request
-     * @return array|Application|ResponseFactory|JsonResponse|Response|object
      */
-    public function registerByPhone(AuthRegisterByPhone $request)
+    public function registerByPhone(AuthRegisterByPhone $request): array|Application|ResponseFactory|JsonResponse|Response|object
     {
         $validated = $request->validated();
 
@@ -126,6 +118,7 @@ class AuthController extends Controller
 
     /**
      * 测试账号、聊天账号.
+     *
      * @return array
      */
     public function guest(): array
@@ -149,11 +142,8 @@ class AuthController extends Controller
 
     /**
      * 登录并创建 JWT
-     *
-     * @param  AuthLogin  $request
-     * @return array|JsonResponse|object
      */
-    public function login(AuthLogin $request)
+    public function login(AuthLogin $request): array|JsonResponse|object
     {
         $rememberMeTtl = 60 * 24 * 7;
         $notMatchedText = '账号不存在或密码错误';
@@ -197,9 +187,6 @@ class AuthController extends Controller
         ])->setStatusCode(422);
     }
 
-    /**
-     * @return Authenticatable|null
-     */
     public function profile(): ?Authenticatable
     {
         return auth()->user();
@@ -222,24 +209,7 @@ class AuthController extends Controller
     }
 
     /**
-     * 获取 token 结构.
-     *
-     * @param  string  $token
-     * @return array
-     */
-    protected static function withToken(string $token): array
-    {
-        return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-        ];
-    }
-
-    /**
      * 获取守卫.
-     *
-     * @return Guard
      */
     public function guard(): Guard
     {
@@ -247,7 +217,6 @@ class AuthController extends Controller
     }
 
     /**
-     * @param  string  $token
      * @return array
      */
     public static function withProfile(string $token): array
@@ -302,7 +271,7 @@ class AuthController extends Controller
         return $response;
     }
 
-    public function sendSms($phoneNumber)
+    public function sendSms($phoneNumber): void
     {
         $easySms = new EasySms([
             'timeout' => 5.0,
@@ -358,11 +327,7 @@ class AuthController extends Controller
         return self::withProfile($token);
     }
 
-    /**
-     * @param  ForgetRequest  $request
-     * @return JsonResponse
-     */
-    public function forget(ForgetRequest $request)
+    public function forget(ForgetRequest $request): JsonResponse
     {
         $user = User::where('email', $request->account)
             ->orWhere(
@@ -378,9 +343,9 @@ class AuthController extends Controller
                     return response()->json();
                 }
                 \Cache::put('emailVerify:'.$secret, $user->id, 86400);
-            } else {
-                // 发送短信
             }
+                // 发送短信
+
             \Cache::put('reset:'.$secret, $user->id, 86400);
         }
 
@@ -400,5 +365,19 @@ class AuthController extends Controller
 
             return self::withProfile($token);
         }
+    }
+
+    /**
+     * 获取 token 结构.
+     *
+     * @return array
+     */
+    protected static function withToken(string $token): array
+    {
+        return [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+        ];
     }
 }

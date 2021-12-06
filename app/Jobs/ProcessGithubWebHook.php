@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Models\User;
@@ -29,12 +31,10 @@ class ProcessGithubWebHook implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle(): void
     {
         $output = shell_exec($this->cmd);
-        Notification::send(new User, new BuildNotification($output));
+        Notification::send(new User(), new BuildNotification($output));
     }
 }

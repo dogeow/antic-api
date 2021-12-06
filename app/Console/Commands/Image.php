@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use GuzzleHttp\Client as GuzzleClient;
@@ -8,6 +10,12 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class Image extends Command
 {
+    public $guzzleClient;
+
+    public $crawler;
+
+    public $site;
+
     /**
      * The name and signature of the console command.
      *
@@ -21,12 +29,6 @@ class Image extends Command
      * @var string
      */
     protected $description = '获取图片';
-
-    public $guzzleClient;
-
-    public $crawler;
-
-    public $site;
 
     /**
      * Create a new command instance.
@@ -44,8 +46,6 @@ class Image extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use GuzzleHttp\Client as GuzzleClient;
@@ -34,8 +36,6 @@ class Novel extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -45,7 +45,7 @@ class Novel extends Command
         $content = $response->getBody()->getContents();
         $crawler = new Crawler($content);
         $lists = $crawler->filterXPath("//div[@id='list']/dl/dd")->each(function (Crawler $node) {
-            if (0 === $node->filterXPath('//dd/a')->count()) {
+            if ($node->filterXPath('//dd/a')->count() === 0) {
                 return false;
             }
 

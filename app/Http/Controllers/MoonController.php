@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Moon;
@@ -33,7 +35,7 @@ class MoonController extends Controller
 
         return [
             'history' => $history ?? [],
-            'statistics' => (new Moon)->statistics(),
+            'statistics' => (new Moon())->statistics(),
         ];
     }
 }

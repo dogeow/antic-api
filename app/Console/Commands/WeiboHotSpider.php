@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\WeiboHot;
@@ -10,6 +12,10 @@ use Illuminate\Database\QueryException;
 
 class WeiboHotSpider extends Command
 {
+    public const TIMEOUT = 30;
+
+    public GuzzleClient $guzzleClient;
+
     /**
      * The name and signature of the console command.
      *
@@ -23,10 +29,6 @@ class WeiboHotSpider extends Command
      * @var string
      */
     protected $description = '爬微博热搜榜';
-
-    public GuzzleClient $guzzleClient;
-
-    public const TIMEOUT = 30;
 
     /**
      * Create a new command instance.
@@ -47,10 +49,8 @@ class WeiboHotSpider extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $response = $this->guzzleClient->request('GET', 'https://s.weibo.com/top/summary');
         $html = $response->getBody()->getContents();
@@ -67,7 +67,7 @@ class WeiboHotSpider extends Command
             'status' => status($topping[3]),
         ];
 
-        if (!WeiboToTop::where('title', $toppingData['title'])->exists()) {
+        if (! WeiboToTop::where('title', $toppingData['title'])->exists()) {
             try {
                 WeiboToTop::create($toppingData);
             } catch (QueryException $e) {

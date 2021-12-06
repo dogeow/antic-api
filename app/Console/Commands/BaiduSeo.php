@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\Site;
@@ -9,6 +11,10 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class BaiduSeo extends Command
 {
+    public GuzzleClient $guzzleClient;
+
+    public $crawler;
+
     /**
      * The name and signature of the console command.
      *
@@ -22,10 +28,6 @@ class BaiduSeo extends Command
      * @var string
      */
     protected $description = '百度收录量';
-
-    public GuzzleClient $guzzleClient;
-
-    public $crawler;
 
     /**
      * Create a new command instance.
@@ -62,7 +64,7 @@ class BaiduSeo extends Command
         $sites = Site::all();
         foreach ($sites as $site) {
             $count = $this->spider($site->domain);
-            if (null === $count) {
+            if ($count === null) {
                 continue;
             }
             $site->seo = $count;

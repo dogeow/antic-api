@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -22,8 +24,6 @@ class SqlToDoc extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -54,7 +54,7 @@ class SqlToDoc extends Command
                 $comment = '';
                 $nullable = null;
 
-                if (preg_match("/CREATE TABLE `(.*?)`/", $line, $matches)) {
+                if (preg_match('/CREATE TABLE `(.*?)`/', $line, $matches)) {
                     $array['name'] = $matches['1'];
                 } elseif (preg_match('/ENGINE ?=.*?COMMENT ?= ?\'(.*?)\'/', $line, $matches)) {
                     $array['comment'] = $matches['1'];
@@ -143,7 +143,7 @@ class SqlToDoc extends Command
                         $line,
                         $matches3
                     )) {
-                        $unsigned = " UNSIGNED";
+                        $unsigned = ' UNSIGNED';
                     }
 
                     $array['fields'][] = [

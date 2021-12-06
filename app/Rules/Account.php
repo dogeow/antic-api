@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
@@ -13,27 +15,21 @@ class Account implements Rule
      */
     public function __construct()
     {
-        //
+        
     }
 
     /**
      * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes(string $attribute, mixed $value): bool
     {
         return preg_match(config('preg.phone_number'), $value) || filter_var($value, FILTER_VALIDATE_EMAIL);
     }
 
     /**
      * Get the validation error message.
-     *
-     * @return string
      */
-    public function message()
+    public function message(): string
     {
         return '账号必须是手机号码或 Email 地址';
     }

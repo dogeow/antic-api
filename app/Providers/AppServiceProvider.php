@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Algolia\AlgoliaSearch\Config\SearchConfig;
@@ -15,27 +17,23 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         if (config('services.sql_debug_log')) {
-            DB::listen(function ($query) {
+            DB::listen(function ($query): void {
                 Log::debug('DB: '.$query->sql.'['.implode(',', $query->bindings).']');
             });
         }
 
-        $this->app->resolving(EngineManager::class, function ($engine, $app) {
+        $this->app->resolving(EngineManager::class, function ($engine, $app): void {
             $engine->extend('algolia', function () {
                 UserAgent::addCustomUserAgent('Laravel Scout', '8.6');
                 $config = SearchConfig::create(config('scout.algolia.id'), config('scout.algolia.secret'));

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use App\Models\User;
@@ -19,7 +21,6 @@ class Forget extends Mailable implements ShouldQueue
     /**
      * Create a new message instance.
      *
-     * @param  User  $user
      * @param  string  $link  重置链接
      */
     public function __construct(User $user, string $link)

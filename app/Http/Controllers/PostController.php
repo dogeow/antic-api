@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Post;
@@ -94,8 +96,8 @@ class PostController extends Controller
 
         return array_values(
             collect($categoriesWithCount)
-            ->sortByDesc('count')
-            ->toArray()
+                ->sortByDesc('count')
+                ->toArray()
         );
     }
 
