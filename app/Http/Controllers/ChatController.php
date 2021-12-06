@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Events\TestBroadcastingEvent;
@@ -38,8 +40,8 @@ class ChatController extends Controller
 
     /**
      * 检查参数是否漏提供，是的话提示错误，正确则由 ?? 继续返回
+     *
      * @param $content
-     * @return null|string
      */
     public static function checkParam($content): null|string
     {
