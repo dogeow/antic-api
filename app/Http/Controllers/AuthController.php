@@ -16,6 +16,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -58,7 +60,7 @@ class AuthController extends Controller
         )->setStatusCode(201);
     }
 
-    public function emailVerify(Request $request): JsonResponse|object
+    public function emailVerify(Request $request): JsonResponse
     {
         $userId = \Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
@@ -72,7 +74,7 @@ class AuthController extends Controller
         return response()->json()->setStatusCode(422);
     }
 
-    public function autoLogin(Request $request)
+    public function autoLogin(Request $request): JsonResponse|array
     {
         $userId = \Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
@@ -88,7 +90,7 @@ class AuthController extends Controller
     /**
      * 创建用户通过手机号码
      */
-    public function registerByPhone(AuthRegisterByPhone $request): array|Application|ResponseFactory|JsonResponse|Response|object
+    public function registerByPhone(AuthRegisterByPhone $request): array|Application|ResponseFactory|JsonResponse|Response
     {
         $validated = $request->validated();
 
@@ -143,7 +145,7 @@ class AuthController extends Controller
     /**
      * 登录并创建 JWT
      */
-    public function login(AuthLogin $request): array|JsonResponse|object
+    public function login(AuthLogin $request): array|JsonResponse
     {
         $rememberMeTtl = 60 * 24 * 7;
         $notMatchedText = '账号不存在或密码错误';
