@@ -55,7 +55,10 @@ class WeiboHotSpider extends Command
         $response = $this->guzzleClient->request('GET', 'https://s.weibo.com/top/summary');
         $html = $response->getBody()->getContents();
         $htmlNoBlank = preg_replace("/>\n\s*/i", '>', $html);
-        preg_match('/td-02.*?="(.*?)".*?>(.*?)<\/a>.*?<i.*?>(.*?)<\/i>/si', $htmlNoBlank, $topping);
+        if (preg_match('/td-02.*?="(.*?)".*?>(.*?)<\/a>.*?<i.*?>(.*?)<\/i>/si', $htmlNoBlank, $topping) === false) {
+            \Log::error("微博置顶榜条目获取失败");
+            exit;
+        }
         $deleteTopping = preg_replace('/<tbody.*?<\/tr>/i', '', $htmlNoBlank);
         $pattern = "/td-02.*?><a.*?href=\"(.*?)\".*?>(.*?)<\/a><span>(.*?)<\/span>.*?td-03.*?>(.*?)<\/td>/i";
         preg_match_all($pattern, $deleteTopping, $matches, PREG_SET_ORDER);

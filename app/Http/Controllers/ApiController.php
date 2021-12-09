@@ -360,8 +360,8 @@ class ApiController extends Controller
         return $this->guzzleClient->request('GET', 'http://127.0.0.1:5200/api/analyse?content='.$content);
     }
 
-    public function array(): array
+    public function array(): JsonResponse
     {
-        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        return response()->json([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     }
 }
