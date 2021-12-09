@@ -24,6 +24,7 @@
     "itsgoingd/clockwork": "^5.0",
     "jeremykenedy/slack-laravel": "^2.6",
     "laravel/framework": "^8.12",
+    "laravel/octane": "^1.0",
     "laravel/scout": "^8.6",
     "laravel/slack-notification-channel": "^2.3",
     "laravel/socialite": "^5.2",
