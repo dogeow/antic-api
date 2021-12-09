@@ -13,7 +13,10 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -33,7 +36,7 @@ class ApiController extends Controller
     /**
      * @throws Exception
      */
-    public function random()
+    public function random(): Redirector|RedirectResponse
     {
         $wallpapers = [
             'AIR.jpg',
@@ -156,7 +159,7 @@ class ApiController extends Controller
         return base64_encode($string);
     }
 
-    public function base64_decode($string = '')
+    public function base64_decode($string = ''): bool|string
     {
         return base64_decode($string);
     }
@@ -174,12 +177,11 @@ class ApiController extends Controller
     public function image($action = null): BinaryFileResponse|string|UrlGenerator|Application
     {
         $uri = '/favicon.ico';
-        switch ($action) {
-            case 'url':
-                return url($uri);
-            case 'download':
-                return response()->download(public_path($uri), '滑稽.ico');
-        }
+
+        return match ($action) {
+            'download' => response()->download(public_path($uri), '滑稽.ico'),
+            default => url($uri),
+        };
     }
 
     public function md5($string = ''): string
@@ -242,7 +244,7 @@ class ApiController extends Controller
         return $_SERVER['REMOTE_ADDR'];
     }
 
-    public function howTime($content)
+    public function howTime($content): string
     {
         return date('Y-m-d', strtotime($content));
     }
@@ -350,53 +352,16 @@ class ApiController extends Controller
         return $markdown;
     }
 
-    public function sogou(Request $request)
-    {
-        $domain = $request->input('domain');
-        $response = $this->guzzleClient->request('GET', $domain);
-        $html = $response->getBody()->getContents();
-
-        $curl = curl_init();
-
-        $string = preg_replace('/\t/', ' ', $html);
-        $string = preg_replace('/\n/', ' ', $string);
-        $string = preg_replace('/\t/', ' ', $string);
-
-        curl_setopt_array($curl, [
-            CURLOPT_URL => 'https://api.zhiyin.sogou.com/apis/mt/v1/translate_text',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '
-	{
-		"config": {
-			"source_language_code": "zh",
-			"target_language_code": "en"
-		},
-		"text": "'.$string.'"
-	}',
-            CURLOPT_HTTPHEADER => [
-                'Content-Type: application/json', 'Appid: 1wUpwfGC5c06IjnNwhjcrjxXbAc',
-                'Authorization: Bearer eyJhbGciOiJkaXIiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMTI4R0NNIiwidHlwIjoiSldUIiwiemlwIjoiREVGIn0..YWLLwIKfwx1BRKVv.tBMRsg8IcaXqqA8BbOuJGgCE-ZqFuZL9gNQDe2ytsJv4Yvs_RcrjU1A72HWAd8TSR4iTZB1KsqhNYHFCh2-q_G9mqwKl6EMxR8SmzDnnuyz3TQ94MgI2xR8OdmzRKCy8US61iUy9IJacGTrNYzjy2EM0IurEWO-lg-nOraqEQ3lQ-a_0ip-zTe9iypu99r7FA2nHFLsnxCoXGLvHWJc5wDXJR3ASQITTR0bfno3EpieGCCxk-b6McstdfB_x1QWUEY_3FXQSvUI4HUwnzsua74QMiE42QxAt6C_tbrvVcYpPlH6C-_gr8EzU2A8Ip_jyRz8.eaNoIudfUvndbg-X5oKcmA',
-            ],
-        ]);
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        return json_decode($response, 1);
-    }
-
     /**
      * @throws GuzzleException
      */
     public function keywords(string $content): ResponseInterface
     {
         return $this->guzzleClient->request('GET', 'http://127.0.0.1:5200/api/analyse?content='.$content);
+    }
+
+    public function array(): array
+    {
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     }
 }

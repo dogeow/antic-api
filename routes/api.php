@@ -19,27 +19,27 @@ Route::group(['middleware' => ['api']], function (): void {
         Route::post('guest', [AuthController::class, 'guest']);
     });
 
-    Route::get('/sogou', [ApiController::class, 'sogou']);
-    Route::get('/pics', [ImageController::class, 'index']);
-    Route::get('/xlsx', [ApiController::class, 'xlsx']);
+    Route::get('sogou', [ApiController::class, 'sogou']);
+    Route::get('pics', [ImageController::class, 'index']);
+    Route::get('xlsx', [ApiController::class, 'xlsx']);
 
-    Route::get('/posts/tags/count', [PostController::class, 'tagsCount']);
-    Route::match(['get', 'post'], '/callback', [ApiController::class, 'callback']);
+    Route::get('posts/tags/count', [PostController::class, 'tagsCount']);
+    Route::match(['get', 'post'], 'callback', [ApiController::class, 'callback']);
 
     // 注册 认证
-    Route::get('/oauth/github', [AuthController::class, 'redirectToProvider']);
-    Route::get('/oauth/github/callback', [AuthController::class, 'handleProviderCallback']);
-    Route::post('/recaptcha', [AuthController::class, 'recaptcha']);
-    Route::post('/phoneNumberVerify', [AuthController::class, 'phoneNumberVerify']);
-    Route::post('/emailVerify', [AuthController::class, 'emailVerify']);
+    Route::get('oauth/github', [AuthController::class, 'redirectToProvider']);
+    Route::get('oauth/github/callback', [AuthController::class, 'handleProviderCallback']);
+    Route::post('recaptcha', [AuthController::class, 'recaptcha']);
+    Route::post('phoneNumberVerify', [AuthController::class, 'phoneNumberVerify']);
+    Route::post('emailVerify', [AuthController::class, 'emailVerify']);
 
     // 重置 自动登录
-    Route::post('/forget', [AuthController::class, 'forget']);
-    Route::post('/reset', [AuthController::class, 'reset']);
-    Route::post('/autoLogin', [AuthController::class, 'autoLogin']);
+    Route::post('forget', [AuthController::class, 'forget']);
+    Route::post('reset', [AuthController::class, 'reset']);
+    Route::post('autoLogin', [AuthController::class, 'autoLogin']);
 
     // 文章
-    Route::get('/posts/categories/count', [PostController::class, 'categoriesCount']);
+    Route::get('posts/categories/count', [PostController::class, 'categoriesCount']);
 
     Route::group(['middleware' => ['token.refresh']], function (): void {
         Route::group(['middleware' => 'auth:api'], function (): void {
@@ -52,90 +52,95 @@ Route::group(['middleware' => ['api']], function (): void {
                 Route::put('password', [UserController::class, 'password']);
             });
 
-            Route::post('/projects/{project}/task', [TaskController::class, 'store']);
-            Route::resource('/posts', PostController::class)->except(['index', 'show', 'search']);
-            Route::resource('/projects', ProjectController::class);
-            Route::put('/projects/{project}/tasks/{task}', [TaskController::class, 'update']);
+            Route::post('projects/{project}/task', [TaskController::class, 'store']);
+            Route::resource('posts', PostController::class)->except(['index', 'show', 'search']);
+            Route::resource('projects', ProjectController::class);
+            Route::put('projects/{project}/tasks/{task}', [TaskController::class, 'update']);
             Route::post('posts/{post}/tag', [PostTagController::class, 'store']);
             Route::delete('posts/{post}/tag', [PostTagController::class, 'delete']);
         });
 
-        Route::post('/chat', [ChatController::class, 'message']);
+        Route::post('chat', [ChatController::class, 'message']);
 
         // 博饼
-        Route::get('/moon', [MoonController::class, 'index']);
-        Route::post('/moon', [MoonController::class, 'create']);
-        Route::post('/start', [MoonHistoryController::class, 'start']);
+        Route::get('moon', [MoonController::class, 'index']);
+        Route::post('moon', [MoonController::class, 'create']);
+        Route::post('start', [MoonHistoryController::class, 'start']);
 
         // 喜欢
-        Route::get('/like', [MyStuffController::class, 'likes']);
-        Route::get('/about_me', [MyStuffController::class, 'aboutMe']);
+        Route::get('like', [MyStuffController::class, 'likes']);
+        Route::get('about_me', [MyStuffController::class, 'aboutMe']);
 
         // 自言自语
-        Route::get('/quotes', [MyStuffController::class, 'quotes']);
-        Route::get('/quote', [MyStuffController::class, 'quote']);
+        Route::get('quotes', [MyStuffController::class, 'quotes']);
+        Route::get('quote', [MyStuffController::class, 'quote']);
 
         // 关于我
         Route::get('powered_by', [MyStuffController::class, 'aboutMe']);
 
         // 便民 API
-        Route::post('/api', [ApiController::class, 'index']);
+        Route::post('api', [ApiController::class, 'index']);
 
         // 待办事项
-        Route::get('/todo', [ProjectController::class, 'admin']);
+        Route::get('todo', [ProjectController::class, 'admin']);
 
         // Site
-        Route::get('/site', [SiteController::class, 'index']);
-        Route::get('/site_check', [SiteController::class, 'check']);
+        Route::get('site', [SiteController::class, 'index']);
+        Route::get('site_check', [SiteController::class, 'check']);
 
         // 微博热搜榜
-        Route::get('/weibo/about', [WeiboController::class, 'about']);
-        Route::post('/weibo', [WeiboController::class, 'index']);
+        Route::get('weibo/about', [WeiboController::class, 'about']);
+        Route::post('weibo', [WeiboController::class, 'index']);
 
         // Emoji
-        Route::post('/images', [ImageController::class, 'store']);
+        Route::post('images', [ImageController::class, 'store']);
 
         // Search
-        Route::get('/search', [SearchController::class, 'search']);
+        Route::get('search', [SearchController::class, 'search']);
 
         // API
         Route::get('parking', [ApiController::class, 'parking']);
         Route::get('number/{start}/{end}/{action?}', [ApiController::class, 'number']);
-        Route::get('/html_sc/{string}', [ApiController::class, 'htmlSC']);
-        Route::get('/secret/{string?}', [ApiController::class, 'secret']);
-        Route::get('/array', [ApiController::class, 'array']);
-        Route::get('/random', [ApiController::class, 'random']);
-        Route::get('/url_decode/{string?}', [ApiController::class, 'urlDecode']);
-        Route::get('/url_encode/{string?}', [ApiController::class, 'urlEncode']);
-        Route::get('/base64_encode/{string?}', [ApiController::class, 'base64_encode']);
-        Route::get('/base64_decode/{string?}', [ApiController::class, 'base64_decode']);
-        Route::get('/utf8_to_unicode/{string}', [ApiController::class, 'utf8_to_unicode']);
-        Route::get('/unicode_to_utf8/{string}', [ApiController::class, 'unicode_to_utf8']);
-        Route::get('/punycode/{string?}', [ApiController::class, 'punycode']);
-        Route::get('/image/{action}', [ApiController::class, 'image']);
-        Route::get('/md5/{string?}', [ApiController::class, 'md5']);
-        Route::get('/user-agent', [ApiController::class, 'userAgent']);
-        Route::get('/hash/{string?}', [ApiController::class, 'hash']);
-        Route::get('/ip/{ip?}', [ApiController::class, 'ip'])->where(['ip' => '[0-9.]+']);
-        Route::get('/date/{date?}', [ApiController::class, 'date']);
-        Route::get('/how-time/{content}', [ApiController::class, 'howTime']);
-        Route::get('/timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
-        Route::get('/bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
-        Route::get('/sp/{string}', [ApiController::class, 'sp']);
-        Route::post('/url-title', [ApiController::class, 'getTitle']);
-        Route::post('/bookmarks', [BookmarkController::class, 'create']);
-        Route::get('/keywords/{content}', [ApiController::class, 'keywords']);
+        Route::get('html_sc/{string}', [ApiController::class, 'htmlSC']);
+        Route::get('secret/{string?}', [ApiController::class, 'secret']);
+        Route::get('random', [ApiController::class, 'random']);
+        Route::get('url_decode/{string?}', [ApiController::class, 'urlDecode']);
+        Route::get('url_encode/{string?}', [ApiController::class, 'urlEncode']);
+        Route::get('base64_encode/{string?}', [ApiController::class, 'base64_encode']);
+        Route::get('base64_decode/{string?}', [ApiController::class, 'base64_decode']);
+        Route::get('utf8_to_unicode/{string}', [ApiController::class, 'utf8_to_unicode']);
+        Route::get('unicode_to_utf8/{string}', [ApiController::class, 'unicode_to_utf8']);
+        Route::get('punycode/{string?}', [ApiController::class, 'punycode']);
+        Route::get('image/{action}', [ApiController::class, 'image']);
+        Route::get('md5/{string?}', [ApiController::class, 'md5']);
+        Route::get('user-agent', [ApiController::class, 'userAgent']);
+        Route::get('hash/{string?}', [ApiController::class, 'hash']);
+        Route::get('ip/{ip?}', [ApiController::class, 'ip'])->where(['ip' => '[0-9.]+']);
+        Route::get('date/{date?}', [ApiController::class, 'date']);
+        Route::get('how-time/{content}', [ApiController::class, 'howTime']);
+        Route::get('timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
+        Route::get('bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
+        Route::get('sp/{string}', [ApiController::class, 'sp']);
+        Route::post('url-title', [ApiController::class, 'getTitle']);
+        Route::post('bookmarks', [BookmarkController::class, 'create']);
+        Route::get('keywords/{content}', [ApiController::class, 'keywords']);
+
+        Route::group([
+            'prefix' => 'example',
+        ], function () {
+            Route::get('array', [ApiController::class, 'array']);
+        });
 
         // 文章
-        Route::get('/posts', [PostController::class, 'index']);
-        Route::get('/posts/{post}', [PostController::class, 'show']);
-        Route::get('/posts/search', [PostController::class, 'search']);
-        Route::get('/categories', [PostCategoryController::class, 'index']);
-        Route::get('/tags', [PostTagController::class, 'index']);
+        Route::get('posts', [PostController::class, 'index']);
+        Route::get('posts/{post}', [PostController::class, 'show']);
+        Route::get('posts/search', [PostController::class, 'search']);
+        Route::get('categories', [PostCategoryController::class, 'index']);
+        Route::get('tags', [PostTagController::class, 'index']);
 
         // PHP 函数
-        Route::post('/php-function', [PhpFunctionController::class, 'index']);
+        Route::post('php-function', [PhpFunctionController::class, 'index']);
 
-        Route::post('/mediawiki-to-markdown', [ApiController::class, 'mediawikiToMarkdown']);
+        Route::post('mediawiki-to-markdown', [ApiController::class, 'mediawikiToMarkdown']);
     });
 });
