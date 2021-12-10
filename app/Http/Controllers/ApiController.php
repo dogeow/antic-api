@@ -206,9 +206,16 @@ class ApiController extends Controller
         return $timestamp ? date('Y-m-d H:i:s', $timestamp) : time();
     }
 
-    public function bankcard($cardNo): bool|string
+    public function bankcard($cardNo)
     {
-        return file_get_contents('https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true');
+        $url = 'https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true';
+        $resp = file_get_contents($url);
+        $data = json_decode($resp, true);
+        if (isset($data['validated']) && $data['validated'] === false) {
+            return '信用卡卡号格式错误';
+        }
+
+        return $resp;
     }
 
     public function secret($string = ''): string
