@@ -123,7 +123,7 @@ Route::group(['middleware' => ['api']], function (): void {
         Route::get('sp/{string}', [ApiController::class, 'sp']);
         Route::post('url-title', [ApiController::class, 'getTitle']);
         Route::post('bookmarks', [BookmarkController::class, 'create']);
-        Route::get('keywords/{content}', [ApiController::class, 'keywords']);
+        Route::get('keywords/{content}', [JiebaController::class, 'keywords']);
 
         Route::group([
             'prefix' => 'example',

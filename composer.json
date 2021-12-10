@@ -18,6 +18,7 @@
     "enlightn/enlightn": "^1.7",
     "fideloper/proxy": "^4.4",
     "fruitcake/laravel-cors": "^2.0",
+    "fukuball/jieba-php": "dev-master",
     "guzzlehttp/guzzle": "^7.0.1",
     "iidestiny/laravel-filesystem-oss": "^2.1",
     "intervention/image": "^2.5",

@@ -8,17 +8,14 @@ use App\Exports\TestExport;
 use App\Models\Api;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Str;
-use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use TrueBV\Punycode;
 
@@ -350,14 +347,6 @@ class ApiController extends Controller
         }
 
         return $markdown;
-    }
-
-    /**
-     * @throws GuzzleException
-     */
-    public function keywords(string $content): ResponseInterface
-    {
-        return $this->guzzleClient->request('GET', 'http://127.0.0.1:5200/api/analyse?content='.$content);
     }
 
     public function array(): JsonResponse
