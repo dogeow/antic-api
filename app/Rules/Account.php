@@ -15,7 +15,6 @@ class Account implements Rule
      */
     public function __construct()
     {
-        
     }
 
     /**

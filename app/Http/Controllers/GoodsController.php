@@ -14,7 +14,6 @@ class GoodsController extends Controller
      */
     public function index(): \Illuminate\Http\Response
     {
-        
     }
 
     /**
@@ -22,7 +21,6 @@ class GoodsController extends Controller
      */
     public function create(): \Illuminate\Http\Response
     {
-        
     }
 
     /**
@@ -30,7 +28,6 @@ class GoodsController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\Response
     {
-        
     }
 
     /**
@@ -38,7 +35,6 @@ class GoodsController extends Controller
      */
     public function show(Goods $goods): \Illuminate\Http\Response
     {
-        
     }
 
     /**
@@ -46,7 +42,6 @@ class GoodsController extends Controller
      */
     public function edit(Goods $goods): \Illuminate\Http\Response
     {
-        
     }
 
     /**
@@ -54,7 +49,6 @@ class GoodsController extends Controller
      */
     public function update(Request $request, Goods $goods): \Illuminate\Http\Response
     {
-        
     }
 
     /**
@@ -62,6 +56,5 @@ class GoodsController extends Controller
      */
     public function destroy(Goods $goods): \Illuminate\Http\Response
     {
-        
     }
 }

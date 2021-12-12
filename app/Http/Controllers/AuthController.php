@@ -16,8 +16,6 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -346,7 +344,7 @@ class AuthController extends Controller
                 }
                 \Cache::put('emailVerify:'.$secret, $user->id, 86400);
             }
-                // 发送短信
+            // 发送短信
 
             \Cache::put('reset:'.$secret, $user->id, 86400);
         }

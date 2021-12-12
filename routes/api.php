@@ -127,7 +127,7 @@ Route::group(['middleware' => ['api']], function (): void {
 
         Route::group([
             'prefix' => 'example',
-        ], function () {
+        ], function (): void {
             Route::get('array', [ApiController::class, 'array']);
         });
 

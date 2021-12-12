@@ -56,7 +56,7 @@ class WeiboHotSpider extends Command
         $html = $response->getBody()->getContents();
         $htmlNoBlank = preg_replace("/>\n\s*/i", '>', $html);
         if (preg_match('/td-02.*?="(.*?)".*?>(.*?)<\/a>.*?<i.*?>(.*?)<\/i>/si', $htmlNoBlank, $topping) === false) {
-            \Log::error("微博置顶榜条目获取失败");
+            \Log::error('微博置顶榜条目获取失败');
             exit;
         }
         $deleteTopping = preg_replace('/<tbody.*?<\/tr>/i', '', $htmlNoBlank);
