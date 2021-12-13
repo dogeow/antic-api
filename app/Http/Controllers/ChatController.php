@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Events\TestBroadcastingEvent;
+use App\Events\ChatBroadcastingEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +19,7 @@ class ChatController extends Controller
             return response()->json(['errors' => $validator->errors()])->setStatusCode(202);
         }
 
-        broadcast(new TestBroadcastingEvent($request->message))->toOthers();
+        broadcast(new ChatBroadcastingEvent($request->message))->toOthers();
 
         // 机器人
         if (preg_match('/^ +(?P<message>.*?)( +(?P<content>.*))?$/', $request->message, $matches)) {
@@ -34,7 +34,7 @@ class ChatController extends Controller
                 default => '我暂时还没有加入这个功能。',
             };
 
-            broadcast(new TestBroadcastingEvent($robotMessage, true));
+            broadcast(new ChatBroadcastingEvent($robotMessage, true));
         }
     }
 
