@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://api.dogeow.com', 'https://ws.dogeow.com', 'http://127.0.0.1:3000', 'http://localhost:3000'],
+    'allowed_origins' => ['https://lab.dogeow.com', 'https://ws.dogeow.com', 'http://127.0.0.1:3000', 'http://localhost:3000'],
 
     'allowed_origins_patterns' => [],
 
