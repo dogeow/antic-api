@@ -22,6 +22,14 @@ Broadcast::channel('chat', function ($user) {
     ];
 });
 
+Broadcast::channel('game', function ($user) {
+    return (object) [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email ?? '',
+    ];
+});
+
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });

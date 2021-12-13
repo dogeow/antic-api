@@ -11,21 +11,18 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TestBroadcastingEvent implements ShouldBroadcast
+class GameBroadcastingEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public string $message;
-
-    public bool $isRobot;
+    public array $loc;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(string $message, bool $isRobot = false)
+    public function __construct(array $loc)
     {
-        $this->message = $message;
-        $this->isRobot = $isRobot;
+        $this->loc = $loc;
     }
 
     /**
@@ -33,21 +30,21 @@ class TestBroadcastingEvent implements ShouldBroadcast
      */
     public function broadcastOn(): Channel|PrivateChannel|array
     {
-        return new PrivateChannel('chat');
+        return new PrivateChannel('game');
     }
 
     public function broadcastAs(): string
     {
-        return 'chat';
+        return 'game';
     }
 
     public function broadcastWith(): array
     {
         return [
             'data' => [
-                'id' => $this->isRobot ? 0 : auth()->user()->id,
-                'name' => $this->isRobot ? '机器人' : auth()->user()->name,
-                'message' => $this->message,
+                'id' => auth()->user()->id,
+                'name' => auth()->user()->name,
+                'loc' => $this->loc,
             ],
         ];
     }

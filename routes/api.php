@@ -61,6 +61,7 @@ Route::group(['middleware' => ['api']], function (): void {
         });
 
         Route::post('chat', [ChatController::class, 'message']);
+        Route::post('game', [GameController::class, 'loc']);
 
         // 博饼
         Route::get('moon', [MoonController::class, 'index']);
