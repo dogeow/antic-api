@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 Broadcast::channel('chat', function ($user) {
-    return (object) [
+    return [
         'id' => $user->id,
         'name' => $user->name,
         'email' => $user->email ?? '',
@@ -23,11 +24,14 @@ Broadcast::channel('chat', function ($user) {
 });
 
 Broadcast::channel('game', function ($user) {
-    return (object) [
+    $userData = [
         'id' => $user->id,
         'name' => $user->name,
         'email' => $user->email ?? '',
     ];
+    $gameData = Cache::get("game.$user->id");
+
+    return array_merge($userData, $gameData);
 });
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {

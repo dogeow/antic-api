@@ -15,14 +15,14 @@ class GameBroadcastingEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public array $loc;
+    public array $gameData;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(array $loc)
+    public function __construct(array $gameData)
     {
-        $this->loc = $loc;
+        $this->gameData = $gameData;
     }
 
     /**
@@ -40,12 +40,13 @@ class GameBroadcastingEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
+        $userdata = [
+            'id' => auth()->user()->id,
+            'name' => auth()->user()->name,
+        ];
+
         return [
-            'data' => [
-                'id' => auth()->user()->id,
-                'name' => auth()->user()->name,
-                'loc' => $this->loc,
-            ],
+            'data' => array_merge($userdata, $this->gameData),
         ];
     }
 }
