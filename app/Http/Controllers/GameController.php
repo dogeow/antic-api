@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class GameController extends Controller
 {
+    public function index()
+    {
+        $monsters = Cache::get('game.monsters', []);
+
+        return compact('monsters');
+    }
+
     public function loc(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -28,5 +35,37 @@ class GameController extends Controller
         Cache::set("game.{$user->id}", $gameData);
 
         broadcast(new GameBroadcastingEvent($gameData))->toOthers();
+    }
+
+    public function createMonster()
+    {
+        $monster = $this->monsterOnPlace();
+        $monsters = Cache::get('game.monsters', []);
+        $monsters[] = $monster;
+        Cache::set('game.monsters', $monsters);
+        $id = Cache::increment('game.monster.id');
+        broadcast(new GameBroadcastingEvent(compact('id', 'monster')));
+    }
+
+    public function monsterOnPlace()
+    {
+        $places = [];
+
+        $layers = config('game.layers');
+        foreach ($layers[1] as $x => $rows) {
+            foreach ($rows as $y => $column) {
+                if (in_array($column, [4, 5], true)) {
+                    continue;
+                }
+
+                $places[] = ['x' => $x, 'y' => $y];
+            }
+        }
+
+        $count = count($places);
+
+        $rand = random_int(0, $count - 1);
+
+        return $places[$rand];
     }
 }

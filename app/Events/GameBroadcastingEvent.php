@@ -40,10 +40,13 @@ class GameBroadcastingEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        $userdata = [
-            'id' => auth()->user()->id,
-            'name' => auth()->user()->name,
-        ];
+        $userdata = [];
+        if (auth()->user()) {
+            $userdata = [
+                'id' => auth()->user()->id,
+                'name' => auth()->user()->name,
+            ];
+        }
 
         return [
             'data' => array_merge($userdata, $this->gameData),
