@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -15,7 +16,7 @@ class TaskController extends Controller
         $this->authorizeResource(Task::class, 'task');
     }
 
-    public function store(Project $project, Request $request)
+    public function store(Project $project, Request $request): Model
     {
         $validatedData = $request->validate([
             'title' => 'required',
@@ -29,7 +30,7 @@ class TaskController extends Controller
         ]);
     }
 
-    public function update(Project $project, Task $task, Request $request)
+    public function update(Project $project, Task $task, Request $request): Task
     {
         $request->validate([
             'is_completed' => ['nullable', 'boolean'],

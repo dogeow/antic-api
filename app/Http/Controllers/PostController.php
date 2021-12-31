@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\PostTag;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -63,28 +67,28 @@ class PostController extends Controller
         return Post::with(['category:id,name', 'tags:id,post_id,name'])->where('id', $post->id)->first();
     }
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post): Model|Builder|null
     {
         $post->update($request->all());
 
         return Post::with(['category:id,name', 'tags:id,post_id,name'])->where('id', $post->id)->first();
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $post): array
     {
         $post->delete();
 
         return [];
     }
 
-    public function search(Request $request)
+    public function search(Request $request): Collection
     {
         return Post::search($request->search)->get();
     }
 
     public function categoriesCount(): array
     {
-        $categoriesWithCount = \App\Models\Post::leftJoin(
+        $categoriesWithCount = Post::leftJoin(
             'post_categories as category',
             'category.id',
             '=',
@@ -103,7 +107,7 @@ class PostController extends Controller
 
     public function tagsCount(): array
     {
-        $tagsWithCount = \App\Models\PostTag::select([
+        $tagsWithCount = PostTag::select([
             'name', DB::raw('count(*) as count'),
         ])->groupBy('name')->get();
 

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\AboutMe;
 use App\Models\Like;
 use App\Models\Quote;
+use Illuminate\Database\Eloquent\Collection;
 
 class MyStuffController extends Controller
 {
@@ -24,12 +25,12 @@ class MyStuffController extends Controller
         return $newData;
     }
 
-    public function Likes()
+    public function Likes(): Collection|array
     {
         return Like::all();
     }
 
-    public function quotes()
+    public function quotes(): Collection|array
     {
         return Quote::all();
     }

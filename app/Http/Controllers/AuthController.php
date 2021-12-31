@@ -12,6 +12,8 @@ use App\Http\Requests\Reset;
 use App\Mail\EmailVerify;
 use App\Mail\Forget;
 use App\Models\User;
+use Cache;
+use Faker\Generator;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Foundation\Application;
@@ -22,8 +24,11 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Log;
 use Mail;
 use Overtrue\EasySms\EasySms;
+use Overtrue\EasySms\Strategies\OrderStrategy;
+use Str;
 
 class AuthController extends Controller
 {
@@ -43,12 +48,12 @@ class AuthController extends Controller
             'password' => bcrypt($validated['password']),
         ]);
 
-        $secret = \Str::random(40);
-        \Cache::put('emailVerify:'.$secret, $user->id, 86400);
+        $secret = Str::random(40);
+        Cache::put('emailVerify:'.$secret, $user->id, 86400);
         $link = config('app.url').'/emailVerify/'.$secret;
         Mail::to($user->email)->send(new EmailVerify($user, $link));
         if (Mail::failures()) {
-            \Log::info(var_export(Mail::failures(), true));
+            Log::info(var_export(Mail::failures(), true));
         }
 
         return response()->json(
@@ -58,9 +63,9 @@ class AuthController extends Controller
         )->setStatusCode(201);
     }
 
-    public function emailVerify(Request $request): JsonResponse
+    public function emailVerify(Request $request): JsonResponse|User
     {
-        $userId = \Cache::get('emailVerify:'.$request->secret);
+        $userId = Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
             $user = User::find($userId);
             $user->email_verified_at = Carbon::now();
@@ -74,7 +79,7 @@ class AuthController extends Controller
 
     public function autoLogin(Request $request): JsonResponse|array
     {
-        $userId = \Cache::get('emailVerify:'.$request->secret);
+        $userId = Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
             $user = User::find($userId);
             $token = auth()->login($user);
@@ -86,15 +91,40 @@ class AuthController extends Controller
     }
 
     /**
+     * @param  string  $token
+     * @return array
+     */
+    public static function withProfile(string $token): array
+    {
+        return array_merge(self::withToken($token), auth()->user()->toArray());
+    }
+
+    /**
+     * 获取 token 结构.
+     *
+     * @param  string  $token
+     * @return array
+     */
+    protected static function withToken(string $token): array
+    {
+        return [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+        ];
+    }
+
+    /**
      * 创建用户通过手机号码
      */
-    public function registerByPhone(AuthRegisterByPhone $request): array|Application|ResponseFactory|JsonResponse|Response
-    {
+    public function registerByPhone(
+        AuthRegisterByPhone $request
+    ): array|Application|ResponseFactory|JsonResponse|Response {
         $validated = $request->validated();
 
         $cacheKey = 'phone-'.$validated['phone_number'];
 
-        if (\Cache::get($cacheKey) !== $validated['verify']) {
+        if (Cache::get($cacheKey) !== $validated['verify']) {
             return response()->json(
                 ['errors' => ['verify' => ['验证码错误']]]
             )->setStatusCode(422);
@@ -108,7 +138,7 @@ class AuthController extends Controller
         ]);
 
         if ($user) {
-            \Cache::forget($cacheKey);
+            Cache::forget($cacheKey);
 
             return response($user, 201);
         }
@@ -124,7 +154,7 @@ class AuthController extends Controller
     public function guest(): array
     {
         if (request('name')) {
-            $faker = app(\Faker\Generator::class);
+            $faker = app(Generator::class);
 
             $user = User::create([
                 'name' => preg_replace('/\s+/', '', request('name')),
@@ -161,7 +191,7 @@ class AuthController extends Controller
 
         $validated = $request->validated();
 
-        if (preg_match(config('preg.phone_number'), $validated['account'], $matches)) {
+        if (preg_match(config('preg.phone_number'), $validated['account'])) {
             $credentials = [
                 'phone_number' => $validated['account'],
                 'password' => $validated['password'],
@@ -187,6 +217,14 @@ class AuthController extends Controller
         ])->setStatusCode(422);
     }
 
+    /**
+     * 获取守卫.
+     */
+    public function guard(): Guard
+    {
+        return Auth::guard($this->guard);
+    }
+
     public function profile(): ?Authenticatable
     {
         return auth()->user();
@@ -208,54 +246,23 @@ class AuthController extends Controller
         return self::withToken(auth()->refresh());
     }
 
-    /**
-     * 获取守卫.
-     */
-    public function guard(): Guard
-    {
-        return Auth::guard($this->guard);
-    }
-
-    /**
-     * @return array
-     */
-    public static function withProfile(string $token): array
-    {
-        return array_merge(self::withToken($token), auth()->user()->toArray());
-    }
-
     public function recaptcha(Request $request): void
     {
         $token = $request->token;
 
         $secret = config('services.recaptcha');
 
-        $body = "secret={$secret}&response={$token}";
+        $body = "secret=$secret&response=$token";
         $url = 'https://www.recaptcha.net/recaptcha/api/siteverify';
         $resp = $this->httpPost($url, $body);
         $resp = json_decode($resp, true);
-        \Log::info($url);
-        \Log::info($body);
-        \Log::info(var_export($resp, true));
+        Log::info($url);
+        Log::info($body);
+        Log::info(var_export($resp, true));
 
         $key = 'recaptcha-'.$resp['hostname'];
         $score = $resp['success'] ? $resp['score'] : 0;
-        \Cache::put($key, $score, 86400);
-    }
-
-    public function phoneNumberVerify(Request $request): void
-    {
-        $phoneNumber = $request->phone_number;
-
-        if (preg_match(config('preg.phone_number'), $phoneNumber) === false) {
-            exit;
-        }
-
-        $recaptchaScore = \Cache::get('recaptcha:'.$request->getClientIp(), 0);
-
-        if ($recaptchaScore >= 0.5) {
-            $this->sendSms($phoneNumber);
-        }
+        Cache::put($key, $score, 86400);
     }
 
     public function httpPost($url, $postBody)
@@ -271,12 +278,27 @@ class AuthController extends Controller
         return $response;
     }
 
+    public function phoneNumberVerify(Request $request): void
+    {
+        $phoneNumber = $request->phone_number;
+
+        if (preg_match(config('preg.phone_number'), $phoneNumber) === false) {
+            exit;
+        }
+
+        $recaptchaScore = Cache::get('recaptcha:'.$request->getClientIp(), 0);
+
+        if ($recaptchaScore >= 0.5) {
+            $this->sendSms($phoneNumber);
+        }
+    }
+
     public function sendSms($phoneNumber): void
     {
         $easySms = new EasySms([
             'timeout' => 5.0,
             'default' => [
-                'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class,
+                'strategy' => OrderStrategy::class,
                 'gateways' => ['aliyun'],
             ],
             'gateways' => [
@@ -292,7 +314,7 @@ class AuthController extends Controller
         ]);
 
         $random = random_int(1000, 9999);
-        \Cache::put('phone:'.$phoneNumber, $random, 86400);
+        Cache::put('phone:'.$phoneNumber, $random, 86400);
 
         $easySms->send($phoneNumber, [
             'template' => 'SMS_212706541',
@@ -313,7 +335,7 @@ class AuthController extends Controller
     /**
      * 从 GitHub 获取用户信息
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(): array
     {
         $githubUser = Socialite::driver('github')->stateless()->user();
 
@@ -335,18 +357,18 @@ class AuthController extends Controller
                 $request->account
             )->first();
         if ($user) {
-            $secret = \Str::random(40);
+            $secret = Str::random(40);
             $link = config('app.frontend.url').'/forget/'.$secret;
             if ($user->email) {
                 Mail::to($user->email)->send(new Forget($user, $link));
                 if (Mail::failures()) {
                     return response()->json();
                 }
-                \Cache::put('emailVerify:'.$secret, $user->id, 86400);
+                Cache::put('emailVerify:'.$secret, $user->id, 86400);
             }
             // 发送短信
 
-            \Cache::put('reset:'.$secret, $user->id, 86400);
+            Cache::put('reset:'.$secret, $user->id, 86400);
         }
 
         return response()->json([]);
@@ -354,9 +376,8 @@ class AuthController extends Controller
 
     public function reset(Reset $request)
     {
-        $userId = \Cache::get('reset:'.$request->secret);
-        if ($userId === null) {
-        } else {
+        $userId = Cache::get('reset:'.$request->secret);
+        if ($userId) {
             $user = User::find($userId);
             $user->password = bcrypt($request->password);
             $user->save();
@@ -365,19 +386,5 @@ class AuthController extends Controller
 
             return self::withProfile($token);
         }
-    }
-
-    /**
-     * 获取 token 结构.
-     *
-     * @return array
-     */
-    protected static function withToken(string $token): array
-    {
-        return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-        ];
     }
 }
