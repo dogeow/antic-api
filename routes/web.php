@@ -15,4 +15,4 @@ declare(strict_types=1);
 
 use App\Http\Controllers\ApiController;
 
-Route::get('/', [ApiController::class, 'ip']);
+Route::get('/', [ApiController::class, 'index']);

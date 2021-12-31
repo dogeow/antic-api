@@ -30,6 +30,11 @@ class ApiController extends Controller
         ]);
     }
 
+    public function index(): Collection|array
+    {
+        return Api::all();
+    }
+
     /**
      * @throws Exception
      */
@@ -51,11 +56,6 @@ class ApiController extends Controller
         }
 
         return $wallpapers;
-    }
-
-    public function index(): Collection|array
-    {
-        return Api::all();
     }
 
     public function xlsx(): Response|BinaryFileResponse
