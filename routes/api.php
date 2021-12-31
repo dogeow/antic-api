@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['api']], function (): void {
     Route::group([
         'prefix' => 'user',
-    ], function (): void {
+    ], static function (): void {
         // 注册
         Route::post('register-by-email', [AuthController::class, 'registerByEmail']);
         Route::post('register-by-phone', [AuthController::class, 'registerByPhone']);
@@ -45,7 +45,7 @@ Route::group(['middleware' => ['api']], function (): void {
         Route::group(['middleware' => 'auth:api'], function (): void {
             Route::group([
                 'prefix' => 'user',
-            ], function (): void {
+            ], static function (): void {
                 Route::post('logout', [AuthController::class, 'logout']);
                 Route::post('refresh', [AuthController::class, 'refresh']);
                 Route::post('profile', [AuthController::class, 'profile']);
@@ -71,14 +71,13 @@ Route::group(['middleware' => ['api']], function (): void {
 
         // 喜欢
         Route::get('like', [MyStuffController::class, 'likes']);
-        Route::get('about_me', [MyStuffController::class, 'aboutMe']);
 
         // 自言自语
         Route::get('quotes', [MyStuffController::class, 'quotes']);
         Route::get('quote', [MyStuffController::class, 'quote']);
 
         // 关于我
-        Route::get('powered_by', [MyStuffController::class, 'aboutMe']);
+        Route::get('about_me', [MyStuffController::class, 'aboutMe']);
 
         // 便民 API
         Route::post('api', [ApiController::class, 'index']);
@@ -101,10 +100,11 @@ Route::group(['middleware' => ['api']], function (): void {
         Route::get('search', [SearchController::class, 'search']);
 
         // API
-        Route::get('parking', [ApiController::class, 'parking']);
         Route::get('html_sc/{string}', [ApiController::class, 'htmlSC']);
         Route::get('secret/{string?}', [ApiController::class, 'secret']);
+        // 图片
         Route::get('images', [ApiController::class, 'images']);
+        // url
         Route::get('url_decode/{string?}', [ApiController::class, 'urlDecode']);
         Route::get('url_encode/{string?}', [ApiController::class, 'urlEncode']);
         Route::get('base64_encode/{string?}', [ApiController::class, 'base64_encode']);
@@ -117,10 +117,11 @@ Route::group(['middleware' => ['api']], function (): void {
         Route::get('user-agent', [ApiController::class, 'userAgent']);
         Route::get('hash/{string?}', [ApiController::class, 'hash']);
         Route::get('ip', [ApiController::class, 'ip']);
+        // 时间
         Route::get('date/{date?}', [ApiController::class, 'date']);
         Route::get('timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
         Route::get('bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
-        Route::get('sp/{string}', [ApiController::class, 'sp']);
+        Route::get('s-p/{string}', [ApiController::class, 'sp']);
         Route::post('url-title', [ApiController::class, 'getTitle']);
         Route::post('bookmarks', [BookmarkController::class, 'create']);
         Route::get('keywords/{content}', [JiebaController::class, 'keywords']);
@@ -142,6 +143,9 @@ Route::group(['middleware' => ['api']], function (): void {
 
         // PHP 函数
         Route::post('php-function', [PhpFunctionController::class, 'index']);
+
+        // 自个用
+        Route::get('parking', [ApiController::class, 'parking']);
 
         Route::post('mediawiki-to-markdown', [ApiController::class, 'mediawikiToMarkdown']);
     });
