@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\TestExport;
 use App\Models\Api;
+use Cache;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,6 +17,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Str;
+use Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use TrueBV\Punycode;
 
@@ -66,20 +68,27 @@ class ApiController extends Controller
      */
     public function callback(Request $request): JsonResponse
     {
-        \Log::info(var_export($request->all(), true));
+        Log::info(var_export($request->all(), true));
         $config = config('services.meituan');
-        $callbackCount = \Cache::get('meituan');
+        $callbackCount = Cache::get('meituan');
         $returnData = $callbackCount <= 3 ? $config['error'] : $config['success'];
-        \Cache::increment('meituan');
+        Cache::increment('meituan');
 
         return response()->json($returnData);
     }
 
-    public function number($start, $end, $action = null): array
+    /**
+     * @param  Request  $request
+     * @param  int  $start
+     * @param  int  $end
+     * @return array
+     */
+    public function number(Request $request, int $start, int $end): array
     {
-        $count = strlen($end);
+        $count = strlen((string) $end);
         $numberRange = range($start, $end);
         foreach ($numberRange as &$number) {
+            $number = (string) $number;
             if ($count > strlen($number)) {
                 $zeroCount = $count - strlen($number);
                 $number = str_repeat('0', $zeroCount).$number;
@@ -87,7 +96,7 @@ class ApiController extends Controller
         }
         unset($number);
 
-        $action === 'shuffle' && shuffle($numberRange);
+        in_array('shuffle', $request->query('actions') ?? [], true) && shuffle($numberRange);
 
         return $numberRange;
     }
@@ -354,10 +363,5 @@ class ApiController extends Controller
         }
 
         return $markdown;
-    }
-
-    public function array(): JsonResponse
-    {
-        return response()->json([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     }
 }
