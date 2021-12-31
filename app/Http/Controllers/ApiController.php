@@ -99,7 +99,7 @@ class ApiController extends Controller
         }
         unset($number);
 
-        in_array('shuffle', $request->query('actions') ?? [], true) && shuffle($numberRange);
+        in_array('shuffle', (array) $request->query('actions'), true) && shuffle($numberRange);
 
         return $numberRange;
     }
