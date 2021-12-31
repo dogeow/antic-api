@@ -79,9 +79,6 @@ Route::group(['middleware' => ['api']], function (): void {
         // 关于我
         Route::get('about-me', [MyStuffController::class, 'aboutMe']);
 
-        // 便民 API
-        Route::post('api', [ApiController::class, 'index']);
-
         // 待办事项
         Route::get('todo', [ProjectController::class, 'admin']);
 
@@ -99,7 +96,8 @@ Route::group(['middleware' => ['api']], function (): void {
         // Search
         Route::get('search', [SearchController::class, 'search']);
 
-        // API
+        // 便民 API
+        Route::post('api', [ApiController::class, 'index']);
         Route::get('html_sc/{string}', [ApiController::class, 'htmlSC']);
         Route::get('secret/{string?}', [ApiController::class, 'secret']);
         // 图片
