@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Str;
 use Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -35,7 +34,7 @@ class ApiController extends Controller
     /**
      * @throws Exception
      */
-    public function random(): Redirector|RedirectResponse
+    public function images(Request $request): RedirectResponse|array
     {
         $wallpapers = [
             'AIR.jpg',
@@ -46,9 +45,13 @@ class ApiController extends Controller
             '骑士.jpeg',
         ];
 
-        $random = random_int(0, count($wallpapers) - 1);
+        if ($request->query('action') === 'random') {
+            $random = random_int(0, count($wallpapers) - 1);
 
-        return redirect('https://oss.dogeow.com/wallpaper/'.$wallpapers[$random]);
+            return redirect('https://oss.dogeow.com/wallpaper/'.$wallpapers[$random]);
+        }
+
+        return $wallpapers;
     }
 
     public function index(): Collection|array

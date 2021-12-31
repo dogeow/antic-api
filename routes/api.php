@@ -104,7 +104,7 @@ Route::group(['middleware' => ['api']], function (): void {
         Route::get('parking', [ApiController::class, 'parking']);
         Route::get('html_sc/{string}', [ApiController::class, 'htmlSC']);
         Route::get('secret/{string?}', [ApiController::class, 'secret']);
-        Route::get('random', [ApiController::class, 'random']);
+        Route::get('images', [ApiController::class, 'images']);
         Route::get('url_decode/{string?}', [ApiController::class, 'urlDecode']);
         Route::get('url_encode/{string?}', [ApiController::class, 'urlEncode']);
         Route::get('base64_encode/{string?}', [ApiController::class, 'base64_encode']);
