@@ -77,7 +77,7 @@ Route::group(['middleware' => ['api']], function (): void {
         Route::get('quote', [MyStuffController::class, 'quote']);
 
         // 关于我
-        Route::get('about_me', [MyStuffController::class, 'aboutMe']);
+        Route::get('about-me', [MyStuffController::class, 'aboutMe']);
 
         // 便民 API
         Route::post('api', [ApiController::class, 'index']);
