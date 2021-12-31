@@ -118,7 +118,6 @@ Route::group(['middleware' => ['api']], function (): void {
         Route::get('hash/{string?}', [ApiController::class, 'hash']);
         Route::get('ip', [ApiController::class, 'ip']);
         Route::get('date/{date?}', [ApiController::class, 'date']);
-        Route::get('how-time/{content}', [ApiController::class, 'howTime']);
         Route::get('timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
         Route::get('bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
         Route::get('sp/{string}', [ApiController::class, 'sp']);

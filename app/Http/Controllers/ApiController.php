@@ -247,11 +247,6 @@ class ApiController extends Controller
         return $_SERVER['REMOTE_ADDR'];
     }
 
-    public function howTime($content): string
-    {
-        return date('Y-m-d', strtotime($content));
-    }
-
     public function sp($content): string
     {
         return Str::singular($content) === $content ? Str::plural($content) : Str::singular($content);
