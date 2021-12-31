@@ -58,11 +58,18 @@ class ApiController extends Controller
         return $wallpapers;
     }
 
-    public function xlsx(): Response|BinaryFileResponse
+    /**
+     * xlsx 文件，默认 action 为 download，直接下载文件
+     * @param  Request  $request
+     * @return Response|BinaryFileResponse
+     */
+    public function xlsx(Request $request): Response|BinaryFileResponse
     {
-        return (new TestExport())->download('test.xlsx');
+        if ($request->query('action') === 'export') {
+            return (new TestExport())->download('test.xlsx');
+        }
 
-        return response()->file(storage_path('app/public/medicine.xlsx'));
+        return response()->file(storage_path('app/public/test.xlsx'));
     }
 
     /**
