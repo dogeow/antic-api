@@ -116,7 +116,7 @@ Route::group(['middleware' => ['api']], function (): void {
         Route::get('md5/{string?}', [ApiController::class, 'md5']);
         Route::get('user-agent', [ApiController::class, 'userAgent']);
         Route::get('hash/{string?}', [ApiController::class, 'hash']);
-        Route::get('ip/{ip?}', [ApiController::class, 'ip'])->where(['ip' => '[0-9.]+']);
+        Route::get('ip', [ApiController::class, 'ip']);
         Route::get('date/{date?}', [ApiController::class, 'date']);
         Route::get('how-time/{content}', [ApiController::class, 'howTime']);
         Route::get('timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);

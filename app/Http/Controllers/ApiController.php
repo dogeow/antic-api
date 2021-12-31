@@ -242,14 +242,8 @@ class ApiController extends Controller
         return htmlspecialchars($string);
     }
 
-    public function ip($ip = null)
+    public function ip()
     {
-        if ($ip) {
-            $content = file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);
-
-            return response($content)->header('Content-Type', 'application/json');
-        }
-
         return $_SERVER['REMOTE_ADDR'];
     }
 
