@@ -28,7 +28,7 @@ class SqlToDoc extends Command
     public function handle(): void
     {
         $tables = [
-
+            'users',
         ];
 
         $file = file_get_contents('mysqlStruct.sql');
