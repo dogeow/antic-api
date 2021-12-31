@@ -14,16 +14,6 @@ return [
     'slack' => [
         'webhook_url' => env('SLACK_WEBHOOK_URL'),
     ],
-    'meituan' => [
-        'error' => [
-            'errcode' => '1',
-            'errmsg' => 'err',
-        ],
-        'success' => [
-            'errcode' => '0',
-            'errmsg' => 'ok',
-        ],
-    ],
     'baidu' => ['cookie' => env('BAIDU_COOKIE')],
     'sql_debug_log' => env('SQL_DEBUG_LOG'),
 ];

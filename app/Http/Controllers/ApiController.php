@@ -6,15 +6,14 @@ namespace App\Http\Controllers;
 
 use App\Exports\TestExport;
 use App\Models\Api;
-use Cache;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -59,7 +58,7 @@ class ApiController extends Controller
         return Api::all();
     }
 
-    public function xlsx()
+    public function xlsx(): Response|BinaryFileResponse
     {
         return (new TestExport())->download('test.xlsx');
 
@@ -67,17 +66,11 @@ class ApiController extends Controller
     }
 
     /**
-     * 返回第三方支付或美团外卖等的回调信息
+     * 记录回调信息
      */
-    public function callback(Request $request): JsonResponse
+    public function callback(Request $request): void
     {
         Log::info(var_export($request->all(), true));
-        $config = config('services.meituan');
-        $callbackCount = Cache::get('meituan');
-        $returnData = $callbackCount <= 3 ? $config['error'] : $config['success'];
-        Cache::increment('meituan');
-
-        return response()->json($returnData);
     }
 
     /**
