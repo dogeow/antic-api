@@ -118,7 +118,7 @@ class ApiController extends Controller
         $html = $response->getBody()->getContents();
 
         foreach ($parking as $key => $item) {
-            if (preg_match("/onclick='tc\(\"${item}\".*?\)'/", $html, $match)) {
+            if (preg_match("/onclick='tc\(\"$item\".*?\)'/", $html)) {
                 $status = true;
             } else {
                 $status = false;
@@ -136,7 +136,7 @@ class ApiController extends Controller
     {
         $Punycode = new Punycode();
         $preg = "/[\x{4e00}-\x{9fa5}]+/u";
-        if (preg_match_all($preg, $domain, $matches)) {
+        if (preg_match_all($preg, $domain)) {
             return $Punycode->encode($domain);
         }
 
@@ -218,7 +218,7 @@ class ApiController extends Controller
         return $timestamp ? date('Y-m-d H:i:s', $timestamp) : time();
     }
 
-    public function bankcard($cardNo)
+    public function bankcard($cardNo): bool|string
     {
         $url = 'https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true';
         $resp = file_get_contents($url);
@@ -270,7 +270,7 @@ class ApiController extends Controller
             if (preg_match('/charset=(.*?)[">]]/i', $html, $matches)) {
                 $charset = $matches[1];
             }
-            $body = mb_convert_encoding($html, 'UTF-8', $charset ? $charset : 'UTF-8');
+            $body = mb_convert_encoding($html, 'UTF-8', $charset ?: 'UTF-8');
             $str = trim(preg_replace('/\s+/', ' ', $body));
             if (preg_match("/<title>(.*?)<\/title>/i", $str, $title)) {
                 $title = $title[1];
@@ -322,12 +322,10 @@ class ApiController extends Controller
                 } else {
                     $string = str_replace('</pre>', '```', $string);
                 }
+            } elseif ($line !== $maxLine - 1 && isset($contentArray[$line + 1]) && trim($contentArray[$line + 1]) !== '') {
+                $string = str_replace('</pre>', "\n```".PHP_EOL, $string);
             } else {
-                if ($line !== $maxLine - 1 && isset($contentArray[$line + 1]) && trim($contentArray[$line + 1]) !== '') {
-                    $string = str_replace('</pre>', "\n```".PHP_EOL, $string);
-                } else {
-                    $string = str_replace('</pre>', '\n```', $string);
-                }
+                $string = str_replace('</pre>', '\n```', $string);
             }
 
             // 替换链接
