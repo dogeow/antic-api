@@ -37,7 +37,7 @@ class SqlToDoc extends Command
         foreach ($tables as $table) {
             $tableStart = strpos($file, "CREATE TABLE `{$table}`");
             $createTableStart = substr($file, $tableStart);
-            $tableNameStart = substr($createTableStart, '12'); // 12 为「CREATE TABLE」
+            $tableNameStart = substr($createTableStart, 12); // 12 为「CREATE TABLE」
             $tableEnd = strpos($tableNameStart, 'CREATE TABLE');
 
             $migrateString = substr($createTableStart, 0, $tableEnd + 12);
