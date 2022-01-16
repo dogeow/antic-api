@@ -48,7 +48,7 @@ Route::group(['middleware' => ['api']], function (): void {
             ], static function (): void {
                 Route::post('logout', [AuthController::class, 'logout']);
                 Route::post('refresh', [AuthController::class, 'refresh']);
-                Route::post('profile', [AuthController::class, 'profile']);
+                Route::get('profile', [AuthController::class, 'profile']);
                 Route::put('password', [UserController::class, 'password']);
             });
 
