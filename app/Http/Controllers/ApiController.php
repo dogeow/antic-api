@@ -251,7 +251,7 @@ class ApiController extends Controller
 
     public function ip()
     {
-        return $_SERVER['REMOTE_ADDR'];
+        return $_SERVER['REMOTE_ADDR'] ?? $_SERVER['X-Real-IP'] ?? '';
     }
 
     public function sp($content): string
