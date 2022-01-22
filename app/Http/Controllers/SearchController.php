@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use InvalidArgumentException;
 use Nesk\Puphpeteer\Puppeteer;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -43,7 +44,7 @@ class SearchController extends Controller
                 $count = str_replace(',', '', $match[1]);
             }
 
-            $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node, $i): void {
+            $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node) {
                 if ($node->filterXPath('//h3')->count() === 0 || $node->filterXPath('//cite')->count() === 0
                     || $node->filterXPath('//span[@class="st"]')->count() === 0) {
                     return;
@@ -55,7 +56,7 @@ class SearchController extends Controller
                     'intro' => $node->filterXPath('//span[@class="st"]')->html(),
                 ];
             });
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             return self::empty;
         }
 

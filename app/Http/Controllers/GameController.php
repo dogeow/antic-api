@@ -52,13 +52,27 @@ class GameController extends Controller
         $places = [];
 
         $layers = config('game.layers');
+
+        $monsters = Cache::get('game.monsters', []);
+
         foreach ($layers[1] as $x => $rows) {
             foreach ($rows as $y => $column) {
                 if (in_array($column, [4, 5], true)) {
                     continue;
                 }
 
-                $places[] = ['x' => $x, 'y' => $y];
+                $ok = true;
+                foreach ($monsters as $key => $monster) {
+                    if ($monster['x'] === $x && $monster['y'] === $y) {
+                        unset($monster[$key]);
+                        $ok = false;
+                        break;
+                    }
+                }
+
+                if ($ok) {
+                    $places[] = ['x' => $x, 'y' => $y];
+                }
             }
         }
 
