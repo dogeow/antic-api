@@ -88,7 +88,6 @@ function rgb2Hex(array|int $r, int $g = -1, int $b = -1): string
 /**
  * @param  string  $number  需要转换的字符串
  * @param  string  $targetBit  转成多少位
- * @return string
  */
 function baseConvert(string $number, string $targetBit): string
 {
@@ -101,7 +100,7 @@ function baseConvert(string $number, string $targetBit): string
     $remainder = bcmod($number, $targetBit);
     $quotient = (string) floor((float) bcdiv($number, $targetBit));
 
-    if ($quotient === "0") {
+    if ($quotient === '0') {
         return $dic[$remainder];
     }
 
