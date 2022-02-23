@@ -91,27 +91,11 @@ class AuthController extends Controller
     }
 
     /**
-     * @param  string  $token
      * @return array
      */
     public static function withProfile(string $token): array
     {
         return array_merge(self::withToken($token), auth()->user()->toArray());
-    }
-
-    /**
-     * 获取 token 结构.
-     *
-     * @param  string  $token
-     * @return array
-     */
-    protected static function withToken(string $token): array
-    {
-        return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-        ];
     }
 
     /**
@@ -252,7 +236,7 @@ class AuthController extends Controller
 
         $secret = config('services.recaptcha');
 
-        $body = "secret=$secret&response=$token";
+        $body = "secret=${secret}&response=${token}";
         $url = 'https://www.recaptcha.net/recaptcha/api/siteverify';
         $resp = $this->httpPost($url, $body);
         $resp = json_decode($resp, true);
@@ -386,5 +370,19 @@ class AuthController extends Controller
 
             return self::withProfile($token);
         }
+    }
+
+    /**
+     * 获取 token 结构.
+     *
+     * @return array
+     */
+    protected static function withToken(string $token): array
+    {
+        return [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+        ];
     }
 }
