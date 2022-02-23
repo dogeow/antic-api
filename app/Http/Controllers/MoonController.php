@@ -27,7 +27,7 @@ class MoonController extends Controller
 
     public function index(Request $request): array
     {
-        if (!empty($request->name)) {
+        if (! empty($request->name)) {
             $user = Moon::where('name', $request->name)->first();
             $history = $user->moonHistory;
         }
