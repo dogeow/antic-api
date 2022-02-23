@@ -42,7 +42,6 @@ class ChatController extends Controller
      * 检查参数是否漏提供，是的话提示错误，正确则由 ?? 继续返回
      *
      * @param $content
-     * @return string|null
      */
     public static function checkParam($content): null|string
     {

@@ -37,7 +37,7 @@ class GameController extends Controller
         broadcast(new GameBroadcastingEvent($gameData))->toOthers();
     }
 
-    public function createMonster()
+    public function createMonster(): void
     {
         $monster = $this->monsterOnPlace();
         $monsters = Cache::get('game.monsters', []);

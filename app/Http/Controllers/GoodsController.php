@@ -16,14 +16,14 @@ class GoodsController extends Controller
     public function index(): array
     {
         return [
-            "place" => [
+            'place' => [
                 [
-                    'name' => "漳州",
-                    "floorNumber" => 3,
+                    'name' => '漳州',
+                    'floorNumber' => 3,
                 ],
                 [
-                    'name' => "泉州",
-                    "floorNumber" => 3,
+                    'name' => '泉州',
+                    'floorNumber' => 3,
                 ],
             ],
         ];
