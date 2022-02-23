@@ -60,8 +60,6 @@ class ApiController extends Controller
 
     /**
      * xlsx 文件，默认 action 为 download，直接下载文件
-     * @param  Request  $request
-     * @return Response|BinaryFileResponse
      */
     public function xlsx(Request $request): Response|BinaryFileResponse
     {
@@ -81,9 +79,6 @@ class ApiController extends Controller
     }
 
     /**
-     * @param  Request  $request
-     * @param  int  $start
-     * @param  int  $end
      * @return array
      */
     public function number(Request $request, int $start, int $end): array
@@ -118,7 +113,7 @@ class ApiController extends Controller
         $html = $response->getBody()->getContents();
 
         foreach ($parking as $key => $item) {
-            if (preg_match("/onclick='tc\(\"$item\".*?\)'/", $html)) {
+            if (preg_match("/onclick='tc\(\"${item}\".*?\)'/", $html)) {
                 $status = true;
             } else {
                 $status = false;
@@ -270,7 +265,7 @@ class ApiController extends Controller
             if (preg_match('/charset=(.*?)[">]]/i', $html, $matches)) {
                 $charset = $matches[1];
             }
-            $body = mb_convert_encoding($html, 'UTF-8', $charset ?: 'UTF-8');
+            $body = mb_convert_encoding($html, 'UTF-8', $charset ? $charset : 'UTF-8');
             $str = trim(preg_replace('/\s+/', ' ', $body));
             if (preg_match("/<title>(.*?)<\/title>/i", $str, $title)) {
                 $title = $title[1];
