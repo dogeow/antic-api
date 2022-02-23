@@ -43,7 +43,7 @@ antic-api
 ## 项目维护
 
 有学有需求就会有更新，基本上算是日常更新
-    
+
 ## 构建
 
 1. Laravel
@@ -54,8 +54,8 @@ antic-api
     5. php artisan key:generate
     6. php artisan storage:link
 2. React
-	1. npm install
-	2. 构建
+    1. npm install
+    2. 构建
         * development: npm run dev
         * Production: npm run prod
 3. Web 服务：php artisan serve
@@ -73,6 +73,12 @@ antic-api
 * Nginx 1.14.0(nginx-full)
 * MySQL 5.7
 * PHP 7.4
+
+## 维护
+
+- vendor/bin/phpinsights fix
+- php artisan responsecache:clear
+- ->middleware('no_cache_response');
 
 ## 鸣谢
 
