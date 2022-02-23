@@ -29,7 +29,7 @@ Broadcast::channel('game', function ($user) {
         'name' => $user->name,
         'email' => $user->email ?? '',
     ];
-    $gameData = Cache::get("game.$user->id");
+    $gameData = Cache::get("game.{$user->id}");
 
     return array_merge($userData, $gameData);
 });
