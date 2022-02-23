@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Http\Controllers\GameController;
@@ -33,12 +35,10 @@ class createMonster extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        (new GameController)->createMonster();
+        (new GameController())->createMonster();
 
         return 0;
     }
