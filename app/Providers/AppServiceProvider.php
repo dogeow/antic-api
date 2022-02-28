@@ -47,12 +47,13 @@ class AppServiceProvider extends ServiceProvider
 
                 $bindings = implode(", ", $query->bindings); // format the bindings as string
 
+                $file = $location['file'];
                 Log::info("
                 ------------
                 Sql: $query->sql
                 Bindings: $bindings
                 Time: $query->time
-                File: ${location['file']}  ?? null};
+                File: $file;
                 Line: ${location['line']}
                 ------------
             ");
