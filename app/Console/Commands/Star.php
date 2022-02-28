@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\GithubStar;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Slack;
 
 class Star extends Command
 {
@@ -36,9 +38,9 @@ class Star extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle()
     {
-        $stars = \App\Models\GithubStar::where('updated', 0)->get();
+        $stars = GithubStar::where('updated', 0)->get();
 
         foreach ($stars as $star) {
             $name = $star['name'];
@@ -65,21 +67,21 @@ class Star extends Command
             if ($star['major'] && $major > $star['major']) {
                 $star->updated = 1;
                 $star->save();
-                \Slack::send("{$name}有主版本号更新");
+                Slack::send("{$name}有主版本号更新");
                 continue;
             }
 
             if ($star['minor'] && $minor > $star['minor']) {
                 $star->updated = 1;
                 $star->save();
-                \Slack::send("{$name}有次版本号更新");
+                Slack::send("{$name}有次版本号更新");
                 continue;
             }
 
             if ($star['patch'] && $patch > $star['patch']) {
                 $star->updated = 1;
                 $star->save();
-                \Slack::send("{$name}有修订号更新");
+                Slack::send("{$name}有修订号更新");
                 continue;
             }
         }
