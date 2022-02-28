@@ -14,7 +14,7 @@
     "ext-json": "*",
     "algolia/algoliasearch-client-php": "^2.7",
     "appstract/laravel-opcache": "^4.0",
-    "elasticsearch/elasticsearch": "^7.11.1",
+    "elasticsearch/elasticsearch": "^7.17",
     "enlightn/enlightn": "^1.7",
     "fideloper/proxy": "^4.4",
     "fruitcake/laravel-cors": "^2.0",
@@ -66,7 +66,10 @@
     "optimize-autoloader": true,
     "preferred-install": "dist",
     "sort-packages": true,
-    "platform-check": false
+    "platform-check": false,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
   "extra": {
     "laravel": {

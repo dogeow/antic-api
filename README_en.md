@@ -1,7 +1,6 @@
 antic-api
 =======
 
-![Laravel](https://github.com/likunyan/antic-api/workflows/Laravel/badge.svg)
 [![codecov](https://codecov.io/gh/likunyan/antic-api/branch/master/graph/badge.svg?token=QJ7RYCXO96)](https://codecov.io/gh/likunyan/antic-api)
 [![Build Status](http://img.shields.io/travis/likunyan/antic-api/master.svg?style=flat-square&logo=travis)](https://travis-ci.org/likunyan/antic-api)
 <a href="https://github.styleci.io/repos/229091867"><img src="https://github.styleci.io/repos/229091867/shield?branch=master" alt="StyleCI"></a>
@@ -30,8 +29,8 @@ Use frontend and backend separation.
     5. php artisan key:generate
     6. php artisan storage:link
 2. React
-	1. npm install
-	2. Build
+    1. npm install
+    2. Build
         * development: npm run dev
         * Production: npm run prod
 3. Web Server：php artisan serve
