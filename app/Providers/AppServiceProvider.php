@@ -33,6 +33,24 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
+        DB::listen(function ($query) {
+            $location = collect(debug_backtrace())->filter(function ($trace) {
+                return !str_contains($trace['file'], 'vendor/');
+            })->first(); // grab the first element of non vendor/ calls
+
+            $bindings = implode(", ", $query->bindings); // format the bindings as string
+
+            Log::info("
+                ------------
+                Sql: $query->sql
+                Bindings: $bindings
+                Time: $query->time
+                File: ${location['file']}
+                Line: ${location['line']}
+                ------------
+            ");
+        });
+
         $this->app->resolving(EngineManager::class, function ($engine, $app): void {
             $engine->extend('algolia', function () {
                 UserAgent::addCustomUserAgent('Laravel Scout', '8.6');
