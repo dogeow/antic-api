@@ -35,7 +35,13 @@ class AppServiceProvider extends ServiceProvider
 
         DB::listen(function ($query) {
             $location = collect(debug_backtrace())->filter(function ($trace) {
-                return !str_contains($trace['file'], 'vendor/');
+                if (isset($trace['file'])) {
+                    return !str_contains($trace['file'], 'vendor/');
+                }
+
+                Log::info(var_export($trace, true));
+
+                return true;
             })->first(); // grab the first element of non vendor/ calls
 
             $bindings = implode(", ", $query->bindings); // format the bindings as string
