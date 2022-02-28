@@ -9,6 +9,7 @@ use App\Models\WeiboToTop;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
+use Log;
 
 class WeiboHotSpider extends Command
 {
@@ -52,11 +53,14 @@ class WeiboHotSpider extends Command
      */
     public function handle(): void
     {
-        $response = $this->guzzleClient->request('GET', 'https://s.weibo.com/top/summary');
+        $response = $this->guzzleClient->request(
+            'GET',
+            'https://s.weibo.com/top/summary?cate=realtimehot&display=0&retcode=6102'
+        );
         $html = $response->getBody()->getContents();
         $htmlNoBlank = preg_replace("/>\n\s*/i", '>', $html);
         if (preg_match('/td-02.*?="(.*?)".*?>(.*?)<\/a>.*?<i.*?>(.*?)<\/i>/si', $htmlNoBlank, $topping) === false) {
-            \Log::error('微博置顶榜条目获取失败');
+            Log::error('微博置顶榜条目获取失败');
             exit;
         }
         $deleteTopping = preg_replace('/<tbody.*?<\/tr>/i', '', $htmlNoBlank);
@@ -70,7 +74,7 @@ class WeiboHotSpider extends Command
             'status' => status($topping[3]),
         ];
 
-        if (! WeiboToTop::where('title', $toppingData['title'])->exists()) {
+        if (!WeiboToTop::where('title', $toppingData['title'])->exists()) {
             try {
                 WeiboToTop::create($toppingData);
             } catch (QueryException $e) {
@@ -86,11 +90,11 @@ class WeiboHotSpider extends Command
                 continue;
             }
 
-            $tmp = explode(' ', $i[3]);
+            $tmp = explode(' ', trim($i[3]));
             if (count($tmp) === 1) {
                 $rank = $i[3];
             } else {
-                $rank = $tmp[2];
+                $rank = $tmp[1];
             }
 
             $title = $i[2];
