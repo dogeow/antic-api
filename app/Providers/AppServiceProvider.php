@@ -33,29 +33,31 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
-        DB::listen(function ($query) {
-            $location = collect(debug_backtrace())->filter(function ($trace) {
-                if (isset($trace['file'])) {
-                    return !str_contains($trace['file'], 'vendor/');
-                }
+        if (config('services.sql_debug_log')) {
+            DB::listen(function ($query) {
+                $location = collect(debug_backtrace())->filter(function ($trace) {
+                    if (isset($trace['file'])) {
+                        return !str_contains($trace['file'], 'vendor/');
+                    }
 
-                Log::info(var_export($trace, true));
+                    Log::info(var_export($trace, true));
 
-                return true;
-            })->first(); // grab the first element of non vendor/ calls
+                    return true;
+                })->first(); // grab the first element of non vendor/ calls
 
-            $bindings = implode(", ", $query->bindings); // format the bindings as string
+                $bindings = implode(", ", $query->bindings); // format the bindings as string
 
-            Log::info("
+                Log::info("
                 ------------
                 Sql: $query->sql
                 Bindings: $bindings
                 Time: $query->time
-                File: ${location['file']}
+                File: ${location['file']}  ?? null};
                 Line: ${location['line']}
                 ------------
             ");
-        });
+            });
+        }
 
         $this->app->resolving(EngineManager::class, function ($engine, $app): void {
             $engine->extend('algolia', function () {
