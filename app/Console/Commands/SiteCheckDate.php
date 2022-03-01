@@ -9,15 +9,20 @@ use App\Models\SiteCheck;
 use App\Models\User;
 use App\Notifications\BuildNotification;
 use Carbon\Carbon;
+use DateTime;
+use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
+use Log;
 use Symfony\Component\DomCrawler\Crawler;
 
 class SiteCheckDate extends Command
 {
     public const TIMEOUT = 30;
+
+    public bool $needNotify = false;
 
     public GuzzleClient $guzzleClient;
 
@@ -110,8 +115,8 @@ class SiteCheckDate extends Command
 
         try {
             $response = $this->guzzleClient->request('GET', $url);
-        } catch (\Exception  $e) {
-            \Log::info($e->getMessage());
+        } catch (Exception  $e) {
+            Log::info($e->getMessage());
 
             return false;
         }
@@ -121,18 +126,10 @@ class SiteCheckDate extends Command
         return $site->get_type === 'api' ? $crawler->text() : $crawler->filterXPath($site->date_xpath)->text();
     }
 
-    public function saveStatus($status): void
-    {
-        SiteCheck::create([
-            'site_id' => $this->site->id,
-            'status' => $status,
-        ]);
-    }
-
     public function checkDateStatus($date): bool
     {
         $status = false;
-        $dataTime = new \DateTime();
+        $dataTime = new DateTime();
 
         if (is_array($date)) {
             foreach ($date as $dateItem) {
@@ -150,14 +147,23 @@ class SiteCheckDate extends Command
             }
 
             $diff = Carbon::now()->diffInDays($targetDate);
-            if ($this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
+            if ($this->needNotify && $this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
                 Notification::send(new User(), new BuildNotification($this->site->domain.' 超过三天'));
             }
+           
             if ($diff <= 3) {
                 $status = true;
             }
         }
 
         return $status;
+    }
+
+    public function saveStatus($status): void
+    {
+        SiteCheck::create([
+            'site_id' => $this->site->id,
+            'status' => $status,
+        ]);
     }
 }
