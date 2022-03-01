@@ -150,7 +150,7 @@ class SiteCheckDate extends Command
             if ($this->needNotify && $this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
                 Notification::send(new User(), new BuildNotification($this->site->domain.' 超过三天'));
             }
-           
+
             if ($diff <= 3) {
                 $status = true;
             }
