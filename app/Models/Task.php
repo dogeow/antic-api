@@ -20,7 +20,6 @@ use Illuminate\Support\Carbon;
  * @property int $order
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @property-read Project $project
  *
  * @method static Builder|Task completed()

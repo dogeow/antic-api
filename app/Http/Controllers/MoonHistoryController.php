@@ -12,6 +12,38 @@ class MoonHistoryController extends Controller
 {
     private $defRank = 'none';
 
+    public function start(Request $request)
+    {
+        $user = Moon::where('name', $request->name)->first();
+        if (count($user->moonHistory) >= 6) {
+            return '已满6次！';
+        }
+        $lottery = $this->lottery();
+        MoonHistory::create(
+            [
+                'moon_id' => $user->id,
+                'num1' => $lottery['dice'][0],
+                'num2' => $lottery['dice'][1],
+                'num3' => $lottery['dice'][2],
+                'num4' => $lottery['dice'][3],
+                'num5' => $lottery['dice'][4],
+                'num6' => $lottery['dice'][5],
+                'name' => $lottery['rankName'],
+                'money' => $lottery['money'],
+            ]
+        );
+
+        $user = $user->fresh('moonHistory');
+
+        return array_merge(
+            $lottery,
+            [
+                'history' => $user->moonHistory->toArray(),
+                'statistics' => (new Moon())->statistics(),
+            ]
+        );
+    }
+
     public function lottery()
     {
         $dice = $this->rollDice();
@@ -46,7 +78,6 @@ class MoonHistoryController extends Controller
      * 格式化掷骰子结果。
      *
      * @param  array  $list
-     *
      * @return array
      */
     public function formatDice(array $list = []): array
@@ -116,101 +147,6 @@ class MoonHistoryController extends Controller
     }
 
     /**
-     * 根据排序获取掷骰子结果名称.
-     */
-    public function getName(string $rank): mixed
-    {
-        $list = [
-            'cjh' => [
-                'name' => '状元插金花',
-                'money' => 2.33,
-            ],
-            'lbh' => [
-                'name' => '六杯红',
-                'money' => 2.33,
-            ],
-            'bdj' => [
-                'name' => '遍地锦',
-                'money' => 2.33,
-            ],
-            'ww' => [
-                'name' => '五王',
-                'money' => 1.68,
-            ],
-            'wzdyx' => [
-                'name' => '五子带一秀',
-                'money' => 1.88,
-            ],
-            'wzdk' => [
-                'name' => '五子登科',
-                'money' => 1.68,
-            ],
-            'zy' => [
-                'name' => '状元',
-                'money' => 1.11,
-            ],
-            'by' => [
-                'name' => '榜眼',
-                'money' => 1.23,
-            ],
-            'sh' => [
-                'name' => '三红',
-                'money' => 0.33,
-            ],
-            'sj' => [
-                'name' => '四进',
-                'money' => 0.4,
-            ],
-            'eq' => [
-                'name' => '二举',
-                'money' => 0.2,
-            ],
-            'yx' => [
-                'name' => '一秀',
-                'money' => 0.1,
-            ],
-            'none' => [
-                'name' => '没有',
-                'money' => 0.01,
-            ],
-        ];
-
-        return $list[$rank];
-    }
-
-    public function start(Request $request)
-    {
-        $user = Moon::where('name', $request->name)->first();
-        if (count($user->moonHistory) >= 6) {
-            return '已满6次！';
-        }
-        $lottery = $this->lottery();
-        MoonHistory::create(
-            [
-                'moon_id' => $user->id,
-                'num1' => $lottery['dice'][0],
-                'num2' => $lottery['dice'][1],
-                'num3' => $lottery['dice'][2],
-                'num4' => $lottery['dice'][3],
-                'num5' => $lottery['dice'][4],
-                'num6' => $lottery['dice'][5],
-                'name' => $lottery['rankName'],
-                'money' => $lottery['money'],
-            ]
-        );
-
-        $user = $user->fresh('moonHistory');
-
-        return array_merge(
-            $lottery,
-            [
-                'history' => $user->moonHistory->toArray(),
-                'statistics' => (new Moon())->statistics(),
-            ]
-        );
-    }
-
-    /**
      * 返回规则.
      *
      * @return array
@@ -271,5 +207,68 @@ class MoonHistoryController extends Controller
                 [4 => 1],
             ],
         ];
+    }
+
+    /**
+     * 根据排序获取掷骰子结果名称.
+     */
+    public function getName(string $rank): mixed
+    {
+        $list = [
+            'cjh' => [
+                'name' => '状元插金花',
+                'money' => 2.33,
+            ],
+            'lbh' => [
+                'name' => '六杯红',
+                'money' => 2.33,
+            ],
+            'bdj' => [
+                'name' => '遍地锦',
+                'money' => 2.33,
+            ],
+            'ww' => [
+                'name' => '五王',
+                'money' => 1.68,
+            ],
+            'wzdyx' => [
+                'name' => '五子带一秀',
+                'money' => 1.88,
+            ],
+            'wzdk' => [
+                'name' => '五子登科',
+                'money' => 1.68,
+            ],
+            'zy' => [
+                'name' => '状元',
+                'money' => 1.11,
+            ],
+            'by' => [
+                'name' => '榜眼',
+                'money' => 1.23,
+            ],
+            'sh' => [
+                'name' => '三红',
+                'money' => 0.33,
+            ],
+            'sj' => [
+                'name' => '四进',
+                'money' => 0.4,
+            ],
+            'eq' => [
+                'name' => '二举',
+                'money' => 0.2,
+            ],
+            'yx' => [
+                'name' => '一秀',
+                'money' => 0.1,
+            ],
+            'none' => [
+                'name' => '没有',
+                'money' => 0.01,
+            ],
+        ];
+
+        return $list[$rank];
     }
 }

@@ -24,7 +24,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $date_format 最新日期的格式
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @property-read Collection|array<SiteCheck> $history
  * @property-read int|null $history_count
  * @property-read SiteCheck|null $todayLatest

@@ -30,7 +30,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property int $rate_limit
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @property-read DatabaseNotificationCollection|array<DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection|array<Post> $posts

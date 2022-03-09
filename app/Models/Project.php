@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Project.
@@ -17,12 +20,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property string $description
  * @property int $is_completed
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- *
- * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Task> $tasks
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|array<Task> $tasks
  * @property-read int|null $tasks_count
- * @property-read \App\Models\User $user
+ * @property-read User $user
  *
  * @method static Builder|Project completed()
  * @method static Builder|Project newModelQuery()
@@ -37,7 +39,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder|Project whereUpdatedAt($value)
  * @method static Builder|Project whereUserId($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Project extends Model
 {

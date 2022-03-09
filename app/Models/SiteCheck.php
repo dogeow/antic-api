@@ -18,7 +18,6 @@ use Illuminate\Support\Carbon;
  * @property int $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @property-read Site $sites
  *
  * @method static Builder|SiteCheck newModelQuery()

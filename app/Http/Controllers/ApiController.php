@@ -142,9 +142,9 @@ class ApiController extends Controller
     {
         $code = (int) hexdec($string);
         // 这里注意转换出来的 code 一定得是整形，这样才会正确的按位操作
-        $ord_1 = decbin(0xe0 | ($code >> 12));
-        $ord_2 = decbin(0x80 | (($code >> 6) & 0x3f));
-        $ord_3 = decbin(0x80 | ($code & 0x3f));
+        $ord_1 = decbin(0xE0 | ($code >> 12));
+        $ord_2 = decbin(0x80 | (($code >> 6) & 0x3F));
+        $ord_3 = decbin(0x80 | ($code & 0x3F));
 
         return chr(bindec($ord_1)).chr(bindec($ord_2)).chr(bindec($ord_3));
     }
