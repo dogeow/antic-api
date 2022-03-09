@@ -5,8 +5,8 @@ use PhpCsFixer\Finder;
 
 $rules = [
     '@PHP80Migration' => true,
-
-    'ordered_imports' => [
+    'not_operator_with_successor_space' => true, // ! 运算带有空格，比如「if (! $var)」
+    'ordered_imports' => [ // use 排序
         'sort_algorithm' => 'alpha',
     ],
     'class_attributes_separation' => [
