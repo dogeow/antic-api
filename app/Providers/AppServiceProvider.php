@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
                 })->first(); // grab the first element of non vendor/ calls
 
                 $bindings = implode(", ", $query->bindings); // format the bindings as string
-
+                
                 $file = $location['file'];
                 Log::info("
                 ------------

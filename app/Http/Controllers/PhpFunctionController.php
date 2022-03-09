@@ -12,7 +12,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class PhpFunctionController extends Controller
 {
-    public function index(Request $request): Collection | array
+    public function index(Request $request): Collection|array
     {
         $query = PhpFunction::when($request->search, function ($query) use ($request) {
             return $query->where('name', 'LIKE', '%'.$request->search.'%')

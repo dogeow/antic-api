@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use Faker\Generator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -14,8 +16,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $faker = app(\Faker\Generator::class);
-        \App\Models\User::create(
+        $faker = app(Generator::class);
+        User::create(
             [
                'name' => 'test',
                'email' => 'test@test.com',
