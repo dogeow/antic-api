@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
@@ -61,7 +62,7 @@ class Image extends Command
                 try {
                     $file = file_get_contents($pic);
                     file_put_contents('car/car_'.$i.'.jpg', $file);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                 } finally {
                     $i++;
                 }
@@ -69,11 +70,11 @@ class Image extends Command
         }
     }
 
-    public function getDate($url): bool | array
+    public function getDate($url): bool|array
     {
         try {
             $response = $this->guzzleClient->request('GET', $url);
-        } catch (\Exception  $e) {
+        } catch (Exception $e) {
             return false;
         }
 
