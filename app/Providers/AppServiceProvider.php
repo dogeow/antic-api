@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
             DB::listen(function ($query) {
                 $location = collect(debug_backtrace())->filter(function ($trace) {
                     if (isset($trace['file'])) {
-                        return !str_contains($trace['file'], 'vendor/');
+                        return ! str_contains($trace['file'], 'vendor/');
                     }
 
                     Log::info(var_export($trace, true));
