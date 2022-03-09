@@ -28,13 +28,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if (config('services.sql_debug_log')) {
-            DB::listen(function ($query): void {
+            DB::listen(static function ($query): void {
                 Log::debug('DB: '.$query->sql.'['.implode(',', $query->bindings).']');
             });
         }
 
         if (config('services.sql_debug_log')) {
-            DB::listen(function ($query) {
+            DB::listen(static function ($query) {
                 $location = collect(debug_backtrace())->filter(function ($trace) {
                     if (isset($trace['file'])) {
                         return ! str_contains($trace['file'], 'vendor/');
@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
                 })->first(); // grab the first element of non vendor/ calls
 
                 $bindings = implode(", ", $query->bindings); // format the bindings as string
-                
+
                 $file = $location['file'];
                 Log::info("
                 ------------
