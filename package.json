@@ -9,7 +9,9 @@
         "prod": "npm run production",
         "production": "mix --production"
     },
-    "devDependencies": {},
+    "devDependencies": {
+        "chokidar": "^3.5.3"
+    },
     "dependencies": {
         "@nesk/puphpeteer": "^2.0.0",
         "@nesk/rialto": "^1.4.0"
