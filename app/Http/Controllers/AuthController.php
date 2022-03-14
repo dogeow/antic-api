@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthLogin;
 use App\Http\Requests\AuthRegisterByEmail;
 use App\Http\Requests\AuthRegisterByPhone;
 use App\Http\Requests\Forget as ForgetRequest;
@@ -56,29 +57,40 @@ class AuthController extends Controller
     }
 
     /**
-     * @param  Request  $request
-     * @return Application|ResponseFactory|Response
+     * @param  AuthLogin  $request
      */
-    public function login(Request $request)
+    public function login(AuthLogin $request)
     {
-        $data = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $notMatchedText = '账号不存在或密码错误';
 
-        $user = User::where('email', $request->email)->first();
+        $request->validated();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response([
-                'message' => ['These credentials do not match our records.'],
-            ], 404);
+        $user = User::where('email', $request->account)
+            ->orWhere(
+                'phone_number',
+                $request->account
+            )->first();
+
+        if ($user && $user['phone_number'] === null && $user->email_verified_at === null) {
+            return response()->json([
+                'error' => '请先验证邮箱再登录',
+            ])->setStatusCode(422);
+        }
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'errors' => [
+                    'account' => [$notMatchedText],
+                    'password' => [$notMatchedText],
+                ],
+            ])->setStatusCode(422);
         }
 
         $token = $user->createToken('my-app-token')->plainTextToken;
 
         $response = [
-            'user' => $user,
-            'token' => $token,
+            'access_token' => $token,
+            'token_type' => 'bearer',
         ];
 
         return response($response, 201);
