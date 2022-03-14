@@ -77,7 +77,7 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'errors' => [
                     'account' => [$notMatchedText],
