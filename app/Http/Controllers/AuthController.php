@@ -77,7 +77,7 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'errors' => [
                     'account' => [$notMatchedText],
@@ -88,7 +88,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('my-app-token')->plainTextToken;
 
-        $response = array_merge($user, [
+        $response = array_merge($user->toArray(), [
             'access_token' => $token,
             'token_type' => 'bearer',
         ]);
