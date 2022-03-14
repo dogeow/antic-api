@@ -88,10 +88,10 @@ class AuthController extends Controller
 
         $token = $user->createToken('my-app-token')->plainTextToken;
 
-        $response = [
+        $response = array_merge($user, [
             'access_token' => $token,
             'token_type' => 'bearer',
-        ];
+        ]);
 
         return response($response, 201);
     }
