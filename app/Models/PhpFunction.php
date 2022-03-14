@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $example 举例
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|PhpFunction newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PhpFunction newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PhpFunction query()
@@ -30,7 +29,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|PhpFunction whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PhpFunction whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PhpFunction whereUrl($value)
- *
  * @mixin \Eloquent
  */
 class PhpFunction extends Model

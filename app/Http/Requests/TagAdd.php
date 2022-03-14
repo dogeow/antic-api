@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class TagAdd extends FormRequest
 {
@@ -27,9 +26,9 @@ class TagAdd extends FormRequest
         return [
             'name' => [
                 'required',
-                Rule::unique('post_tags', 'name')->where(function ($query) {
-                    return $query->where('post_id', $this->route('post')->id);
-                }),
+//                Rule::unique('post_tags', 'name')->where(function ($query) {
+//                    return $query->where('post_id', $this->route('post')->id);
+//                }),
             ],
         ];
     }

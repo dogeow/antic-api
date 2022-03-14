@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Task.
@@ -18,10 +16,9 @@ use Illuminate\Support\Carbon;
  * @property int $project_id
  * @property int|null $is_completed
  * @property int $order
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read Project $project
- *
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Project $project
  * @method static Builder|Task completed()
  * @method static Builder|Task newModelQuery()
  * @method static Builder|Task newQuery()
@@ -34,8 +31,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Task whereProjectId($value)
  * @method static Builder|Task whereTitle($value)
  * @method static Builder|Task whereUpdatedAt($value)
- *
- * @mixin Eloquent
+ * @mixin \Eloquent
  */
 class Task extends Model
 {

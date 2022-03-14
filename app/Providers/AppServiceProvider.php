@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Providers;
 
 use Algolia\AlgoliaSearch\Config\SearchConfig;
 use Algolia\AlgoliaSearch\SearchClient;
 use Algolia\AlgoliaSearch\Support\UserAgent;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
@@ -17,46 +16,49 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     *
+     * @return void
      */
-    public function register(): void
+    public function register()
     {
+        if ($this->app->isLocal()) {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
     }
 
     /**
      * Bootstrap any application services.
+     *
+     * @return void
      */
-    public function boot(): void
+    public function boot()
     {
         if (config('services.sql_debug_log')) {
-            DB::listen(static function ($query): void {
+            DB::listen(function ($query): void {
                 Log::debug('DB: '.$query->sql.'['.implode(',', $query->bindings).']');
             });
         }
 
         if (config('services.sql_debug_log')) {
-            DB::listen(static function ($query) {
-                $location = collect(debug_backtrace())->filter(function ($trace) {
-                    if (isset($trace['file'])) {
-                        return ! str_contains($trace['file'], 'vendor/');
-                    }
+            DB::listen(function ($query) {
+                if ($query->time >= 100) {
+                    $location = collect(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS))->filter(function ($trace) {
+                        if (isset($trace['file'])) {
+                            return !str_contains($trace['file'], 'vendor/');
+                        }
 
-                    Log::info(var_export($trace, true));
+                        return false;
+                    })->first();
 
-                    return true;
-                })->first(); // grab the first element of non vendor/ calls
+                    $bindings = implode(", ", $query->bindings); // format the bindings as string
 
-                $bindings = implode(', ', $query->bindings); // format the bindings as string
-
-                $file = $location['file'];
-                Log::info("
-                ------------
-                Sql: $query->sql
-                Bindings: $bindings
-                Time: $query->time
-                File: $file;
-                Line: ${location['line']}
-                ------------
-            ");
+                    Log::info("
+Sql: $query->sql
+Bindings: $bindings
+Time: $query->time
+File: {$location['file']}
+Line: {$location['line']}");
+                }
             });
         }
 

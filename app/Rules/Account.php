@@ -20,7 +20,7 @@ class Account implements Rule
     /**
      * Determine if the validation rule passes.
      */
-    public function passes(string $attribute, mixed $value): bool
+    public function passes($attribute, $value): bool
     {
         return preg_match(config('preg.phone_number'), $value) || filter_var($value, FILTER_VALIDATE_EMAIL);
     }

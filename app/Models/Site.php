@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -24,25 +21,24 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $date_format 最新日期的格式
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Collection|array<SiteCheck> $history
+ * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\SiteCheck> $history
  * @property-read int|null $history_count
- * @property-read SiteCheck|null $todayLatest
- * @property-read SiteCheck|null $todayLatestWithFailed
- *
- * @method static Builder|Site newModelQuery()
- * @method static Builder|Site newQuery()
- * @method static Builder|Site query()
- * @method static Builder|Site whereCreatedAt($value)
- * @method static Builder|Site whereDateFormat($value)
- * @method static Builder|Site whereDateXpath($value)
- * @method static Builder|Site whereDomain($value)
- * @method static Builder|Site whereGetType($value)
- * @method static Builder|Site whereId($value)
- * @method static Builder|Site whereOnline($value)
- * @method static Builder|Site whereSeo($value)
- * @method static Builder|Site whereUpdatedAt($value)
- *
- * @mixin Eloquent
+ * @property-read \App\Models\SiteCheck|null $todayLatest
+ * @property-read \App\Models\SiteCheck|null $todayLatestWithFailed
+ * @method static \Illuminate\Database\Eloquent\Builder|Site newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Site newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Site query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereDateFormat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereDateXpath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereDomain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereGetType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereOnline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereSeo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Site whereUpdatedAt($value)
+ * @mixin \Eloquent
+ * @property-read string $last_updated_at
  */
 class Site extends Model
 {

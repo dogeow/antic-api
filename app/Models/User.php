@@ -1,67 +1,60 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Models;
 
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\DatabaseNotification;
-use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Carbon;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
- * App\Models\User.
+ * App\Models\User
  *
  * @property int $id
  * @property string $name
  * @property string $email
- * @property Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
- * @property int $rate_limit
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read DatabaseNotificationCollection|array<DatabaseNotification> $notifications
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $image
+ * @property-read int|null $image_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read Collection|array<Post> $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
  * @property-read int|null $posts_count
- * @property-read Collection|array<Project> $projects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $projects
  * @property-read int|null $projects_count
- * @property-read Collection|array<Task> $tasks
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $tasks
  * @property-read int|null $tasks_count
- *
- * @method static Builder|User newModelQuery()
- * @method static Builder|User newQuery()
- * @method static Builder|User query()
- * @method static Builder|User whereCreatedAt($value)
- * @method static Builder|User whereEmail($value)
- * @method static Builder|User whereEmailVerifiedAt($value)
- * @method static Builder|User whereId($value)
- * @method static Builder|User whereName($value)
- * @method static Builder|User wherePassword($value)
- * @method static Builder|User whereRateLimit($value)
- * @method static Builder|User whereRememberToken($value)
- * @method static Builder|User whereUpdatedAt($value)
- *
- * @mixin Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -72,9 +65,9 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -82,34 +75,13 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    // Rest omitted for brevity
-
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     */
-    public function getJWTIdentifier(): mixed
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims(): array
-    {
-        return [];
-    }
-
     public function projects(): hasMany
     {
         return $this->hasMany(Project::class);

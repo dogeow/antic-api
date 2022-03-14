@@ -1,10 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuthLogin;
 use App\Http\Requests\AuthRegisterByEmail;
 use App\Http\Requests\AuthRegisterByPhone;
 use App\Http\Requests\Forget as ForgetRequest;
@@ -12,28 +9,23 @@ use App\Http\Requests\Reset;
 use App\Mail\EmailVerify;
 use App\Mail\Forget;
 use App\Models\User;
-use Cache;
 use Faker\Generator;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
-use Log;
-use Mail;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Strategies\OrderStrategy;
-use Str;
 
 class AuthController extends Controller
 {
-    protected string $guard = 'api';
-
     /**
      * 创建用户。
      */
@@ -61,6 +53,35 @@ class AuthController extends Controller
                 ? ['success' => '创建用户成功']
                 : ['error' => '创建用户失败']
         )->setStatusCode(201);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return Application|ResponseFactory|Response
+     */
+    public function login(Request $request)
+    {
+        $data = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response([
+                'message' => ['These credentials do not match our records.'],
+            ], 404);
+        }
+
+        $token = $user->createToken('my-app-token')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token,
+        ];
+
+        return response($response, 201);
     }
 
     public function emailVerify(Request $request): JsonResponse|User
@@ -154,80 +175,69 @@ class AuthController extends Controller
         return self::withProfile($token);
     }
 
-    /**
-     * 登录并创建 JWT
-     */
-    public function login(AuthLogin $request): array|JsonResponse
+    public function forget(ForgetRequest $request): JsonResponse
     {
-        $rememberMeTtl = 60 * 24 * 7;
-        $notMatchedText = '账号不存在或密码错误';
-
         $user = User::where('email', $request->account)
             ->orWhere(
                 'phone_number',
                 $request->account
             )->first();
-        if ($user && $user['phone_number'] === null && $user->email_verified_at === null) {
-            return response()->json([
-                'error' => '请先验证邮箱再登录',
-            ])->setStatusCode(422);
+        if ($user) {
+            $secret = Str::random(40);
+            $link = config('app.frontend.url').'/forget/'.$secret;
+            if ($user->email) {
+                Mail::to($user->email)->send(new Forget($user, $link));
+                if (Mail::failures()) {
+                    return response()->json();
+                }
+                Cache::put('emailVerify:'.$secret, $user->id, 86400);
+            }
+            // 发送短信
+
+            Cache::put('reset:'.$secret, $user->id, 86400);
         }
 
-        $validated = $request->validated();
+        return response()->json([]);
+    }
 
-        if (preg_match(config('preg.phone_number'), $validated['account'])) {
-            $credentials = [
-                'phone_number' => $validated['account'],
-                'password' => $validated['password'],
-            ];
-        } elseif (filter_var($validated['account'], FILTER_VALIDATE_EMAIL)) {
-            $credentials = [
-                'email' => $validated['account'],
-                'password' => $validated['password'],
-            ];
-        }
+    /**
+     * 从 GitHub 获取用户信息
+     */
+    public function handleProviderCallback(): array
+    {
+        $githubUser = Socialite::driver('github')->stateless()->user();
 
-        $token = $validated['remember_me'] ? $this->guard()->setTTL($rememberMeTtl)->attempt($credentials) : $this->guard()->attempt($credentials);
+        $user = User::where('github_name', $githubUser->name)->firstOrCreate([
+            'name' => $githubUser->name,
+            'email' => $githubUser->email,
+        ]);
 
-        if (is_string($token)) {
+        $token = auth()->login($user);
+
+        return self::withProfile($token);
+    }
+
+    /**
+     * 将用户重定向到 GitHub 的授权页面
+     */
+    public function redirectToProvider()
+    {
+        return Socialite::driver('github')->stateless()->redirect()->getTargetUrl();
+    }
+
+    // todo
+    public function reset(Reset $request)
+    {
+        $userId = Cache::get('reset:'.$request->secret);
+        if ($userId) {
+            $user = User::find($userId);
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+            $token = auth()->login($user);
+
             return self::withProfile($token);
         }
-
-        return response()->json([
-            'errors' => [
-                'account' => [$notMatchedText],
-                'password' => [$notMatchedText],
-            ],
-        ])->setStatusCode(422);
-    }
-
-    /**
-     * 获取守卫.
-     */
-    public function guard(): Guard
-    {
-        return Auth::guard($this->guard);
-    }
-
-    public function profile(): ?Authenticatable
-    {
-        return auth()->user();
-    }
-
-    /**
-     * 注销用户（使令牌无效）.
-     */
-    public function logout(): void
-    {
-        auth()->logout();
-    }
-
-    /**
-     * 刷新 token.
-     */
-    public function refresh(): array
-    {
-        return self::withToken(auth()->refresh());
     }
 
     public function recaptcha(Request $request): void
@@ -308,81 +318,9 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * 将用户重定向到 GitHub 的授权页面
-     */
-    public function redirectToProvider()
+    public function profile(Request $request): ?Authenticatable
     {
-        return Socialite::driver('github')->stateless()->redirect()->getTargetUrl();
-    }
-
-    /**
-     * 从 GitHub 获取用户信息
-     */
-    public function handleProviderCallback(): array
-    {
-        $githubUser = Socialite::driver('github')->stateless()->user();
-
-        $user = User::where('github_name', $githubUser->name)->firstOrCreate([
-            'name' => $githubUser->name,
-            'email' => $githubUser->email,
-        ]);
-
-        $token = auth()->login($user);
-
-        return self::withProfile($token);
-    }
-
-    public function forget(ForgetRequest $request): JsonResponse
-    {
-        $user = User::where('email', $request->account)
-            ->orWhere(
-                'phone_number',
-                $request->account
-            )->first();
-        if ($user) {
-            $secret = Str::random(40);
-            $link = config('app.frontend.url').'/forget/'.$secret;
-            if ($user->email) {
-                Mail::to($user->email)->send(new Forget($user, $link));
-                if (Mail::failures()) {
-                    return response()->json();
-                }
-                Cache::put('emailVerify:'.$secret, $user->id, 86400);
-            }
-            // 发送短信
-
-            Cache::put('reset:'.$secret, $user->id, 86400);
-        }
-
-        return response()->json([]);
-    }
-
-    public function reset(Reset $request)
-    {
-        $userId = Cache::get('reset:'.$request->secret);
-        if ($userId) {
-            $user = User::find($userId);
-            $user->password = bcrypt($request->password);
-            $user->save();
-
-            $token = auth()->login($user);
-
-            return self::withProfile($token);
-        }
-    }
-
-    /**
-     * 获取 token 结构.
-     *
-     * @return array
-     */
-    protected static function withToken(string $token): array
-    {
-        return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-        ];
+        return $request->user();
+//        return auth()->user(); // todo
     }
 }

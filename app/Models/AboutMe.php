@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $content
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|AboutMe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AboutMe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AboutMe query()
@@ -23,7 +22,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|AboutMe whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AboutMe whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AboutMe whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class AboutMe extends Model

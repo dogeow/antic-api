@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Image newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Image newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Image query()
@@ -25,8 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereOriginalName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUserId($value)
- *
  * @mixin \Eloquent
+ * @property-read Model|\Eloquent $imageable
  */
 class Image extends Model
 {

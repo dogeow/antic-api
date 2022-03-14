@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Models\MoonHistory.
@@ -22,27 +19,25 @@ use Illuminate\Support\Carbon;
  * @property int $num6
  * @property string $name
  * @property string $money
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read Moon $moon
- *
- * @method static Builder|MoonHistory newModelQuery()
- * @method static Builder|MoonHistory newQuery()
- * @method static Builder|MoonHistory query()
- * @method static Builder|MoonHistory whereCreatedAt($value)
- * @method static Builder|MoonHistory whereId($value)
- * @method static Builder|MoonHistory whereMoney($value)
- * @method static Builder|MoonHistory whereMoonId($value)
- * @method static Builder|MoonHistory whereName($value)
- * @method static Builder|MoonHistory whereNum1($value)
- * @method static Builder|MoonHistory whereNum2($value)
- * @method static Builder|MoonHistory whereNum3($value)
- * @method static Builder|MoonHistory whereNum4($value)
- * @method static Builder|MoonHistory whereNum5($value)
- * @method static Builder|MoonHistory whereNum6($value)
- * @method static Builder|MoonHistory whereUpdatedAt($value)
- *
- * @mixin Eloquent
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Moon $moon
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereMoney($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereMoonId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereNum1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereNum2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereNum3($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereNum4($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereNum5($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereNum6($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class MoonHistory extends Model
 {
