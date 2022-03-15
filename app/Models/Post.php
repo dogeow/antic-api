@@ -43,7 +43,6 @@ use Laravel\Scout\Searchable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $image
  * @property-read int|null $image_count
  * @method static \Database\Factories\PostFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Post public()
  */
 class Post extends Model
 {

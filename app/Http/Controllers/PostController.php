@@ -25,7 +25,7 @@ class PostController extends Controller
     {
         $query = Post::with(['category:id,name', 'tags:id,post_id,name'])->orderByDesc('updated_at');
 
-        if ((auth('api')->user()->id ?? null) !== 1) {
+        if ((auth()->user()->id ?? null) !== 1) {
             $query = $query->public();
         }
 
