@@ -58,8 +58,9 @@ class AuthController extends Controller
 
     /**
      * @param  AuthLogin  $request
+     * @return Application|ResponseFactory|JsonResponse|Response
      */
-    public function login(AuthLogin $request)
+    public function login(AuthLogin $request): Response|JsonResponse|Application|ResponseFactory
     {
         $notMatchedText = '账号不存在或密码错误';
 
@@ -77,7 +78,7 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'errors' => [
                     'account' => [$notMatchedText],
@@ -115,20 +116,12 @@ class AuthController extends Controller
         $userId = Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
             $user = User::find($userId);
-            $token = auth()->login($user);
+            $token = $user->createToken('my-app-token')->plainTextToken;
 
-            return self::withProfile($token);
+            return array_merge(['access_token' => $token], $user->toArray());
         }
 
         return response()->json()->setStatusCode(422);
-    }
-
-    /**
-     * @return array
-     */
-    public static function withProfile(string $token): array
-    {
-        return array_merge(self::withToken($token), auth()->user()->toArray());
     }
 
     /**
@@ -182,9 +175,9 @@ class AuthController extends Controller
             $user = User::find(2);
         }
 
-        $token = auth()->login($user);
+        $token = $user->createToken('my-app-token')->plainTextToken;
 
-        return self::withProfile($token);
+        return array_merge(['access_token' => $token], $user->toArray());
     }
 
     public function forget(ForgetRequest $request): JsonResponse
@@ -224,9 +217,9 @@ class AuthController extends Controller
             'email' => $githubUser->email,
         ]);
 
-        $token = auth()->login($user);
+        $token = $user->createToken('my-app-token')->plainTextToken;
 
-        return self::withProfile($token);
+        return array_merge(['access_token' => $token], $user->toArray());
     }
 
     /**
@@ -237,7 +230,6 @@ class AuthController extends Controller
         return Socialite::driver('github')->stateless()->redirect()->getTargetUrl();
     }
 
-    // todo
     public function reset(Reset $request)
     {
         $userId = Cache::get('reset:'.$request->secret);
@@ -246,9 +238,9 @@ class AuthController extends Controller
             $user->password = bcrypt($request->password);
             $user->save();
 
-            $token = auth()->login($user);
+            $token = $user->createToken('my-app-token')->plainTextToken;
 
-            return self::withProfile($token);
+            return array_merge(['access_token' => $token], $user->toArray());
         }
     }
 
@@ -333,6 +325,5 @@ class AuthController extends Controller
     public function profile(Request $request): ?Authenticatable
     {
         return $request->user();
-//        return auth()->user(); // todo
     }
 }
