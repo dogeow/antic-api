@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Models\Site;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;
 
 class BaiduSeo extends Command
@@ -91,11 +92,11 @@ class BaiduSeo extends Command
                 try {
                     $count = str_replace(',', '', $crawler->filterXPath('//span/b')->text());
                 } catch (\Exception $e) {
-                    \Log::error($e->getMessage());
+                    Log::error($e->getMessage());
                 }
             }
         } catch (\Exception  $e) {
-            \Log::error($e->getMessage());
+            Log::error($e->getMessage());
         }
 
         echo $count.PHP_EOL;

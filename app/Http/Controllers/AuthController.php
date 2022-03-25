@@ -214,7 +214,7 @@ class AuthController extends Controller
 
         $user = User::where('github_name', $githubUser->name)->firstOrCreate([
             'name' => $githubUser->name,
-            'email' => $githubUser->email, 
+            'email' => $githubUser->email,
         ]);
 
         $token = $user->createToken('my-app-token')->plainTextToken;

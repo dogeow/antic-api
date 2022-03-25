@@ -11,7 +11,6 @@
         "ext-json": "*",
         "algolia/algoliasearch-client-php": "^3.2",
         "elasticsearch/elasticsearch": "^7.17",
-        "enlightn/enlightn": "^1.25",
         "fruitcake/laravel-cors": "^2.0.5",
         "fukuball/jieba-php": "^0.33.0",
         "guzzlehttp/guzzle": "^7.2",
@@ -49,6 +48,8 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
+        "nunomaduro/larastan": "^2.0",
+        "phpstan/phpstan": "^1.5",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
