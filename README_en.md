@@ -2,8 +2,6 @@ antic-api
 =======
 
 [![codecov](https://codecov.io/gh/likunyan/antic-api/branch/master/graph/badge.svg?token=QJ7RYCXO96)](https://codecov.io/gh/likunyan/antic-api)
-[![Code Quality](https://scrutinizer-ci.com/g/likunyan/antic-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/likunyan/antic-api/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/likunyan/antic-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/likunyan/antic-api/build-status/master)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![github-stars-image](https://img.shields.io/github/stars/likunyan/antic-api.svg?label=github%20stars)](https://github.com/likunyan/html5-antic-api)
