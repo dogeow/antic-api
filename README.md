@@ -2,8 +2,6 @@ antic-api
 =======
 
 [![codecov](https://codecov.io/gh/likunyan/antic-api/branch/master/graph/badge.svg?token=QJ7RYCXO96)](https://codecov.io/gh/likunyan/antic-api)
-[![Build Status](http://img.shields.io/travis/likunyan/antic-api/master.svg?style=flat-square&logo=travis)](https://travis-ci.org/likunyan/antic-api)
-<a href="https://github.styleci.io/repos/229091867"><img src="https://styleci.io/repos/23680678/shield?style=flat-square" alt="StyleCI"></a>
 [![Code Quality](https://scrutinizer-ci.com/g/likunyan/antic-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/likunyan/antic-api/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/likunyan/antic-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/likunyan/antic-api/build-status/master)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
