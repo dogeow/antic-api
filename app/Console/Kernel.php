@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('spider:date')->everyFifteenMinutes()->withoutOverlapping()->appendOutputTo('/root/spider-date.log');
+        $schedule->command('spider:date')->everyMinute()->withoutOverlapping()->appendOutputTo('/root/spider-date.log');
     }
 
     /**
