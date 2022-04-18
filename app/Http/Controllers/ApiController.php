@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Exports\TestExport;
-use App\Models\Api;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use MathieuViossat\Util\ArrayToTextTable;
 use Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use TrueBV\Punycode;
@@ -30,9 +30,67 @@ class ApiController extends Controller
         ]);
     }
 
-    public function index(): Collection|array
+    public function index()
     {
-        return Api::all();
+        $appUrl = config('app.url');
+        $prefix = "curl $appUrl/";
+
+        $apis = [
+            [
+                'name' => 'api',
+                'both' => 1,
+                'param_name' => 'ip',
+                'param' => '127.0.0.1',
+                'intro' => '获取 ip 地址',
+                'param_intro' => '根据 ip 地址获取地理位置',
+            ],
+            [
+                'name' => 'date',
+                'both' => 1,
+                'param_name' => '时间戳',
+                'param' => '1650270873',
+                'intro' => '获取当天日期',
+                'param_intro' => '根据时间戳转日期',
+            ],
+            [
+                'name' => 'datetime',
+                'both' => 1,
+                'param_name' => '时间戳',
+                'param' => '1650270873',
+                'intro' => '获取现在的日期时间',
+                'param_intro' => '根据时间戳转日期时间',
+            ],
+            [
+                'name' => 'timestamp',
+                'both' => 1,
+                'param_name' => '日期或时间',
+                'param' => '2022-03-12 08:15:00',
+                'intro' => '现在的时间戳',
+                'param_intro' => '根据日期或时间转时间戳',
+            ],
+        ];
+
+        $newApis = [];
+        foreach ($apis as $api) {
+            $newApis[] = [
+                '端点' => $api['name'],
+                '参数' => '',
+                '参数示例值' => '',
+                '说明' => $api['param_intro'],
+                '完整示例' => $prefix.$api['name'],
+            ];
+            if ($api['both'] === 1) {
+                $newApis[] = [
+                    '端点' => $api['name'],
+                    '参数' => $api['param_name'],
+                    '参数示例值' => $api['param'],
+                    '说明' => $api['param_intro'],
+                    '完整示例' => $prefix.$api['name'].'/'.rawurlencode($api['param']),
+                ];
+            }
+        }
+
+        return (new ArrayToTextTable($newApis))->getTable();
     }
 
     /**
@@ -203,14 +261,19 @@ class ApiController extends Controller
         return sha1($string);
     }
 
-    public function date($date = null): bool|int|string
+    public function date($timestamp = null): string
     {
-        return $date ? strtotime($date) : date('Y-m-d H:i:s');
+        return isset($timestamp) ? date('Y-m-d', $timestamp) : date('Y-m-d');
     }
 
-    public function timestamp($timestamp = null): bool|int|string
+    public function datetime($timestamp = null): bool|int|string
     {
-        return $timestamp ? date('Y-m-d H:i:s', $timestamp) : time();
+        return isset($timestamp) ? strtotime($timestamp) : date('Y-m-d H:i:s');
+    }
+
+    public function timestamp($date = null): bool|int
+    {
+        return $date ? strtotime($date) : time();
     }
 
     public function bankcard($cardNo): bool|string
@@ -244,9 +307,20 @@ class ApiController extends Controller
         return htmlspecialchars($string);
     }
 
-    public function ip()
+    public function ip($ip = null): string|\Illuminate\Http\Client\Response|null
     {
-        return request()->ip();
+        return $ip ? self::getIpGeolocation($ip) : request()->ip();
+    }
+
+    /**
+     * @param $ip
+     * @return \Illuminate\Http\Client\Response
+     */
+    public static function getIpGeolocation($ip): \Illuminate\Http\Client\Response
+    {
+        $api = 'http://ip-api.com/json';
+
+        return Http::get($api.'/'.$ip.'?lang=zh-CN');
     }
 
     public function sp($content): string

@@ -123,10 +123,11 @@ Route::get('image/{action}', [ApiController::class, 'image']);
 Route::get('md5/{string?}', [ApiController::class, 'md5']);
 Route::get('user-agent', [ApiController::class, 'userAgent']);
 Route::get('hash/{string?}', [ApiController::class, 'hash']);
-Route::get('ip', [ApiController::class, 'ip']);
+Route::get('ip/{ip?}', [ApiController::class, 'ip'])->where(['ip' => '^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}$']);
 // 时间
-Route::get('date/{date?}', [ApiController::class, 'date']);
-Route::get('timestamp/{timestamp?}', [ApiController::class, 'timestamp'])->where(['timestamp' => '[0-9]+']);
+Route::get('date/{timestamp?}', [ApiController::class, 'date'])->where(['timestamp' => '[0-9]{1,10}']);
+Route::get('datetime/{timestamp?}', [ApiController::class, 'datetime'])->where(['timestamp' => '[0-9]{1,10}']);
+Route::get('timestamp/{date?}', [ApiController::class, 'timestamp'])->where(['date' => '[0-9-\ :]+']);
 Route::get('bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
 Route::get('s-p/{string}', [ApiController::class, 'sp']);
 Route::post('url-title', [ApiController::class, 'getTitle']);
