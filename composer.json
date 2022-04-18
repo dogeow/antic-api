@@ -27,7 +27,7 @@
         "laravel/telescope": "^4.7",
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
-        "mathieuviossat/arraytotexttable": "^1.0",
+        "malios/php-to-ascii-table": "^3.0",
         "mll-lab/graphql-php-scalars": "^5.4",
         "mll-lab/laravel-graphql-playground": "^2.6",
         "nesbot/carbon": "^2.57",

@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-use MathieuViossat\Util\ArrayToTextTable;
 use Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use TrueBV\Punycode;
@@ -32,6 +31,8 @@ class ApiController extends Controller
 
     public function index()
     {
+        $builder = new \AsciiTable\Builder();
+
         $appUrl = config('app.url');
         $prefix = "curl $appUrl/";
 
@@ -76,7 +77,7 @@ class ApiController extends Controller
                 '端点' => $api['name'],
                 '参数' => '',
                 '参数示例值' => '',
-                '说明' => $api['param_intro'],
+                '说明' => $api['intro'],
                 '完整示例' => $prefix.$api['name'],
             ];
             if ($api['both'] === 1) {
@@ -90,7 +91,9 @@ class ApiController extends Controller
             }
         }
 
-        return (new ArrayToTextTable($newApis))->getTable();
+        $builder->addRows($newApis);
+
+        return $builder->renderTable();
     }
 
     /**
