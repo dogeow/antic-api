@@ -264,12 +264,12 @@ class ApiController extends Controller
         return sha1($string);
     }
 
-    public function date($timestamp = null): string
+    public function date(int $timestamp = null): string
     {
         return isset($timestamp) ? date('Y-m-d', $timestamp) : date('Y-m-d');
     }
 
-    public function datetime($timestamp = null): bool|int|string
+    public function datetime(int $timestamp = null): bool|int|string
     {
         return isset($timestamp) ? strtotime($timestamp) : date('Y-m-d H:i:s');
     }
