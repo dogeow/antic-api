@@ -1,8 +1,9 @@
 @servers(['web' => 'root@dogeow.com', 'localhost' => '127.0.0.1'])
 
 @setup
+$path = '/var/www/antic-api';
 $now = new DateTime();
-$environment = isset($env) ? $env : "testing";
+$environment = isset($env) ? $env : 'testing';
 @endsetup
 
 @story('deploy', ['on' => 'web'])
@@ -13,22 +14,23 @@ lighthouse
 @endstory
 
 @task('git')
-cd /var/www/antic-api
+cd {{$path}}
 git pull
 @endtask
 
 @task('composer')
-cd /var/www/antic-api
+cd {{$path}}
 sudo -u www-data composer install --no-plugins --no-scripts
 @endtask
 
 @task('laravel')
-cd /var/www/antic-api
+cd {{$path}}
 php artisan migrate --force
 php artisan optimize
 @endtask
 
 @task('lighthouse')
+cd {{$path}}
 php artisan lighthouse:clear-cache
 php artisan lighthouse:cache
 @endtask
