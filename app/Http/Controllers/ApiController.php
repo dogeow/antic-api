@@ -35,6 +35,7 @@ class ApiController extends Controller
 
         $appUrl = config('app.url');
         $prefix = "curl $appUrl/";
+        $prefixContainQuotes = "curl \"$appUrl/";
 
         $apis = [
             [
@@ -95,7 +96,7 @@ class ApiController extends Controller
                 '参数' => $api['param_name'],
                 '参数示例值' => $api['param'],
                 '说明' => $api['param_intro'],
-                '完整示例' => $prefix.$api['name'].'/'.rawurlencode($api['param']),
+                '完整示例' => Str::contains($api['param'], ' ') ? $prefixContainQuotes.$api['name'].'/'.$api['param'].'"' : $prefix.$api['name'].'/'.$api['param'],
             ];
         }
 
