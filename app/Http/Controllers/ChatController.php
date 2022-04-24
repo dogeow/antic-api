@@ -27,7 +27,7 @@ class ChatController extends Controller
             $api = new ApiController();
             $robotMessage = match ($matches['message']) {
                 '时间' => date('Y-m-d H:i:s'),
-                '单复数' => self::checkParam($content) ?? $api->sp($content),
+                '单复数' => self::checkParam($content) ?? $api->case($content),
                 'md5' => self::checkParam($content) ?? $api->md5($content),
                 'ip' => $request->ip(),
                 '长度' => self::checkParam($content) ?? mb_strlen($content),

@@ -129,7 +129,7 @@ Route::get('date/{timestamp?}', [ApiController::class, 'date'])->where(['timesta
 Route::get('datetime/{timestamp?}', [ApiController::class, 'datetime'])->where(['timestamp' => '[0-9]{1,10}']);
 Route::get('timestamp/{date?}', [ApiController::class, 'timestamp'])->where(['date' => '[0-9-\ :]+']);
 Route::get('bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
-Route::get('s-p/{string}', [ApiController::class, 'sp']);
+Route::get('case/{string}', [ApiController::class, 'case']);
 Route::post('url-title', [ApiController::class, 'getTitle']);
 Route::post('bookmarks', [BookmarkController::class, 'create']);
 Route::get('keywords/{content}', [JiebaController::class, 'keywords']);
