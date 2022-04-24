@@ -57,23 +57,17 @@ antic-api
 
 ## 驱动
 
-* Laravel 8
+* Laravel 9
     * JWT
 * React 17
 * Material-UI 5
 
 ## 服务器
 
-* Ubuntu 20.04 LTS
-* Nginx 1.14.0(nginx-full)
-* MySQL 5.7
-* PHP 7.4
-
-## 维护
-
-- vendor/bin/phpinsights fix
-- php artisan responsecache:clear
-- ->middleware('no_cache_response');
+* Ubuntu 20.04.4 LTS
+* Nginx 1.18.0(nginx-full)
+* MySQL 8.0.27
+* PHP 8.1.5
 
 ## 鸣谢
 

@@ -33,14 +33,18 @@ Use frontend and backend separation.
 
 ## Powered by
 
-* Laravel 8
+* Laravel 9
     * JWT
 * React 17
 * Material-UI 5
 
 ## Server
 
-* Ubuntu 20.04 LTS
-* Nginx 1.14.0(nginx-full)
-* MySQL 5.7
-* PHP 7.4
+* Ubuntu 20.04.4 LTS
+* Nginx 1.18.0(nginx-full)
+* MySQL 8.0.27
+* PHP 8.1.5
+
+## Thanks
+
+[LearnKu.com](https://learnku.com) provides Laravel translation documents that everyone can use, and the website UI interface is illuminated and edited, allowing me to easily get started with Laravel.
