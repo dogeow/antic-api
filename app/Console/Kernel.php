@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('spider:date')->everyThirtyMinutes();
+        $schedule->command('spider:seo')->cron('0 0 1,4,7,10,13,16,19,22,25,28 * *');
     }
 
     /**
