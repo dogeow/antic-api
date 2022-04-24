@@ -1,9 +1,9 @@
+@servers(['web' => 'root@dogeow.com', 'localhost' => '127.0.0.1'])
+
 @setup
 $now = new DateTime();
 $environment = isset($env) ? $env : "testing";
 @endsetup
-
-@servers(['web' => 'root@dogeow.com', 'localhost' => '127.0.0.1'])
 
 @story('deploy', ['on' => 'web'])
 git
@@ -11,12 +11,12 @@ composer
 @endstory
 
 @task('git')
-cd /var/www/learn-api
+cd /var/www/antic-api
 git pull
 @endtask
 
 @task('composer')
-cd /var/www/learn-api
+cd /var/www/antic-api
 sudo -u www-data composer install --no-plugins --no-scripts
 php artisan migrate
 @endtask
