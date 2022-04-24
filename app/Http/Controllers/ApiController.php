@@ -69,6 +69,14 @@ class ApiController extends Controller
                 'intro' => '现在的时间戳',
                 'param_intro' => '根据日期或时间转时间戳',
             ],
+            [
+                'name' => 'case',
+                'both' => 0,
+                'param_name' => '英语单词',
+                'param' => '',
+                'intro' => '英语单词自动切换大小写',
+                'param_intro' => '',
+            ],
         ];
 
         $newApis = [];
@@ -326,7 +334,7 @@ class ApiController extends Controller
         return Http::get($api.'/'.$ip.'?lang=zh-CN');
     }
 
-    public function sp($content): string
+    public function case($content): string
     {
         return Str::singular($content) === $content ? Str::plural($content) : Str::singular($content);
     }
