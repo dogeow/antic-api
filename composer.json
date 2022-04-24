@@ -10,6 +10,7 @@
         "ext-gd": "*",
         "ext-json": "*",
         "algolia/algoliasearch-client-php": "^3.2",
+        "dcat/laravel-admin": "2.*",
         "elasticsearch/elasticsearch": "^7.17",
         "fruitcake/laravel-cors": "^2.0.5",
         "fukuball/jieba-php": "^0.33.0",
