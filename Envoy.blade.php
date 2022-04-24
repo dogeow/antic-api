@@ -8,6 +8,8 @@ $environment = isset($env) ? $env : "testing";
 @story('deploy', ['on' => 'web'])
 git
 composer
+laravel
+lighthouse
 @endstory
 
 @task('git')
@@ -18,7 +20,17 @@ git pull
 @task('composer')
 cd /var/www/antic-api
 sudo -u www-data composer install --no-plugins --no-scripts
+@endtask
+
+@task('laravel')
+cd /var/www/antic-api
 php artisan migrate --force
+php artisan optimize
+@endtask
+
+@task('lighthouse')
+php artisan lighthouse:clear-cache
+php artisan lighthouse:cache
 @endtask
 
 @after
