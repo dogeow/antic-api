@@ -75,8 +75,8 @@ class ApiController extends Controller
                 'both' => 0,
                 'param_name' => '英语单词',
                 'param' => 'categories',
-                'intro' => '英语单词自动切换大小写',
-                'param_intro' => '',
+                'intro' => '',
+                'param_intro' => '英语单词自动切换大小写',
             ],
         ];
 
