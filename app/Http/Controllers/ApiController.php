@@ -39,7 +39,7 @@ class ApiController extends Controller
 
         $apis = [
             [
-                'name' => 'api',
+                'name' => 'ip',
                 'both' => 1,
                 'param_name' => 'ip',
                 'param' => '127.0.0.1',
