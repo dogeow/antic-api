@@ -18,7 +18,7 @@ git pull
 @task('composer')
 cd /var/www/antic-api
 sudo -u www-data composer install --no-plugins --no-scripts
-php artisan migrate
+php artisan migrate --force
 @endtask
 
 @after
