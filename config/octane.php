@@ -71,7 +71,9 @@ return [
         RequestReceived::class => [
             ...Octane::prepareApplicationForNextOperation(),
             ...Octane::prepareApplicationForNextRequest(),
-            //
+
+            // 开启对 Dcat Admin 的支持
+            Dcat\Admin\Octane\Listeners\FlushAdminState::class,
         ],
 
         RequestHandled::class => [
