@@ -73,7 +73,7 @@ class ApiController extends Controller
                 'name' => 'case',
                 'both' => 0,
                 'param_name' => '英语单词',
-                'param' => '',
+                'param' => 'categories',
                 'intro' => '英语单词自动切换大小写',
                 'param_intro' => '',
             ],
@@ -81,22 +81,22 @@ class ApiController extends Controller
 
         $newApis = [];
         foreach ($apis as $api) {
-            $newApis[] = [
-                '端点' => $api['name'],
-                '参数' => '',
-                '参数示例值' => '',
-                '说明' => $api['intro'],
-                '完整示例' => $prefix.$api['name'],
-            ];
             if ($api['both'] === 1) {
                 $newApis[] = [
                     '端点' => $api['name'],
-                    '参数' => $api['param_name'],
-                    '参数示例值' => $api['param'],
-                    '说明' => $api['param_intro'],
-                    '完整示例' => $prefix.$api['name'].'/'.rawurlencode($api['param']),
+                    '参数' => '',
+                    '参数示例值' => '',
+                    '说明' => $api['intro'],
+                    '完整示例' => $prefix.$api['name'],
                 ];
             }
+            $newApis[] = [
+                '端点' => $api['name'],
+                '参数' => $api['param_name'],
+                '参数示例值' => $api['param'],
+                '说明' => $api['param_intro'],
+                '完整示例' => $prefix.$api['name'].'/'.rawurlencode($api['param']),
+            ];
         }
 
         $builder->addRows($newApis);
