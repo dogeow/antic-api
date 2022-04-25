@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Old;
 
 use Illuminate\Console\Command;
+use function App\Console\Commands\str_contains;
+use const App\Console\Commands\PHP_EOL;
 
 class C extends Command
 {

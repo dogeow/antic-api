@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Old;
 
 use Illuminate\Console\Command;
+use function App\Console\Commands\str_contains;
+use const App\Console\Commands\PHP_EOL;
 
 class SqlToDoc extends Command
 {
@@ -139,10 +141,10 @@ class SqlToDoc extends Command
                     }
 
                     if (str_contains($line, '`id`') === false && preg_match(
-                        '/int\(.*?\) UNSIGNED/',
-                        $line,
-                        $matches3
-                    )) {
+                            '/int\(.*?\) UNSIGNED/',
+                            $line,
+                            $matches3
+                        )) {
                         $unsigned = ' UNSIGNED';
                     }
 

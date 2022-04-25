@@ -9,21 +9,21 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Slack;
 
-class Star extends Command
+class GitHubRepoVersionUpgradeNotice extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'github:star';
+    protected $signature = 'github:notice';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '关注更新';
+    protected $description = 'GitHub 的仓库版本更新通知';
 
     /**
      * Create a new command instance.
@@ -82,7 +82,6 @@ class Star extends Command
                 $star->updated = 1;
                 $star->save();
                 Slack::send("{$name}有修订号更新");
-                continue;
             }
         }
     }

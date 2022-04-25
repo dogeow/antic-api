@@ -7,7 +7,7 @@ namespace App\Console\Commands;
 use App\Http\Controllers\GameController;
 use Illuminate\Console\Command;
 
-class createMonster extends Command
+class CreateMonster extends Command
 {
     /**
      * The name and signature of the console command.
