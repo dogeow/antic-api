@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Redis;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
-Artisan::command('test', function (): void {
-    Reids::get('presence-chat:members');
+
+Artisan::command('redis', function (): void {
+    Redis::get('presence-chat:members');
 });
