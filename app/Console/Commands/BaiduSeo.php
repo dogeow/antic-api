@@ -5,16 +5,23 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\Site;
+use Exception;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * @deprecated
+ */
 class BaiduSeo extends Command
 {
+    public const SLEEP = 120;
+
     public GuzzleClient $guzzleClient;
 
-    public $crawler;
+    public Crawler $crawler;
 
     /**
      * The name and signature of the console command.
@@ -30,15 +37,8 @@ class BaiduSeo extends Command
      */
     protected $description = '百度收录量';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function handle(): void
     {
-        parent::__construct();
-
         $this->guzzleClient = new GuzzleClient([
             'timeout' => 10,
             'headers' => [
@@ -55,51 +55,55 @@ class BaiduSeo extends Command
                 'Sec-Fetch-User' => '?1',
                 'Upgrade-Insecure-Requests' => '1',
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
-                'Cookie' => config('services.baidu.cookie'),
+                'Cookie' => self::SLEEP,
             ],
         ]);
-    }
 
-    public function handle(): void
-    {
         $sites = Site::all();
         foreach ($sites as $site) {
             $count = $this->spider($site->domain);
-            if ($count === null) {
+            if ($count === false) {
                 continue;
             }
             $site->seo = $count;
             $site->save();
+            sleep(120);
         }
     }
 
-    public function spider($domain)
+    /**
+     * @param  string  $domain
+     * @return array|false|int|string|string[]
+     * @throws GuzzleException
+     */
+    public function spider(string $domain): array|bool|int|string
     {
-        $count = null;
+        $count = false;
 
         $url = 'http://www.baidu.com/s?wd=site:'.$domain;
-        echo $url.PHP_EOL;
+        $this->line($url);
 
         try {
             $response = $this->guzzleClient->request('GET', $url);
             $content = $response->getBody()->getContents();
-            if (preg_match('/找到相关结果数约(?P<count>[\d,]+)个/u', $content, $match)) {
+
+            if (preg_match('/找到相关结果数约(?P<count>[\d]+)个/u', $content, $match)) {
                 $count = str_replace(',', '', $match['count']);
-            } elseif (preg_match('/很抱歉，没有找到与/u', $content, $matches)) {
+            } elseif (preg_match('/很抱歉，没有找到与/u', $content)) {
                 $count = 0;
             } else {
                 $crawler = new Crawler($content);
                 try {
                     $count = str_replace(',', '', $crawler->filterXPath('//span/b')->text());
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     Log::error($e->getMessage());
                 }
             }
-        } catch (\Exception  $e) {
+        } catch (Exception  $e) {
             Log::error($e->getMessage());
         }
 
-        echo $count.PHP_EOL;
+        $this->line($count);
 
         return $count;
     }
