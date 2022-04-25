@@ -6,23 +6,27 @@ namespace App\Http\Controllers;
 
 use App\Models\WeiboHot;
 use Carbon\Carbon;
+use JetBrains\PhpStorm\ArrayShape;
 
 class WeiboController extends Controller
 {
     public function index()
     {
         $date = request('date');
-        $query = WeiboHot::query();
-        if ($date) {
+
+        $query = WeiboHot::query()->when($date, function ($query) use ($date) {
             $query->whereDate('updated_at', $date);
-        } else {
+        })->when($date === null, function ($query) {
             $query->whereDate('updated_at', Carbon::today());
-        }
-        $query->orderBy('updated_at', 'DESC');
+        })->orderByDesc('updated_at');
 
         return $query->jsonPaginate(20);
     }
 
+    /**
+     * @return array
+     */
+    #[ArrayShape(['total' => "int", 'startDate' => "string", 'endDate' => "string"])]
     public function about(): array
     {
         return [

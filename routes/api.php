@@ -97,7 +97,7 @@ Route::get('site_check', [SiteController::class, 'check']);
 
 // 微博热搜榜
 Route::get('weibo/about', [WeiboController::class, 'about']);
-Route::post('weibo', [WeiboController::class, 'index']);
+Route::get('weibo', [WeiboController::class, 'index']);
 
 // Emoji
 Route::post('images', [ImageController::class, 'store']);
