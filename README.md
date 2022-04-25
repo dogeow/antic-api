@@ -48,7 +48,7 @@ antic-api
         * Production: npm run prod
 3. Web 服务：php artisan serve
 
-## 版本
+## 应用版本
 
 * Laravel 9
 * React 17
