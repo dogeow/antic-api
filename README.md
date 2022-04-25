@@ -26,14 +26,7 @@ antic-api
 - Markdown 编辑器
 - Todo 待办事项
 - 夜晚模式
-- 一些 API
-- 爬虫
-
-## 其他 Demo
-
-- 微博热搜榜采集
-- 表情搜索（单 JSON 文件）
-- 谷歌书签展示
+- 一些 便民API
 
 ## 项目维护
 
@@ -55,10 +48,9 @@ antic-api
         * Production: npm run prod
 3. Web 服务：php artisan serve
 
-## 驱动
+## 版本
 
 * Laravel 9
-    * JWT
 * React 17
 * Material-UI 5
 
