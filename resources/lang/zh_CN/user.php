@@ -5,7 +5,7 @@ return [
         'members' => '用户',
     ],
     'fields' => [
-        'name' => 'name',
+        'name' => '用户名称',
         'phone_number' => '手机号码',
         'email' => '邮箱',
         'email_verified_at' => '邮箱验证于',

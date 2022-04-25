@@ -18,13 +18,15 @@ class UserController extends AdminController
     protected function grid()
     {
         return Grid::make(new User(), function (Grid $grid) {
+            $grid->model()->orderBy('id', 'desc');
+            $grid->number();
             $grid->column('id')->sortable();
             $grid->column('name');
             $grid->column('phone_number');
             $grid->column('email');
             $grid->column('email_verified_at');
             $grid->column('github_name');
-            $grid->column('remember_token');
+            $grid->column('remember_token')->bool();
             $grid->column('rate_limit');
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
