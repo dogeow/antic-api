@@ -46,6 +46,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
+        "brianium/paratest": "^6.4",
         "fakerphp/faker": "^1.9.1",
         "laravel/envoy": "^2.8",
         "laravel/sail": "^1.0.1",
