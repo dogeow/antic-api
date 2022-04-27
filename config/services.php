@@ -32,7 +32,10 @@ return [
 
     'access_key_id' => env('ACCESS_KEY_ID'),
     'access_key_secret' => env('ACCESS_KEY_SECRET'),
+    'oss_endpoint' => env('OSS_ENDPOINT'),
+
     'recaptcha' => env('RECAPTCHA'),
+
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
@@ -40,8 +43,10 @@ return [
         'web_hook_secret' => env('WEB_HOOK_SECRET'),
         'web_hook_path' => env('WEB_HOOK_PATH'),
     ],
+
     'slack' => [
         'webhook_url' => env('SLACK_WEBHOOK_URL'),
     ],
+
     'sql_debug_log' => env('SQL_DEBUG_LOG'),
 ];

@@ -34,6 +34,7 @@ class ImageController extends Controller
         }
 
         $originalName = $file->getClientOriginalName();
+        $filename = $originalName;
 
         $existImage = Image::where('original_name', $originalName)->orderByDesc('id')->first();
         if ($existImage) {
@@ -46,25 +47,21 @@ class ImageController extends Controller
                 $number = $matches['number'] + 1;
                 $filename = "${name}@${number}.${extension}";
             }
-        } else {
-            $filename = $originalName;
         }
 
-        $fullFolder = "{$this->folderType}/${key}";
+        $fullFolder = "$this->folderType/$key";
+        $filenameWithPath = "$fullFolder/$filename";
 
         Image::create([
             'user_id' => 1,
             'original_name' => $originalName,
-            'folder' => $fullFolder,
-            'name' => $filename,
+            'path_name' => $filenameWithPath,
         ]);
 
         $file->storeAs($fullFolder, $filename, 'oss');
 
-        $filenameWithPath = "${fullFolder}/${filename}";
-
         return [
-            'url' => "https://oss.dogeow.com/{$filenameWithPath}",
+            'url' => config('services.oss_endpoint').'/'.$filenameWithPath,
         ];
     }
 }
