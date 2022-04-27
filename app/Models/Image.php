@@ -48,6 +48,6 @@ class Image extends Model
             return $this->name;
         }
 
-        return Storage::disk('admin')->url($this->name.'/'.$this->name);
+        return Storage::disk('oss')->url($this->folder.'/'.$this->name);
     }
 }
