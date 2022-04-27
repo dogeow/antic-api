@@ -11,33 +11,6 @@ use Dcat\Admin\Show;
 class ImageController extends AdminController
 {
     /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function grid()
-    {
-        return Grid::make(new Image(), function (Grid $grid) {
-            $grid->column('id')->sortable();
-            $grid->column('user_id');
-            $grid->column('original_name');
-            $grid->column('name');
-            $grid->column('folder')->display(function ($folder) {
-                return $this->getImage();
-            })->image();
-            $grid->column('imageable_id');
-            $grid->column('imageable_type');
-            $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
-
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-
-            });
-        });
-    }
-
-    /**
      * Make a show builder.
      *
      * @param  mixed  $id
@@ -50,8 +23,7 @@ class ImageController extends AdminController
             $show->field('id');
             $show->field('user_id');
             $show->field('original_name');
-            $show->field('name');
-            $show->field('folder');
+            $show->field('path_name');
             $show->field('imageable_id');
             $show->field('imageable_type');
             $show->field('created_at');
@@ -70,13 +42,36 @@ class ImageController extends AdminController
             $form->display('id');
             $form->text('user_id');
             $form->text('original_name');
-            $form->text('name');
-            $form->text('folder');
+            $form->image('path_name');
             $form->text('imageable_id');
             $form->text('imageable_type');
 
             $form->display('created_at');
             $form->display('updated_at');
+        });
+    }
+
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
+    protected function grid()
+    {
+        return Grid::make(new Image(), function (Grid $grid) {
+            $grid->column('id')->sortable();
+            $grid->column('user_id');
+            $grid->column('original_name');
+            $grid->column('path_name')->image();
+            $grid->column('imageable_id');
+            $grid->column('imageable_type');
+            $grid->column('created_at');
+            $grid->column('updated_at')->sortable();
+
+            $grid->filter(function (Grid\Filter $filter) {
+                $filter->equal('id');
+
+            });
         });
     }
 }

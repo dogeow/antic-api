@@ -59,7 +59,7 @@ return [
             'secret_key' => env('ACCESS_KEY_SECRET'),
             'endpoint' => env('OSS_ENDPOINT'),
             'bucket' => env('OSS_BUCKET'),
-            'isCName' => env('OSS_IS_CNAME', false),
+            'isCName' => env('OSS_IS_CNAME', true),
             'buckets' => [
                 'test' => [
                     'access_key' => env('OSS_ACCESS_KEY'),
