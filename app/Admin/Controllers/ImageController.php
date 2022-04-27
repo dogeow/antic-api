@@ -22,8 +22,8 @@ class ImageController extends AdminController
         return Show::make($id, new Image(), function (Show $show) {
             $show->field('id');
             $show->field('user_id');
-            $show->field('original_name');
             $show->field('path_name');
+            $show->field('original_name');
             $show->field('imageable_id');
             $show->field('imageable_type');
             $show->field('created_at');
@@ -41,8 +41,8 @@ class ImageController extends AdminController
         return Form::make(new Image(), function (Form $form) {
             $form->display('id');
             $form->text('user_id');
-            $form->text('original_name');
             $form->image('path_name');
+            $form->text('original_name');
             $form->text('imageable_id');
             $form->text('imageable_type');
 
@@ -61,8 +61,8 @@ class ImageController extends AdminController
         return Grid::make(new Image(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('user_id');
-            $grid->column('original_name');
             $grid->column('path_name')->image();
+            $grid->column('original_name');
             $grid->column('imageable_id');
             $grid->column('imageable_type');
             $grid->column('created_at');
