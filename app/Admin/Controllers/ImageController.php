@@ -23,7 +23,7 @@ class ImageController extends AdminController
             $grid->column('original_name');
             $grid->column('name');
             $grid->column('folder')->display(function ($folder) {
-                return $folder.'/'.$this->name;
+                return $this->model->getImage();
             })->image();
             $grid->column('imageable_id');
             $grid->column('imageable_type');
