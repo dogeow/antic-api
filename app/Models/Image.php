@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\Image.
@@ -13,19 +18,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property string $original_name
  * @property string $name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Image newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Image newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Image query()
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereOriginalName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereUserId($value)
- * @mixin \Eloquent
- * @property-read Model|\Eloquent $imageable
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Image newModelQuery()
+ * @method static Builder|Image newQuery()
+ * @method static Builder|Image query()
+ * @method static Builder|Image whereCreatedAt($value)
+ * @method static Builder|Image whereId($value)
+ * @method static Builder|Image whereName($value)
+ * @method static Builder|Image whereOriginalName($value)
+ * @method static Builder|Image whereUpdatedAt($value)
+ * @method static Builder|Image whereUserId($value)
+ * @mixin Eloquent
+ * @property-read Model|Eloquent $imageable
  */
 class Image extends Model
 {
@@ -34,5 +39,15 @@ class Image extends Model
     public function imageable()
     {
         return $this->morphTo();
+    }
+
+    // 定义一个public方法访问图片或文件
+    public function getImage()
+    {
+        if (Str::contains($this->name, '//')) {
+            return $this->name;
+        }
+
+        return Storage::disk('admin')->url($this->name.'/'.$this->name);
     }
 }
