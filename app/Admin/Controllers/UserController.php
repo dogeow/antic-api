@@ -5,8 +5,8 @@ namespace App\Admin\Controllers;
 use App\Admin\Repositories\User;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
-use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
+use Dcat\Admin\Show;
 
 class UserController extends AdminController
 {
@@ -41,7 +41,7 @@ class UserController extends AdminController
     /**
      * Make a show builder.
      *
-     * @param mixed $id
+     * @param  mixed  $id
      *
      * @return Show
      */
@@ -73,11 +73,11 @@ class UserController extends AdminController
             $form->display('id');
             $form->text('name');
             $form->text('phone_number');
-            $form->text('email');
+            $form->email('email');
             $form->text('email_verified_at');
             $form->text('github_name');
             $form->text('remember_token');
-            $form->text('rate_limit');
+            $form->number('rate_limit');
 
             $form->display('created_at');
             $form->display('updated_at');

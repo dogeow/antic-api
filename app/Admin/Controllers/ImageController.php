@@ -70,7 +70,7 @@ class ImageController extends AdminController
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-
+                $filter->between('created_at')->datetime();
             });
         });
     }
