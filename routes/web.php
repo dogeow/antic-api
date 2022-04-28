@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Http\Controllers\ApiController;
-
-Route::get('/', [ApiController::class, 'index']);
+Route::get('/', [HomeController::class]);
