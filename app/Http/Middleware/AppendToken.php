@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AppendToken
 {
@@ -31,8 +32,14 @@ class AppendToken
             return $response;
         }
 
-        $user = $request->user();
-        info($user->id ?? 0);
+        $token = PersonalAccessToken::findToken($token);
+
+        if (! $token) {
+            info("Error: Token not found");
+        }
+
+        $user = $token->tokenable;
+
         if (empty($user)) {
             return $response;
         }

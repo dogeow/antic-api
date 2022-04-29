@@ -25,7 +25,7 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
 
     // 登录
-    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('login', [AuthController::class, 'login']);
     Route::post('guest', [AuthController::class, 'guest']);
 });
 
