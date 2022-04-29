@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 /**
  * This middleware check if the request has _token key and adds this into the Authorization header to take advantage of
@@ -23,10 +22,8 @@ class CheckTokenAndAddToHeader
      */
     public function handle(Request $request, Closure $next)
     {
-        $all = $request->all();
-        if (isset($all['_token'])) {
-            Log::debug('token from http param', [$all['_token']]);
-            $request->headers->set('Authorization', sprintf('%s %s', 'Bearer', $all['_token']));
+        if (isset($request->_token)) {
+            $request->headers->set('Authorization', sprintf('%s %s', 'Bearer', $request->_token));
         }
 
         return $next($request);
