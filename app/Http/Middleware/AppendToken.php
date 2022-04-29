@@ -32,6 +32,7 @@ class AppendToken
         }
 
         $user = $request->user();
+        info($user->id ?? 0);
         if (empty($user)) {
             return $response;
         }
