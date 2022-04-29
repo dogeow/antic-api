@@ -77,6 +77,7 @@ return [
 
     'middleware' => [
         'api',
+        'auth:sanctum',
         Authorize::class,
     ],
 
