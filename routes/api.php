@@ -25,7 +25,7 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
 
     // 登录
-    Route::post('login', [AuthController::class, 'login']);
+    Route::post('login', ['as' => 'login', 'users' => AuthController::class, 'login']);
     Route::post('guest', [AuthController::class, 'guest']);
 });
 
@@ -123,7 +123,9 @@ Route::get('image/{action}', [ApiController::class, 'image']);
 Route::get('md5/{string?}', [ApiController::class, 'md5']);
 Route::get('user-agent', [ApiController::class, 'userAgent']);
 Route::get('hash/{string?}', [ApiController::class, 'hash']);
-Route::get('ip/{ip?}', [ApiController::class, 'ip'])->where(['ip' => '^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}$']);
+Route::get('ip/{ip?}', [
+    ApiController::class, 'ip',
+])->where(['ip' => '^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}$']);
 // 时间
 Route::get('date/{timestamp?}', [ApiController::class, 'date'])->where(['timestamp' => '[0-9]{1,10}']);
 Route::get('datetime/{timestamp?}', [ApiController::class, 'datetime'])->where(['timestamp' => '[0-9]{1,10}']);
