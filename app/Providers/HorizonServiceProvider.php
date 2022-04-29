@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
@@ -34,11 +33,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewHorizon', function ($user) {
-            info(request()->token);
-            $token = PersonalAccessToken::findToken(request()->token);
-            $tokenUser = $token->tokenable;
-
-            return $tokenUser->email === 'lky216@gmail.com';
+            return true;
         });
     }
 }
