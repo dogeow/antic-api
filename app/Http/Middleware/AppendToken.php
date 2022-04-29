@@ -34,12 +34,12 @@ class AppendToken
 
         $token = PersonalAccessToken::findToken($token);
 
-        if (! $token) {
+        if (!$token) {
             info("Error: Token not found");
         }
 
-        $user = ;
-        info(json_encode($token->tokenable));
+        $user = $token->tokenable;
+        info(json_encode($user));
         if (empty($user)) {
             return $response;
         }
