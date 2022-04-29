@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\AppendToken;
 use Laravel\Telescope\Http\Middleware\Authorize;
 use Laravel\Telescope\Watchers;
 
@@ -77,7 +76,7 @@ return [
     */
 
     'middleware' => [
-        AppendToken::class,
+//        AppendToken::class,
         'auth:sanctum',
         Authorize::class,
     ],
