@@ -34,6 +34,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewHorizon', function ($user) {
+            info(request()->token);
             $token = PersonalAccessToken::findToken(request()->token);
             $tokenUser = $token->tokenable;
 
