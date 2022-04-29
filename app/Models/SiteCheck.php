@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\SiteCheck.
@@ -13,18 +17,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $site_id
  * @property int $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Site $sites
- * @method static \Illuminate\Database\Eloquent\Builder|SiteCheck newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SiteCheck newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SiteCheck query()
- * @method static \Illuminate\Database\Eloquent\Builder|SiteCheck whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SiteCheck whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SiteCheck whereSiteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SiteCheck whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SiteCheck whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Site $sites
+ * @method static Builder|SiteCheck newModelQuery()
+ * @method static Builder|SiteCheck newQuery()
+ * @method static Builder|SiteCheck query()
+ * @method static Builder|SiteCheck whereCreatedAt($value)
+ * @method static Builder|SiteCheck whereId($value)
+ * @method static Builder|SiteCheck whereSiteId($value)
+ * @method static Builder|SiteCheck whereStatus($value)
+ * @method static Builder|SiteCheck whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class SiteCheck extends Model
 {
@@ -33,5 +37,14 @@ class SiteCheck extends Model
     public function sites(): BelongsTo
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function scopeLastPerGroup(Builder $query, ?array $fields = null): Builder
+    {
+        return $query->whereIn('id', function (QueryBuilder $query) use ($fields) {
+            return $query->from(static::getTable())
+                ->selectRaw('max(`id`)')
+                ->groupBy($fields);
+        });
     }
 }

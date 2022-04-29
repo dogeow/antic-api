@@ -22,6 +22,7 @@
         "jeremykenedy/slack": "^2.4",
         "jeremykenedy/slack-laravel": "^2.6",
         "laravel/framework": "^9.4",
+        "laravel/horizon": "^5.9",
         "laravel/octane": "^1.2",
         "laravel/sanctum": "^2.14",
         "laravel/scout": "^9.4",
