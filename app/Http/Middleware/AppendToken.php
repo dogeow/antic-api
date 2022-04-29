@@ -38,8 +38,8 @@ class AppendToken
             info("Error: Token not found");
         }
 
-        $user = $token->tokenable;
-        info($user->id);
+        $user = ;
+        info(json_encode($token->tokenable));
         if (empty($user)) {
             return $response;
         }
