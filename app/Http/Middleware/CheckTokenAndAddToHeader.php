@@ -20,7 +20,7 @@ class CheckTokenAndAddToHeader
      * @param  Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
         if (isset($request->_token)) {
             $request->headers->set('Authorization', sprintf('%s %s', 'Bearer', $request->_token));
