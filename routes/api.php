@@ -29,7 +29,6 @@ Route::group([
     Route::post('guest', [AuthController::class, 'guest']);
 });
 
-Route::get('sogou', [ApiController::class, 'sogou']);
 Route::get('pics', [ImageController::class, 'index']);
 Route::get('xlsx', [ApiController::class, 'xlsx']);
 
