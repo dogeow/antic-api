@@ -78,7 +78,7 @@ return [
 
     'middleware' => [
         AppendToken::class,
-        'sanctum',
+        'auth:sanctum',
         Authorize::class,
     ],
 
