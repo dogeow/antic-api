@@ -39,11 +39,12 @@ class AppendToken
         }
 
         $user = $token->tokenable;
+        info($user->id);
         if (empty($user)) {
             return $response;
         }
         auth()->login($user);
-        
+
         $response = $next($request);
         $response->withCookie(cookie('token', $token));
 
