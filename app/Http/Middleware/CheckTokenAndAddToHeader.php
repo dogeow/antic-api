@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,9 +19,9 @@ class CheckTokenAndAddToHeader
      *
      * @param  Request  $request
      * @param  Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return Response|RedirectResponse
+     * @return Response|RedirectResponse|JsonResponse
      */
-    public function handle(Request $request, Closure $next): Response|RedirectResponse
+    public function handle(Request $request, Closure $next): Response|RedirectResponse|JsonResponse
     {
         if (isset($request->_token)) {
             $request->headers->set('Authorization', sprintf('%s %s', 'Bearer', $request->_token));
