@@ -80,7 +80,7 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'errors' => [
                     'account' => [$notMatchedText],
@@ -89,7 +89,7 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        $timeLeft = $request->remember_me ? 'quarter' : 'week';
+        $timeLeft = $request->remember_me ? 'forever' : 'month';
         $token = $user->createToken($timeLeft)->plainTextToken;
 
         $response = array_merge($user->toArray(), [

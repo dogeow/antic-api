@@ -28,11 +28,15 @@ class AuthServiceProvider extends ServiceProvider
 
         Sanctum::authenticateAccessTokensUsing(
             static function (PersonalAccessToken $accessToken, bool $isValid) {
-                if ($accessToken->name === 'week') {
+                if ($accessToken->name === 'week') { // 访客、临时用户
                     return $isValid && $accessToken->created_at->addWeeks(1) < now();
                 }
 
-                if ($accessToken->name === 'quarter') {
+                if ($accessToken->name === 'month') { // 用户登录默认
+                    return $isValid && $accessToken->created_at->addMonths(1) < now();
+                }
+
+                if ($accessToken->name === 'quarter') { // 暂未使用
                     return $isValid && $accessToken->created_at->addMonths(3) < now();
                 }
 
