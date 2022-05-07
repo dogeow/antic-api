@@ -153,7 +153,7 @@ Route::get('categories', [PostCategoryController::class, 'index']);
 Route::get('tags', [PostTagController::class, 'index']);
 
 // PHP 函数
-Route::post('php-function', [PhpFunctionController::class, 'index']);
+Route::get('php-function', [PhpFunctionController::class, 'index']);
 
 // 自个用
 Route::get('parking', [ApiController::class, 'parking']);
