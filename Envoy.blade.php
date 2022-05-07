@@ -14,6 +14,10 @@ laravel
 lighthouse
 @endstory
 
+@story('build', ['on' => 'web'])
+build
+@endstory
+
 @task('git')
 cd {{$path}}
 git pull
@@ -36,7 +40,7 @@ php artisan lighthouse:clear-cache
 php artisan lighthouse:cache
 @endtask
 
-@task('react')
+@task('build')
 cd {{$reactPath}}
 git pull
 yarn
