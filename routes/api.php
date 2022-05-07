@@ -134,8 +134,10 @@ Route::get('timestamp/{date?}', [ApiController::class, 'timestamp'])->where(['da
 Route::get('bankcard/{cardNo}', [ApiController::class, 'bankcard'])->where(['cardNo' => '[0-9]+']);
 Route::get('case/{string}', [ApiController::class, 'case']);
 Route::post('url-title', [ApiController::class, 'getTitle']);
-Route::post('bookmarks', [BookmarkController::class, 'create']);
 Route::get('keywords/{content}', [JiebaController::class, 'keywords']);
+
+// 书签
+Route::post('bookmarks', [BookmarkController::class, 'create']);
 
 Route::group([
     'prefix' => 'example',
@@ -147,8 +149,8 @@ Route::group([
 
 // 文章
 Route::get('posts', [PostController::class, 'index']);
-Route::get('posts/{post}', [PostController::class, 'show']);
 Route::get('posts/search', [PostController::class, 'search']);
+Route::get('posts/{post}', [PostController::class, 'show']);
 Route::get('categories', [PostCategoryController::class, 'index']);
 Route::get('tags', [PostTagController::class, 'index']);
 
