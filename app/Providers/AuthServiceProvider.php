@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
+use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Sanctum\Sanctum;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,18 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Sanctum::authenticateAccessTokensUsing(
+            static function (PersonalAccessToken $accessToken, bool $isValid) {
+                if ($accessToken->name === 'week') {
+                    return $isValid && $accessToken->created_at->addWeeks(1) < now();
+                }
+
+                if ($accessToken->name === 'quarter') {
+                    return $isValid && $accessToken->created_at->addMonths(3) < now();
+                }
+
+                return $isValid;
+            }
+        );
     }
 }

@@ -21,6 +21,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Strategies\OrderStrategy;
@@ -78,7 +80,7 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'errors' => [
                     'account' => [$notMatchedText],
@@ -87,7 +89,8 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        $token = $user->createToken('my-app-token')->plainTextToken;
+        $timeLeft = $request->remember_me ? 'quarter' : 'week';
+        $token = $user->createToken($timeLeft)->plainTextToken;
 
         $response = array_merge($user->toArray(), [
             'access_token' => $token,
@@ -116,7 +119,7 @@ class AuthController extends Controller
         $userId = Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
             $user = User::find($userId);
-            $token = $user->createToken('my-app-token')->plainTextToken;
+            $token = $user->createToken('week')->plainTextToken;
 
             return array_merge(['access_token' => $token], $user->toArray());
         }
@@ -175,7 +178,7 @@ class AuthController extends Controller
             $user = User::find(2);
         }
 
-        $token = $user->createToken('my-app-token')->plainTextToken;
+        $token = $user->createToken('week')->plainTextToken;
 
         return array_merge(['access_token' => $token], $user->toArray());
     }
@@ -217,7 +220,7 @@ class AuthController extends Controller
             'email' => $githubUser->email,
         ]);
 
-        $token = $user->createToken('my-app-token')->plainTextToken;
+        $token = $user->createToken('week')->plainTextToken;
 
         return array_merge(['access_token' => $token], $user->toArray());
     }
@@ -238,7 +241,7 @@ class AuthController extends Controller
             $user->password = bcrypt($request->password);
             $user->save();
 
-            $token = $user->createToken('my-app-token')->plainTextToken;
+            $token = $user->createToken('week')->plainTextToken;
 
             return array_merge(['access_token' => $token], $user->toArray());
         }
