@@ -40,7 +40,19 @@ class ApiController extends Controller
      */
     public function images(Request $request): RedirectResponse|array
     {
+        // 加个定时计划，从又拍云获取图片，缓存到 Redis
         $wallpapers = [
+            '329544.jpg',
+            '671281.jpg',
+            'ford_mustang_lithium_19_01.jpg',
+            'P90184809-bmw-3-0-csl-hommage-05-2015-2867px.jpg',
+            'th.jpeg',
+            'unnamed.jpg',
+            '3C83FFC7927000A1A41412969F5EE9AB.png',
+            '457D489F7BB124BE5E8E9EB6F5675C13.png',
+            '8695FC3E81CA658C6FD3E1F8B3DE72B9.png',
+            '702620.png',
+            '疯狂动物城.png',
             'AIR.jpg',
             'LiveForSpeed.jpg',
             '你的名字.jpg',
