@@ -11,10 +11,15 @@ use Illuminate\Database\Eloquent\Collection;
 
 class MyStuffController extends Controller
 {
+    /**
+     * @return array
+     */
     public function aboutMe(): array
     {
         $newData = [];
+
         $data = collect(AboutMe::all())->groupBy('category')->toArray();
+        
         foreach ($data as $key => $value) {
             $newData[] = [
                 'category' => $key,
