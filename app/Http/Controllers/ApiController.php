@@ -64,7 +64,7 @@ class ApiController extends Controller
         if ($request->query('action') === 'random') {
             $random = random_int(0, count($wallpapers) - 1);
 
-            return redirect('https://oss.dogeow.com/wallpaper/'.$wallpapers[$random]);
+            return redirect('https://upyun.dogeow.com/wallpaper/'.$wallpapers[$random]);
         }
 
         return $wallpapers;
