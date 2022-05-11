@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -41,13 +42,20 @@ class Image extends Model
         return $this->morphTo();
     }
 
-    // 定义一个public方法访问图片或文件
-    public function getImage()
+    /**
+     *
+     * @return Attribute
+     */
+    protected function image(): Attribute
     {
-        if (Str::contains($this->name, '//')) {
-            return $this->name;
-        }
+        return new Attribute(
+            get: function () {
+                if (Str::contains($this->name, '//')) {
+                    return $this->name;
+                }
 
-        return Storage::disk('oss')->url($this->path_name);
+                return Storage::disk('oss')->url($this->path_name);
+            }
+        );
     }
 }

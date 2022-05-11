@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -35,9 +36,15 @@ class WeiboHot extends Model
 {
     protected $fillable = ['title', 'url', 'rank', 'emoji', 'status'];
 
-    public function getUpdatedAtAttribute(): string
+    /**
+     *
+     * @return Attribute
+     */
+    protected function updatedAt(): Attribute
     {
-        return Carbon::parse($this->attributes['updated_at'])->diffForHumans();
+        return new Attribute(
+            get: fn() => Carbon::parse($this->attributes['updated_at'])->diffForHumans()
+        );
     }
 
     public function getRankAttribute(): string
