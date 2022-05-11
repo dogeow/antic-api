@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Console\Commands\Old;
 
 use Illuminate\Console\Command;
-use function App\Console\Commands\str_contains;
-use const App\Console\Commands\PHP_EOL;
 
 class C extends Command
 {
@@ -15,7 +13,7 @@ class C extends Command
      *
      * @var string
      */
-    protected $signature = 'c';
+    protected $signature = 'sql:toDoc';
 
     /**
      * The console command description.
@@ -24,59 +22,29 @@ class C extends Command
      */
     protected $description = 'Command description';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    public const TABLES = [
+        'users',
+    ];
 
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle(): void
     {
-        $needs = [
-            'xzxkxxj',
-            'xzxkxxx',
-            'xzcfxxx',
-            'spkjxx',
-            'zlxxbhgsp',
-            'xzcfxxj',
-            'ssjbxx',
-            'qyysxxes',
-            'rcjgs',
-            'gsgdxxes',
-            'gskydjxxes',
-            'gszxdjxxes',
-            'lhdjs',
-            'spjyxkzxxes',
-            'qybgdjxxes',
-            'qyzycyxxes',
-            'ssjygks',
-            'zdjksbs',
-            'jybhgwts',
-            'sydjblqks',
-        ];
-
         $files = glob('./task/*.php', GLOB_BRACE);
 
         foreach ($files as $file) {
-            foreach ($needs as $need) {
-                if (str_contains($file, $need) === false) {
+            foreach (self::TABLES as $table) {
+                if (! str_contains($file, $table)) {
                     continue;
                 }
 
-                $migrateString = file_get_contents($file);
-                $start = strpos($migrateString, 'up()');
-                $end = strpos($migrateString, 'down()');
+                $content = file_get_contents($file);
+                $start = strpos($content, 'up()');
+                $end = strpos($content, 'down()');
+                $onlyNeedContent = substr($content, $start, $end - $start);
 
-                $migrateSafeString = substr($migrateString, $start, $end - $start);
-
-                $migrate = explode(PHP_EOL, $migrateSafeString);
+                $lines = explode(PHP_EOL, $onlyNeedContent);
 
                 $array = [
                     'name' => null,
@@ -84,7 +52,7 @@ class C extends Command
                     'fields' => null,
                 ];
 
-                foreach ($migrate as $line) {
+                foreach ($lines as $line) {
                     if (str_contains($line, '$table->')) {
                         if (str_contains($line, '$table->increments(\'id\');')) {
                             $array['fields'][] = [
@@ -97,22 +65,25 @@ class C extends Command
                             ];
                         } elseif (str_contains($line, '$table->timestamps();')) {
                             continue;
-                        } else {
-                            if (preg_match(
-                                '/\$table->(.*?)\(\'(.*?)\', (.*?)\).*?comment\(\'(.*?)\'\);/',
-                                $line,
-                                $matches
-                            )) {
-                                $array['fields'][] = [
-                                    'id' => $matches[2],
-                                    'comment' => $matches[4],
-                                    'type' => $this->switch($matches[1])."({$matches[3]})",
-                                    'nullable' => str_contains($line, '->nullable()') ? 'TRUE' : 'FALSE',
-                                    'index' => '',
-                                ];
-                            } else {
-                                exit("表：{$array['name']}，匹配字段失败：${line}");
+                        } elseif (preg_match(
+                            '/\$table->(.*?)\(\'(.*?)\', (.*?)\).*?comment\(\'(.*?)\'\);/',
+                            $line,
+                            $matches
+                        )) {
+                            $type = $this->switch($matches[1]);
+                            if ($type === '') {
+                                exit("没有{$type}类型");
                             }
+
+                            $array['fields'][] = [
+                                'id' => $matches[2],
+                                'comment' => $matches[4],
+                                'type' => "$type($matches[3])",
+                                'nullable' => str_contains($line, '->nullable()') ? 'TRUE' : 'FALSE',
+                                'index' => '',
+                            ];
+                        } else {
+                            exit("表：{$array['name']}，匹配字段失败：${line}");
                         }
                     } elseif (preg_match("/create\('(.*?)'/", $line, $matches)) {
                         $array['name'] = $matches['1'];
@@ -146,17 +117,19 @@ class C extends Command
         }
     }
 
-    public function switch($type)
+    /**
+     * Laravel 迁移，字段类型转 MySQL
+     *
+     * @param  string  $type  字段类型
+     * @return string
+     */
+    public function switch(string $type): string
     {
         $types = [
             'string' => 'varchar',
             'text' => 'text',
         ];
 
-        if (isset($types[$type])) {
-            return $types[$type];
-        }
-
-        exit('没有'.$type.'类型');
+        return $types[$type] ?? '';
     }
 }
