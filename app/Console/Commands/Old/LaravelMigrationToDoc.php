@@ -26,6 +26,15 @@ class C extends Command
         'users',
     ];
 
+    public const PRIMARY_KEY = [
+        'id' => 'id',
+        'name' => '备注',
+        'type' => 'int(11)',
+        'nullable' => 'FALSE',
+        'index' => '主键',
+        'comment' => '',
+    ];
+
     /**
      * Execute the console command.
      */
@@ -39,30 +48,21 @@ class C extends Command
                     continue;
                 }
 
-                $content = file_get_contents($file);
-                $start = strpos($content, 'up()');
-                $end = strpos($content, 'down()');
-                $onlyNeedContent = substr($content, $start, $end - $start);
-
-                $lines = explode(PHP_EOL, $onlyNeedContent);
-
                 $array = [
                     'name' => null,
                     'comment' => null,
                     'fields' => null,
                 ];
 
+                $content = file_get_contents($file);
+                $onlyNeedContent = getStringBetween($content, 'up()', 'down()');
+
+                $lines = explode(PHP_EOL, $onlyNeedContent);
+
                 foreach ($lines as $line) {
                     if (str_contains($line, '$table->')) {
                         if (str_contains($line, '$table->increments(\'id\');')) {
-                            $array['fields'][] = [
-                                'id' => 'id',
-                                'name' => '备注',
-                                'type' => 'int(11)',
-                                'nullable' => 'FALSE',
-                                'index' => '主键',
-                                'comment' => '',
-                            ];
+                            $array['fields'][] = self::PRIMARY_KEY;
                         } elseif (str_contains($line, '$table->timestamps();')) {
                             continue;
                         } elseif (preg_match(
@@ -110,7 +110,7 @@ class C extends Command
 
                 $no = 1;
                 foreach ($array['fields'] as $v) {
-                    echo "{$no},{$v['id']},{$v['comment']},{$v['type']},{$v['nullable']},{$v['index']}".PHP_EOL;
+                    $this->line(implode(',', [$no, $v['id'], $v['comment'], $v['type'], $v['nullable'], $v['index']]));
                     $no++;
                 }
             }
