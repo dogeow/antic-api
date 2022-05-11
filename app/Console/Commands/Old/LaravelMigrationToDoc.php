@@ -13,7 +13,7 @@ class C extends Command
      *
      * @var string
      */
-    protected $signature = 'sql:toDoc';
+    protected $signature = 'migrate:toDoc';
 
     /**
      * The console command description.
