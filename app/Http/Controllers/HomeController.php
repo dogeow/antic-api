@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use AsciiTable\Builder;
-use Illuminate\Support\Str;
 
 class HomeController
 {
