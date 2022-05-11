@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands\Old;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Nesk\Puphpeteer\Puppeteer;
@@ -32,21 +32,11 @@ class Headless extends Command
     protected int $height = 900;
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      */
     public function handle(): void
     {
-        $this->url = 'https://233.sx';
+        $this->url = 'https://example.com/';
         $this->spider();
     }
 
@@ -67,7 +57,7 @@ class Headless extends Command
 
         $page->goto($this->url);
         $page->waitFor($this->time);
-        $page->screenshot(['path' => './233.png']);
+        $page->screenshot(['path' => './screenshot.png']);
 //        $html = $page->content();
 
         $browser->close();
