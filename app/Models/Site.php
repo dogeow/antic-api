@@ -52,18 +52,18 @@ class Site extends Model
      *
      * @return Attribute
      */
-    protected function updatedAt(): Attribute
-    {
-        return new Attribute(
-            get: function () {
-                if (is_null($this->attributes['last_updated_at'])) {
-                    return '更新信息错误';
-                }
-
-                return Carbon::parse($this->attributes['last_updated_at'])->diffForHumans();
-            }
-        );
-    }
+//    protected function lastUpdatedAt(): Attribute
+//    {
+//        return new Attribute(
+//            get: function () {
+//                if (is_null($this->attributes['last_updated_at'])) {
+//                    return '更新信息错误';
+//                }
+//
+//                return Carbon::parse($this->attributes['last_updated_at'])->diffForHumans();
+//            }
+//        );
+//    }
 
     public function todayLatest(): HasOne
     {
