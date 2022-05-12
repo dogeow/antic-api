@@ -30,6 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // UPYUN
+    'upyun_endpoint' => env('UPYUN_ENDPOINT'),
+
+    // OSS
     'access_key_id' => env('ACCESS_KEY_ID'),
     'access_key_secret' => env('ACCESS_KEY_SECRET'),
     'oss_endpoint' => env('OSS_ENDPOINT'),

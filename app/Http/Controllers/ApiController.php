@@ -65,8 +65,9 @@ class ApiController extends Controller
 
         if ($request->query('action') === 'random') {
             $randomWallpaper = $wallpaperCollect->random();
+            $url = sprintf('%s/wallpaper/%s%s', config('upyun_endpoint'), $randomWallpaper, '!/fw/1920');
 
-            return redirect('https://upyun.dogeow.com/wallpaper/'.$randomWallpaper.'!/fw/1920');
+            return redirect($url);
         }
 
         return $wallpapers;
