@@ -61,10 +61,12 @@ class ApiController extends Controller
             '骑士.jpeg',
         ];
 
-        if ($request->query('action') === 'random') {
-            $random = random_int(0, count($wallpapers) - 1);
+        $wallpaperCollect = collect($wallpapers);
 
-            return redirect('https://upyun.dogeow.com/wallpaper/'.$wallpapers[$random].'!/fw/1920');
+        if ($request->query('action') === 'random') {
+            $randomWallpaper = $wallpaperCollect->random();
+
+            return redirect('https://upyun.dogeow.com/wallpaper/'.$randomWallpaper.'!/fw/1920');
         }
 
         return $wallpapers;
