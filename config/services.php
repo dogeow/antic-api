@@ -38,8 +38,10 @@ return [
     'access_key_secret' => env('ACCESS_KEY_SECRET'),
     'oss_endpoint' => env('OSS_ENDPOINT'),
 
+    // Google Recaptcha
     'recaptcha' => env('RECAPTCHA'),
 
+    // GitHub 第三方登录
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
