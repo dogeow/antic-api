@@ -80,7 +80,7 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'errors' => [
                     'account' => [$notMatchedText],
@@ -103,6 +103,7 @@ class AuthController extends Controller
     public function emailVerify(Request $request): JsonResponse|User
     {
         $userId = Cache::get('emailVerify:'.$request->secret);
+
         if ($userId) {
             $user = User::find($userId);
             $user->email_verified_at = Carbon::now();
