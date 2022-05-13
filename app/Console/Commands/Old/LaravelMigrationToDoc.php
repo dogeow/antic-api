@@ -6,7 +6,7 @@ namespace App\Console\Commands\Old;
 
 use Illuminate\Console\Command;
 
-class C extends Command
+class LaravelMigrationToDoc extends Command
 {
     /**
      * The name and signature of the console command.
@@ -44,7 +44,7 @@ class C extends Command
 
         foreach ($files as $file) {
             foreach (self::TABLES as $table) {
-                if (! str_contains($file, $table)) {
+                if (!str_contains($file, $table)) {
                     continue;
                 }
 
