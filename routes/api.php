@@ -24,7 +24,6 @@ Route::group([
     // 注册
     Route::post('register-by-email', [AuthController::class, 'registerByEmail']);
     Route::post('register-by-phone', [AuthController::class, 'registerByPhone']);
-    Route::post('register', [AuthController::class, 'register']);
 
     // 登录
     Route::post('login', [AuthController::class, 'login']);

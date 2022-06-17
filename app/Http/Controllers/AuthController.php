@@ -47,9 +47,6 @@ class AuthController extends Controller
         Cache::put('emailVerify:'.$secret, $user->id, 86400);
         $link = config('app.url').'/emailVerify/'.$secret;
         Mail::to($user->email)->send(new EmailVerify($user, $link));
-        if (Mail::failures()) {
-            Log::info(var_export(Mail::failures(), true));
-        }
 
         return response()->json(
             $user
