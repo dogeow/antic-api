@@ -31,7 +31,7 @@ Route::controller(ApiController::class)->group(function () {
 
     // 时间
     Route::get('date/{timestamp?}', 'date')->where(['timestamp' => '[0-9]{1,10}']);
-    Route::get('datetime/{timestamp?}', 'datetime')->where(['timestamp' => '[0-9]{1,10}']);
+    Route::get('datetime/{timestamp?}', 'datetimeToTimestamp')->where(['timestamp' => '[0-9]{1,10}']);
     Route::get('timestamp/{date?}', 'timestamp')->where(['date' => '[0-9-\ :]+']);
     Route::get('bankcard/{cardNo}', 'bankcard')->where(['cardNo' => '[0-9]+']);
 

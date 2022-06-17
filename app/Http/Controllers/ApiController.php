@@ -226,7 +226,7 @@ class ApiController extends Controller
         return isset($timestamp) ? date('Y-m-d', $timestamp) : date('Y-m-d');
     }
 
-    public function datetime(int $timestamp = null): string
+    public function datetimeToTimestamp(int $timestamp = null): string
     {
         return isset($timestamp) ? date('Y-m-d H:i:s', $timestamp) : date('Y-m-d H:i:s');
     }
