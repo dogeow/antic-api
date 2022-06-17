@@ -45,6 +45,13 @@ Use frontend and backend separation.
 * MySQL 8.0.27
 * PHP 8.1.5
 
+## Project supported by JetBrains
+
+Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.
+
+[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/likunyan)
+
 ## Thanks
 
-[LearnKu.com](https://learnku.com) provides Laravel translation documents that everyone can use, and the website UI interface is illuminated and edited, allowing me to easily get started with Laravel.
+[LearnKu.com](https://learnku.com) provides Laravel translation documents that everyone can use, and the website UI
+interface is illuminated and edited, allowing me to easily get started with Laravel.

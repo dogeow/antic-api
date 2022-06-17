@@ -61,6 +61,12 @@ antic-api
 * MySQL 8.0.27
 * PHP 8.1.5
 
+## Project supported by JetBrains
+
+Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.
+
+[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/likunyan)
+
 ## 鸣谢
 
 [LearnKu.com](https://learnku.com) 提供了人人可编辑的 Laravel 翻译文档，而且网站 UI 界面简洁优雅，让我愉快且方便地入门了 Laravel。
