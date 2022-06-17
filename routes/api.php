@@ -41,7 +41,7 @@ Route::get('oauth/github', [AuthController::class, 'redirectToProvider']);
 Route::get('oauth/github/callback', [AuthController::class, 'handleProviderCallback']);
 Route::post('recaptcha', [AuthController::class, 'recaptcha']);
 Route::post('phoneNumberVerify', [AuthController::class, 'phoneNumberVerify']);
-Route::post('emailVerify', [AuthController::class, 'emailVerify']);
+Route::get('emailVerify', [AuthController::class, 'emailVerify']);
 
 // 重置 自动登录
 Route::post('forget', [AuthController::class, 'forget']);
