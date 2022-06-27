@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "03d75551cd24b6238fac3cd89828cc89",
+    "content-hash": "047e40744065884eae6e0d2f662e41ab",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -4779,6 +4779,52 @@
                 "source": "https://github.com/thephpleague/oauth1-client/tree/v1.10.1"
             },
             "time": "2022-04-15T14:02:14+00:00"
+        },
+        {
+            "name": "likunyan/php-helpers",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/likunyan/php-helpers.git",
+                "reference": "7c64e6af8c868adfd83c31b506d76697f80d74bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/likunyan/php-helpers/zipball/7c64e6af8c868adfd83c31b506d76697f80d74bd",
+                "reference": "7c64e6af8c868adfd83c31b506d76697f80d74bd",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Likunyan\\PhpHelpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "likunyan",
+                    "email": "lky216@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/likunyan/php-helpers/issues",
+                "source": "https://github.com/likunyan/php-helpers/tree/main"
+            },
+            "time": "2022-06-26T16:23:33+00:00"
         },
         {
             "name": "likunyan/puphpeteer",
@@ -15840,6 +15886,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "likunyan/php-helpers": 20,
         "likunyan/puphpeteer": 20,
         "roave/security-advisories": 20
     },
