@@ -123,7 +123,17 @@ class SiteCheckDate extends Command
 
         $crawler = new Crawler($response->getBody()->getContents());
 
-        return $site->get_type === 'api' ? $crawler->text() : $crawler->filterXPath($site->date_xpath)->text();
+        if ($site->get_type === 'api') {
+            $date = $crawler->text();
+        } else {
+            try {
+                $date = $crawler->filterXPath($site->date_xpath)->text();
+            } catch (Exception) {
+                return false;
+            }
+        }
+
+        return $date;
     }
 
     public function checkDateStatus($date): bool
