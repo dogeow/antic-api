@@ -9,6 +9,7 @@ $rules = [
     'ordered_imports' => [ // use 排序
         'sort_algorithm' => 'alpha',
     ],
+    'single_line_comment_spacing' => true, // 单行注释，添加前后空格
     'class_attributes_separation' => [
         'elements' => [
             'const' => 'one',
