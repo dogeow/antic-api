@@ -85,7 +85,7 @@ class BaiduSeo extends Command
             $response = $this->guzzleClient->request('GET', $url);
             $content = $response->getBody()->getContents();
 
-            if (preg_match('/找到相关结果数约(?P<count>[\d]+)个/u', $content, $match)) {
+            if (preg_match('/找到相关结果数约(?P<count>\d+)个/u', $content, $match)) {
                 $count = str_replace(',', '', (string) $match['count']);
             } elseif (preg_match('/很抱歉，没有找到与/u', $content)) {
                 $count = 0;

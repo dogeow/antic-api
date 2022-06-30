@@ -11,6 +11,7 @@ parameters:
 
     ignoreErrors:
         - '#PHPDoc tag @var#'
+        - '#Call to an undefined static method Illuminate\Support\Facades\#'
 
     excludePaths:
         - ./*/*/FileToBeExcluded.php

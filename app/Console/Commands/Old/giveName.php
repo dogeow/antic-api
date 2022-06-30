@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Old;
 
+use function config;
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use function config;
 
 class giveName extends Command
 {
@@ -66,7 +66,7 @@ class giveName extends Command
         $pool = new Pool($this->client, $requests($this->totalPageCount), [
             'concurrency' => $this->concurrency,
             'fulfilled' => function ($response, $index): void {
-                $this->info("请求第 ${index} 个请求");
+                $this->info("请求第 $index 个请求");
                 $content = $response->getBody()->getContents();
 
                 $names = explode(',', $content);
@@ -76,7 +76,7 @@ class giveName extends Command
                 foreach ($names as $name) {
                     print_r($names);
                     $sexId = self::sexId();
-                    $query .= "INSERT IGNORE INTO test (name, sex, category_id, count) VALUES ('${name}', {$sexId}, ${categoryId}, 3);";
+                    $query .= "INSERT IGNORE INTO test (name, sex, category_id, count) VALUES ('$name', $sexId, ${categoryId}, 3);";
                 }
                 DB::unprepared($query);
             },
@@ -88,7 +88,7 @@ class giveName extends Command
         $promise->wait();
     }
 
-    public function sexId(): int|null
+    public function sexId(): int
     {
         switch ($this->argument('sex')) {
             case 'f':

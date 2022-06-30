@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * App\Models\Site.
  *
  * @property int $id
- * @property string $domain
+ * @property string $domain 域名
  * @property bool $online 是否在线
  * @property int $seo 百度收录量
  * @property string $get_type 爬虫或者 API

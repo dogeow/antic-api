@@ -32,7 +32,7 @@ class GameController extends Controller
 
         $gameData = $request->only('x', 'y');
 
-        Cache::set("game.{$user->id}", $gameData);
+        Cache::set("game.$user->id", $gameData);
 
         broadcast(new GameBroadcastingEvent($gameData))->toOthers();
     }
