@@ -55,10 +55,6 @@ class AuthController extends Controller
         )->setStatusCode(201);
     }
 
-    /**
-     * @param  AuthLogin  $request
-     * @return Application|ResponseFactory|JsonResponse|Response
-     */
     public function login(AuthLogin $request): Response|JsonResponse|Application|ResponseFactory
     {
         $notMatchedText = '账号不存在或密码错误';
@@ -159,8 +155,6 @@ class AuthController extends Controller
 
     /**
      * 测试账号、聊天账号.
-     *
-     * @return array
      */
     public function guest(): array
     {
@@ -254,7 +248,7 @@ class AuthController extends Controller
         $body = "secret=${secret}&response=${token}";
         $url = 'https://www.recaptcha.net/recaptcha/api/siteverify';
         $resp = $this->httpPost($url, $body);
-        $resp = json_decode($resp, true);
+        $resp = json_decode((string) $resp, true, 512, JSON_THROW_ON_ERROR);
         Log::info($url);
         Log::info($body);
         Log::info(var_export($resp, true));
@@ -281,7 +275,7 @@ class AuthController extends Controller
     {
         $phoneNumber = $request->phone_number;
 
-        if (preg_match(config('preg.phone_number'), $phoneNumber) === false) {
+        if (preg_match(config('preg.phone_number'), (string) $phoneNumber) === false) {
             exit;
         }
 

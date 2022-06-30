@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\CodeQuality\Rector\FuncCall\CompactToVariablesRector;
+use Rector\CodeQuality\Rector\PropertyFetch\ExplicitMethodCallOverMagicGetSetRector;
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -24,5 +25,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         CompactToVariablesRector::class,
+        ExplicitMethodCallOverMagicGetSetRector::class,
     ]);
 };
