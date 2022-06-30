@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @param $input
  */
-function br2nl($input): array|string|null
+function br2nl($input): string|null
 {
     return preg_replace(
         '/<br\s?\/?>/iu',
@@ -70,17 +70,11 @@ function getMainColor(string $imgUrl, bool $isHex): string
 /**
  * RGB颜色转16进制颜色
  */
-function rgb2Hex(float $r, int $g = -1, int $b = -1): string
+function rgb2Hex(int $r, int $g = -1, int $b = -1): string
 {
-    if (is_array($r) && count($r) === 3) {
-        [$r, $g, $b] = $r;
-    }
-    $r = (int) $r;
-    $g = (int) $g;
-    $b = (int) $b;
-    $r = dechex($r < 0 ? 0 : ($r > 255 ? 255 : $r));
-    $g = dechex($g < 0 ? 0 : ($g > 255 ? 255 : $g));
-    $b = dechex($b < 0 ? 0 : ($b > 255 ? 255 : $b));
+    $r = dechex($r < 0 ? 0 : (min($r, 255)));
+    $g = dechex($g < 0 ? 0 : (min($g, 255)));
+    $b = dechex($b < 0 ? 0 : (min($b, 255)));
     $color = (strlen($r) < 2 ? '0' : '').$r;
     $color .= (strlen($g) < 2 ? '0' : '').$g;
     $color .= (strlen($b) < 2 ? '0' : '').$b;

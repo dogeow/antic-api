@@ -90,11 +90,10 @@ class giveName extends Command
 
     public function sexId(): int
     {
-        switch ($this->argument('sex')) {
-            case 'f':
-                return 1;
-            case 'm':
-                return 0;
-        }
+        return match ($this->argument('sex')) {
+            'f' => 1,
+            'm' => 0,
+            default => false,
+        };
     }
 }
