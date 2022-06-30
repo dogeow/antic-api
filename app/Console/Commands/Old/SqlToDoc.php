@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Console\Commands\Old;
 
 use Illuminate\Console\Command;
-use function App\Console\Commands\str_contains;
-use const App\Console\Commands\PHP_EOL;
 
 class SqlToDoc extends Command
 {
@@ -136,15 +134,15 @@ class SqlToDoc extends Command
                         continue;
                     }
 
-                    if (!isset($nullable)) {
+                    if (! isset($nullable)) {
                         exit('$nullable 为空：'.$line);
                     }
 
-                    if (str_contains($line, '`id`') === false && preg_match(
-                            '/int\(.*?\) UNSIGNED/',
-                            $line,
-                            $matches3
-                        )) {
+                    if (! str_contains($line, '`id`') && preg_match(
+                        '/int\(.*?\) UNSIGNED/',
+                        $line,
+                        $matches3
+                    )) {
                         $unsigned = ' UNSIGNED';
                     }
 
@@ -173,7 +171,7 @@ class SqlToDoc extends Command
                 echo "{$no},{$v['id']},{$v['comment']},{$v['type']},{$v['nullable']},{$v['index']},".PHP_EOL;
                 $no++;
             }
-            echo str_repeat((string) PHP_EOL, 3);
+            echo str_repeat(PHP_EOL, 3);
         }
     }
 }
