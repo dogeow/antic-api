@@ -25,13 +25,13 @@ class GitHubController extends Controller
         $pull = implode(' && ', array_slice($cmdArray, 0, -2));
 
         $rawPost = $request->getContent();
-        $arrayPost = json_decode($rawPost, 1);
+        $arrayPost = json_decode($rawPost, 1, 512, JSON_THROW_ON_ERROR);
         [$algo, $hash] = explode('=', $request->header('X-Hub-Signature'), 2);
 
-        if (hash_equals($hash, hash_hmac($algo, $rawPost, $secret))) {
+        if (hash_equals($hash, hash_hmac($algo, $rawPost, (string) $secret))) {
             $isBuild = false;
             foreach ($arrayPost['head_commit']['modified'] as $key => $value) {
-                if (strpos($value, 'resources/') === 0) {
+                if (str_starts_with((string) $value, 'resources/')) {
                     $isBuild = true;
                     break;
                 }

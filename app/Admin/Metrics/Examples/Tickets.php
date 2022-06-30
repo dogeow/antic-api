@@ -29,7 +29,6 @@ class Tickets extends RadialBar
     /**
      * 处理请求
      *
-     * @param Request $request
      *
      * @return mixed|void
      */
@@ -53,7 +52,6 @@ class Tickets extends RadialBar
     /**
      * 设置图表数据.
      *
-     * @param int $data
      *
      * @return $this
      */

@@ -54,7 +54,6 @@ class NewDevices extends Donut
     /**
      * 设置图表数据.
      *
-     * @param array $data
      *
      * @return $this
      */

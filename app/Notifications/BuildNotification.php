@@ -13,22 +13,17 @@ class BuildNotification extends Notification
 {
     use Queueable;
 
-    protected $message;
-
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct(protected $message)
     {
-        $this->message = $message;
     }
 
     /**
      * Get the notification's delivery channels.
-     *
-     * @return array
      */
     public function via(mixed $notifiable): array
     {
@@ -48,8 +43,6 @@ class BuildNotification extends Notification
 
     /**
      * Get the array representation of the notification.
-     *
-     * @return array
      */
     public function toArray(mixed $notifiable): array
     {

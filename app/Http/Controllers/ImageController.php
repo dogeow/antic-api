@@ -27,7 +27,7 @@ class ImageController extends Controller
     {
         $key = $request->input('key');
 
-        if ($request->hasFile($key) === false || is_null($file = $request->file($key))) {
+        if (!$request->hasFile($key) || is_null($file = $request->file($key))) {
             return [
                 'url' => '',
             ];
@@ -43,7 +43,7 @@ class ImageController extends Controller
             $extension = $file->extension();
             if ($existImage['name'] === $existImage['original_name']) { // 第二个同名文件
                 $filename = $name.'@2.'.$extension;
-            } elseif (preg_match('/^.*@(?<number>.*)\..*?$/', $existImage['name'], $matches)) {
+            } elseif (preg_match('/^.*@(?<number>.*)\..*?$/', (string) $existImage['name'], $matches)) {
                 $number = $matches['number'] + 1;
                 $filename = "${name}@${number}.${extension}";
             }

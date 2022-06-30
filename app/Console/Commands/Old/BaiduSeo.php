@@ -17,7 +17,7 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class BaiduSeo extends Command
 {
-    public const SLEEP = 120;
+    final public const SLEEP = 120;
 
     public GuzzleClient $guzzleClient;
 
@@ -72,8 +72,6 @@ class BaiduSeo extends Command
     }
 
     /**
-     * @param  string  $domain
-     * @return array|false|int|string|string[]
      * @throws GuzzleException
      */
     public function spider(string $domain): array|bool|int|string
@@ -88,7 +86,7 @@ class BaiduSeo extends Command
             $content = $response->getBody()->getContents();
 
             if (preg_match('/找到相关结果数约(?P<count>[\d]+)个/u', $content, $match)) {
-                $count = str_replace(',', '', $match['count']);
+                $count = str_replace(',', '', (string) $match['count']);
             } elseif (preg_match('/很抱歉，没有找到与/u', $content)) {
                 $count = 0;
             } else {

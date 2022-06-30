@@ -21,7 +21,7 @@ use TrueBV\Punycode;
 
 class ApiController extends Controller
 {
-    private GuzzleClient $guzzleClient;
+    private readonly GuzzleClient $guzzleClient;
 
     public function __construct()
     {
@@ -93,12 +93,6 @@ class ApiController extends Controller
         Log::info(var_export($request->all(), true));
     }
 
-    /**
-     * @param  Request  $request
-     * @param  int  $start
-     * @param  int  $end
-     * @return array
-     */
     public function number(Request $request, int $start, int $end): array
     {
         $count = strlen((string) $end);
@@ -112,7 +106,9 @@ class ApiController extends Controller
         }
         unset($number);
 
-        in_array('shuffle', (array) $request->query('actions'), true) && shuffle($numberRange);
+        if (in_array('shuffle', (array) $request->query('actions'), true)) {
+            shuffle($numberRange);
+        }
 
         return $numberRange;
     }
@@ -131,11 +127,7 @@ class ApiController extends Controller
         $html = $response->getBody()->getContents();
 
         foreach ($parking as $key => $item) {
-            if (preg_match("/onclick='tc\(\"${item}\".*?\)'/", $html)) {
-                $status = true;
-            } else {
-                $status = false;
-            }
+            $status = (bool) preg_match("/onclick='tc\(\"${item}\".*?\)'/", $html);
             $data[] = [
                 'id' => $key,
                 'status' => $status,
@@ -149,7 +141,7 @@ class ApiController extends Controller
     {
         $Punycode = new Punycode();
         $preg = "/[\x{4e00}-\x{9fa5}]+/u";
-        if (preg_match_all($preg, $domain)) {
+        if (preg_match_all($preg, (string) $domain)) {
             return $Punycode->encode($domain);
         }
 
@@ -158,7 +150,7 @@ class ApiController extends Controller
 
     public function unicode_to_utf8($string): string
     {
-        $code = (int) hexdec($string);
+        $code = (int) hexdec((string) $string);
         // 这里注意转换出来的 code 一定得是整形，这样才会正确的按位操作
         $ord_1 = decbin(0xE0 | ($code >> 12));
         $ord_2 = decbin(0x80 | (($code >> 6) & 0x3F));
@@ -178,22 +170,22 @@ class ApiController extends Controller
 
     public function base64_encode($string = ''): string
     {
-        return base64_encode($string);
+        return base64_encode((string) $string);
     }
 
     public function base64_decode($string = ''): bool|string
     {
-        return base64_decode($string);
+        return base64_decode((string) $string);
     }
 
     public function urlEncode($string = ''): string
     {
-        return urlencode($string);
+        return urlencode((string) $string);
     }
 
     public function urlDecode($string = ''): string
     {
-        return urldecode($string);
+        return urldecode((string) $string);
     }
 
     public function image($action = null): BinaryFileResponse|string|UrlGenerator|Application
@@ -208,7 +200,7 @@ class ApiController extends Controller
 
     public function md5($string = ''): string
     {
-        return md5($string);
+        return md5((string) $string);
     }
 
     public function userAgent()
@@ -218,7 +210,7 @@ class ApiController extends Controller
 
     public function sha($string): string
     {
-        return sha1($string);
+        return sha1((string) $string);
     }
 
     public function date(int $timestamp = null): string
@@ -233,14 +225,14 @@ class ApiController extends Controller
 
     public function timestamp($date = null): bool|int
     {
-        return $date ? strtotime($date) : time();
+        return $date ? strtotime((string) $date) : time();
     }
 
     public function bankcard($cardNo): bool|string
     {
         $url = 'https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true';
         $resp = file_get_contents($url);
-        $data = json_decode($resp, true);
+        $data = json_decode($resp, true, 512, JSON_THROW_ON_ERROR);
         if (isset($data['validated']) && $data['validated'] === false) {
             return '信用卡卡号格式错误';
         }
@@ -250,21 +242,21 @@ class ApiController extends Controller
 
     public function secret($string = ''): string
     {
-        return str_repeat('*', strlen($string));
+        return str_repeat('*', strlen((string) $string));
     }
 
     public function hash($string = ''): string
     {
-        return sha1($string);
+        return sha1((string) $string);
     }
 
     public function htmlSC($string): string
     {
-        if (str_starts_with($string, '&')) {
-            return htmlspecialchars_decode($string);
+        if (str_starts_with((string) $string, '&')) {
+            return htmlspecialchars_decode((string) $string);
         }
 
-        return htmlspecialchars($string);
+        return htmlspecialchars((string) $string);
     }
 
     public function ip($ip = null): string|\Illuminate\Http\Client\Response|null
@@ -274,7 +266,6 @@ class ApiController extends Controller
 
     /**
      * @param $ip
-     * @return \Illuminate\Http\Client\Response
      */
     public static function getIpGeolocation($ip): \Illuminate\Http\Client\Response
     {
@@ -299,7 +290,7 @@ class ApiController extends Controller
             if (preg_match('/charset=(.*?)[">]]/i', $html, $matches)) {
                 $charset = $matches[1];
             }
-            $body = mb_convert_encoding($html, 'UTF-8', $charset ? $charset : 'UTF-8');
+            $body = mb_convert_encoding($html, 'UTF-8', $charset ?: 'UTF-8');
             $str = trim(preg_replace('/\s+/', ' ', $body));
             if (preg_match("/<title>(.*?)<\/title>/i", $str, $title)) {
                 $title = $title[1];
@@ -317,13 +308,13 @@ class ApiController extends Controller
     {
         $mediawiki = $request->input('mediawiki');
 
-        $contentArray = explode(PHP_EOL, $mediawiki);
+        $contentArray = explode(PHP_EOL, (string) $mediawiki);
         $maxLine = count($contentArray);
 
         $markdown = '';
 
         foreach ($contentArray as $line => $string) {
-            if (strlen($string) > 2 && $string[0] === '*' && in_array($string[1], ['*', ' '], true) === false) {
+            if (strlen($string) > 2 && $string[0] === '*' && !in_array($string[1], ['*', ' '], true)) {
                 $string = $string[0].' '.substr($string, 1);
             }
 
@@ -371,7 +362,7 @@ class ApiController extends Controller
             // 替换 =
             if (preg_match('/^(=+)(.*?)(=+)$/', $string, $matches)) {
                 if ($matches[1] === $matches[3]) {
-                    $string = str_repeat('#', strlen($matches[1])).' '.$matches[2];
+                    $string = str_repeat('#', strlen((string) $matches[1])).' '.$matches[2];
                     $string .= PHP_EOL;
                 }
             } else {

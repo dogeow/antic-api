@@ -66,7 +66,7 @@
     "nunomaduro/larastan": "^2.0",
     "phpstan/phpstan": "^1.5",
     "phpunit/phpunit": "^9.5.10",
-    "rector/rector": "^0.13.5",
+    "rector/rector": "^0.13.7",
     "roave/security-advisories": "dev-latest",
     "spatie/laravel-ignition": "^1.0"
   },

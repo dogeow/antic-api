@@ -22,7 +22,7 @@ class ChatController extends Controller
         broadcast(new ChatBroadcastingEvent($request->message))->toOthers();
 
         // 机器人
-        if (preg_match('/^ +(?P<message>.*?)( +(?P<content>.*))?$/', $request->message, $matches)) {
+        if (preg_match('/^ +(?P<message>.*?)( +(?P<content>.*))?$/', (string) $request->message, $matches)) {
             $content = $matches['content'] ?? null;
             $api = new ApiController();
             $robotMessage = match ($matches['message']) {
@@ -30,7 +30,7 @@ class ChatController extends Controller
                 '单复数' => self::checkParam($content) ?? $api->case($content),
                 'md5' => self::checkParam($content) ?? $api->md5($content),
                 'ip' => $request->ip(),
-                '长度' => self::checkParam($content) ?? mb_strlen($content),
+                '长度' => self::checkParam($content) ?? mb_strlen((string) $content),
                 default => '我暂时还没有加入这个功能。',
             };
 

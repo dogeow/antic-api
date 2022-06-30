@@ -41,10 +41,8 @@ class SiteCheck extends Model
 
     public function scopeLastPerGroup(Builder $query, ?array $fields = null): Builder
     {
-        return $query->whereIn('id', function (QueryBuilder $query) use ($fields) {
-            return $query->from(static::getTable())
-                ->selectRaw('max(`id`)')
-                ->groupBy($fields);
-        });
+        return $query->whereIn('id', fn(QueryBuilder $query) => $query->from(static::getTable())
+            ->selectRaw('max(`id`)')
+            ->groupBy($fields));
     }
 }

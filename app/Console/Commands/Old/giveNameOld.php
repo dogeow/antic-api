@@ -26,7 +26,7 @@ class giveNameOld extends Command
      */
     protected $description = '爬取名网';
 
-    private Client $client;
+    private readonly Client $client;
 
     private int $concurrency = 50;  // 同时并发抓取
 

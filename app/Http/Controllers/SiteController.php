@@ -22,7 +22,7 @@ class SiteController extends Controller
         $history = $site->history()->whereDate('created_at', date('Y-m-d'))->get();
 
         foreach ($history as $item) {
-            $item->humans = date('H:i', strtotime($item->created_at));
+            $item->humans = date('H:i', strtotime((string) $item->created_at));
         }
 
         return $history;

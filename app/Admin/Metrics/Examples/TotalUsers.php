@@ -34,7 +34,6 @@ class TotalUsers extends Card
     /**
      * 处理请求.
      *
-     * @param Request $request
      *
      * @return void
      */
@@ -42,16 +41,16 @@ class TotalUsers extends Card
     {
         switch ($request->get('option')) {
             case '365':
-                $this->content(mt_rand(600, 1500));
-                $this->down(mt_rand(1, 30));
+                $this->content(random_int(600, 1500));
+                $this->down(random_int(1, 30));
                 break;
             case '30':
-                $this->content(mt_rand(170, 250));
-                $this->up(mt_rand(12, 50));
+                $this->content(random_int(170, 250));
+                $this->up(random_int(12, 50));
                 break;
             case '28':
-                $this->content(mt_rand(155, 200));
-                $this->up(mt_rand(5, 50));
+                $this->content(random_int(155, 200));
+                $this->up(random_int(5, 50));
                 break;
             case '7':
             default:
@@ -87,11 +86,10 @@ class TotalUsers extends Card
     /**
      * 设置卡片底部内容.
      *
-     * @param string|Renderable|\Closure $footer
      *
      * @return $this
      */
-    public function footer($footer)
+    public function footer(string|\Illuminate\Contracts\Support\Renderable|\Closure $footer)
     {
         $this->footer = $footer;
 

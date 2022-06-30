@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 
 class MoonHistoryController extends Controller
 {
-    private $defRank = 'none';
+    private string $defRank = 'none';
 
     public function start(Request $request)
     {
         $user = Moon::where('name', $request->name)->first();
-        if (count($user->moonHistory) >= 6) {
+        if ((is_countable($user->moonHistory) ? count($user->moonHistory) : 0) >= 6) {
             return '已满6次！';
         }
         $lottery = $this->lottery();
@@ -61,14 +61,12 @@ class MoonHistoryController extends Controller
 
     /**
      * 掷骰子.
-     *
-     * @return array
      */
     public function rollDice(): array
     {
         $res = [];
         for ($i = 0; $i < 6; $i++) {
-            $res[] = mt_rand(1, 6);
+            $res[] = random_int(1, 6);
         }
 
         return $res;
@@ -76,9 +74,6 @@ class MoonHistoryController extends Controller
 
     /**
      * 格式化掷骰子结果。
-     *
-     * @param  array  $list
-     * @return array
      */
     public function formatDice(array $list = []): array
     {
@@ -148,8 +143,6 @@ class MoonHistoryController extends Controller
 
     /**
      * 返回规则.
-     *
-     * @return array
      */
     private function getRule(): array
     {

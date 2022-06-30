@@ -17,16 +17,13 @@ class ProcessGithubWebHook implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private string $cmd;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($cmd)
+    public function __construct(private $cmd)
     {
-        $this->cmd = $cmd;
     }
 
     /**

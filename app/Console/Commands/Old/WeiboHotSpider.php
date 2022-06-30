@@ -14,7 +14,7 @@ use function status;
 
 class WeiboHotSpider extends Command
 {
-    public const TIMEOUT = 30;
+    final public const TIMEOUT = 30;
 
     public GuzzleClient $guzzleClient;
 
@@ -91,23 +91,15 @@ class WeiboHotSpider extends Command
                 continue;
             }
 
-            $tmp = explode(' ', trim($i[3]));
-            if (count($tmp) === 1) {
-                $rank = $i[3];
-            } else {
-                $rank = $tmp[1];
-            }
+            $tmp = explode(' ', trim((string) $i[3]));
+            $rank = count($tmp) === 1 ? $i[3] : $tmp[1];
 
             $title = $i[2];
             $status = $i[4] ?? null;
 
-            if (preg_match('/<img.*?>/i', $i[0], $emojiMatches)) {
-                $emoji = $emojiMatches[0];
-            } else {
-                $emoji = null;
-            }
+            $emoji = preg_match('/<img.*?>/i', (string) $i[0], $emojiMatches) ? $emojiMatches[0] : null;
 
-            if ($status && preg_match("/<i.*?>(.*?)<\/i>/i", $i[4], $statusMatches)) {
+            if ($status && preg_match("/<i.*?>(.*?)<\/i>/i", (string) $i[4], $statusMatches)) {
                 $status = $statusMatches[1];
             }
 
