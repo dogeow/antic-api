@@ -44,7 +44,7 @@ class LaravelMigrationToDoc extends Command
 
         foreach ($files as $file) {
             foreach (self::TABLES as $table) {
-                if (!str_contains((string) $file, $table)) {
+                if (! str_contains((string) $file, $table)) {
                     continue;
                 }
 
