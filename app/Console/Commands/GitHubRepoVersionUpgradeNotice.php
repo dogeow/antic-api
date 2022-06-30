@@ -48,15 +48,15 @@ class GitHubRepoVersionUpgradeNotice extends Command
 
             $resp = $response->json();
 
-            if (preg_match('/[\d.]+/', $resp['tag_name'], $matches) === false) {
+            if (preg_match('/[\d.]+/', (string) $resp['tag_name'], $matches) === false) {
                 exit;
             }
 
             $tagName = $matches[0];
 
-            $version = explode('.', $tagName);
+            $version = explode('.', (string) $tagName);
 
-            if (count($version) === 0) {
+            if ($version === []) {
                 exit;
             }
 

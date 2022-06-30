@@ -14,10 +14,8 @@ class PhpFunctionController extends Controller
 {
     public function index(Request $request): Collection|array
     {
-        $query = PhpFunction::when($request->search, function ($query) use ($request) {
-            return $query->where('name', 'LIKE', '%'.$request->search.'%')
-                ->orWhere('intro', 'LIKE', '%'.$request->search.'%');
-        });
+        $query = PhpFunction::when($request->search, fn($query) => $query->where('name', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('intro', 'LIKE', '%'.$request->search.'%'));
         $functions = QueryBuilder::for($query)->allowedFilters(['name', 'intro'])->get();
 
         if (empty($functions)) {

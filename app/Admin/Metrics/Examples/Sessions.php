@@ -44,7 +44,6 @@ class Sessions extends Bar
     /**
      * 处理请求
      *
-     * @param Request $request
      *
      * @return mixed|void
      */
@@ -69,7 +68,6 @@ class Sessions extends Bar
     /**
      * 设置图表数据.
      *
-     * @param array $data
      *
      * @return $this
      */

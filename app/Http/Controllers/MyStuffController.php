@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class MyStuffController extends Controller
 {
-    /**
-     * @return array
-     */
     public function aboutMe(): array
     {
         $newData = [];

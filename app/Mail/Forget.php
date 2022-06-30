@@ -14,19 +14,13 @@ class Forget extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public User $user;
-
-    public string $link;
-
     /**
      * Create a new message instance.
      *
      * @param  string  $link  重置链接
      */
-    public function __construct(User $user, string $link)
+    public function __construct(public User $user, public string $link)
     {
-        $this->user = $user;
-        $this->link = $link;
     }
 
     /**

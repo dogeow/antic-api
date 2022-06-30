@@ -62,7 +62,7 @@ class Image extends Command
                 try {
                     $file = file_get_contents($pic);
                     file_put_contents('car/car_'.$i.'.jpg', $file);
-                } catch (Exception $e) {
+                } catch (Exception) {
                 } finally {
                     $i++;
                 }
@@ -74,14 +74,12 @@ class Image extends Command
     {
         try {
             $response = $this->guzzleClient->request('GET', $url);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
 
         $crawler = new Crawler($response->getBody()->getContents());
 
-        return $crawler->filterXPath("//ul[@class='content']//img/@src")->each(function (Crawler $node) {
-            return $node->text();
-        });
+        return $crawler->filterXPath("//ul[@class='content']//img/@src")->each(fn(Crawler $node) => $node->text());
     }
 }

@@ -42,10 +42,6 @@ class Image extends Model
         return $this->morphTo();
     }
 
-    /**
-     *
-     * @return Attribute
-     */
     protected function image(): Attribute
     {
         return new Attribute(

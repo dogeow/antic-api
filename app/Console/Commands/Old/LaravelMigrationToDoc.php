@@ -22,11 +22,11 @@ class LaravelMigrationToDoc extends Command
      */
     protected $description = 'Command description';
 
-    public const TABLES = [
+    final public const TABLES = [
         'users',
     ];
 
-    public const PRIMARY_KEY = [
+    final public const PRIMARY_KEY = [
         'id' => 'id',
         'name' => '备注',
         'type' => 'int(11)',
@@ -44,7 +44,7 @@ class LaravelMigrationToDoc extends Command
 
         foreach ($files as $file) {
             foreach (self::TABLES as $table) {
-                if (!str_contains($file, $table)) {
+                if (!str_contains((string) $file, $table)) {
                     continue;
                 }
 
@@ -121,7 +121,6 @@ class LaravelMigrationToDoc extends Command
      * Laravel 迁移，字段类型转 MySQL
      *
      * @param  string  $type  字段类型
-     * @return string
      */
     public function switch(string $type): string
     {

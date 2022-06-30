@@ -56,7 +56,7 @@ if (!function_exists('weiboHotForHuman')) {
 if (!function_exists('topping')) {
     function topping($topping)
     {
-        if (count($topping) >= 2) {
+        if ((is_countable($topping) ? count($topping) : 0) >= 2) {
             $diff = $topping[0]->created_at->diffInMinutes($topping[1]->created_at);
             if ($diff > 2) {
                 $topping->pop();

@@ -15,17 +15,11 @@ class ChatBroadcastingEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public string $message;
-
-    public bool $isRobot;
-
     /**
      * Create a new event instance.
      */
-    public function __construct(string $message, bool $isRobot = false)
+    public function __construct(public string $message, public bool $isRobot = false)
     {
-        $this->message = $message;
-        $this->isRobot = $isRobot;
     }
 
     /**

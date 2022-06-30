@@ -11,7 +11,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SearchController extends Controller
 {
-    public const empty = [
+    final public const empty = [
         'data' => [],
         'count' => 0,
     ];
@@ -41,7 +41,7 @@ class SearchController extends Controller
         try {
             $searchResultCount = $crawler->filterXPath("//div[@id='result-stats']")->text();
             if (preg_match('/找到约 (.*?) 条结果/u', $searchResultCount, $match)) {
-                $count = str_replace(',', '', $match[1]);
+                $count = str_replace(',', '', (string) $match[1]);
             }
 
             $result = $crawler->filterXPath("//div[@id='search']//div[@class='g']")->each(function (Crawler $node) {

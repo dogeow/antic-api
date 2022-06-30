@@ -50,9 +50,7 @@ class HealthCheckCommand extends Command
     {
         print_r(new ReflectionObject($this));
         collect((new ReflectionObject($this))->getMethods(ReflectionMethod::IS_PROTECTED | ReflectionMethod::IS_PRIVATE))
-            ->filter(function (ReflectionMethod $method) {
-                return Str::of($method->name)->startsWith('check');
-            })
+            ->filter(fn(ReflectionMethod $method) => Str::of($method->name)->startsWith('check'))
             ->pipe(function (Collection $methods) {
                 $this->withProgressBar($methods, function ($method) use (&$checks) {
                     /* @var HealthCheckStateEnum $state */
@@ -73,9 +71,7 @@ class HealthCheckCommand extends Command
             })
             ->tap(function (Collection $checks) {
                 $checks
-                    ->filter(function ($check) {
-                        return $check['state'] !== HealthCheckStateEnum::OK;
-                    })
+                    ->filter(fn($check) => $check['state'] !== HealthCheckStateEnum::OK)
                     ->whenNotEmpty(function (Collection $notOkChecks) {
                         // 可以做一些失败消息通知(发送到钉钉机器人)
                         // event(new HealthCheckFailed($notOkChecks));
@@ -96,8 +92,6 @@ class HealthCheckCommand extends Command
 
     /**
      * 自已定义检查(名称以 check 开头即可)。
-     *
-     * @return \App\Enums\HealthCheckStateEnum
      */
     protected function checkFoo(): HealthCheckStateEnum
     {
@@ -107,8 +101,6 @@ class HealthCheckCommand extends Command
 
     /**
      * @param $connection
-     *
-     * @return \App\Enums\HealthCheckStateEnum
      */
     protected function checkDatabase($connection = null): HealthCheckStateEnum
     {
@@ -123,9 +115,6 @@ class HealthCheckCommand extends Command
         return HealthCheckStateEnum::OK();
     }
 
-    /**
-     * @return \App\Enums\HealthCheckStateEnum
-     */
     protected function checkSqlSafeUpdates(): HealthCheckStateEnum
     {
         if (config('database.default') !== 'mysql') {
@@ -144,12 +133,7 @@ class HealthCheckCommand extends Command
         return HealthCheckStateEnum::OK();
     }
 
-    /**
-     * @param  array|string  $checkedSqlModes
-     *
-     * @return \App\Enums\HealthCheckStateEnum
-     */
-    protected function checkSqlMode($checkedSqlModes = 'strict_all_tables'): HealthCheckStateEnum
+    protected function checkSqlMode(array|string $checkedSqlModes = 'strict_all_tables'): HealthCheckStateEnum
     {
         if (config('database.default') !== 'mysql') {
             return tap(HealthCheckStateEnum::WARNING(), function (HealthCheckStateEnum $state) {
@@ -163,13 +147,9 @@ class HealthCheckCommand extends Command
         $diffSqlModes = Str::of($sqlModes->Value)
             ->lower()
             ->explode(',')
-            ->pipe(function (Collection $sqlModes) use ($checkedSqlModes): Collection {
-                return collect($checkedSqlModes)
-                    ->transform(function (string $checkedSqlMode) {
-                        return Str::of($checkedSqlMode)->lower();
-                    })
-                    ->diff($sqlModes);
-            });
+            ->pipe(fn(Collection $sqlModes): Collection => collect($checkedSqlModes)
+                ->transform(fn(string $checkedSqlMode) => Str::of($checkedSqlMode)->lower())
+                ->diff($sqlModes));
         if ($diffSqlModes->isNotEmpty()) {
             return tap(HealthCheckStateEnum::FAILING(), function (HealthCheckStateEnum $state) use ($diffSqlModes) {
                 $state->description = "`sql_mode` is not set to `{$diffSqlModes->implode('、')}`. Please set to them.";
@@ -180,7 +160,6 @@ class HealthCheckCommand extends Command
     }
 
     /**
-     * @return \App\Enums\HealthCheckStateEnum
      * @throws \Exception
      */
     protected function checkTimeZone(): HealthCheckStateEnum
@@ -192,7 +171,9 @@ class HealthCheckCommand extends Command
         }
 
         $dbTimeZone = DB::select("SHOW VARIABLES LIKE 'time_zone' ")[0]->Value;
-        Str::of($dbTimeZone)->lower()->is('system') and $dbTimeZone = DB::select("SHOW VARIABLES LIKE 'system_time_zone' ")[0]->Value;
+        if (Str::of($dbTimeZone)->lower()->is('system')) {
+            $dbTimeZone = DB::select("SHOW VARIABLES LIKE 'system_time_zone' ")[0]->Value;
+        }
 
         $dbDateTime = (new DateTime('now', new DateTimeZone($dbTimeZone)))->format('YmdH');
         $appDateTime = (new DateTime('now', new DateTimeZone($appTimezone = config('app.timezone'))))->format('YmdH');
@@ -208,11 +189,6 @@ class HealthCheckCommand extends Command
         return HealthCheckStateEnum::OK();
     }
 
-    /**
-     * @param  null|string  $url
-     *
-     * @return \App\Enums\HealthCheckStateEnum
-     */
     protected function checkPing(?string $url = null): HealthCheckStateEnum
     {
         $url = $url ?: config('app.url');
@@ -227,9 +203,6 @@ class HealthCheckCommand extends Command
         return HealthCheckStateEnum::OK();
     }
 
-    /**
-     * @return \App\Enums\HealthCheckStateEnum
-     */
     protected function checkPhpVersion(): HealthCheckStateEnum
     {
         if (version_compare(PHP_VERSION, '7.3.0', '<')) {
@@ -257,14 +230,10 @@ class HealthCheckCommand extends Command
 
         /* @var Collection $missingExtensions */
         $missingExtensions = collect($extensions)
-            ->reduce(function (Collection $missingExtensions, $extension) {
-                return $missingExtensions->when(
-                    ! extension_loaded($extension),
-                    function (Collection $missingExtensions) use ($extension) {
-                        return $missingExtensions->add($extension);
-                    }
-                );
-            }, collect());
+            ->reduce(fn(Collection $missingExtensions, $extension) => $missingExtensions->when(
+                ! extension_loaded($extension),
+                fn(Collection $missingExtensions) => $missingExtensions->add($extension)
+            ), collect());
 
         if ($missingExtensions->isNotEmpty()) {
             return tap(
@@ -278,9 +247,6 @@ class HealthCheckCommand extends Command
         return HealthCheckStateEnum::OK();
     }
 
-    /**
-     * @return \App\Enums\HealthCheckStateEnum
-     */
     protected function checkDiskSpace(): HealthCheckStateEnum
     {
         $freeSpace = disk_free_space(base_path());
@@ -303,9 +269,7 @@ class HealthCheckCommand extends Command
 
     protected function checkMemoryLimit(int $limit = 128): HealthCheckStateEnum
     {
-        $inis = collect(ini_get_all())->filter(function ($value, $key) {
-            return str_contains($key, 'memory_limit');
-        });
+        $inis = collect(ini_get_all())->filter(fn($value, $key) => str_contains((string) $key, 'memory_limit'));
 
         if ($inis->isEmpty()) {
             return tap(HealthCheckStateEnum::FAILING(), function (HealthCheckStateEnum $state) {

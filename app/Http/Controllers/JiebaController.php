@@ -28,9 +28,6 @@ class JiebaController extends Controller
 
     /**
      * 关键词提取
-     *
-     * @param  string  $content
-     * @return array
      */
     public function keywords(string $content): array
     {

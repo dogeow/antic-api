@@ -15,14 +15,11 @@ class GameBroadcastingEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public array $gameData;
-
     /**
      * Create a new event instance.
      */
-    public function __construct(array $gameData)
+    public function __construct(public array $gameData)
     {
-        $this->gameData = $gameData;
     }
 
     /**
@@ -41,7 +38,7 @@ class GameBroadcastingEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         $userdata = [];
-        if (auth()->user()) {
+        if (auth()->user() !== null) {
             $userdata = [
                 'id' => auth()->user()->id,
                 'name' => auth()->user()->name,

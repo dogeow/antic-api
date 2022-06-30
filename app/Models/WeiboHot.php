@@ -36,10 +36,6 @@ class WeiboHot extends Model
 {
     protected $fillable = ['title', 'url', 'rank', 'emoji', 'status'];
 
-    /**
-     *
-     * @return Attribute
-     */
     protected function updatedAt(): Attribute
     {
         return new Attribute(

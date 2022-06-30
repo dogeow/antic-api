@@ -27,7 +27,7 @@ class giveName extends Command
      */
     protected $description = '爬取名网';
 
-    private Client $client;
+    private readonly Client $client;
 
     private $firstName;
 

@@ -37,7 +37,7 @@ class SqlToDoc extends Command
         $file .= "\nCREATE TABLE"; // 尾部增加
 
         foreach ($tables as $table) {
-            $tableStart = strpos($file, "CREATE TABLE `{$table}`");
+            $tableStart = strpos($file, (string) "CREATE TABLE `{$table}`");
             $createTableStart = substr($file, $tableStart);
             $tableNameStart = substr($createTableStart, 12); // 12 为「CREATE TABLE」
             $tableEnd = strpos($tableNameStart, 'CREATE TABLE');
@@ -74,7 +74,7 @@ class SqlToDoc extends Command
                             if ($array['fields'][$key]['index'] === '') {
                                 $array['fields'][$key]['index'] .= '主键';
                             } else {
-                                $array['fields'][$key]['index'] .= '|'.'主键';
+                                $array['fields'][$key]['index'] .= '|主键';
                             }
                             break;
                         }
@@ -85,7 +85,7 @@ class SqlToDoc extends Command
                             if ($array['fields'][$key]['index'] === '') {
                                 $array['fields'][$key]['index'] .= '唯一';
                             } else {
-                                $array['fields'][$key]['index'] .= '|'.'唯一';
+                                $array['fields'][$key]['index'] .= '|唯一';
                             }
                             break;
                         }
@@ -96,7 +96,7 @@ class SqlToDoc extends Command
                             if ($array['fields'][$key]['index'] === '') {
                                 $array['fields'][$key]['index'] .= '普通索引';
                             } else {
-                                $array['fields'][$key]['index'] .= '|'.'普通索引';
+                                $array['fields'][$key]['index'] .= '|普通索引';
                             }
                             break;
                         }
@@ -107,7 +107,7 @@ class SqlToDoc extends Command
                             if ($array['fields'][$key]['index'] === '') {
                                 $array['fields'][$key]['index'] .= '普通索引';
                             } else {
-                                $array['fields'][$key]['index'] .= '|'.'普通索引';
+                                $array['fields'][$key]['index'] .= '|普通索引';
                             }
                             break;
                         }
@@ -136,7 +136,7 @@ class SqlToDoc extends Command
                         continue;
                     }
 
-                    if (isset($nullable) === false) {
+                    if (!isset($nullable)) {
                         exit('$nullable 为空：'.$line);
                     }
 
@@ -173,7 +173,7 @@ class SqlToDoc extends Command
                 echo "{$no},{$v['id']},{$v['comment']},{$v['type']},{$v['nullable']},{$v['index']},".PHP_EOL;
                 $no++;
             }
-            echo str_repeat(PHP_EOL, 3);
+            echo str_repeat((string) PHP_EOL, 3);
         }
     }
 }

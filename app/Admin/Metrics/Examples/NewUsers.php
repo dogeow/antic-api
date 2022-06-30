@@ -28,7 +28,6 @@ class NewUsers extends Line
     /**
      * 处理请求
      *
-     * @param Request $request
      *
      * @return mixed|void
      */
@@ -36,26 +35,26 @@ class NewUsers extends Line
     {
         $generator = function ($len, $min = 10, $max = 300) {
             for ($i = 0; $i <= $len; $i++) {
-                yield mt_rand($min, $max);
+                yield random_int($min, $max);
             }
         };
 
         switch ($request->get('option')) {
             case '365':
                 // 卡片内容
-                $this->withContent(mt_rand(1000, 5000).'k');
+                $this->withContent(random_int(1000, 5000).'k');
                 // 图表数据
                 $this->withChart(collect($generator(30))->toArray());
                 break;
             case '30':
                 // 卡片内容
-                $this->withContent(mt_rand(400, 1000).'k');
+                $this->withContent(random_int(400, 1000).'k');
                 // 图表数据
                 $this->withChart(collect($generator(30))->toArray());
                 break;
             case '28':
                 // 卡片内容
-                $this->withContent(mt_rand(400, 1000).'k');
+                $this->withContent(random_int(400, 1000).'k');
                 // 图表数据
                 $this->withChart(collect($generator(28))->toArray());
                 break;
@@ -71,7 +70,6 @@ class NewUsers extends Line
     /**
      * 设置图表数据.
      *
-     * @param array $data
      *
      * @return $this
      */

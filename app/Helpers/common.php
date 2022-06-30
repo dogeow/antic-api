@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 /**
  * @param $input
- * @return array|string|null
  */
 function br2nl($input): array|string|null
 {
     return preg_replace(
         '/<br\s?\/?>/iu',
         "\n",
-        str_replace("\n", '', str_replace("\r", '', htmlspecialchars_decode($input)))
+        str_replace("\n", '', str_replace("\r", '', htmlspecialchars_decode((string) $input)))
     );
 }
 

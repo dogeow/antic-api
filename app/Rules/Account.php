@@ -22,7 +22,7 @@ class Account implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        return preg_match(config('preg.phone_number'), $value) || filter_var($value, FILTER_VALIDATE_EMAIL);
+        return preg_match(config('preg.phone_number'), (string) $value) || filter_var($value, FILTER_VALIDATE_EMAIL);
     }
 
     /**

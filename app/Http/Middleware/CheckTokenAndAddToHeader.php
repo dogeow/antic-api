@@ -17,13 +17,11 @@ class CheckTokenAndAddToHeader
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
      * @param  Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return Response|RedirectResponse|JsonResponse
      */
     public function handle(Request $request, Closure $next): Response|RedirectResponse|JsonResponse
     {
-        if (isset($request->_token)) {
+        if (property_exists($request, '_token') && $request->_token !== null) {
             $request->headers->set('Authorization', sprintf('%s %s', 'Bearer', $request->_token));
         }
 
