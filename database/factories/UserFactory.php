@@ -39,7 +39,7 @@ class UserFactory extends Factory
             ];
         });
     }
-    
+
     public function suspended()
     {
         return $this->state([

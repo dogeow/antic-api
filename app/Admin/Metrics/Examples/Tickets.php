@@ -65,8 +65,7 @@ class Tickets extends RadialBar
     /**
      * 卡片内容
      *
-     * @param string $content
-     *
+     * @param  string  $content
      * @return $this
      */
     public function withContent($content)
@@ -84,10 +83,9 @@ HTML
     /**
      * 卡片底部内容.
      *
-     * @param string $new
-     * @param string $open
-     * @param string $response
-     *
+     * @param  string  $new
+     * @param  string  $open
+     * @param  string  $response
      * @return $this
      */
     public function withFooter($new, $open, $response)

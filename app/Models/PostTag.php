@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Post $post
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag query()
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag wherePostId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag whereUpdatedAt($value)
  * @mixin \Eloquent
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
  * @property-read int|null $posts_count
  */

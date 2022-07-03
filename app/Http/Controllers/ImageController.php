@@ -27,7 +27,7 @@ class ImageController extends Controller
     {
         $key = $request->input('key');
 
-        if (!$request->hasFile($key) || is_null($file = $request->file($key))) {
+        if (! $request->hasFile($key) || is_null($file = $request->file($key))) {
             return [
                 'url' => '',
             ];

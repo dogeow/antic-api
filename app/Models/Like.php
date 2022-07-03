@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $feeling 对 ta 的感觉
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Like newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Like newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Like query()
@@ -32,6 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Like whereSubHeader($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Like whereUpdatedAt($value)
  * @mixin \Eloquent
+ *
  * @method static \Database\Factories\LikeFactory factory(...$parameters)
  */
 class Like extends Model

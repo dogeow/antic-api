@@ -44,13 +44,13 @@ class AppServiceProvider extends ServiceProvider
                 if ($query->time >= 100) {
                     $location = collect(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS))->filter(function ($trace) {
                         if (isset($trace['file'])) {
-                            return !str_contains($trace['file'], 'vendor/');
+                            return ! str_contains($trace['file'], 'vendor/');
                         }
 
                         return false;
                     })->first();
 
-                    $bindings = implode(", ", $query->bindings); // format the bindings as string
+                    $bindings = implode(', ', $query->bindings); // format the bindings as string
 
                     Log::info("
 Sql: $query->sql

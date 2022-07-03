@@ -60,8 +60,7 @@ class TotalUsers extends Card
     }
 
     /**
-     * @param int $percent
-     *
+     * @param  int  $percent
      * @return $this
      */
     public function up($percent)
@@ -72,8 +71,7 @@ class TotalUsers extends Card
     }
 
     /**
-     * @param int $percent
-     *
+     * @param  int  $percent
      * @return $this
      */
     public function down($percent)
@@ -89,7 +87,7 @@ class TotalUsers extends Card
      *
      * @return $this
      */
-    public function footer(string|\Illuminate\Contracts\Support\Renderable|\Closure $footer)
+    public function footer(string|Renderable|\Closure $footer)
     {
         $this->footer = $footer;
 

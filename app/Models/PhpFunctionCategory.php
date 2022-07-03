@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name 分类名
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|PhpFunctionCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PhpFunctionCategory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PhpFunctionCategory query()

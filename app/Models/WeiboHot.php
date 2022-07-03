@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $status
  * @property Carbon|null $created_at
  * @property string $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|WeiboHot newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WeiboHot newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WeiboHot query()
@@ -39,7 +40,7 @@ class WeiboHot extends Model
     protected function updatedAt(): Attribute
     {
         return new Attribute(
-            get: fn() => Carbon::parse($this->attributes['updated_at'])->diffForHumans()
+            get: fn () => Carbon::parse($this->attributes['updated_at'])->diffForHumans()
         );
     }
 

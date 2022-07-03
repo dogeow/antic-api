@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read int|null $history_count
  * @property-read \App\Models\SiteCheck|null $todayLatest
  * @property-read \App\Models\SiteCheck|null $todayLatestWithFailed
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Site newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Site newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Site query()
@@ -39,6 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Site whereSeo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Site whereUpdatedAt($value)
  * @mixin \Eloquent
+ *
  * @property-read string $last_updated_at
  */
 class Site extends Model
@@ -49,7 +51,6 @@ class Site extends Model
     }
 
     /**
-     *
      * @return Attribute
      */
 //    protected function lastUpdatedAt(): Attribute

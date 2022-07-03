@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $content
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|AboutMe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AboutMe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AboutMe query()

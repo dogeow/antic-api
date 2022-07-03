@@ -27,6 +27,7 @@ use Laravel\Scout\Searchable;
  * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\PostTag> $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post public ()
@@ -40,8 +41,10 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUserId($value)
  * @mixin \Eloquent
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $image
  * @property-read int|null $image_count
+ *
  * @method static \Database\Factories\PostFactory factory(...$parameters)
  */
 class Post extends Model

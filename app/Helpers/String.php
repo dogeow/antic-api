@@ -10,4 +10,3 @@ function getStringBetween(string $string, string $start, string $end): string
 
     return substr($string, $startPos, $endPos - $startPos);
 }
-

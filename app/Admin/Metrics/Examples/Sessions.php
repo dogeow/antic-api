@@ -37,7 +37,7 @@ class Sessions extends Bar
             $color->primary(),
             $dark35,
             $dark35,
-            $dark35
+            $dark35,
         ]);
     }
 
@@ -81,10 +81,9 @@ class Sessions extends Bar
     /**
      * 设置卡片内容.
      *
-     * @param string $title
-     * @param string $value
-     * @param string $style
-     *
+     * @param  string  $title
+     * @param  string  $value
+     * @param  string  $style
      * @return $this
      */
     public function withContent($title, $value, $style = 'success')

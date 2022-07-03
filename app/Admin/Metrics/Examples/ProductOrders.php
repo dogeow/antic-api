@@ -65,10 +65,9 @@ class ProductOrders extends Round
     /**
      * 卡片内容.
      *
-     * @param int $finished
-     * @param int $pending
-     * @param int $rejected
-     *
+     * @param  int  $finished
+     * @param  int  $pending
+     * @param  int  $rejected
      * @return $this
      */
     public function withContent($finished, $pending, $rejected)

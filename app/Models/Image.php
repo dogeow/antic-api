@@ -21,6 +21,7 @@ use Illuminate\Support\Str;
  * @property string $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ *
  * @method static Builder|Image newModelQuery()
  * @method static Builder|Image newQuery()
  * @method static Builder|Image query()
@@ -31,6 +32,7 @@ use Illuminate\Support\Str;
  * @method static Builder|Image whereUpdatedAt($value)
  * @method static Builder|Image whereUserId($value)
  * @mixin Eloquent
+ *
  * @property-read Model|Eloquent $imageable
  */
 class Image extends Model

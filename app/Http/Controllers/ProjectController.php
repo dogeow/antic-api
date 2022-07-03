@@ -77,8 +77,8 @@ class ProjectController extends Controller
         $params = ['title'];
         $query = $project->tasks()
             ->where('is_completed', 0)
-            ->when($request->search, fn($query) => $query->where('title', 'like', '%'.$request->search.'%'))
-            ->when(empty($request->sort), fn($query) => $query->orderBy('order', 'ASC'));
+            ->when($request->search, fn ($query) => $query->where('title', 'like', '%'.$request->search.'%'))
+            ->when(empty($request->sort), fn ($query) => $query->orderBy('order', 'ASC'));
 
         return QueryBuilder::for($query)
             ->allowedSorts($params)

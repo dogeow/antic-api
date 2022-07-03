@@ -80,6 +80,6 @@ class Image extends Command
 
         $crawler = new Crawler($response->getBody()->getContents());
 
-        return $crawler->filterXPath("//ul[@class='content']//img/@src")->each(fn(Crawler $node) => $node->text());
+        return $crawler->filterXPath("//ul[@class='content']//img/@src")->each(fn (Crawler $node) => $node->text());
     }
 }

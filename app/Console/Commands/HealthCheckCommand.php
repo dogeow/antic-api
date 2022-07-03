@@ -50,7 +50,7 @@ class HealthCheckCommand extends Command
     {
         print_r(new ReflectionObject($this));
         collect((new ReflectionObject($this))->getMethods(ReflectionMethod::IS_PROTECTED | ReflectionMethod::IS_PRIVATE))
-            ->filter(fn(ReflectionMethod $method) => Str::of($method->name)->startsWith('check'))
+            ->filter(fn (ReflectionMethod $method) => Str::of($method->name)->startsWith('check'))
             ->pipe(function (Collection $methods) {
                 $this->withProgressBar($methods, function ($method) use (&$checks) {
                     /* @var HealthCheckStateEnum $state */
@@ -71,7 +71,7 @@ class HealthCheckCommand extends Command
             })
             ->tap(function (Collection $checks) {
                 $checks
-                    ->filter(fn($check) => $check['state'] !== HealthCheckStateEnum::OK)
+                    ->filter(fn ($check) => $check['state'] !== HealthCheckStateEnum::OK)
                     ->whenNotEmpty(function (Collection $notOkChecks) {
                         // 可以做一些失败消息通知(发送到钉钉机器人)
                         // event(new HealthCheckFailed($notOkChecks));
@@ -147,8 +147,8 @@ class HealthCheckCommand extends Command
         $diffSqlModes = Str::of($sqlModes->Value)
             ->lower()
             ->explode(',')
-            ->pipe(fn(Collection $sqlModes): Collection => collect($checkedSqlModes)
-                ->transform(fn(string $checkedSqlMode) => Str::of($checkedSqlMode)->lower())
+            ->pipe(fn (Collection $sqlModes): Collection => collect($checkedSqlModes)
+                ->transform(fn (string $checkedSqlMode) => Str::of($checkedSqlMode)->lower())
                 ->diff($sqlModes));
         if ($diffSqlModes->isNotEmpty()) {
             return tap(HealthCheckStateEnum::FAILING(), function (HealthCheckStateEnum $state) use ($diffSqlModes) {
@@ -230,9 +230,9 @@ class HealthCheckCommand extends Command
 
         /* @var Collection $missingExtensions */
         $missingExtensions = collect($extensions)
-            ->reduce(fn(Collection $missingExtensions, $extension) => $missingExtensions->when(
+            ->reduce(fn (Collection $missingExtensions, $extension) => $missingExtensions->when(
                 ! extension_loaded($extension),
-                fn(Collection $missingExtensions) => $missingExtensions->add($extension)
+                fn (Collection $missingExtensions) => $missingExtensions->add($extension)
             ), collect());
 
         if ($missingExtensions->isNotEmpty()) {
@@ -269,11 +269,11 @@ class HealthCheckCommand extends Command
 
     protected function checkMemoryLimit(int $limit = 128): HealthCheckStateEnum
     {
-        $inis = collect(ini_get_all())->filter(fn($value, $key) => str_contains((string) $key, 'memory_limit'));
+        $inis = collect(ini_get_all())->filter(fn ($value, $key) => str_contains((string) $key, 'memory_limit'));
 
         if ($inis->isEmpty()) {
             return tap(HealthCheckStateEnum::FAILING(), function (HealthCheckStateEnum $state) {
-                $state->description = "The memory limit is not set.";
+                $state->description = 'The memory limit is not set.';
             });
         }
 
@@ -294,7 +294,7 @@ class HealthCheckCommand extends Command
     {
         if (! Queue::connected()) {
             return tap(HealthCheckStateEnum::FAILING(), function (HealthCheckStateEnum $state) {
-                $state->description = "The queue is not connected.";
+                $state->description = 'The queue is not connected.';
             });
         }
 

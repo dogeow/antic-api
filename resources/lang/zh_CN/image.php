@@ -1,4 +1,5 @@
 <?php
+
 return [
     'labels' => [
         'Image' => '图片',

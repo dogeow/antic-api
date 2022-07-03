@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Site $sites
+ *
  * @method static Builder|SiteCheck newModelQuery()
  * @method static Builder|SiteCheck newQuery()
  * @method static Builder|SiteCheck query()
@@ -41,7 +42,7 @@ class SiteCheck extends Model
 
     public function scopeLastPerGroup(Builder $query, ?array $fields = null): Builder
     {
-        return $query->whereIn('id', fn(QueryBuilder $query) => $query->from(static::getTable())
+        return $query->whereIn('id', fn (QueryBuilder $query) => $query->from(static::getTable())
             ->selectRaw('max(`id`)')
             ->groupBy($fields));
     }

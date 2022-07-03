@@ -33,7 +33,6 @@ class UserController extends AdminController
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-
             });
         });
     }
@@ -42,7 +41,6 @@ class UserController extends AdminController
      * Make a show builder.
      *
      * @param  mixed  $id
-     *
      * @return Show
      */
     protected function detail($id)

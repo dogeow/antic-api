@@ -70,7 +70,7 @@ class SiteCheckDate extends Command
         $checkFailed = $this->option('failed');
         $onlyTheDomain = $this->option('domain');
         if ($checkFailed) {
-            $sites = Site::whereNotNull('get_type')->with('todayLatest')->get()->filter(fn($site) => $site->online === 0 || (property_exists($site->todayLatest, 'status') && $site->todayLatest->status !== null && $site->todayLatest->status === 0));
+            $sites = Site::whereNotNull('get_type')->with('todayLatest')->get()->filter(fn ($site) => $site->online === 0 || (property_exists($site->todayLatest, 'status') && $site->todayLatest->status !== null && $site->todayLatest->status === 0));
         } elseif ($onlyTheDomain) {
             $sites = Site::whereNotNull('get_type')->where('domain', $onlyTheDomain)->get();
         } else {

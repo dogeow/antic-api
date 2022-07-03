@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\MoonHistory> $moonHistory
  * @property-read int|null $moon_history_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Moon newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Moon newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Moon query()

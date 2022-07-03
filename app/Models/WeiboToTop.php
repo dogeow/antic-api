@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|WeiboToTop newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WeiboToTop newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WeiboToTop query()

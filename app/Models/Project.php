@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Task> $tasks
  * @property-read int|null $tasks_count
  * @property-read \App\Models\User $user
+ *
  * @method static Builder|Project completed()
  * @method static Builder|Project newModelQuery()
  * @method static Builder|Project newQuery()

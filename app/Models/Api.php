@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $example
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Api newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Api newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Api query()

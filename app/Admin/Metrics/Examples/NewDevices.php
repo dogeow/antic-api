@@ -60,16 +60,15 @@ class NewDevices extends Donut
     public function withChart(array $data)
     {
         return $this->chart([
-            'series' => $data
+            'series' => $data,
         ]);
     }
 
     /**
      * 设置卡片头部内容.
      *
-     * @param mixed $desktop
-     * @param mixed $mobile
-     *
+     * @param  mixed  $desktop
+     * @param  mixed  $mobile
      * @return $this
      */
     protected function withContent($desktop, $mobile)

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if (!function_exists('status')) {
+if (! function_exists('status')) {
     function status($status): ?string
     {
         return match ($status) {
@@ -23,7 +23,7 @@ if (!function_exists('status')) {
  * @return string 格式化后的带单位的大小
  */
 
-if (!function_exists('bytesForHuman')) {
+if (! function_exists('bytesForHuman')) {
     function bytesForHuman(int $size, int $base = 1024, string $delimiter = ''): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
@@ -41,7 +41,7 @@ if (!function_exists('bytesForHuman')) {
  * @param  int  $size  热度
  * @return string 格式化后的带单位的大小
  */
-if (!function_exists('weiboHotForHuman')) {
+if (! function_exists('weiboHotForHuman')) {
     function weiboHotForHuman(int $size): string
     {
         $units = ['', 'K', 'M', 'G'];
@@ -53,7 +53,7 @@ if (!function_exists('weiboHotForHuman')) {
     }
 }
 
-if (!function_exists('topping')) {
+if (! function_exists('topping')) {
     function topping($topping)
     {
         if ((is_countable($topping) ? count($topping) : 0) >= 2) {

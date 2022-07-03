@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Moon $moon
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory query()

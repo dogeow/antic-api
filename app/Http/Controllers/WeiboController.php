@@ -23,7 +23,7 @@ class WeiboController extends Controller
         return $query->jsonPaginate(20);
     }
 
-    #[ArrayShape(['total' => "int", 'startDate' => "string", 'endDate' => "string"])]
+    #[ArrayShape(['total' => 'int', 'startDate' => 'string', 'endDate' => 'string'])]
     public function about(): array
     {
         return [
