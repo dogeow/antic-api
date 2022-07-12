@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\TestExport;
 use App\Models\Api;
+use App\Models\User;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Contracts\Foundation\Application;
@@ -314,7 +315,7 @@ class ApiController extends Controller
         $markdown = '';
 
         foreach ($contentArray as $line => $string) {
-            if (strlen($string) > 2 && $string[0] === '*' && ! in_array($string[1], ['*', ' '], true)) {
+            if (strlen($string) > 2 && $string[0] === '*' && !in_array($string[1], ['*', ' '], true)) {
                 $string = $string[0].' '.substr($string, 1);
             }
 
@@ -373,5 +374,13 @@ class ApiController extends Controller
         }
 
         return $markdown;
+    }
+
+    /**
+     * @return User
+     */
+    public function ab()
+    {
+        return User::findOrFail(1);
     }
 }

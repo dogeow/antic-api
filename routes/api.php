@@ -131,4 +131,7 @@ Route::get('parking', [ApiController::class, 'parking']);
 
 Route::post('mediawiki-to-markdown', [ApiController::class, 'mediawikiToMarkdown']);
 
+// 测试
+Route::get('ab', [ApiController::class, 'ab']);
+
 require __DIR__.'/apis.php';
