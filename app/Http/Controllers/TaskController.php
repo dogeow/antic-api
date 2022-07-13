@@ -16,6 +16,11 @@ class TaskController extends Controller
         $this->authorizeResource(Task::class, 'task');
     }
 
+    /**
+     * @param  Project  $project
+     * @param  Request  $request
+     * @return Model
+     */
     public function store(Project $project, Request $request): Model
     {
         $validatedData = $request->validate([
@@ -30,6 +35,12 @@ class TaskController extends Controller
         ]);
     }
 
+    /**
+     * @param  Project  $project
+     * @param  Task  $task
+     * @param  Request  $request
+     * @return Task
+     */
     public function update(Project $project, Task $task, Request $request): Task
     {
         $request->validate([
