@@ -1,19 +1,28 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
-    },
-    "devDependencies": {
-        "chokidar": "^3.5.3"
-    },
-    "dependencies": {
-        "@nesk/puphpeteer": "^2.0.0",
-        "@nesk/rialto": "^1.4.0"
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production"
+  },
+  "husky": {
+    "hooks": {
+      "applypatch-msg": "echo \"[Husky] applypatch-msg\"",
+      "pre-applypatch": "echo \"[Husky] pre-applypatch\"",
+      "post-applypatch": "echo \"[Husky] post-applypatch\"",
+      "pre-commit": "echo \"[Husky] pre-commit\""
     }
+  },
+  "devDependencies": {
+    "chokidar": "^3.5.3"
+  },
+  "dependencies": {
+    "@nesk/puphpeteer": "^2.0.0",
+    "@nesk/rialto": "^1.4.0",
+    "husky": "^8.0.1"
+  }
 }
