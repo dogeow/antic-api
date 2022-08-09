@@ -50,12 +50,7 @@ cp -r build static
 @endtask
 
 @finished
-echo PHP_EOL;
-if ($exitCode > 0) {
-echo "有一些错误！";
-} else {
-echo "新版本发布完成！";
-}
+echo "执行完毕"
 @endfinished
 
 
