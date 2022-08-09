@@ -50,7 +50,7 @@ cp -r build static
 @endtask
 
 @finished
-echo "执行完毕"；
+echo "执行完毕";
 @endfinished
 
 
