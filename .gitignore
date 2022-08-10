@@ -27,9 +27,5 @@ dcat_admin_ide_helper.php
 programmatic-types.graphql
 _lighthouse_ide_helper.php
 
-# WebSocket
-laravel-echo-server.json
-laravel-echo-server.lock
-
 ## Cache
 .*.cache
