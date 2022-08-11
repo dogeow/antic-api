@@ -18,7 +18,7 @@ class GameBroadcastingEvent implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public array $gameData = [])
+    public function __construct(public array $gameData)
     {
     }
 
@@ -46,7 +46,7 @@ class GameBroadcastingEvent implements ShouldBroadcast
         }
 
         return [
-            'data' => array_merge($userdata, $this->gameData),
+            'data' => array_merge($userdata, $this->gameData ?? []),
         ];
     }
 }
