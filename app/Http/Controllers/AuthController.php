@@ -30,7 +30,7 @@ use Overtrue\EasySms\Strategies\OrderStrategy;
 class AuthController extends Controller
 {
     /**
-     * 创建用户。
+     * 使用 Email 注册
      */
     public function registerByEmail(AuthRegisterByEmail $request): JsonResponse
     {
@@ -73,7 +73,7 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'errors' => [
                     'account' => [$notMatchedText],
@@ -154,7 +154,7 @@ class AuthController extends Controller
     }
 
     /**
-     * 测试账号、聊天账号.
+     * 测试账号、聊天账号
      */
     public function guest(): array
     {
@@ -320,5 +320,10 @@ class AuthController extends Controller
     public function profile(Request $request): ?Authenticatable
     {
         return $request->user();
+    }
+
+    public function logout()
+    {
+        request()->user()->currentAccessToken()->delete();
     }
 }
