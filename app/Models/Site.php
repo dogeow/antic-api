@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $id
  * @property string $domain 域名
  * @property bool $online 是否在线
+ * @property string path 接口路径
  * @property int $seo 百度收录量
  * @property string $get_type 爬虫或者 API
  * @property string $date_xpath 最新日期的 xpath
