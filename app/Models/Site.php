@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $get_type 爬虫或者 API
  * @property string $date_xpath 最新日期的 xpath
  * @property string $date_format 最新日期的格式
+ * @property \Illuminate\Support\Carbon|null $last_updated_at 站点最后更新时间
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\SiteCheck> $history
@@ -41,8 +42,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Site whereSeo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Site whereUpdatedAt($value)
  * @mixin \Eloquent
- *
- * @property-read string $last_updated_at
  */
 class Site extends Model
 {

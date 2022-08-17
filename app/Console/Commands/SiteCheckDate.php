@@ -20,6 +20,11 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SiteCheckDate extends Command
 {
+    /**
+     * 超时时间
+     *
+     * @var string
+     */
     final public const TIMEOUT = 90;
 
     public bool $needNotify = false;
@@ -44,7 +49,7 @@ class SiteCheckDate extends Command
      *
      * @var string
      */
-    protected $description = '用接口获取站点更新时间';
+    protected $description = '用接口或爬虫获取站点更新时间';
 
     /**
      * Create a new command instance.
@@ -70,9 +75,16 @@ class SiteCheckDate extends Command
         $checkFailed = $this->option('failed');
         $onlyTheDomain = $this->option('domain');
         if ($checkFailed) {
-            $sites = Site::query()->whereNotNull('get_type')->with('todayLatest')->get()->filter(fn($site
-            ) => $site->online === 0 || (property_exists($site->todayLatest,
-                        'status') && $site->todayLatest->status !== null && $site->todayLatest->status === 0));
+            $sites = Site::query()
+                ->whereNotNull('get_type')
+                ->with('todayLatest')
+                ->get()
+                ->filter(fn($site) => $site->online === false
+                    || (property_exists($site->todayLatest, 'status')
+                        && $site->todayLatest->status !== null
+                        && $site->todayLatest->status === 0
+                    )
+                );
         } elseif ($onlyTheDomain) {
             $sites = Site::whereNotNull('get_type')->where('domain', $onlyTheDomain)->get();
         } else {
