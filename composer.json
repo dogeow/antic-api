@@ -35,7 +35,7 @@
     "laravel/socialite": "^5.5",
     "laravel/telescope": "^4.9",
     "laravel/tinker": "^2.7",
-    "likunyan/php-helpers": "dev-main",
+    "dogeow/php-helpers": "dev-main",
     "maatwebsite/excel": "^3.1",
     "malios/php-to-ascii-table": "^3.0",
     "mll-lab/graphql-php-scalars": "^5.4",
