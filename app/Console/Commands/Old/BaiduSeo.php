@@ -67,7 +67,7 @@ class BaiduSeo extends Command
             }
             $site->seo = $count;
             $site->save();
-            sleep(120);
+            sleep(180);
         }
     }
 
