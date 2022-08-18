@@ -59,7 +59,7 @@ class BaiduSeo extends Command
             ],
         ]);
 
-        $sites = Site::all();
+        $sites = Site::orderBy('updated_at')->get();
         foreach ($sites as $site) {
             $count = $this->spider($site->domain);
             if ($count === false) {
