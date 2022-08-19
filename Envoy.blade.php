@@ -30,8 +30,8 @@ sudo -u www-data composer install --no-plugins --no-scripts
 
 @task('laravel')
 cd {{$path}}
-php artisan migrate --force
 php artisan optimize
+php artisan migrate --force
 @endtask
 
 @task('lighthouse')
