@@ -18,6 +18,7 @@ Broadcast::channel('chat', function ($user) {
         'id' => $user->id,
         'name' => $user->name,
         'email' => $user->email ?? '',
+        'active' => true,
     ];
 });
 
