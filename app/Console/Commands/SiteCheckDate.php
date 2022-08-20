@@ -79,8 +79,10 @@ class SiteCheckDate extends Command
                 ->whereNotNull('get_type')
                 ->with('todayLatest')
                 ->get()
-                ->filter(fn($site) => $site->online === false
-                    || (property_exists($site->todayLatest, 'status')
+                ->filter(
+                    fn ($site) => $site->online === false
+                    || (
+                        property_exists($site->todayLatest, 'status')
                         && $site->todayLatest->status !== null
                         && $site->todayLatest->status === 0
                     )

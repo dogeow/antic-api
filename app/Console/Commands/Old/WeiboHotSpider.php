@@ -10,6 +10,7 @@ use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
 use Log;
+
 use function status;
 
 class WeiboHotSpider extends Command

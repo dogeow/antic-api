@@ -18,7 +18,8 @@ use Laravel\Scout\Searchable;
  */
 class Bookmark extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
+    use Searchable;
 
     protected $fillable = ['title', 'url'];
 }

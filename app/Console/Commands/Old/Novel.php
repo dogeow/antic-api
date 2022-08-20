@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Old;
 
-use function br2nl;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
+
+use function br2nl;
 
 class Novel extends Command
 {
