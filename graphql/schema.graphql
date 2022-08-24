@@ -5,7 +5,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
 type Query {
-    TagsCount: [PostTag]
+    tagsCount: [PostTag]
     user(id: ID @eq): User @find
     users: [User!]! @paginate(defaultCount: 10)
     post(id: Int! @eq): Post @find(scopes: ["public"])
