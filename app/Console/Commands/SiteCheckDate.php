@@ -92,6 +92,7 @@ class SiteCheckDate extends Command
         }
 
         foreach ($sites as $site) {
+            // 站点是否有更新
             $status = false;
 
             $this->site = $site;
@@ -141,10 +142,14 @@ class SiteCheckDate extends Command
         if ($site->get_type === 'api') {
             $date = $crawler->text();
         } else {
-            try {
-                $date = $crawler->filterXPath($site->date_xpath)->text();
-            } catch (Exception) {
+            if (is_null($site->date_xpath)) {
                 return false;
+            } else {
+                try {
+                    $date = $crawler->filterXPath($site->date_xpath)->text();
+                } catch (Exception) {
+                    return false;
+                }
             }
         }
 
