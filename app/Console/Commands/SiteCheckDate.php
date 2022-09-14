@@ -100,7 +100,7 @@ class SiteCheckDate extends Command
             $date = $this->getDate();
             if ($date) {
                 $site->is_online = $this->is_online = true;
-                if ($site->date_xpath || $site->path) {
+                if (self::needCheckDate($site)) {
                     $status = $this->checkDateStatus($date);
                     $this->saveStatus($status);
                     $site->last_updated_at = $date;
@@ -146,15 +146,14 @@ class SiteCheckDate extends Command
         if ($site->get_type === 'api') {
             $date = $crawler->text();
         } else {
-            // 不检查更新时间
-            if (is_null($site->date_xpath) && is_null($site->path)) {
-                return $response->getStatusCode() === 200;
-            } else {
+            if (self::needCheckDate($site)) {
                 try {
                     $date = $crawler->filterXPath($site->date_xpath)->text();
                 } catch (Exception) {
                     return false;
                 }
+            } else {
+                return $response->getStatusCode() === 200;
             }
         }
 
@@ -200,5 +199,13 @@ class SiteCheckDate extends Command
             'site_id' => $this->site->id,
             'status' => $status,
         ]);
+    }
+
+    /**
+     * 是否检查时间
+     */
+    public static function needCheckDate($site): bool
+    {
+        return $site->date_xpath || $site->path;
     }
 }
