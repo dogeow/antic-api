@@ -40,7 +40,7 @@ class SiteCheckDate extends Command
 
     public Site $site;
 
-    public bool $isis_online;
+    public bool $is_online;
 
     /**
      * The name and signature of the console command.
