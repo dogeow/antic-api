@@ -142,7 +142,8 @@ class SiteCheckDate extends Command
         if ($site->get_type === 'api') {
             $date = $crawler->text();
         } else {
-            if (is_null($site->date_xpath)) {
+            // 不检查更新时间
+            if (is_null($site->date_xpath) && is_null($site->path)) {
                 return false;
             } else {
                 try {
