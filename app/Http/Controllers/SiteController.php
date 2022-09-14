@@ -12,7 +12,9 @@ class SiteController extends Controller
     public function index(): array
     {
         return [
-            'sites' => Site::select(['id', 'domain', 'online', 'note', 'last_updated_at'])->with('todayLatest')->get(),
+            'sites' => Site::select([
+                'id', 'domain', 'is_online', 'is_new', 'note', 'last_updated_at',
+            ])->get(),
         ];
     }
 
