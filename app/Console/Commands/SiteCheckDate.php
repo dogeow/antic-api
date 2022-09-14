@@ -117,7 +117,9 @@ class SiteCheckDate extends Command
             echo PHP_EOL;
         }
 
-        Artisan::call('spider:date', ['--failed' => true]);
+        if ($checkFailed === false) {
+            Artisan::call('spider:date', ['--failed' => true]);
+        }
     }
 
     /**
