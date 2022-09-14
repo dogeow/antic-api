@@ -14,6 +14,7 @@ use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Notification;
 use Log;
 use Symfony\Component\DomCrawler\Crawler;
@@ -25,7 +26,7 @@ class SiteCheckDate extends Command
      *
      * @var string
      */
-    final public const TIMEOUT = 90;
+    final public const TIMEOUT = 30;
 
     /**
      * 是否需要通知
@@ -114,6 +115,8 @@ class SiteCheckDate extends Command
 
             echo PHP_EOL;
         }
+
+        Artisan::call('spider:date', ['--failed' => true]);
     }
 
     /**
