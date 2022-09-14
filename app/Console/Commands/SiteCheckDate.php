@@ -86,9 +86,9 @@ class SiteCheckDate extends Command
                 ->orWhere('is_new', 0)
                 ->get();
         } elseif ($onlyTheDomain) {
-            $sites = Site::whereNotNull('get_type')->where('domain', $onlyTheDomain)->get();
+            $sites = Site::where('domain', $onlyTheDomain)->get();
         } else {
-            $sites = Site::whereNotNull('get_type')->get();
+            $sites = Site::all();
         }
 
         foreach ($sites as $site) {
@@ -99,10 +99,12 @@ class SiteCheckDate extends Command
             echo $site->domain;
             $date = $this->getDate();
             if ($date) {
-                $site->is_online = $this->isis_online = true;
-                $status = $this->checkDateStatus($date);
-                $this->saveStatus($status);
-                $site->last_updated_at = $date;
+                $site->is_online = $this->is_online = true;
+                if ($site->date_xpath || $site->path) {
+                    $status = $this->checkDateStatus($date);
+                    $this->saveStatus($status);
+                    $site->last_updated_at = $date;
+                }
                 echo ' ✅ ';
             } else {
                 $site->is_online = false;
@@ -117,7 +119,7 @@ class SiteCheckDate extends Command
             echo PHP_EOL;
         }
 
-        if ($checkFailed === false) {
+        if ($checkFailed === false && $onlyTheDomain === false) {
             Artisan::call('spider:date', ['--failed' => true]);
         }
     }
@@ -146,7 +148,7 @@ class SiteCheckDate extends Command
         } else {
             // 不检查更新时间
             if (is_null($site->date_xpath) && is_null($site->path)) {
-                return false;
+                return $response->getStatusCode() === 200;
             } else {
                 try {
                     $date = $crawler->filterXPath($site->date_xpath)->text();
@@ -180,7 +182,7 @@ class SiteCheckDate extends Command
             }
 
             $diff = Carbon::now()->diffInDays($targetDate);
-            if ($this->needNotify && $this->isis_online && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
+            if ($this->needNotify && $this->is_online && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
                 Notification::send(new User(), new BuildNotification($this->site->domain.' 超过三天'));
             }
 
