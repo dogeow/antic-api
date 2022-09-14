@@ -42,7 +42,7 @@ class ApiController extends Controller
      */
     public function images(Request $request): RedirectResponse|array
     {
-        // 加个定时计划，从又拍云获取图片，缓存到 Redis
+        // todo 加个定时计划，从又拍云获取图片，缓存到 Redis
         $wallpapers = [
             'H3c772fc347444001939a064acd623d594.png',
             '329544.jpg',

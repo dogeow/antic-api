@@ -21,12 +21,16 @@ use Symfony\Component\DomCrawler\Crawler;
 class SiteCheckDate extends Command
 {
     /**
-     * 超时时间
+     * 超时时间，单位：秒
      *
      * @var string
      */
     final public const TIMEOUT = 90;
 
+    /**
+     * 是否需要通知
+     * @var bool
+     */
     public bool $needNotify = false;
 
     public GuzzleClient $guzzleClient;
@@ -35,7 +39,7 @@ class SiteCheckDate extends Command
 
     public Site $site;
 
-    public bool $isOnline;
+    public bool $isis_online;
 
     /**
      * The name and signature of the console command.
@@ -70,23 +74,16 @@ class SiteCheckDate extends Command
      *
      * @throws GuzzleException
      */
-    public function handle(): void
+    public function handle()
     {
         $checkFailed = $this->option('failed');
         $onlyTheDomain = $this->option('domain');
         if ($checkFailed) {
             $sites = Site::query()
                 ->whereNotNull('get_type')
-                ->with('todayLatest')
-                ->get()
-                ->filter(
-                    fn ($site) => $site->online === false
-                    || (
-                        property_exists($site->todayLatest, 'status')
-                        && $site->todayLatest->status !== null
-                        && $site->todayLatest->status === 0
-                    )
-                );
+                ->where('is_online', 0)
+                ->orWhere('is_new', 0)
+                ->get();
         } elseif ($onlyTheDomain) {
             $sites = Site::whereNotNull('get_type')->where('domain', $onlyTheDomain)->get();
         } else {
@@ -100,18 +97,19 @@ class SiteCheckDate extends Command
             echo $site->domain;
             $date = $this->getDate();
             if ($date) {
-                $site->online = $this->isOnline = true;
+                $site->is_online = $this->isis_online = true;
                 $status = $this->checkDateStatus($date);
                 $this->saveStatus($status);
                 $site->last_updated_at = $date;
                 echo ' ✅ ';
             } else {
-                $site->online = false;
+                $site->is_online = false;
                 echo ' ❌ ';
             }
 
             echo $status ? ' ✅ ' : ' ❌ ';
 
+            $site->is_new = $status;
             $site->save();
 
             echo PHP_EOL;
@@ -171,7 +169,7 @@ class SiteCheckDate extends Command
             }
 
             $diff = Carbon::now()->diffInDays($targetDate);
-            if ($this->needNotify && $this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
+            if ($this->needNotify && $this->isis_online && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
                 Notification::send(new User(), new BuildNotification($this->site->domain.' 超过三天'));
             }
 

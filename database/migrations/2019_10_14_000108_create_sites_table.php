@@ -16,7 +16,8 @@ class CreateSitesTable extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('domain');
-            $table->boolean('online')->default(0)->comment('是否在线');
+            $table->boolean('is_online')->default(0)->comment('是否在线');
+            $table->boolean('is_new')->default(0)->comment('是否最新');
             $table->unsignedBigInteger('seo')->comment('百度收录量');
             $table->string('get_type')->comment('爬虫或者 API');
             $table->string('date_xpath')->comment('最新日期的 xpath');
