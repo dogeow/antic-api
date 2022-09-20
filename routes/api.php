@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,9 @@ Route::post('autoLogin', [AuthController::class, 'autoLogin']);
 Route::get('posts/categories/count', [PostController::class, 'categoriesCount']);
 
 Route::group(['middleware' => 'auth:sanctum'], function (): void {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
     Route::group([
         'prefix' => 'user',
     ], static function (): void {

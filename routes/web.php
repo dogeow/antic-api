@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomeController::class, );
+Route::get('/', HomeController::class,);
+
+require __DIR__.'/auth.php';
