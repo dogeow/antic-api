@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @param $input
+ * @return string|null
  */
 function br2nl($input): string|null
 {
@@ -14,7 +15,12 @@ function br2nl($input): string|null
     );
 }
 
-function getTitle($url)
+/**
+ * 获取网址标题
+ * @param $url
+ * @return string|false
+ */
+function getTitle($url): string|false
 {
     $str = file_get_contents($url);
 
@@ -61,7 +67,7 @@ function getMainColor(string $imgUrl, bool $isHex): string
     $g = round($gColorNum / $total);
     $b = round($bColorNum / $total);
     if ($isHex) {
-        return rgb2Hex($r, (int) $g, (int) $b);
+        return rgb2Hex((int) $r, (int) $g, (int) $b);
     }
 
     return "rgb(${r}, ${g}, ${b})";
