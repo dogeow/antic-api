@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('spider:date')->cron('0 8,21 * * *');
-        $schedule->command('spider:seo')->cron('0 0 1,4,7,10,13,16,19,22,25,28 * *');
+//        $schedule->command('spider:seo')->cron('0 0 1,4,7,10,13,16,19,22,25,28 * *');
     }
 
     /**
