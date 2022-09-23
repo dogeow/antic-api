@@ -86,8 +86,8 @@ class AuthController extends Controller
         $token = $user->createToken($timeLeft)->plainTextToken;
 
         $response = array_merge($user->toArray(), [
-            'access_token' => $token,
-            'token_type' => 'bearer',
+            'accessToken' => $token,
+            'tokenType' => 'Bearer',
         ]);
 
         return response($response, 201);
@@ -115,7 +115,7 @@ class AuthController extends Controller
             $user = User::find($userId);
             $token = $user->createToken('week')->plainTextToken;
 
-            return array_merge(['access_token' => $token], $user->toArray());
+            return array_merge(['accessToken' => $token], $user->toArray());
         }
 
         return response()->json()->setStatusCode(422);
@@ -172,7 +172,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('week')->plainTextToken;
 
-        return array_merge(['access_token' => $token], $user->toArray());
+        return array_merge(['accessToken' => $token], $user->toArray());
     }
 
     public function forget(ForgetRequest $request): JsonResponse
@@ -214,7 +214,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('week')->plainTextToken;
 
-        return array_merge(['access_token' => $token], $user->toArray());
+        return array_merge(['accessToken' => $token], $user->toArray());
     }
 
     /**
@@ -235,7 +235,7 @@ class AuthController extends Controller
 
             $token = $user->createToken('week')->plainTextToken;
 
-            return array_merge(['access_token' => $token], $user->toArray());
+            return array_merge(['accessToken' => $token], $user->toArray());
         }
     }
 
