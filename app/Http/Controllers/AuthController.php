@@ -109,7 +109,7 @@ class AuthController extends Controller
         $userId = Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
             $user = User::find($userId);
-            $token = $user->createToken('week')->plainTextToken;
+            $token = $user->createToken('')->plainTextToken;
 
             return array_merge(['accessToken' => $token], $user->toArray());
         }
@@ -162,7 +162,7 @@ class AuthController extends Controller
             $user = User::find(2);
         }
 
-        $token = $user->createToken('week')->plainTextToken;
+        $token = $user->createToken('')->plainTextToken;
 
         return array_merge(['accessToken' => $token], $user->toArray());
     }
@@ -204,7 +204,7 @@ class AuthController extends Controller
             'email' => $githubUser->email,
         ]);
 
-        $token = $user->createToken('week')->plainTextToken;
+        $token = $user->createToken('')->plainTextToken;
 
         return array_merge(['accessToken' => $token], $user->toArray());
     }
@@ -225,7 +225,7 @@ class AuthController extends Controller
             $user->password = bcrypt($request->password);
             $user->save();
 
-            $token = $user->createToken('week')->plainTextToken;
+            $token = $user->createToken('')->plainTextToken;
 
             return array_merge(['accessToken' => $token], $user->toArray());
         }
