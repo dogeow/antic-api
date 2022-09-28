@@ -48,11 +48,7 @@ class AuthController extends Controller
         $link = config('app.url').'/emailVerify/'.$secret;
         Mail::to($user->email)->send(new EmailVerify($user, $link));
 
-        return response()->json(
-            $user
-                ? ['success' => '创建用户成功']
-                : ['error' => '创建用户失败']
-        )->setStatusCode(201);
+        return response()->json(['success' => '创建用户成功'])->setStatusCode(201);
     }
 
     public function login(AuthLogin $request): Response|JsonResponse|Application|ResponseFactory
@@ -73,7 +69,7 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'errors' => [
                     'account' => [$notMatchedText],
@@ -82,8 +78,8 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        $timeLeft = $request->remember_me ? 'forever' : 'month';
-        $token = $user->createToken($timeLeft)->plainTextToken;
+        $token = $user->createToken('',
+            ['*', $request->remember_me ? now()->addYear() : now()->addMonth()])->plainTextToken;
 
         $response = array_merge($user->toArray(), [
             'accessToken' => $token,
@@ -144,13 +140,9 @@ class AuthController extends Controller
             'password' => bcrypt($validated['password']),
         ]);
 
-        if ($user) {
-            Cache::forget($cacheKey);
+        Cache::forget($cacheKey);
 
-            return response($user, 201);
-        }
-
-        return [];
+        return response($user, 201);
     }
 
     /**
