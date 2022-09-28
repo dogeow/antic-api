@@ -78,8 +78,8 @@ class AuthController extends Controller
             ])->setStatusCode(422);
         }
 
-        $token = $user->createToken('',
-            ['*', $request->remember_me ? now()->addYear() : now()->addMonth()])->plainTextToken;
+        $expiresAt = $request->remember_me ? now()->addYear() : now()->addMonth();
+        $token = $user->createToken('', ['*'], $expiresAt)->plainTextToken;
 
         $response = array_merge($user->toArray(), [
             'accessToken' => $token,
