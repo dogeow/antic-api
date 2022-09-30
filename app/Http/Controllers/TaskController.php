@@ -54,9 +54,9 @@ class TaskController extends Controller
 
         if ($request->has('order')) {
             if ($request->order == 0) {
-                $task->order = $orders[0]->order / 2;
-            } elseif ($request->order + 1 == $tasksCount) {
                 $task->order = $orders[$tasksCount - 1]->order + 65535;
+            } elseif ($request->order + 1 == $tasksCount) {
+                $task->order = $orders[0]->order / 2;
             } else {
                 $task->order = ($orders[$request->order - 1]->order + $orders[$request->order + 1]->order) / 2;
             }
