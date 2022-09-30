@@ -48,25 +48,9 @@ class TaskController extends Controller
             'order' => ['nullable'], // todo
         ]);
 
-        $tasksCount = $project->tasks()->count();
-
         if ($request->has('order')) {
-            $newOrder = $tasksCount - $request->order - 1;
-            if ($task->order < $newOrder) { // UI 上升
-                $tasks = $project->tasks()->whereBetween('order', [$task->order + 1, $newOrder])->get();
-                foreach ($tasks as $item) {
-                    $item->order--;
-                    $item->save();
-                }
-            } elseif ($task->order > $newOrder) {
-                $tasks = $project->tasks()->whereBetween('order', [$newOrder, $task->order - 1])->get();
-                foreach ($tasks as $item) {
-                    $item->order++;
-                    $item->save();
-                }
-            }
-
-            $task->order = $newOrder;
+            $task->order = $request->order;
+            $task->sorted_at = time();
             $task->save();
 
             return $task;
