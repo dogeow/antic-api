@@ -27,11 +27,12 @@ class TaskController extends Controller
             'title' => 'required',
         ]);
 
-        $maxOrder = $project->tasks()->max('order');
+        $count = $project->tasks()->count();
+        $order = $project->tasks()->latest('order')->first();
 
         return $project->tasks()->create([
             'title' => $validatedData['title'],
-            'order' => $maxOrder === null ? 0 : $maxOrder + 1,
+            'order' => $count === 0 ? 65535 : $order + 65535,
         ]);
     }
 
@@ -45,14 +46,21 @@ class TaskController extends Controller
     {
         $request->validate([
             'is_completed' => ['nullable', 'boolean'],
-            'order' => ['nullable'], // todo
+            'order' => ['nullable'],
         ]);
 
         $tasksCount = $project->tasks()->count();
+        $orders = $project->tasks()->orderBy('order', 'desc')->get();
 
         if ($request->has('order')) {
-            $task->order = $tasksCount - $request->order;
-            $task->sorted_at = now();
+            if ($request->order == 0) {
+                $task->order = $orders[0]->order / 2;
+            } elseif ($request->order + 1 == $tasksCount) {
+                $task->order = $orders[$tasksCount - 1]->order + 65535;
+            } else {
+                $task->order = ($orders[$request->order - 1]->order + $orders[$request->order + 1]->order) / 2;
+            }
+
             $task->save();
 
             return $task;
