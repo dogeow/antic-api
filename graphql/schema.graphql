@@ -90,7 +90,7 @@ type Project {
     description: String
     is_completed: Boolean!
     user: User! @belongsTo
-    tasks: [Tasks]! @hasMany(scopes: ["undone"]) @orderBy(column: "order", direction: ASC) @orderBy(column: "sorted_at", direction: DESC)
+    tasks: [Tasks]! @hasMany(scopes: ["undone"]) @orderBy(column: "order", direction: DESC) @orderBy(column: "sorted_at", direction: DESC)
     taskCount: Int! @count(relation: "tasks", scopes: ["undone"])
 }
 

@@ -48,8 +48,10 @@ class TaskController extends Controller
             'order' => ['nullable'], // todo
         ]);
 
+        $tasksCount = $project->tasks()->count();
+
         if ($request->has('order')) {
-            $task->order = $request->order;
+            $task->order = $tasksCount - $request->order;
             $task->sorted_at = now();
             $task->save();
 
