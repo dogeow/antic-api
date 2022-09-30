@@ -58,7 +58,7 @@ class TaskController extends Controller
             } elseif ($request->order === $tasksCount - 1) {
                 $task->order = $orders[$tasksCount - 1]->order / 2;
             } else {
-                $task->order = ($orders[$request->order - 1]->order + $orders[$request->order + 1]->order) / 2;
+                $task->order = ($orders[$request->order - 1]->order + $orders[$request->order]->order) / 2;
             }
 
             $task->save();
