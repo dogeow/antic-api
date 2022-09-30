@@ -50,13 +50,13 @@ class TaskController extends Controller
         ]);
 
         $tasksCount = $project->tasks()->count();
-        $orders = $project->tasks()->orderBy('order', 'desc')->get();
+        $orders = $project->tasks()->orderBy('order', 'DESC')->get();
 
         if ($request->has('order')) {
             if ($request->order == 0) {
                 $task->order = $orders[$tasksCount - 1]->order + 65535;
             } elseif ($request->order + 1 == $tasksCount) {
-                $task->order = $orders[0]->order / 2;
+                $task->order = $orders[$tasksCount - 1]->order / 2;
             } else {
                 $task->order = ($orders[$request->order - 1]->order + $orders[$request->order + 1]->order) / 2;
             }
