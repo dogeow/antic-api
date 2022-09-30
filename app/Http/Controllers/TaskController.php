@@ -50,7 +50,7 @@ class TaskController extends Controller
 
         if ($request->has('order')) {
             $task->order = $request->order;
-            $task->sorted_at = time();
+            $task->sorted_at = now();
             $task->save();
 
             return $task;
