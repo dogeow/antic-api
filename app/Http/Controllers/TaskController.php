@@ -28,11 +28,11 @@ class TaskController extends Controller
         ]);
 
         $count = $project->tasks()->count();
-        $order = $project->tasks()->latest('order')->first();
+        $latestOrder = $project->tasks()->latest('order')->first();
 
         return $project->tasks()->create([
             'title' => $validatedData['title'],
-            'order' => $count === 0 ? 65535 : $order + 65535,
+            'order' => $count === 0 ? 65535 : $latestOrder->order + 65535,
         ]);
     }
 
