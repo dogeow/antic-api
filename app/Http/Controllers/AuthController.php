@@ -84,6 +84,7 @@ class AuthController extends Controller
         $response = array_merge($user->toArray(), [
             'accessToken' => $token,
             'tokenType' => 'Bearer',
+            'expiresAt' => $expiresAt->timestamp - time(),
         ]);
 
         return response($response, 201);
@@ -109,9 +110,13 @@ class AuthController extends Controller
         $userId = Cache::get('emailVerify:'.$request->secret);
         if ($userId) {
             $user = User::find($userId);
-            $token = $user->createToken('')->plainTextToken;
+            $expiresAt = now()->addMonth();
+            $token = $user->createToken('', ['*'], $expiresAt)->plainTextToken;
 
-            return array_merge(['accessToken' => $token], $user->toArray());
+            return array_merge([
+                'accessToken' => $token,
+                'expiresAt' => $expiresAt->timestamp - time(),
+            ], $user->toArray());
         }
 
         return response()->json()->setStatusCode(422);
@@ -162,9 +167,13 @@ class AuthController extends Controller
             $user = User::find(2);
         }
 
-        $token = $user->createToken('')->plainTextToken;
+        $expiresAt = now()->addMonth();
+        $token = $user->createToken('', ['*'], $expiresAt)->plainTextToken;
 
-        return array_merge(['accessToken' => $token], $user->toArray());
+        return array_merge([
+            'accessToken' => $token,
+            'expiresAt' => $expiresAt->timestamp - time(),
+        ], $user->toArray());
     }
 
     public function forget(ForgetRequest $request): JsonResponse
