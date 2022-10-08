@@ -46,4 +46,16 @@ class UserFactory extends Factory
             'account_status' => 'suspended',
         ]);
     }
+
+    public function testUser()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => '测试用户',
+                'email' => 'guest@dogeow.com',
+                'password' => bcrypt('A123456.'),
+                'email_verified_at' => now(),
+            ];
+        });
+    }
 }
