@@ -268,7 +268,7 @@ class ApiController extends Controller
 
     public function userAgent()
     {
-        return $_SERVER['HTTP_USER_AGENT'];
+        return request()->header('User-Agent');
     }
 
     public function sha($string): string
@@ -377,7 +377,7 @@ class ApiController extends Controller
         $markdown = '';
 
         foreach ($contentArray as $line => $string) {
-            if (strlen($string) > 2 && $string[0] === '*' && !in_array($string[1], ['*', ' '], true)) {
+            if (strlen($string) > 2 && $string[0] === '*' && ! in_array($string[1], ['*', ' '], true)) {
                 $string = $string[0].' '.substr($string, 1);
             }
 
