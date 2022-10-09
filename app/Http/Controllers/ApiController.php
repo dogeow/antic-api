@@ -211,7 +211,11 @@ class ApiController extends Controller
     public function bankcard($cardNo): bool|string
     {
         $url = 'https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true';
-        $resp = file_get_contents($url);
+        try {
+            $resp = file_get_contents($url);
+        } catch (\Exception $e) {
+            return '接口异常';
+        }
         $data = json_decode($resp, true, 512, JSON_THROW_ON_ERROR);
         if (isset($data['validated']) && $data['validated'] === false) {
             return '信用卡卡号格式错误';

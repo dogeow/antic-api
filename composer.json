@@ -16,7 +16,6 @@
     "ext-redis": "*",
     "algolia/algoliasearch-client-php": "^3.2",
     "bensampo/laravel-enum": "^5.3",
-    "dcat/laravel-admin": "2.*",
     "elasticsearch/elasticsearch": "^7.17",
     "fruitcake/laravel-cors": "^2.0.5",
     "fukuball/jieba-php": "^0.33.0",
