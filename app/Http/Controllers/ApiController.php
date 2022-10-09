@@ -9,8 +9,6 @@ use App\Models\Api;
 use App\Models\User;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -170,12 +168,12 @@ class ApiController extends Controller
         return urldecode((string) $string);
     }
 
-    public function image($action = null): BinaryFileResponse|string|UrlGenerator|Application
+    public function image($action = null): BinaryFileResponse|string
     {
-        $uri = '/favicon.ico';
+        $uri = '/sticker.webp';
 
         return match ($action) {
-            'download' => response()->download(public_path($uri), '滑稽.ico'),
+            'download' => response()->download(public_path($uri), 'sticker.webp'),
             default => url($uri),
         };
     }
