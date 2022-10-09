@@ -7,8 +7,7 @@ use Tests\TestCase;
 class ApiTest extends TestCase
 {
     /**
-     * A basic feature test example.
-     *
+     * md5 查询
      * @return void
      */
     public function test_md5()
@@ -53,6 +52,10 @@ class ApiTest extends TestCase
             ->assertSee('d033e22ae348aeb5660fc2140aec35850c4da997');
     }
 
+    /**
+     * 查询 User-Agent
+     * @return void
+     */
     public function test_user_agent()
     {
         $this->get('/user-agent')
@@ -60,6 +63,10 @@ class ApiTest extends TestCase
             ->assertSee('Symfony');
     }
 
+    /**
+     * 关键词提取
+     * @return void
+     */
     public function test_keyword()
     {
         $response = $this->get('/keywords/我的世界');
@@ -73,6 +80,10 @@ class ApiTest extends TestCase
         $this->assertArrayHasKey('世界', $data);
     }
 
+    /**
+     * 获取网址标题
+     * @return void
+     */
     public function test_url_title()
     {
         $response = $this->get('/url-title?url=https://www.example.com');
@@ -80,5 +91,67 @@ class ApiTest extends TestCase
         $response->assertJsonFragment([
             'title' => 'Example Domain',
         ]);
+    }
+
+    /**
+     * 银行卡信息
+     * @return void
+     */
+    public function test_bankcard()
+    {
+        $response = $this->get('/bankcard/6228480402564890018');
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'stat' => 'ok',
+        ]);
+    }
+
+    /**
+     * 查询时间戳
+     * @return void
+     */
+    public function test_timestamp()
+    {
+        $response = $this->get('/timestamp');
+        $response->assertStatus(200);
+        $this->assertEquals(time(), $response->getContent());
+    }
+
+    /**
+     * 日期时间转时间戳
+     * @return void
+     */
+    public function test_to_date_timestamp()
+    {
+        $response = $this->get('/timestamp/2020-09-13 20:26:40');
+        $response->assertStatus(200);
+        $this->assertEquals('1600000000', $response->getContent());
+    }
+
+    /**
+     * 查询日期
+     * @return void
+     */
+    public function test_date()
+    {
+        $response = $this->get('/date');
+        $response->assertStatus(200);
+        $this->assertEquals(date('Y-m-d'), $response->getContent());
+    }
+
+    /**
+     * 时间戳转日期
+     * @return void
+     */
+    public function test_timestamp_to_date()
+    {
+        $response = $this->get('/date/1600000000');
+        $response->assertStatus(200);
+        $this->assertEquals('2020-09-13', $response->getContent());
+    }
+
+    public function image()
+    {
+
     }
 }
