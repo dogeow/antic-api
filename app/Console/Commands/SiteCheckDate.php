@@ -28,6 +28,8 @@ class SiteCheckDate extends Command
      */
     final public const TIMEOUT = 30;
 
+    public const MAX_DELAY_UPDATE_DAYS = 2;
+
     /**
      * 是否需要通知
      * @var bool
@@ -80,11 +82,7 @@ class SiteCheckDate extends Command
         $checkFailed = $this->option('failed');
         $onlyTheDomain = $this->option('domain');
         if ($checkFailed) {
-            $sites = Site::query()
-                ->whereNotNull('get_type')
-                ->where('is_online', 0)
-                ->orWhere('is_new', 0)
-                ->get();
+            $sites = Site::failed()->get();
         } elseif ($onlyTheDomain) {
             $sites = Site::where('domain', $onlyTheDomain)->get();
         } else {
@@ -97,8 +95,9 @@ class SiteCheckDate extends Command
 
             $this->site = $site;
             echo $site->domain;
+
             $date = $this->getDate();
-            if ($date) {
+            if ($date !== false) {
                 $site->is_online = $this->isOnline = true;
                 if (self::needCheckDate($site)) {
                     $status = $this->checkDateStatus($date);
@@ -169,7 +168,7 @@ class SiteCheckDate extends Command
             foreach ($date as $dateItem) {
                 $targetDate = $dataTime::createFromFormat($this->site->date_format, $dateItem);
                 $diff = Carbon::now()->diffInDays($targetDate);
-                if ($diff <= 2) {
+                if ($diff <= self::MAX_DELAY_UPDATE_DAYS) {
                     $status = true;
                     break;
                 }
@@ -181,12 +180,12 @@ class SiteCheckDate extends Command
             }
 
             $diff = Carbon::now()->diffInDays($targetDate);
-            if ($this->needNotify && $this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
-                Notification::send(new User(), new BuildNotification($this->site->domain.' 超过三天'));
-            }
-
-            if ($diff <= 3) {
+            if ($diff <= self::MAX_DELAY_UPDATE_DAYS) {
                 $status = true;
+            } else {
+                if ($this->needNotify && $this->isOnline) {
+                    Notification::send(new User(), new BuildNotification($this->site->domain.' 超过两天'));
+                }
             }
         }
 

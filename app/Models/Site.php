@@ -75,4 +75,12 @@ class Site extends Model
     {
         return $this->hasOne(SiteCheck::class)->whereDate('created_at', Carbon::today())->latest();
     }
+
+    public function scopeFailed($query)
+    {
+        return $query
+            ->whereNotNull('get_type')
+            ->where('is_online', 0)
+            ->orWhere('is_new', 0);
+    }
 }
