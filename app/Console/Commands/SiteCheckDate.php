@@ -40,7 +40,7 @@ class SiteCheckDate extends Command
 
     public Site $site;
 
-    public bool $is_online;
+    public bool $isOnline;
 
     /**
      * The name and signature of the console command.
@@ -99,7 +99,7 @@ class SiteCheckDate extends Command
             echo $site->domain;
             $date = $this->getDate();
             if ($date) {
-                $site->is_online = $this->is_online = true;
+                $site->is_online = $this->isOnline = true;
                 if (self::needCheckDate($site)) {
                     $status = $this->checkDateStatus($date);
                     $this->saveStatus($status);
@@ -181,7 +181,7 @@ class SiteCheckDate extends Command
             }
 
             $diff = Carbon::now()->diffInDays($targetDate);
-            if ($this->needNotify && $this->is_online && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
+            if ($this->needNotify && $this->isOnline && Carbon::now()->diffInMinutes($targetDate) >= 4320) {
                 Notification::send(new User(), new BuildNotification($this->site->domain.' 超过三天'));
             }
 
