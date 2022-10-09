@@ -246,6 +246,8 @@ class ApiController extends Controller
 
     /**
      * @param $ip
+     * @description SSL 需要付费
+     * @return \Illuminate\Http\Client\Response
      */
     public static function getIpGeolocation($ip): \Illuminate\Http\Client\Response
     {

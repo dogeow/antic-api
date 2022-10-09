@@ -8,7 +8,6 @@ class ApiTest extends TestCase
 {
     /**
      * md5 查询
-     * @return void
      */
     public function test_md5()
     {
@@ -17,9 +16,6 @@ class ApiTest extends TestCase
             ->assertSee('21232f297a57a5a743894a0e4a801fc3');
     }
 
-    /**
-     * @return void
-     */
     public function test_ip()
     {
         $this->get('/ip')
@@ -54,7 +50,6 @@ class ApiTest extends TestCase
 
     /**
      * 查询 User-Agent
-     * @return void
      */
     public function test_user_agent()
     {
@@ -65,7 +60,6 @@ class ApiTest extends TestCase
 
     /**
      * 关键词提取
-     * @return void
      */
     public function test_keyword()
     {
@@ -82,7 +76,6 @@ class ApiTest extends TestCase
 
     /**
      * 获取网址标题
-     * @return void
      */
     public function test_url_title()
     {
@@ -95,7 +88,6 @@ class ApiTest extends TestCase
 
     /**
      * 银行卡信息
-     * @return void
      */
     public function test_bankcard()
     {
@@ -108,7 +100,6 @@ class ApiTest extends TestCase
 
     /**
      * 查询时间戳
-     * @return void
      */
     public function test_timestamp()
     {
@@ -119,7 +110,6 @@ class ApiTest extends TestCase
 
     /**
      * 日期时间转时间戳
-     * @return void
      */
     public function test_to_date_timestamp()
     {
@@ -130,7 +120,6 @@ class ApiTest extends TestCase
 
     /**
      * 查询日期
-     * @return void
      */
     public function test_date()
     {
@@ -141,7 +130,6 @@ class ApiTest extends TestCase
 
     /**
      * 时间戳转日期
-     * @return void
      */
     public function test_timestamp_to_date()
     {
@@ -150,8 +138,18 @@ class ApiTest extends TestCase
         $this->assertEquals('2020-09-13', $response->getContent());
     }
 
-    public function image()
+    public function test_image_download()
     {
+        $response = $this->get('/image/download');
+        $response->assertStatus(200);
+        $this->assertStringContainsString('image', $response->headers->get('Content-Type'));
+        $this->assertGreaterThan(0, $response->headers->get('Content-Length'));
+    }
 
+    public function test_punycode()
+    {
+        $response = $this->get('/punycode/中文.com');
+        $response->assertStatus(200);
+        $this->assertStringContainsString('xn--fiq228c.com', $response->getContent());
     }
 }
