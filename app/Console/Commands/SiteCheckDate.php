@@ -96,13 +96,15 @@ class SiteCheckDate extends Command
             $this->site = $site;
             echo $site->domain;
 
-            $date = $this->getDate();
-            if ($date !== false) {
+            $date = $this->getIsOnlineOrDate();
+            if ($date) {
                 $site->is_online = $this->isOnline = true;
                 if (self::needCheckDate($site)) {
                     $status = $this->checkDateStatus($date);
                     $this->saveStatus($status);
-                    $site->last_updated_at = $date;
+                    if (is_string($date)) {
+                        $site->last_updated_at = $date;
+                    }
                 }
                 echo ' ✅ ';
             } else {
@@ -126,7 +128,7 @@ class SiteCheckDate extends Command
     /**
      * @throws GuzzleException
      */
-    public function getDate(): bool|string
+    public function getIsOnlineOrDate(): bool|string
     {
         $site = $this->site;
 
