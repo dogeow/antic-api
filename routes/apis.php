@@ -36,7 +36,7 @@ Route::controller(ApiController::class)->group(function () {
     Route::get('timestamp/{date?}', 'timestamp')->where(['date' => '[0-9-\ :]+']);
     Route::get('bankcard/{cardNo}', 'bankcard')->where(['cardNo' => '[0-9]+']);
 
-    Route::post('url-title', 'getTitle');
+    Route::get('url-title', 'getTitle');
 });
 
 Route::get('keywords/{content}', [JiebaController::class, 'keywords']);

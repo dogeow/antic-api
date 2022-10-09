@@ -41,8 +41,6 @@ class ApiTest extends TestCase
             return;
         }
 
-        $this->assertJson($response->getContent());
-
         $response->assertJsonFragment([
             'status' => 'fail',
         ]);
@@ -72,6 +70,15 @@ class ApiTest extends TestCase
 
         $data = json_decode($response->getContent(), true, JSON_UNESCAPED_UNICODE);
 
-        $this->assertContains('世界', array_keys($data));
+        $this->assertArrayHasKey('世界', $data);
+    }
+
+    public function test_url_title()
+    {
+        $response = $this->get('/url-title?url=https://www.example.com');
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'title' => 'Example Domain',
+        ]);
     }
 }
