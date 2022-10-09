@@ -96,7 +96,7 @@ class SiteCheckDate extends Command
             $this->site = $site;
             echo $site->domain;
 
-            $date = $this->getIsOnlineOrDate();
+            $date = $this->getIsOnlineAndDate();
             if ($date) {
                 $site->is_online = $this->isOnline = true;
                 if (self::needCheckDate($site)) {
@@ -120,6 +120,7 @@ class SiteCheckDate extends Command
             echo PHP_EOL;
         }
 
+        // 重新检查一遍失败的
         if ($checkFailed === false && $onlyTheDomain === false) {
             Artisan::call('spider:date', ['--failed' => true]);
         }
@@ -128,7 +129,7 @@ class SiteCheckDate extends Command
     /**
      * @throws GuzzleException
      */
-    public function getIsOnlineOrDate(): bool|string
+    public function getIsOnlineAndDate(): bool|string
     {
         $site = $this->site;
 
