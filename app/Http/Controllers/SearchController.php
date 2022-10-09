@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Nesk\Puphpeteer\Puppeteer;
 use Symfony\Component\DomCrawler\Crawler;
 
+// todo 改用 https://github.com/spatie/crawler
 class SearchController extends Controller
 {
     final public const empty = [
