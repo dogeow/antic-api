@@ -50,6 +50,13 @@ return [
         'web_hook_path' => env('WEB_HOOK_PATH'),
     ],
 
+    // 测试账号
+    'test_user' => [
+        'name' => '测试用户',
+        'email' => 'guest@dogeow.com',
+        'password' => 'A123456.',
+    ],
+
     'slack' => [
         'webhook_url' => env('SLACK_WEBHOOK_URL'),
     ],

@@ -13,11 +13,9 @@ class ApiTest extends TestCase
      */
     public function test_md5()
     {
-        $response = $this->get('/md5/admin');
-
-        $response->assertStatus(200);
-
-        $response->assertSee('21232f297a57a5a743894a0e4a801fc3');
+        $this->get('/md5/admin')
+            ->assertStatus(200)
+            ->assertSee('21232f297a57a5a743894a0e4a801fc3');
     }
 
     /**
@@ -25,11 +23,9 @@ class ApiTest extends TestCase
      */
     public function test_ip()
     {
-        $response = $this->get('/ip');
-
-        $response->assertStatus(200);
-
-        $response->assertSee('127.0.0.1');
+        $this->get('/ip')
+            ->assertStatus(200)
+            ->assertSee('127.0.0.1');
     }
 
     public function test_ip_api()
@@ -54,20 +50,16 @@ class ApiTest extends TestCase
 
     public function test_hash()
     {
-        $response = $this->get('/hash/admin');
-
-        $response->assertStatus(200);
-
-        $response->assertSee('d033e22ae348aeb5660fc2140aec35850c4da997');
+        $this->get('/hash/admin')
+            ->assertStatus(200)
+            ->assertSee('d033e22ae348aeb5660fc2140aec35850c4da997');
     }
 
     public function test_user_agent()
     {
-        $response = $this->get('/user-agent');
-
-        $response->assertStatus(200);
-
-        $response->assertSee('Symfony');
+        $this->get('/user-agent')
+            ->assertStatus(200)
+            ->assertSee('Symfony');
     }
 
     public function test_keyword()
@@ -78,7 +70,7 @@ class ApiTest extends TestCase
 
         $this->assertJson($response->getContent());
 
-        $data = json_decode($response->getContent(), JSON_UNESCAPED_UNICODE);
+        $data = json_decode($response->getContent(), true, JSON_UNESCAPED_UNICODE);
 
         $this->assertContains('世界', array_keys($data));
     }

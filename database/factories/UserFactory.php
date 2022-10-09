@@ -51,9 +51,9 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'name' => '测试用户',
-                'email' => 'guest@dogeow.com',
-                'password' => bcrypt('A123456.'),
+                'name' => config('services.test_user.name'),
+                'email' => config('services.test_user.email'),
+                'password' => bcrypt(config('services.test_user.password')),
                 'email_verified_at' => now(),
             ];
         });
