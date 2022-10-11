@@ -15,8 +15,10 @@ return new class () extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->char('phone', 11)->nullable()->unique();
+            $table->char('phone_number', 11)->nullable()->unique();
             $table->string('email');
+            $table->string('github_name');
+            $table->unsignedTinyInteger('rate_limit')->default(60);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
