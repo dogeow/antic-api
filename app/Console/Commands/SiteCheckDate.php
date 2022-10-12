@@ -110,6 +110,7 @@ class SiteCheckDate extends Command
                     }
                 } else { // 没有检查日期的话，HTTP 状态码为 200 不一定是正常的，如果需要匹配是否有包含或者没有包含某个关键字
                     if ($site->keword) {
+                        $this->info('有设置关键字，检查');
                         $type = substr($site->keword, 0, 1);
                         $this->info('检查类型：'.$type === '+' ? '包含' : '不包含');
                         $keyword = substr($site->keword, 1);
@@ -127,6 +128,8 @@ class SiteCheckDate extends Command
                         } else {
                             throw  new \Exception('关键字格式错误');
                         }
+                    } else {
+                        $this->info('没有设置关键字，不检查');
                     }
                 }
                 echo ' ✅ ';
