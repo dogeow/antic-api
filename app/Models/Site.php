@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $seo 百度收录量
  * @property string $get_type 爬虫或者 API
  * @property string $date_xpath 最新日期的 xpath
+ * @property string $keyword 关键字，- 或 + 开头
  * @property string $date_format 最新日期的格式
  * @property \Illuminate\Support\Carbon|string|null $last_updated_at 站点最后更新时间
  * @property \Illuminate\Support\Carbon|null $created_at
