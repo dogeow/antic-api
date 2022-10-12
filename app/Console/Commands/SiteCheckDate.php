@@ -110,8 +110,8 @@ class SiteCheckDate extends Command
                     }
                 } else { // 没有检查日期的话，HTTP 状态码为 200 不一定是正常的，如果需要匹配是否有包含或者没有包含某个关键字
                     if ($site->keyword) {
-                        $type = substr($site->keword, 0, 1);
-                        $keyword = substr($site->keword, 1);
+                        $type = substr($site->keyword, 0, 1);
+                        $keyword = substr($site->keyword, 1);
                         $isInclude = str_contains($this->html, $keyword);
                         if ($type === '+') {
                             if ($isInclude) {
