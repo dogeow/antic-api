@@ -57,6 +57,7 @@ class SiteCheckDate extends Command
      * @var string
      */
     protected $description = '用接口或爬虫获取站点更新时间';
+    public string $html = '';
 
     /**
      * Create a new command instance.
@@ -76,6 +77,7 @@ class SiteCheckDate extends Command
      * Execute the console command.
      *
      * @throws GuzzleException
+     * @throws Exception
      */
     public function handle()
     {
@@ -84,6 +86,7 @@ class SiteCheckDate extends Command
         if ($checkFailed) {
             $sites = Site::failed()->get();
         } elseif ($onlyTheDomain) {
+            $this->info('只检查：'.$onlyTheDomain);
             $sites = Site::where('domain', $onlyTheDomain)->get();
         } else {
             $sites = Site::all();
@@ -104,6 +107,23 @@ class SiteCheckDate extends Command
                     $this->saveStatus($status);
                     if (is_string($date)) {
                         $site->last_updated_at = $date;
+                    }
+                } else { // 没有检查日期的话，HTTP 状态码为 200 不一定是正常的，如果需要匹配是否有包含或者没有包含某个关键字
+                    if ($site->keword) {
+                        $type = substr($site->keword, 0, 1);
+                        $keyword = substr($site->keword, 1);
+                        $isInclude = str_contains($this->html, $keyword);
+                        if ($type === '+') {
+                            if ($isInclude) {
+                                $site->is_online = $this->isOnline = false;
+                            }
+                        } elseif ($type === '-') {
+                            if (! $isInclude) {
+                                $site->is_online = $this->isOnline = false;
+                            }
+                        } else {
+                            throw  new \Exception('关键字格式错误');
+                        }
                     }
                 }
                 echo ' ✅ ';
@@ -143,7 +163,8 @@ class SiteCheckDate extends Command
             return false;
         }
 
-        $crawler = new Crawler($response->getBody()->getContents());
+        $this->html = $response->getBody()->getContents();
+        $crawler = new Crawler($this->html);
 
         if ($site->get_type === 'api') {
             $date = $crawler->text();
