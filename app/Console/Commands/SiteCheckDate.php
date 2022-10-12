@@ -132,7 +132,7 @@ class SiteCheckDate extends Command
                         $this->info('没有设置关键字，不检查');
                     }
                 }
-                echo ' ✅ ';
+                echo $site->is_online ? ' ✅ ' : ' ❌ ';
             } else {
                 $site->is_online = false;
                 echo ' ❌ ';
