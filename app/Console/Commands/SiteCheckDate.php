@@ -94,7 +94,7 @@ class SiteCheckDate extends Command
 
         foreach ($sites as $site) {
             // 站点是否有更新
-            $status = false;
+            $updateStatus = false;
 
             $this->site = $site;
             echo $site->domain;
@@ -103,33 +103,21 @@ class SiteCheckDate extends Command
             if ($date) {
                 $site->is_online = $this->isOnline = true;
                 if (self::needCheckDate($site)) {
-                    $status = $this->checkDateStatus($date);
-                    $this->saveStatus($status);
+                    $updateStatus = $this->checkDateStatus($date);
+                    $this->saveStatus($updateStatus);
                     if (is_string($date)) {
                         $site->last_updated_at = $date;
                     }
-                } else { // 没有检查日期的话，HTTP 状态码为 200 不一定是正常的，如果需要匹配是否有包含或者没有包含某个关键字
-                    if ($site->keyword) {
-                        $this->info('有设置关键字，检查');
+                } else { // 没有检查日期的话，HTTP 状态码为 200 不一定是正常的，
+                    if ($site->keyword) { // 如果需要匹配是否有包含或者没有包含某个关键字
                         $type = substr($site->keyword, 0, 1);
-                        $this->info('检查类型：'.$type === '+' ? '包含' : '不包含');
                         $keyword = substr($site->keyword, 1);
-                        $this->info('检查关键字：'.$keyword);
                         $isInclude = str_contains($this->html, $keyword);
-                        $this->info('检查信息：'.$isInclude ? '包含' : '不包含');
-                        if ($type === '+') {
-                            if ($isInclude) {
-                                $site->is_online = $this->isOnline = false;
-                            }
-                        } elseif ($type === '-') {
-                            if (! $isInclude) {
-                                $site->is_online = $this->isOnline = false;
-                            }
-                        } else {
-                            throw  new \Exception('关键字格式错误');
-                        }
-                    } else {
-                        $this->info('没有设置关键字，不检查');
+                        match ($type) {
+                            '+' => $site->is_online = ! $isInclude,
+                            '-' => $site->is_online = $isInclude,
+                            default => throw new \Exception('关键字格式错误')
+                        };
                     }
                 }
                 echo $site->is_online ? ' ✅ ' : ' ❌ ';
@@ -138,9 +126,9 @@ class SiteCheckDate extends Command
                 echo ' ❌ ';
             }
 
-            echo $status ? ' ✅ ' : ' ❌ ';
+            echo $updateStatus ? ' ✅ ' : ' ❌ ';
 
-            $site->is_new = $status;
+            $site->is_new = $updateStatus;
             $site->save();
 
             echo PHP_EOL;
