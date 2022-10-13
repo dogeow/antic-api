@@ -152,9 +152,18 @@ class SiteCheckDate extends Command
         try {
             $response = $this->guzzleClient->request('GET', $url);
         } catch (Exception  $e) {
-            Log::info($e->getMessage());
+            // 跳过证书 CA 不被信任
+            if (str_contains($e->getMessage(), 'unable to get local issuer certificate')) {
+                $client = new GuzzleClient([
+                    'timeout' => self::TIMEOUT,
+                    'verify' => false,
+                ]);
+                $response = $client->request('GET', $url);
+            } else {
+                Log::info($e->getMessage());
 
-            return false;
+                return false;
+            }
         }
 
         $this->html = $response->getBody()->getContents();
