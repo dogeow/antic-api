@@ -99,7 +99,7 @@ type Tasks {
     title: String!
     is_completed: Boolean!
     priority: Int!
-    order: Int!
+    order: Float!
     sorted_at: DateTime
     project: Project! @belongsTo
 }
