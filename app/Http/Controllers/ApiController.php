@@ -8,6 +8,9 @@ use App\Exports\TestExport;
 use App\Models\Api;
 use App\Models\User;
 use Exception;
+use Fukuball\Jieba\Finalseg;
+use Fukuball\Jieba\Jieba;
+use Fukuball\Jieba\JiebaAnalyse;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -367,5 +370,23 @@ class ApiController extends Controller
     public function ab()
     {
         return User::findOrFail(1);
+    }
+
+    /**
+     * 关键词提取
+     */
+    public function keywords(string $content): array
+    {
+        ini_set('memory_limit', '-1');
+
+        $jieba = new Jieba();
+        $jieba::init();
+
+        $jiebaAnalyse = new JiebaAnalyse();
+        $jiebaAnalyse::init();
+
+        Finalseg::init();
+
+        return $jiebaAnalyse::extractTags($content, 10, ['n']);
     }
 }

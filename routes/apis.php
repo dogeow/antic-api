@@ -2,11 +2,12 @@
 
 // 便民 API
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\JiebaController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(ApiController::class)->group(function () {
     Route::get('api', 'index');
+
+    Route::get('keywords/{content}', 'keywords');
 
     // 图片
     Route::get('images', 'images');
@@ -40,5 +41,3 @@ Route::controller(ApiController::class)->group(function () {
     Route::get('bankcard/{cardNo}', 'bankcard')->where(['cardNo' => '[0-9]+']);
     Route::get('url-title', 'getTitle');
 });
-
-Route::get('keywords/{content}', [JiebaController::class, 'keywords']);
