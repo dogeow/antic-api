@@ -46,8 +46,6 @@ return [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
         'redirect' => '',
-        'web_hook_secret' => env('WEB_HOOK_SECRET'),
-        'web_hook_path' => env('WEB_HOOK_PATH'),
     ],
 
     // 测试账号
@@ -142,5 +140,5 @@ return [
         'spaces/tyrrhenum.jpg',
         'spaces/valleyofthestars.jpg',
         'spaces/villefranchesurmertwilightsunset.jpg',
-    ]
+    ],
 ];
