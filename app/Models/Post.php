@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Laravel\Scout\Searchable;
 
 /**
  * App\Models\Post.
@@ -50,7 +49,6 @@ use Laravel\Scout\Searchable;
 class Post extends Model
 {
     use HasFactory;
-    use Searchable;
 
     protected $fillable = ['title', 'content', 'category_id', 'public'];
 
