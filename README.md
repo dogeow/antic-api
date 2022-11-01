@@ -44,7 +44,7 @@ Use frontend and backend separation.
 * MySQL 8.0.27
 * PHP 8.1.5
 
-## ## Acknowledgements
+## Acknowledgements
 
 ### Project supported by JetBrains
 
