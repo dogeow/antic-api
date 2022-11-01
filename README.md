@@ -6,7 +6,7 @@ antic-api
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-[English](README.md)
+[中文](README_ZH.md)
 
 ## Intro
 
