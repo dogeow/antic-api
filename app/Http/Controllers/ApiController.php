@@ -216,7 +216,7 @@ class ApiController extends Controller
         $url = 'https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo='.$cardNo.'&cardBinCheck=true';
         try {
             $resp = file_get_contents($url);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return '接口异常';
         }
         $data = json_decode($resp, true, 512, JSON_THROW_ON_ERROR);

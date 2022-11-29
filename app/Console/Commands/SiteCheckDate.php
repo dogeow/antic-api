@@ -156,7 +156,7 @@ class SiteCheckDate extends Command
             if (str_contains($e->getMessage(), 'unable to get local issuer certificate')) {
                 $client = new GuzzleClient([
                     'timeout' => self::TIMEOUT,
-                    'verify' => false,
+                    'verify' => true,
                 ]);
                 $response = $client->request('GET', $url);
             } else {
