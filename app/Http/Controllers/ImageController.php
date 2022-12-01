@@ -33,6 +33,7 @@ class ImageController extends Controller
             ];
         }
 
+        // 获取文件名和扩展名
         $originalName = $file->getClientOriginalName();
         $filename = $originalName;
 
@@ -52,16 +53,21 @@ class ImageController extends Controller
         $fullFolder = "$this->folderType/$key";
         $filenameWithPath = "$fullFolder/$filename";
 
-        Image::create([
-            'user_id' => 1,
-            'original_name' => $originalName,
-            'path_name' => $filenameWithPath,
-        ]);
+        if($key !== 'things'){
+            Image::create([
+                'user_id' => 1,
+                'original_name' => $originalName,
+                'path_name' => $filenameWithPath,
+            ]);
+        }
 
         $file->storeAs($fullFolder, $filename, 'oss');
 
         return [
             'url' => config('services.oss_endpoint').'/'.$filenameWithPath,
+            'thumbnailUrl' => config('services.oss_endpoint').'/'.$filenameWithPath,
+            'extra' => '',
+            'key' => sha1($fullFolder.$originalName),
         ];
     }
 }

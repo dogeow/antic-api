@@ -138,4 +138,9 @@ Route::post('mediawiki-to-markdown', [ApiController::class, 'mediawikiToMarkdown
 // 测试
 Route::get('ab', [ApiController::class, 'ab']);
 
+Route::resource('/things', ThingController::class);
+Route::post('/images', [ImageController::class, 'store']);
+Route::get('/tags', [TagController::class, 'index']);
+Route::get('/photos', [PhotoController::class, 'index']);
+
 require __DIR__.'/apis.php';
