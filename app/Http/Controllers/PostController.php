@@ -70,6 +70,10 @@ class PostController extends Controller
     public function update(Request $request, Post $post): Model|Builder|null
     {
         $post->update($request->all());
+        $post->tags()->delete();
+        if ($request->tags) {
+            $post->tags()->createMany($request->tags);
+        }
 
         return Post::with(['category:id,name', 'tags:id,post_id,name'])->where('id', $post->id)->first();
     }
