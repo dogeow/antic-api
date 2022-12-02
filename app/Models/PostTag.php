@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\PostTag.
@@ -43,5 +44,12 @@ class PostTag extends Model
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'id', 'post_id');
+    }
+
+    public function scopeIsUnique($query, bool $isUnique)
+    {
+        return $query->when($isUnique, function ($query) {
+            return $query->groupBy('name');
+        });
     }
 }

@@ -12,7 +12,7 @@ type Query {
     posts(first: Int!, category_id: Int @eq, page: Int, where: _ @whereConditions(columns: ["category_id"]), orderBy: _ @orderBy(columns: ["updated_at"])): [Post!]! @paginate
     categories(orderBy: [OrderByClause!] @orderBy): [PostCategory!]! @all
     category(id: Int name: String @eq first: Int!, page: Int):  PostCategory @paginate
-    tags: [PostTag!]! @all
+    tags(isUnique: Boolean @scope): [PostTag!]! @all
     tag(id: Int  name: String @eq first: Int!, page: Int): PostTag @paginate
     quote: String!
     project(id: Int! @eq): Project! @find
