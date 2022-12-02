@@ -61,6 +61,10 @@ class Post extends Model
         'secret',
     ];
 
+    protected $casts = [
+        'public' => 'boolean',
+    ];
+
     public function tags(): HasMany
     {
         return $this->hasMany(PostTag::class);
