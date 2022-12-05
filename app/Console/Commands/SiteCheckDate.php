@@ -57,6 +57,7 @@ class SiteCheckDate extends Command
      * @var string
      */
     protected $description = '用接口或爬虫获取站点更新时间';
+
     public string $html = '';
 
     /**
@@ -156,7 +157,7 @@ class SiteCheckDate extends Command
             if (str_contains($e->getMessage(), 'unable to get local issuer certificate')) {
                 $client = new GuzzleClient([
                     'timeout' => self::TIMEOUT,
-                    'verify' => true,
+                    'verify' => false,
                 ]);
                 $response = $client->request('GET', $url);
             } else {
