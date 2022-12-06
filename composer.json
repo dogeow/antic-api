@@ -50,8 +50,7 @@
     "spatie/laravel-json-api-paginate": "^1.11",
     "spatie/laravel-query-builder": "^5.0",
     "spatie/laravel-responsecache": "^7.2",
-    "symfony/dom-crawler": "^6.0",
-    "true/punycode": "^2.1"
+    "symfony/dom-crawler": "^6.0"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^2.12",

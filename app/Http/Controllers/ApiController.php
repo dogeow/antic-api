@@ -120,15 +120,14 @@ class ApiController extends Controller
         return $data;
     }
 
-    public function punycode($domain = ''): string
+    public function idnToAscii($domain = ''): string
     {
-        $Punycode = new Punycode();
-        $preg = "/[\x{4e00}-\x{9fa5}]+/u";
-        if (preg_match_all($preg, (string) $domain)) {
-            return $Punycode->encode($domain);
-        }
+        return idn_to_ascii($domain);
+    }
 
-        return $domain;
+    public function idnToUtf8($domain = ''): string
+    {
+        return idn_to_utf8($domain);
     }
 
     public function unicode_to_utf8($string): string

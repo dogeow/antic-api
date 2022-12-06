@@ -19,7 +19,8 @@ Route::controller(ApiController::class)->group(function () {
     Route::get('base64_decode/{string?}', 'base64_decode');
     Route::get('utf8_to_unicode/{string}', 'utf8_to_unicode');
     Route::get('unicode_to_utf8/{string}', 'unicode_to_utf8');
-    Route::get('punycode/{string}', 'punycode');
+    Route::get('idn-to-ascii/{string}', 'idnToAscii');
+    Route::get('idn-to-ascii/{string}', 'idnToUtf8');
     Route::get('md5/{string?}', 'md5');
     Route::get('hash/{string?}', 'hash');
 
