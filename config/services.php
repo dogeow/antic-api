@@ -66,7 +66,6 @@ return [
         '329544.jpg',
         '671281.jpg',
         'ford_mustang_lithium_19_01.jpg',
-        'P90184809-bmw-3-0-csl-hommage-05-2015-2867px.jpg',
         'th.jpeg',
         'unnamed.jpg',
         '3C83FFC7927000A1A41412969F5EE9AB.png',
