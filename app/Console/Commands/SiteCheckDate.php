@@ -153,6 +153,7 @@ class SiteCheckDate extends Command
         try {
             $response = $this->guzzleClient->request('GET', $url);
         } catch (Exception  $e) {
+            echo '证书不被信任'.PHP_EOL;
             // 跳过证书 CA 不被信任
             if (str_contains($e->getMessage(), 'unable to get local issuer certificate')) {
                 $client = new GuzzleClient([
@@ -161,6 +162,7 @@ class SiteCheckDate extends Command
                 ]);
                 $response = $client->request('GET', $url);
             } else {
+                echo $e->getMessage().PHP_EOL;
                 Log::info($e->getMessage());
 
                 return false;
