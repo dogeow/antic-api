@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
 {
+    // 机器人聊天前缀
+    public const ROBOT_PREFIX = '/';
+
     public function message(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -21,8 +24,14 @@ class ChatController extends Controller
 
         broadcast(new ChatBroadcastingEvent($request->message))->toOthers();
 
+        // ROBOT_PREFIX 字符转正则格式
+        $robotPrefix = preg_quote(self::ROBOT_PREFIX, '/');
+
+        $isAtRobot = preg_match('/^'.$robotPrefix.'(?P<message>.*?)( +(?P<content>.*))?$/', (string) $request->message,
+            $matches);
+
         // 机器人
-        if (preg_match('/^ +(?P<message>.*?)( +(?P<content>.*))?$/', (string) $request->message, $matches)) {
+        if ($isAtRobot) {
             $content = $matches['content'] ?? null;
             $api = new ApiController();
             $robotMessage = match ($matches['message']) {
