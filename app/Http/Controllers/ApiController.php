@@ -388,4 +388,34 @@ class ApiController extends Controller
 
         return $jiebaAnalyse::extractTags($content, 10, ['n']);
     }
+
+    public function ai(Request $request)
+    {
+        $request->validate([
+            'content' => ['required', 'string', 'min:2', 'max:255'],
+        ]);
+
+        $client = new GuzzleClient();
+
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer '.config('services.openai.api_key'),
+        ];
+
+        $body = [
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
+                ['role' => 'user', 'content' => $request->input('content')],
+            ],
+        ];
+
+        $response = $client->post('https://api.openai.com/v1/chat/completions', [
+            'headers' => $headers,
+            'json' => $body,
+        ]);
+
+        $result =  json_decode((string) $response->getBody(), true);
+
+        return $result['choices'][0]['message']['content'];
+    }
 }

@@ -193,4 +193,7 @@ return [
         '4k/wallhaven-96gqz8.jpg',
         '4k/wallhaven-96kwk1.jpg',
     ],
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY')
+    ]
 ];

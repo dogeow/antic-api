@@ -41,4 +41,6 @@ Route::controller(ApiController::class)->group(function () {
     // 需要请求数据
     Route::get('bankcard/{cardNo}', 'bankcard')->where(['cardNo' => '[0-9]+']);
     Route::get('url-title', 'getTitle');
+
+    Route::post('ai', 'ai');
 });

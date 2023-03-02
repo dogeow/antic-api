@@ -1,4 +1,4 @@
-@servers(['web' => 'root@dogeow.com', 'localhost' => '127.0.0.1'])
+@servers(['web' => 'ecs-user@dogeow.com', 'localhost' => '127.0.0.1'])
 
 @setup
 $path = '/var/www/antic-api';
