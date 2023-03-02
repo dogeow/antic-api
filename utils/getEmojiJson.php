@@ -5,12 +5,14 @@ declare(strict_types=1);
 function listFiles($dir)
 {
     $files = glob($dir.'/*', GLOB_NOSORT);
-    $whitelist = array('txt'); // 如果需要只列出某些特定类型的文件
+    $whitelist = array('png', 'mp4', 'jpeg', 'jpg', 'gif'); // 如果需要只列出某些特定类型的文件
 
-    return preg_grep('/\.('.implode('|', $whitelist).')$/i', $files);
+    $files = preg_grep('/\.('.implode('|', $whitelist).')$/i', $files);
+
+    return array_map('basename', $files);
 }
 
-$data = listFiles('./public/images/face/');
+$data = listFiles('./public');
 
 $face = [];
 foreach ($data as $key => $value) {
@@ -23,4 +25,4 @@ foreach ($data as $key => $value) {
     ];
 }
 
-file_put_contents('./src/resources/face.json', json_encode($face, JSON_UNESCAPED_UNICODE));
+file_put_contents('face.json', json_encode($face, JSON_UNESCAPED_UNICODE));
