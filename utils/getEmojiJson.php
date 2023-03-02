@@ -2,36 +2,25 @@
 
 declare(strict_types=1);
 
-function list_files($dir)
+function listFiles($dir)
 {
-    $data = [];
+    $files = glob($dir.'/*', GLOB_NOSORT);
+    $whitelist = array('txt'); // 如果需要只列出某些特定类型的文件
 
-    if (! is_dir($dir)) {
-        exit;
-    }
-    if ($handle = opendir($dir)) {
-        while (($file = readdir($handle)) !== false) {
-            if (! in_array($file, ['.', '..', '.DS_Store', 'Thumbs.db', 'Untitled.php'])) {
-                array_push($data, $file);
-            }
-        }
-        closedir($handle);
-    }
-
-    return $data;
+    return preg_grep('/\.('.implode('|', $whitelist).')$/i', $files);
 }
 
-$data = list_files('./public/images/face/');
+$data = listFiles('./public/images/face/');
 
 $face = [];
 foreach ($data as $key => $value) {
     $tmp = preg_split('/[-_.]/', $value);
-    array_push($face, [
+    $face[] = [
         'fileName' => $value,
         'name' => $tmp[2],
         'category' => substr($tmp[0], 1, -1),
         'tag' => explode(',', substr($tmp[1], 1, -1)),
-    ]);
+    ];
 }
 
 file_put_contents('./src/resources/face.json', json_encode($face, JSON_UNESCAPED_UNICODE));
