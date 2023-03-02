@@ -414,7 +414,9 @@ class ApiController extends Controller
             'json' => $body,
         ]);
 
-        $result =  json_decode((string) $response->getBody(), true);
+        $result = json_decode((string) $response->getBody(), true);
+
+        Log::info('OpenAI', $result);
 
         return $result['choices'][0]['message']['content'];
     }
