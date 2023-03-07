@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use TrueBV\Punycode;
 
 class ApiController extends Controller
 {
@@ -395,7 +394,9 @@ class ApiController extends Controller
             'content' => ['required', 'string', 'min:2', 'max:255'],
         ]);
 
-        $client = new GuzzleClient();
+        $client = new GuzzleClient([
+            'timeout'  => 30
+        ]);
 
         $headers = [
             'Content-Type' => 'application/json',
