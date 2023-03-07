@@ -395,7 +395,7 @@ class ApiController extends Controller
         ]);
 
         $client = new GuzzleClient([
-            'timeout'  => 30
+            'timeout'  => 60
         ]);
 
         $headers = [
