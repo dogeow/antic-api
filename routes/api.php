@@ -110,6 +110,7 @@ Route::post('images', [ImageController::class, 'store']);
 Route::get('search', [SearchController::class, 'search']);
 
 // 书签
+Route::get('bookmarks', [BookmarkController::class, 'index']);
 Route::post('bookmarks', [BookmarkController::class, 'create']);
 
 Route::group([
