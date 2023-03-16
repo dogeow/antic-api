@@ -47,7 +47,7 @@ class MyStuffController extends Controller
     public function others()
     {
         return [
-            'doing' => Task::where('is_doing', 1)->pluck('title'),
+            'doings' => Task::where('is_doing', 1)->pluck('title'),
             'links' => Link::all(['title', 'url'])
         ];
     }
