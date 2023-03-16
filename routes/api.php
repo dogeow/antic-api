@@ -91,6 +91,7 @@ Route::get('quote', [MyStuffController::class, 'quote']);
 
 // 关于我
 Route::get('about-me', [MyStuffController::class, 'aboutMe']);
+Route::get('about-me/others', [MyStuffController::class, 'others']);
 
 // 待办事项
 Route::get('todo', [ProjectController::class, 'admin']);

@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutMe;
 use App\Models\Like;
+use App\Models\Link;
 use App\Models\Quote;
+use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
 
 class MyStuffController extends Controller
@@ -40,5 +42,13 @@ class MyStuffController extends Controller
     public function quote()
     {
         return Quote::all()->random(1)->first()->content;
+    }
+
+    public function others()
+    {
+        return [
+            'doing' => Task::where('is_doing', 1)->pluck('title'),
+            'links' => Link::all(['title', 'url'])
+        ];
     }
 }
