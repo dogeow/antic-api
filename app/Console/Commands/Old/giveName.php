@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Console\Commands\Old;
 
 use GuzzleHttp\Client;
@@ -10,8 +8,6 @@ use GuzzleHttp\Psr7\Request;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-use function config;
-
 class giveName extends Command
 {
     /**
@@ -19,22 +15,22 @@ class giveName extends Command
      *
      * @var string
      */
-    protected $signature = 'giveName {sex}';
+    protected $signature = 'give-name {sex=m : Sex to use (m/f)}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '爬取名网';
+    protected $description = 'Scrape Chinese names from 517ming.com';
 
     private readonly Client $client;
 
-    private $firstName;
+    private array $firstName;
 
     private int $concurrency = 50;  // 同时并发抓取
 
-    private float $totalPageCount = 1e2;
+    private float $totalPageCount = 100;
 
     /**
      * Create a new command instance.
@@ -47,7 +43,18 @@ class giveName extends Command
         $this->client = new Client([
             'timeout' => 10,
         ]);
-        $this->firstName = config('firstname');
+        $this->firstName = [
+            "王", "李", "张", "刘", "陈", "杨", "黄", "赵", "吴", "周",
+            "徐", "孙", "马", "朱", "胡", "郭", "何", "高", "林", "郑",
+            "谢", "罗", "梁", "宋", "唐", "许", "韩", "冯", "邓", "曹",
+            "彭", "曾", "蕭", "田", "董", "袁", "潘", "于", "蒋", "蔡",
+            "余", "杜", "叶", "程", "苏", "魏", "吕", "丁", "任", "沈",
+            "姚", "卢", "姜", "崔", "钟", "谭", "陆", "汪", "范", "金",
+            "石", "廖", "贾", "夏", "韦", "付", "方", "白", "邹", "孟",
+            "熊", "秦", "邱", "江", "尹", "薛", "闫", "段", "雷", "侯",
+            "龙", "史", "陶", "黎", "贺", "顾", "毛", "郝", "龚", "邵",
+            "万", "钱", "严", "覃", "武", "戴", "莫", "孔", "向", "汤",
+        ];
     }
 
     /**
@@ -55,11 +62,17 @@ class giveName extends Command
      */
     public function handle(): void
     {
-        $requests = function ($total) {
+        $sex = strtolower($this->argument('sex'));
+        if (!in_array($sex, ['m', 'f'])) {
+            $this->error('Invalid sex specified. Use m or f.');
+            return;
+        }
+
+        $uriTemplate = 'http://www.517ming.com/datafile/517v2/t1/%s2/%s/';
+        $requests = function ($total) use ($sex, $uriTemplate) {
             foreach ($this->firstName as $item) {
                 for ($i = 0; $i < $total; $i++) {
-                    $uri = 'http://www.517ming.com/datafile/517v2/t1/'.$this->argument('sex').'2/'.$item.'/';
-                    yield new Request('GET', $uri);
+                    yield new Request('GET', sprintf($uriTemplate, $sex, $item));
                 }
             }
         };
@@ -69,17 +82,14 @@ class giveName extends Command
             'fulfilled' => function ($response, $index): void {
                 $this->info("请求第 $index 个请求");
                 $content = $response->getBody()->getContents();
+                $names = collect();
+                $names = $names->concat(explode(',', $content));
 
-                $names = explode(',', $content);
-                $categoryId = array_search(mb_substr($names[0], 0, 1), $this->firstName, true);
+                $data = $names->unique()->map(function ($name) {
+                    return ['name' => $name,];
+                })->all();
 
-                $query = '';
-                foreach ($names as $name) {
-                    print_r($names);
-                    $sexId = self::sexId();
-                    $query .= "INSERT IGNORE INTO test (name, sex, category_id, count) VALUES ('$name', $sexId, ${categoryId}, 3);";
-                }
-                DB::unprepared($query);
+                DB::table('test')->insertOrIgnore($data);
             },
             'rejected' => static function ($reason, $index): void {
             },
@@ -87,14 +97,5 @@ class giveName extends Command
 
         $promise = $pool->promise();
         $promise->wait();
-    }
-
-    public function sexId(): int
-    {
-        return match ($this->argument('sex')) {
-            'f' => 1,
-            'm' => 0,
-            default => false,
-        };
     }
 }
