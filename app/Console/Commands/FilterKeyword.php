@@ -27,7 +27,6 @@ class FilterKeyword extends Command
      */
     public function handle()
     {
-
         $arr = [
             "雪山",
             "大峡谷",
@@ -36,7 +35,6 @@ class FilterKeyword extends Command
 
         $arr = array_unique($arr);
 
-        // 判断字符，大于三个中文的不要，小于两个字的也不要
         foreach ($arr as $key => $value) {
             $len = mb_strlen($value);
             if ($len > 3) {
