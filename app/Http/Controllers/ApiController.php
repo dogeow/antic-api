@@ -43,11 +43,9 @@ class ApiController extends Controller
     public function images(Request $request)
     {
         $cacheKey = 'upyun_wallpaper';
-        $images = Cache::remember($cacheKey, 86400, function () {
+        $wallpaperCollect = Cache::remember($cacheKey, 86400, function () {
             return (new UpyunService())->getFiles('wallpaper', true);
         });
-
-        $wallpaperCollect = collect($images);
 
         if ($request->query('action') === 'random') {
             $randomWallpaper = $wallpaperCollect->random();

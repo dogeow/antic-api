@@ -28,7 +28,7 @@ class UpyunService
     /**
      * 获取文件名，递归两层
      */
-    public function getFiles(string $path, $onlyImages = false): array
+    public function getFiles(string $path, $onlyImages = false)
     {
         $upyunInstance = $this->getInstance();
         $data = $upyunInstance->read($path);
@@ -58,9 +58,9 @@ class UpyunService
 
         // 过滤不是图片后缀的
         if ($onlyImages) {
-            $files = array_filter($files, function ($item) {
-                return in_array(Str::afterLast($item, '.'), ['jpg', 'jpeg', 'png', 'gif']);
-            });
+            $files = collect($files)
+                ->filter(fn ($item) => in_array(Str::afterLast($item, '.'), ['jpg', 'jpeg', 'png', 'gif']))
+                ->all();
         }
 
         return $files;
