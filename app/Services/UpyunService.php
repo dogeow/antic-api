@@ -33,23 +33,27 @@ class UpyunService
         $upyunInstance = $this->getInstance();
         $data = $upyunInstance->read($path);
 
-        // 筛选出文件
-        $files = array_filter($data['files'], function ($item) {
-            return $item['type'] == 'N';
-        });
-        // 只要文件名
-        $files = array_map(function ($item) {
-            return $item['name'];
-        }, $files);
+        // 筛选出文件，且只要文件名
+        $files = collect($data['files'])
+            ->filter(fn($item) => $item['type'] === 'N')
+            ->map(fn($item) => $item['name'])
+            ->all();
 
         // 判断有存在目录时，还需要进行获取
         foreach ($data['files'] as $file) {
-            if ($file['type'] == 'F') {
-                $data = $upyunInstance->read($path.'/'.$file['name']);
-                $files = array_merge($files, array_map(function ($item) use ($file) {
-                    return $file['name'].'/'.$item['name'];
-                }, $data['files']));
+            if ($file['type'] == 'N') {
+                continue;
             }
+
+            $data = $upyunInstance->read($path.'/'.$file['name']);
+            $subFiles = collect($data['files'])
+                ->map(function ($item) use ($file) {
+                    return $file['name'].'/'.$item['name'];
+                })
+                ->all();
+            $files = collect($files)
+                ->merge($subFiles)
+                ->all();
         }
 
         // 过滤不是图片后缀的
