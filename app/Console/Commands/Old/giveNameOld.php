@@ -1,17 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Console\Commands\Old;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class giveNameOld extends Command
+class GiveNameOld extends Command
 {
+    private const CONCURRENCY = 50; // 同时并发抓取
+    private const TIMEOUT = 10; // 请求超时时间
+    private const URI = 'https://www.quming.com/quming/';
+    private const QUERY_TEMPLATE = "INSERT IGNORE INTO test (name, sex) VALUES ('%s', '%s');";
+
     /**
      * The name and signature of the console command.
      *
@@ -26,22 +30,18 @@ class giveNameOld extends Command
      */
     protected $description = '爬取名网';
 
-    private readonly Client $client;
+    private Client $client;
 
-    private int $concurrency = 50;  // 同时并发抓取
-
-    private float $totalPageCount = 1e1000;
+    private int $totalPageCount = 1000;
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
         parent::__construct();
         $this->client = new Client([
-            'timeout' => 10,
+            'timeout' => self::TIMEOUT,
         ]);
     }
 
@@ -53,9 +53,8 @@ class giveNameOld extends Command
         $sex = $this->argument('sex');
 
         $requests = static function ($total) use ($sex) {
-            $uri = 'https://www.quming.com/quming/';
             for ($i = 0; $i < $total; $i++) {
-                yield new Request('POST', $uri, [
+                yield new Request('POST', self::URI, [
                     'form_params' => [
                         'gsname' => '',
                         'sex' => $sex,
@@ -66,7 +65,7 @@ class giveNameOld extends Command
         };
 
         $pool = new Pool($this->client, $requests($this->totalPageCount), [
-            'concurrency' => $this->concurrency,
+            'concurrency' => self::CONCURRENCY,
             'fulfilled' => function ($response, $index): void {
                 $this->info("请求第 ${index} 个请求");
                 $content = $response->getBody()->getContents();
@@ -74,12 +73,19 @@ class giveNameOld extends Command
                 if (preg_match_all('/rel="nofollow">(.*?)</', $content, $matches)) {
                     $query = '';
                     foreach ($matches[1] as $name) {
-                        $query .= "INSERT IGNORE INTO test (name, sex) VALUES ('${name}', {$this->argument('sex')});";
+                        $escapedName = addslashes($name);
+                        $query .= sprintf(self::QUERY_TEMPLATE, $escapedName, $this->argument('sex'));
                     }
                     DB::unprepared($query);
+                    uuid
                 }
             },
-            'rejected' => static function ($reason, $index): void {
+            'rejected' => function ($reason, $index) {
+                if ($reason instanceof RequestException) {
+                    $this->error("请求第 ${index} 个请求失败：" . $reason->getMessage());
+                } else {
+                    $this->error("请求第 ${index} 个请求失败");
+                }
             },
         ]);
 

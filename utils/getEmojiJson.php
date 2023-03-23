@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 function listFiles($dir)
 {
     $files = glob($dir.'/*', GLOB_NOSORT);
