@@ -45,7 +45,7 @@ class UpyunService
         // 判断有存在目录时，还需要进行获取
         foreach ($data['files'] as $file) {
             if ($file['type'] == 'F') {
-                $data = $upyunInstance->read($path.$file['name']);
+                $data = $upyunInstance->read($path.'/'.$file['name']);
                 $files = array_merge($files, array_map(function ($item) use ($file) {
                     return $file['name'].'/'.$item['name'];
                 }, $data['files']));
