@@ -77,7 +77,6 @@ class GiveNameOld extends Command
                         $query .= sprintf(self::QUERY_TEMPLATE, $escapedName, $this->argument('sex'));
                     }
                     DB::unprepared($query);
-                    uuid
                 }
             },
             'rejected' => function ($reason, $index) {
