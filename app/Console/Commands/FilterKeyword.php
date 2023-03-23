@@ -38,15 +38,13 @@ class FilterKeyword extends Command
 
         // 判断字符，大于三个中文的不要，小于两个字的也不要
         foreach ($arr as $key => $value) {
-            $skip = false;
-
             $len = mb_strlen($value);
             if ($len > 3) {
                 $value = preg_replace('/(.*?)(水库|湖泊|保护区)$/', '$1', $value);
             }
 
             $len = mb_strlen($value);
-            if ($len == 3 || $len == 2) {
+            if (in_array($len, [2, 3])) {
                 echo $value.PHP_EOL;
             }
         }
