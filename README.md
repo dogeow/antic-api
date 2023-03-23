@@ -21,8 +21,8 @@ Use frontend and backend separation.
     2. cp .env.example .env
         * modify DB and other
     3. php artisan migrate
-    5. php artisan key:generate
-    6. php artisan storage:link
+    4. php artisan key:generate
+    5. php artisan storage:link
 2. React
     1. npm install
     2. Build
@@ -33,7 +33,6 @@ Use frontend and backend separation.
 ## Powered by
 
 * Laravel 9
-    * JWT
 * React 17
 * Material-UI 5
 

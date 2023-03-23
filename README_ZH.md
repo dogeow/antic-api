@@ -27,10 +27,6 @@ antic-api
 - 夜晚模式
 - 一些 便民API
 
-## 项目维护
-
-有学有需求就会有更新，基本上算是日常更新
-
 ## 构建
 
 1. Laravel
@@ -38,8 +34,8 @@ antic-api
     2. cp .env.example .env
         * 修改 DB 和其他
     3. php artisan migrate
-    5. php artisan key:generate
-    6. php artisan storage:link
+    4. php artisan key:generate
+    5. php artisan storage:link
 2. React
     1. npm install
     2. 构建
