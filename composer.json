@@ -14,6 +14,7 @@
     "ext-gd": "*",
     "ext-json": "*",
     "ext-redis": "*",
+    "alapi/upyun-sdk": "^4.0",
     "algolia/algoliasearch-client-php": "^3.2",
     "bensampo/laravel-enum": "^5.3",
     "elasticsearch/elasticsearch": "^7.17",

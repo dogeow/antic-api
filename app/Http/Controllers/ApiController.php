@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\TestExport;
 use App\Models\Api;
 use App\Models\User;
+use App\Services\UpyunService;
 use Exception;
 use Fukuball\Jieba\Finalseg;
 use Fukuball\Jieba\Jieba;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Log;
@@ -38,10 +40,14 @@ class ApiController extends Controller
     /**
      * @throws Exception
      */
-    public function images(Request $request): RedirectResponse|\Illuminate\Support\Collection
+    public function images(Request $request)
     {
-        // todo 加个定时计划，从又拍云获取图片，缓存到 Redis
-        $wallpaperCollect = collect(config('services.wallpapers'));
+        $cacheKey = 'upyun_wallpaper';
+        $images = Cache::remember($cacheKey, 86400, function () {
+            return (new UpyunService())->getFiles('wallpaper', true);
+        });
+
+        $wallpaperCollect = collect($images);
 
         if ($request->query('action') === 'random') {
             $randomWallpaper = $wallpaperCollect->random();
@@ -393,7 +399,7 @@ class ApiController extends Controller
         ]);
 
         $client = new GuzzleClient([
-            'timeout'  => 60
+            'timeout' => 60,
         ]);
 
         $headers = [

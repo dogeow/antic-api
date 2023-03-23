@@ -2,6 +2,8 @@
 
 namespace App\GraphQL\Queries;
 
+use App\Http\Controllers\ApiController;
+
 class Parking
 {
     /**
@@ -11,6 +13,6 @@ class Parking
      */
     public function __invoke($_, array $args): array
     {
-        return (new \App\Http\Controllers\ApiController())->parking();
+        return (new ApiController())->parking();
     }
 }

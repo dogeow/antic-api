@@ -4,8 +4,76 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cde2f950e879cc70fb9d6ea6ebb0a5c",
+    "content-hash": "c268c08f07c8aef902a9fcbb669c190c",
     "packages": [
+        {
+            "name": "alapi/upyun-sdk",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anhao/upyun-phpsdk.git",
+                "reference": "02bbbd5555f1f38d264ce4f17ee2e97ea63d12f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anhao/upyun-phpsdk/zipball/02bbbd5555f1f38d264ce4f17ee2e97ea63d12f9",
+                "reference": "02bbbd5555f1f38d264ce4f17ee2e97ea63d12f9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "~7.0",
+                "php": "^7.2.5 || ^8.0"
+            },
+            "require-dev": {
+                "consolidation/robo": "^1.0",
+                "phpdocumentor/phpdocumentor": "^2.9",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Upyun\\": "src/Upyun/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "lfeng",
+                    "email": "bonevv@gmail.com"
+                },
+                {
+                    "name": "lvtongda",
+                    "email": "riyao.lyu@gmail.com"
+                },
+                {
+                    "name": "totoleo",
+                    "email": "totoleo@163.com"
+                },
+                {
+                    "name": "sabakugaara",
+                    "email": "senellise@gmail.com"
+                },
+                {
+                    "name": "alapi",
+                    "email": "im@alone88.cn"
+                }
+            ],
+            "description": "UPYUN sdk for php",
+            "homepage": "https://github.com/upyun/php-sdk/",
+            "keywords": [
+                "sdk",
+                "upyun"
+            ],
+            "support": {
+                "source": "https://github.com/anhao/upyun-phpsdk/tree/4.0.0"
+            },
+            "time": "2021-12-16T12:24:33+00:00"
+        },
         {
             "name": "algolia/algoliasearch-client-php",
             "version": "3.3.2",
