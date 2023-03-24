@@ -37,6 +37,10 @@ class ChatBroadcastingEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
+        if (!auth()->check()) {
+            abort(401, '未经授权无法执行此操作');
+        }
+
         return [
             'data' => [
                 'id' => $this->isRobot ? 0 : auth()->user()->id,
