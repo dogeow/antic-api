@@ -41,10 +41,12 @@ class ChatBroadcastingEvent implements ShouldBroadcast
             abort(401, '未经授权无法执行此操作');
         }
 
+        $user = auth()->user();
+
         return [
             'data' => [
-                'id' => $this->isRobot ? 0 : auth()->user()->id,
-                'name' => $this->isRobot ? '机器人' : auth()->user()->name,
+                'id' => $this->isRobot ? 0 : $user->id,
+                'name' => $this->isRobot ? '机器人' : $user->name,
                 'message' => $this->message,
             ],
         ];

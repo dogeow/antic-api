@@ -25,6 +25,9 @@ class GameController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()])->setStatusCode(202);
         }
+        if (! auth()->check()) {
+            abort(401);
+        }
 
         $user = auth()->user();
 
