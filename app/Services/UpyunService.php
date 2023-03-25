@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Upyun\Config;
 use Upyun\Upyun;
@@ -28,7 +29,7 @@ class UpyunService
     /**
      * 获取文件名，递归两层
      */
-    public function getFiles(string $path, $onlyImages = false)
+    public function getFiles(string $path, $onlyImages = false): Collection
     {
         $upyunInstance = $this->getInstance();
         $data = $upyunInstance->read($path);
@@ -36,8 +37,7 @@ class UpyunService
         // 筛选出文件，且只要文件名
         $files = collect($data['files'])
             ->filter(fn($item) => $item['type'] === 'N')
-            ->map(fn($item) => $item['name'])
-            ->all();
+            ->map(fn($item) => $item['name']);
 
         // 判断有存在目录时，还需要进行获取
         foreach ($data['files'] as $file) {
@@ -49,18 +49,14 @@ class UpyunService
             $subFiles = collect($data['files'])
                 ->map(function ($item) use ($file) {
                     return $file['name'].'/'.$item['name'];
-                })
-                ->all();
-            $files = collect($files)
-                ->merge($subFiles)
-                ->all();
+                });
+            $files = $files->merge($subFiles);
         }
 
         // 过滤不是图片后缀的
         if ($onlyImages) {
             $files = collect($files)
-                ->filter(fn ($item) => in_array(Str::afterLast($item, '.'), ['jpg', 'jpeg', 'png', 'gif']))
-                ->all();
+                ->filter(fn ($item) => in_array(Str::afterLast($item, '.'), ['jpg', 'jpeg', 'png', 'gif']));
         }
 
         return $files;
