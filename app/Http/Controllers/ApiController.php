@@ -412,8 +412,7 @@ class ApiController extends Controller
             ],
         ];
 
-        // https://api.openai.com/v1/chat/completions
-        $response = $client->post('https://chatgpt-api.shn.hk/v1/', [
+        $response = $client->post('https://api.openai.com/v1/chat/completions', [
             'headers' => $headers,
             'json' => $body,
         ]);
