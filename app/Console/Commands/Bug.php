@@ -35,7 +35,7 @@ class Bug extends Command
         $bookCategory = array_column($bookCategory->toArray(), 'id', 'name');
         $bookSubCategory = array_column($bookSubCategory->toArray(), 'id', 'name');
 
-        $bookmarks = Bookmark::all();
+        $bookmarks = Bookmark::whereNull('bookmark_sub_category_id')->get();
 
         foreach ($bookmarks as $bookmark) {
             $bookmark->bookmark_category_id = $bookCategory[$bookmark->category];
