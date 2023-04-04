@@ -30,7 +30,7 @@ class BookmarkSubCategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('order'),
+                Forms\Components\TextInput::make('order'),
             ]);
     }
 
