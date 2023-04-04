@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SiteResource\Pages;
-use App\Filament\Resources\SiteResource\RelationManagers;
 use App\Models\Site;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SiteResource extends Resource
 {
@@ -19,18 +16,27 @@ class SiteResource extends Resource
 
     protected static ?string $navigationLabel = '站点';
 
+    protected static ?string $breadcrumb = "站点";
+
+    protected static ?string $label = "站点";
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('domain')
+                Forms\Components\TextInput::make('domain')->label('域名')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('is_online')
+                Forms\Components\Toggle::make('is_online')->label('在线？')
                     ->required(),
-                Forms\Components\Toggle::make('is_new')
+                Forms\Components\Toggle::make('is_new')->label('有更新？')
                     ->required(),
                 Forms\Components\TextInput::make('path')
                     ->maxLength(255),
@@ -54,10 +60,10 @@ class SiteResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('domain'),
-                Tables\Columns\IconColumn::make('is_online')
+                Tables\Columns\TextColumn::make('domain')->label('域名'),
+                Tables\Columns\IconColumn::make('is_online')->label('在线？')
                     ->boolean(),
-                Tables\Columns\IconColumn::make('is_new')
+                Tables\Columns\IconColumn::make('is_new')->label('有更新？')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('path'),
                 Tables\Columns\TextColumn::make('seo'),

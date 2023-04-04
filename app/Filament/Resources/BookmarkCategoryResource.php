@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookmarkCategoryResource\Pages;
-use App\Filament\Resources\BookmarkCategoryResource\RelationManagers;
 use App\Models\BookmarkCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BookmarkCategoryResource extends Resource
 {
@@ -19,7 +16,18 @@ class BookmarkCategoryResource extends Resource
 
     protected static ?string $navigationLabel = '书签分类';
 
+    protected static ?string $breadcrumb = "书签分类";
+
+    protected static ?string $label = "书签分类";
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    protected static ?string $navigationGroup = '书签';
+
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {

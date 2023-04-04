@@ -16,7 +16,18 @@ class BookmarkResource extends Resource
 
     protected static ?string $navigationLabel = '书签';
 
+    protected static ?string $breadcrumb = "书签";
+
+    protected static ?string $label = "书签";
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    protected static ?string $navigationGroup = '书签';
+
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {
