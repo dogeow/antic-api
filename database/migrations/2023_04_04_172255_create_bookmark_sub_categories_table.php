@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('bookmark_sub_categories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('bookmark_category_id');
             $table->string('name')->comment('分类名称');
-            $table->tinyInteger('order')->comment('排序ID');
+            $table->tinyInteger('order')->comment('排序ID')->nullable();
             $table->timestamps();
         });
     }
