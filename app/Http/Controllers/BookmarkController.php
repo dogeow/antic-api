@@ -9,8 +9,10 @@ class BookmarkController extends Controller
 {
     public function index()
     {
-        $bookmarks = Bookmark::select(['category', 'sub_category', 'title', 'url'])
-            ->orderByDesc('order')
+        $bookmarks = Bookmark::join('bookmark_categories', 'bookmark_categories.name', '=', 'bookmarks.category')
+            ->join('bookmark_sub_categories', 'bookmark_sub_categories.name', '=', 'bookmarks.sub_category')
+            ->orderByDesc('bookmark_categories.order')
+            ->orderByDesc('bookmark_sub_categories.order')
             ->get();
 
         $result = [];
