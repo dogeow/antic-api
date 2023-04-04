@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookmarkResource\Pages;
 use App\Models\Bookmark;
-use App\Models\BookmarkCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -14,6 +13,8 @@ use Filament\Tables;
 class BookmarkResource extends Resource
 {
     protected static ?string $model = Bookmark::class;
+
+    protected static ?string $navigationLabel = '书签';
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 

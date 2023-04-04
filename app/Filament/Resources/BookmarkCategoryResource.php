@@ -17,6 +17,8 @@ class BookmarkCategoryResource extends Resource
 {
     protected static ?string $model = BookmarkCategory::class;
 
+    protected static ?string $navigationLabel = '书签分类';
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     public static function form(Form $form): Form

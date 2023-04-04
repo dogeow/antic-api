@@ -17,6 +17,8 @@ class SiteResource extends Resource
 {
     protected static ?string $model = Site::class;
 
+    protected static ?string $navigationLabel = '站点';
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     public static function form(Form $form): Form
@@ -82,14 +84,14 @@ class SiteResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -97,5 +99,5 @@ class SiteResource extends Resource
             'create' => Pages\CreateSite::route('/create'),
             'edit' => Pages\EditSite::route('/{record}/edit'),
         ];
-    }    
+    }
 }
