@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhpFunctionCategoriesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreatePhpFunctionCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('php_function_categories', function (Blueprint $table) {
+        Schema::create('bookmark_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('分类名');
+            $table->string('name')->comment('分类名称');
+            $table->tinyInteger('order')->comment('排序ID');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreatePhpFunctionCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('php_function_categories');
+        Schema::dropIfExists('bookmark_categories');
     }
-}
+};

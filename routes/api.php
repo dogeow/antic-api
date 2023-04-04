@@ -129,9 +129,6 @@ Route::get('posts/{post}', [PostController::class, 'show']);
 Route::get('categories', [PostCategoryController::class, 'index']);
 Route::get('tags', [PostTagController::class, 'index']);
 
-// PHP 函数
-Route::get('php-function', [PhpFunctionController::class, 'index']);
-
 // 自个用
 Route::get('parking', [ApiController::class, 'parking']);
 
