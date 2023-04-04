@@ -2,18 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BookmarkResource\Pages;
-use App\Models\Bookmark;
+use App\Filament\Resources\BookmarkCategoryResource\Pages;
+use App\Filament\Resources\BookmarkCategoryResource\RelationManagers;
 use App\Models\BookmarkCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BookmarkResource extends Resource
+class BookmarkCategoryResource extends Resource
 {
-    protected static ?string $model = Bookmark::class;
+    protected static ?string $model = BookmarkCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -21,16 +23,10 @@ class BookmarkResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('category')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('sub_category')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('title')
+                Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('url')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Toggle::make('order'),
             ]);
     }
 
@@ -38,11 +34,7 @@ class BookmarkResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('bookmarkCategory.name'),
-                Tables\Columns\TextColumn::make('bookmarkSubCategory.name'),
-                Tables\Columns\TextColumn::make('title')->url(function($record){
-                    return $record->url;
-                }, true),
+                Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('order'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
@@ -70,9 +62,9 @@ class BookmarkResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBookmarks::route('/'),
-            'create' => Pages\CreateBookmark::route('/create'),
-            'edit' => Pages\EditBookmark::route('/{record}/edit'),
+            'index' => Pages\ListBookmarkCategories::route('/'),
+            'create' => Pages\CreateBookmarkCategory::route('/create'),
+            'edit' => Pages\EditBookmarkCategory::route('/{record}/edit'),
         ];
     }
 }

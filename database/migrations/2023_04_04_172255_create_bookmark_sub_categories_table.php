@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('bookmark_category_id');
             $table->string('name')->comment('分类名称');
-            $table->tinyInteger('order')->comment('排序ID')->nullable();
+            $table->unsignedBigInteger('order')->comment('排序ID')->nullable();
             $table->timestamps();
         });
     }

@@ -19,5 +19,15 @@ class Bookmark extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['title', 'url', 'bookmark_sub_category_id', 'bookmark_category_id'];
+    protected $fillable = ['title', 'url', 'bookmark_sub_category_id', 'bookmark_category_id', 'order'];
+
+    public function bookmarkCategory()
+    {
+        return $this->belongsTo(BookmarkCategory::class);
+    }
+
+    public function bookmarkSubCategory()
+    {
+        return $this->belongsTo(BookmarkSubCategory::class);
+    }
 }
