@@ -19,5 +19,5 @@ class Bookmark extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['title', 'url', 'category', 'sub_category'];
+    protected $fillable = ['title', 'url', 'category', 'sub_category', 'bookmark_sub_category_id', 'bookmark_category_id'];
 }

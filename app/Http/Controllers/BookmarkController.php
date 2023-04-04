@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 
 class BookmarkController extends Controller
 {
-    public function index()
+    public function index(): array
     {
         $bookmarks = Bookmark::join('bookmark_categories', 'bookmark_categories.name', '=', 'bookmarks.category')
             ->join('bookmark_sub_categories', 'bookmark_sub_categories.name', '=', 'bookmarks.sub_category')
             ->orderByDesc('bookmark_categories.order')
             ->orderByDesc('bookmark_sub_categories.order')
+            ->orderByDesc('bookmarks.order')
             ->get();
 
         $result = [];
