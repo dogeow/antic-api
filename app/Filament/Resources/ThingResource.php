@@ -22,7 +22,7 @@ class ThingResource extends Resource
     protected static ?string $breadcrumb = "背包";
 
     protected static ?string $label = "背包";
-    
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static function getNavigationBadge(): ?string
