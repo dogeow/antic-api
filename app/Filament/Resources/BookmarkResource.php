@@ -9,10 +9,13 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
 
 class BookmarkResource extends Resource
 {
     protected static ?string $model = Bookmark::class;
+
+    protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $navigationLabel = '书签';
 
@@ -27,6 +30,18 @@ class BookmarkResource extends Resource
     protected static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'url'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            '网址' => $record->url,
+        ];
     }
 
     public static function form(Form $form): Form
