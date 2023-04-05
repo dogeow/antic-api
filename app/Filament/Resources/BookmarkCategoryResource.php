@@ -59,13 +59,14 @@ class BookmarkCategoryResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])
+            ->reorderable('order');
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            BookmarkCategoryResource\RelationManagers\SubCategoriesRelationManager::class
         ];
     }
 

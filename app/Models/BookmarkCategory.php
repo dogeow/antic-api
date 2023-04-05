@@ -10,4 +10,9 @@ class BookmarkCategory extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'order'];
+
+    public function subCategories()
+    {
+        return $this->hasMany(BookmarkSubCategory::class);
+    }
 }
