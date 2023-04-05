@@ -55,7 +55,7 @@ class BookmarkResource extends Resource
                 Tables\Columns\TextColumn::make('title')->url(function($record){
                     return $record->url;
                 }, true),
-                Tables\Columns\TextColumn::make('order'),
+                Tables\Columns\TextColumn::make('order')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
