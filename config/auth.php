@@ -12,7 +12,6 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-// 233
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
