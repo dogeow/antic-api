@@ -73,6 +73,7 @@ class BookmarkResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('url')
                     ->required()
+                    ->unique()
                     ->maxLength(255),
             ]);
     }
