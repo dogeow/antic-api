@@ -17,6 +17,12 @@ class PostCategoryResource extends Resource
 {
     protected static ?string $model = PostCategory::class;
 
+    protected static ?string $navigationLabel = '文章分类';
+
+    protected static ?string $breadcrumb = "文章分类";
+
+    protected static ?string $label = "文章分类";
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = '文章';

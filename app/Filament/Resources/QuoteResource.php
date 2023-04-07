@@ -17,6 +17,12 @@ class QuoteResource extends Resource
 {
     protected static ?string $model = Quote::class;
 
+    protected static ?string $navigationLabel = '名言';
+
+    protected static ?string $breadcrumb = "名言";
+
+    protected static ?string $label = "名言";
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = '我自己';

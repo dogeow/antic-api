@@ -16,6 +16,12 @@ class AboutMeResource extends Resource
 {
     protected static ?string $model = AboutMe::class;
 
+    protected static ?string $navigationLabel = '关于我';
+
+    protected static ?string $breadcrumb = "关于我";
+
+    protected static ?string $label = "关于我";
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = '我自己';

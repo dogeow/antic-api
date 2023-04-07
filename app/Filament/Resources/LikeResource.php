@@ -17,6 +17,12 @@ class LikeResource extends Resource
 {
     protected static ?string $model = Like::class;
 
+    protected static ?string $navigationLabel = '名人堂';
+
+    protected static ?string $breadcrumb = "名人堂";
+
+    protected static ?string $label = "名人堂";
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = '我自己';
