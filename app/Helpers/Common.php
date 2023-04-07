@@ -68,7 +68,7 @@ function getMainColor(string $imgUrl, bool $isHex): string
         return rgb2Hex((int) $r, (int) $g, (int) $b);
     }
 
-    return "rgb(${r}, ${g}, ${b})";
+    return "rgb({$r}, {$g}, {$b})";
 }
 
 /**
@@ -83,7 +83,7 @@ function rgb2Hex(int $r, int $g = -1, int $b = -1): string
     $color .= (strlen($g) < 2 ? '0' : '').$g;
     $color .= (strlen($b) < 2 ? '0' : '').$b;
 
-    return "#${color}";
+    return "#{$color}";
 }
 
 /**
