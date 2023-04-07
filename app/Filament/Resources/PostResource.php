@@ -23,6 +23,12 @@ class PostResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = '文章';
+
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
