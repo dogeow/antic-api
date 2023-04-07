@@ -50,15 +50,15 @@ class BookmarkResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('category')
+                Forms\Components\Select::make('bookmark_category_id')
                     ->options(BookmarkCategory::all()->pluck('name', 'id'))
                     ->searchable()
                     ->reactive()
-                    ->afterStateUpdated(fn(callable $set) => $set('sub_category', null))
+                    ->afterStateUpdated(fn(callable $set) => $set('bookmark_sub_category_id', null))
                     ->required(),
-                Forms\Components\Select::make('sub_category')
+                Forms\Components\Select::make('bookmark_sub_category_id')
                     ->options(function (callable $get) {
-                        $category = BookmarkCategory::find($get('category'));
+                        $category = BookmarkCategory::find($get('bookmark_category_id'));
 
                         if (! $category) {
                             return BookmarkSubCategory::all()->pluck('name', 'id');
