@@ -54,7 +54,8 @@ class BookmarkResource extends Resource
                     ->options(BookmarkCategory::all()->pluck('name', 'id'))
                     ->searchable()
                     ->reactive()
-                    ->afterStateUpdated(fn(callable $set) => $set('sub_category', null)),
+                    ->afterStateUpdated(fn(callable $set) => $set('sub_category', null))
+                    ->required(),
                 Forms\Components\Select::make('sub_category')
                     ->options(function (callable $get) {
                         $category = BookmarkCategory::find($get('category'));
@@ -65,7 +66,8 @@ class BookmarkResource extends Resource
 
                         return $category->subCategories->pluck('name', 'id');
                     })
-                    ->searchable(),
+                    ->searchable()
+                    ->required(),
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),

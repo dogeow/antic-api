@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookmarkSubCategoryResource\Pages;
+use App\Models\BookmarkCategory;
 use App\Models\BookmarkSubCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -33,9 +34,13 @@ class BookmarkSubCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('bookmark_category_id')
+                Forms\Components\Select::make('bookmark_category')
+                    ->label('父分类')
+                    ->options(BookmarkCategory::all()->pluck('name', 'id'))
+                    ->searchable()
                     ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->label('子分类')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('order'),
