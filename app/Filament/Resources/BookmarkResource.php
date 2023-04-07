@@ -52,9 +52,19 @@ class BookmarkResource extends Resource
             ->schema([
                 Forms\Components\Select::make('category')
                     ->options(BookmarkCategory::all()->pluck('name', 'id'))
-                    ->searchable(),
+                    ->searchable()
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('sub_category', null)),
                 Forms\Components\Select::make('sub_category')
-                    ->options(BookmarkSubCategory::all()->pluck('name', 'id'))
+                    ->options(function (callable $get) {
+                        $category = BookmarkCategory::find($get('category'));
+
+                        if (! $category) {
+                            return BookmarkSubCategory::all()->pluck('name', 'id');
+                        }
+
+                        return $category->subCategories->pluck('name', 'id');
+                    })
                     ->searchable(),
                 Forms\Components\TextInput::make('title')
                     ->required()
@@ -71,7 +81,7 @@ class BookmarkResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('bookmarkCategory.name'),
                 Tables\Columns\TextColumn::make('bookmarkSubCategory.name'),
-                Tables\Columns\TextColumn::make('title')->url(function($record){
+                Tables\Columns\TextColumn::make('title')->url(function ($record) {
                     return $record->url;
                 }, true),
                 Tables\Columns\TextColumn::make('order')->sortable(),
