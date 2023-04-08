@@ -15,4 +15,9 @@ class BookmarkSubCategory extends Model
     {
         return $this->belongsTo(BookmarkCategory::class);
     }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
 }
