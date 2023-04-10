@@ -19,17 +19,17 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Site $sites
  *
- * @method static Builder|SiteCheck newModelQuery()
- * @method static Builder|SiteCheck newQuery()
- * @method static Builder|SiteCheck query()
- * @method static Builder|SiteCheck whereCreatedAt($value)
- * @method static Builder|SiteCheck whereId($value)
- * @method static Builder|SiteCheck whereSiteId($value)
- * @method static Builder|SiteCheck whereStatus($value)
- * @method static Builder|SiteCheck whereUpdatedAt($value)
+ * @method static Builder|Check newModelQuery()
+ * @method static Builder|Check newQuery()
+ * @method static Builder|Check query()
+ * @method static Builder|Check whereCreatedAt($value)
+ * @method static Builder|Check whereId($value)
+ * @method static Builder|Check whereSiteId($value)
+ * @method static Builder|Check whereStatus($value)
+ * @method static Builder|Check whereUpdatedAt($value)
  * @mixin Eloquent
  */
-class SiteCheck extends Model
+class Check extends Model
 {
     protected $fillable = ['site_id', 'status'];
 
