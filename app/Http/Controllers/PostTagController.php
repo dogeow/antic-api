@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TagAdd;
-use App\Models\Post;
-use App\Models\PostTag;
+use App\Models\Post\Post;
+use App\Models\Post\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -12,7 +12,7 @@ class PostTagController extends Controller
 {
     public function index(): Collection
     {
-        return PostTag::distinct()->get('name');
+        return Tag::distinct()->get('name');
     }
 
     public function delete(Request $request, Post $post)

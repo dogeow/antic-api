@@ -4,18 +4,16 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostTagResource\Pages;
 use App\Filament\Resources\PostTagResource\RelationManagers;
-use App\Models\PostTag;
+use App\Models\Post\Tag;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PostTagResource extends Resource
 {
-    protected static ?string $model = PostTag::class;
+    protected static ?string $model = Tag::class;
 
     protected static ?string $navigationLabel = '文章标签';
 

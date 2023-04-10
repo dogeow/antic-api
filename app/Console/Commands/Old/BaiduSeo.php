@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Old;
 
-use App\Models\Site;
+use App\Models\Site\Site;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;

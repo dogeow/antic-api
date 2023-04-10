@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Moon;
-use App\Models\MoonHistory;
+use App\Models\Moon\Moon;
+use App\Models\Moon\MoonHistory;
 use Illuminate\Http\Request;
 
 class MoonHistoryController extends Controller

@@ -4,14 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\LikeResource\Pages;
 use App\Filament\Resources\LikeResource\RelationManagers;
-use App\Models\Like;
+use App\Models\Me\Like;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LikeResource extends Resource
 {

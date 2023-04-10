@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\PostTag;
+use App\Models\Post\Post;
+use App\Models\Post\Tag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -109,7 +109,7 @@ class PostController extends Controller
 
     public function tagsCount(): array
     {
-        $tagsWithCount = PostTag::select([
+        $tagsWithCount = Tag::select([
             'name', DB::raw('count(*) as count'),
         ])->groupBy('name')->get();
 

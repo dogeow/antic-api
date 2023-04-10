@@ -4,18 +4,16 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostCategoryResource\Pages;
 use App\Filament\Resources\PostCategoryResource\RelationManagers;
-use App\Models\PostCategory;
+use App\Models\Post\Category;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PostCategoryResource extends Resource
 {
-    protected static ?string $model = PostCategory::class;
+    protected static ?string $model = Category::class;
 
     protected static ?string $navigationLabel = '文章分类';
 

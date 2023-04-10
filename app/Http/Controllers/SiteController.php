@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Site;
+use App\Models\Site\Site;
 use Illuminate\Database\Eloquent\Collection;
 
 class SiteController extends Controller

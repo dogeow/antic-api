@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\WeiboHot;
+use App\Models\Weibo\WeiboHot;
 use Carbon\Carbon;
 use JetBrains\PhpStorm\ArrayShape;
 

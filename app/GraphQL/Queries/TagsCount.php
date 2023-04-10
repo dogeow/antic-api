@@ -2,7 +2,7 @@
 
 namespace App\GraphQL\Queries;
 
-use App\Models\PostTag;
+use App\Models\Post\Tag;
 use Illuminate\Support\Facades\DB;
 
 class TagsCount
@@ -13,6 +13,6 @@ class TagsCount
      */
     public function __invoke($_, array $args)
     {
-        return PostTag::select(['id', 'name', DB::raw('count(*) as count')])->groupBy('name')->get();
+        return Tag::select(['id', 'name', DB::raw('count(*) as count')])->groupBy('name')->get();
     }
 }

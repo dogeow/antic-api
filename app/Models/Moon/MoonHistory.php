@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Moon;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $money
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Moon $moon
+ * @property-read \App\Models\Moon\Moon $moon
  *
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MoonHistory newQuery()

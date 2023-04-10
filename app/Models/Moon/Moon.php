@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Moon;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $count
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\MoonHistory> $moonHistory
+ * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Moon\MoonHistory> $moonHistory
  * @property-read int|null $moon_history_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Moon newModelQuery()

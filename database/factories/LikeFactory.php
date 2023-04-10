@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Like;
+use App\Models\Me\Like;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LikeFactory extends Factory

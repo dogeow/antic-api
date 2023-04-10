@@ -2,13 +2,12 @@
 
 namespace App\Console\Commands\Old;
 
-use App\Models\WeiboHot;
-use App\Models\WeiboToTop;
+use App\Models\Weibo\WeiboHot;
+use App\Models\Weibo\WeiboToTop;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
 use Log;
-
 use function status;
 
 class WeiboHotSpider extends Command
