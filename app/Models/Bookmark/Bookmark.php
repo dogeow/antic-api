@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Bookmark;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,11 +23,24 @@ class Bookmark extends Model
 
     public function bookmarkCategory()
     {
-        return $this->belongsTo(BookmarkCategory::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function bookmarkSubCategory()
     {
-        return $this->belongsTo(BookmarkSubCategory::class);
+        return $this->belongsTo(SubCategory::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($bookmark) {
+            if (empty($bookmark->bookmark_category_id)) {
+                $bookmark->bookmark_category_id = SubCategory::query()
+                    ->where('id', $bookmark->bookmark_sub_category_id)
+                    ->value('bookmark_category_id');
+            }
+        });
     }
 }

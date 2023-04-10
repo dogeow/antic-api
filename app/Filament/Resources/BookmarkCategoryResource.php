@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookmarkCategoryResource\Pages;
-use App\Models\BookmarkCategory;
+use App\Models\Bookmark\Category;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -12,7 +12,7 @@ use Filament\Tables;
 
 class BookmarkCategoryResource extends Resource
 {
-    protected static ?string $model = BookmarkCategory::class;
+    protected static ?string $model = Category::class;
 
     protected static ?string $navigationLabel = '书签分类';
 

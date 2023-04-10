@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Bookmark;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BookmarkCategory extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -13,6 +13,6 @@ class BookmarkCategory extends Model
 
     public function subCategories()
     {
-        return $this->hasMany(BookmarkSubCategory::class);
+        return $this->hasMany(SubCategory::class);
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookmarkResource\Pages;
-use App\Models\Bookmark;
-use App\Models\BookmarkCategory;
-use App\Models\BookmarkSubCategory;
+use App\Models\Bookmark\Bookmark;
+use App\Models\Bookmark\Category;
+use App\Models\Bookmark\SubCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -46,22 +46,31 @@ class BookmarkResource extends Resource
         ];
     }
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['bookmark_category_id'] = SubCategory::query()
+            ->where('id', $data['bookmark_sub_category_id'])
+            ->value('bookmark_category_id');
+
+        return $data;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('bookmark_category_id')
-                    ->options(BookmarkCategory::all()->pluck('name', 'id'))
+                    ->options(Category::all()->pluck('name', 'id'))
                     ->searchable()
                     ->reactive()
                     ->afterStateUpdated(fn(callable $set) => $set('bookmark_sub_category_id', null))
                     ->required(),
                 Forms\Components\Select::make('bookmark_sub_category_id')
                     ->options(function (callable $get) {
-                        $category = BookmarkCategory::find($get('bookmark_category_id'));
+                        $category = Category::find($get('bookmark_category_id'));
 
                         if (! $category) {
-                            return BookmarkSubCategory::all()->pluck('name', 'id');
+                            return SubCategory::all()->pluck('name', 'id');
                         }
 
                         return $category->subCategories->pluck('name', 'id');

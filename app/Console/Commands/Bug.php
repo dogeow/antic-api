@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Bookmark;
-use App\Models\BookmarkCategory;
-use App\Models\BookmarkSubCategory;
+use App\Models\Bookmark\Bookmark;
+use App\Models\Bookmark\Category;
+use App\Models\Bookmark\SubCategory;
 use Illuminate\Console\Command;
 
 class Bug extends Command
@@ -29,8 +29,8 @@ class Bug extends Command
      */
     public function handle()
     {
-        $bookCategory = BookmarkCategory::all();
-        $bookSubCategory = BookmarkSubCategory::all();
+        $bookCategory = Category::all();
+        $bookSubCategory = SubCategory::all();
 
         $bookCategory = array_column($bookCategory->toArray(), 'id', 'name');
         $bookSubCategory = array_column($bookSubCategory->toArray(), 'id', 'name');

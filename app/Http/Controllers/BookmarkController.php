@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bookmark;
+use App\Models\Bookmark\Bookmark;
 use Illuminate\Http\Request;
 
 class BookmarkController extends Controller
