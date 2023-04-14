@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AboutMeResource\Pages;
-use App\Models\Me\AboutMe;
+use App\Models\Me\About;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -12,7 +12,7 @@ use Filament\Tables;
 
 class AboutMeResource extends Resource
 {
-    protected static ?string $model = AboutMe::class;
+    protected static ?string $model = About::class;
 
     protected static ?string $navigationLabel = '关于我';
 

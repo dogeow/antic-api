@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Filament\Facades\Filament;
+use Filament\Navigation\NavigationGroup;
 use Algolia\AlgoliaSearch\Config\SearchConfig;
 use Algolia\AlgoliaSearch\SearchClient;
 use Algolia\AlgoliaSearch\Support\UserAgent;
@@ -75,6 +77,21 @@ Line: {$location['line']}");
                     config('scout.soft_delete')
                 );
             });
+        });
+
+        Filament::serving(function () {
+            Filament::registerNavigationGroups([
+                NavigationGroup::make()
+                    ->label('文章')
+                    ->icon('heroicon-o-document-text'),
+                NavigationGroup::make()
+                    ->label('书签')
+                    ->icon('heroicon-o-bookmark'),
+                NavigationGroup::make()
+                    ->label('我自己')
+                    ->icon('heroicon-o-user')
+                    ->collapsed(),
+            ]);
         });
     }
 }

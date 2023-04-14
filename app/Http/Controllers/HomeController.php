@@ -80,4 +80,9 @@ class HomeController
 
         return $builder->renderTable();
     }
+
+    public function livewire()
+    {
+        return view('livewire');
+    }
 }

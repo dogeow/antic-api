@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Moon\Moon;
-use App\Models\Moon\MoonHistory;
+use App\Models\Moon\History;
 use Illuminate\Http\Request;
 
 class MoonHistoryController extends Controller
@@ -17,7 +17,7 @@ class MoonHistoryController extends Controller
             return '已满6次！';
         }
         $lottery = $this->lottery();
-        MoonHistory::create(
+        History::create(
             [
                 'moon_id' => $user->id,
                 'num1' => $lottery['dice'][0],

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Weibo\WeiboHot;
+use App\Models\Weibo\Hot;
 use Carbon\Carbon;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -12,7 +12,7 @@ class WeiboController extends Controller
     {
         $date = request('date');
 
-        $query = WeiboHot::query()->when($date, function ($query) use ($date) {
+        $query = Hot::query()->when($date, function ($query) use ($date) {
             $query->whereDate('updated_at', $date);
         })->when($date === null, function ($query) {
             $query->whereDate('updated_at', Carbon::today());
@@ -25,9 +25,9 @@ class WeiboController extends Controller
     public function about(): array
     {
         return [
-            'total' => WeiboHot::count(),
-            'startDate' => WeiboHot::min('created_at'),
-            'endDate' => WeiboHot::max('created_at'),
+            'total' => Hot::count(),
+            'startDate' => Hot::min('created_at'),
+            'endDate' => Hot::max('created_at'),
         ];
     }
 }

@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $count
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Moon\MoonHistory> $moonHistory
+ * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Moon\History> $moonHistory
  * @property-read int|null $moon_history_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Moon newModelQuery()
@@ -34,15 +34,15 @@ class Moon extends Model
 
     public function moonHistory(): HasMany
     {
-        return $this->hasMany(MoonHistory::class);
+        return $this->hasMany(History::class);
     }
 
     public function statistics(): array
     {
         return [
             'user' => self::count(),
-            'count' => MoonHistory::count(),
-            'money' => MoonHistory::sum('money'),
+            'count' => History::count(),
+            'money' => History::sum('money'),
         ];
     }
 }

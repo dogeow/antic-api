@@ -9,6 +9,7 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $table = 'bookmark_categories';
     protected $fillable = ['name', 'order'];
 
     public function subCategories()

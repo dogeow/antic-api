@@ -23,10 +23,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \Illuminate\Support\Carbon|string|null $last_updated_at 站点最后更新时间
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Site\SiteCheck> $history
+ * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Site\Check> $history
  * @property-read int|null $history_count
- * @property-read \App\Models\Site\SiteCheck|null $todayLatest
- * @property-read \App\Models\Site\SiteCheck|null $todayLatestWithFailed
+ * @property-read \App\Models\Site\Check|null $todayLatest
+ * @property-read \App\Models\Site\Check|null $todayLatestWithFailed
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Site newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Site newQuery()
@@ -46,7 +46,7 @@ class Site extends Model
 {
     public function history(): HasMany
     {
-        return $this->hasMany(SiteCheck::class);
+        return $this->hasMany(Check::class);
     }
 
     /**
@@ -67,12 +67,12 @@ class Site extends Model
 
     public function todayLatest(): HasOne
     {
-        return $this->hasOne(SiteCheck::class)->whereDate('created_at', Carbon::today())->latest();
+        return $this->hasOne(Check::class)->whereDate('created_at', Carbon::today())->latest();
     }
 
     public function todayLatestWithFailed(): HasOne
     {
-        return $this->hasOne(SiteCheck::class)->whereDate('created_at', Carbon::today())->latest();
+        return $this->hasOne(Check::class)->whereDate('created_at', Carbon::today())->latest();
     }
 
     public function scopeFailed($query)

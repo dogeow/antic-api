@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Old;
 
-use App\Models\Weibo\WeiboHot;
-use App\Models\Weibo\WeiboToTop;
+use App\Models\Weibo\Hot;
+use App\Models\Weibo\ToTop;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
@@ -73,9 +73,9 @@ class WeiboHotSpider extends Command
             'status' => status($topping[3]),
         ];
 
-        if (! WeiboToTop::where('title', $toppingData['title'])->exists()) {
+        if (! ToTop::where('title', $toppingData['title'])->exists()) {
             try {
-                WeiboToTop::create($toppingData);
+                ToTop::create($toppingData);
             } catch (QueryException $e) {
                 $errorCode = $e->errorInfo[1];
                 echo $errorCode;
@@ -108,7 +108,7 @@ class WeiboHotSpider extends Command
                 'url' => $url,
             ];
 
-            WeiboHot::updateOrCreate(['title' => $title], $updateData);
+            Hot::updateOrCreate(['title' => $title], $updateData);
         }
     }
 }

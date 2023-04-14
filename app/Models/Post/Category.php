@@ -34,6 +34,7 @@ class Category extends Model
 {
     use Searchable;
 
+    protected $table = 'post_categories';
     protected $guarded = [];
 
     public function post(): BelongsTo

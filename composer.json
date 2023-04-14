@@ -36,6 +36,7 @@
     "laravel/socialite": "^5.5",
     "laravel/telescope": "^4.9",
     "laravel/tinker": "^2.7",
+    "livewire/livewire": "^2.12",
     "maatwebsite/excel": "^3.1",
     "malios/php-to-ascii-table": "^3.0",
     "mll-lab/graphql-php-scalars": "^5.4",

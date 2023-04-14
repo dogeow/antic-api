@@ -15,5 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', HomeController::class,);
+Route::get('/livewire', [HomeController::class, 'livewire']);
 
 require __DIR__.'/auth.php';

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Me\AboutMe;
+use App\Models\Me\About;
 use App\Models\Me\Like;
 use App\Models\Me\Link;
 use App\Models\Me\Quote;
@@ -15,7 +15,7 @@ class MyStuffController extends Controller
     {
         $newData = [];
 
-        $data = collect(AboutMe::all())->groupBy('category')->toArray();
+        $data = collect(About::all())->groupBy('category')->toArray();
 
         foreach ($data as $key => $value) {
             $newData[] = [
