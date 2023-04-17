@@ -1,19 +1,6 @@
 <?php
 
 /**
- * @param $input
- * @return string|null
- */
-function br2nl($input): string|null
-{
-    return preg_replace(
-        '/<br\s?\/?>/iu',
-        "\n",
-        str_replace("\n", '', str_replace("\r", '', htmlspecialchars_decode((string) $input)))
-    );
-}
-
-/**
  * 获取网址标题
  * @param $url
  * @return string|false

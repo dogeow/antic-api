@@ -70,7 +70,7 @@ class WeiboHotSpider extends Command
         $toppingData = [
             'title' => $topping[2],
             'url' => $topping[1],
-            'status' => status($topping[3]),
+            'status' => self::status($topping[3]),
         ];
 
         if (! ToTop::where('title', $toppingData['title'])->exists()) {
@@ -104,11 +104,21 @@ class WeiboHotSpider extends Command
             $updateData = [
                 'rank' => $rank,
                 'emoji' => $emoji,
-                'status' => status($status),
+                'status' => self::status($status),
                 'url' => $url,
             ];
 
             Hot::updateOrCreate(['title' => $title], $updateData);
         }
+    }
+
+    public static function status($status): ?string
+    {
+        return match ($status) {
+            '新' => ' new',
+            '热' => ' hot',
+            '沸' => ' boil',
+            default => null,
+        };
     }
 }
