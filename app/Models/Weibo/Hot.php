@@ -2,6 +2,7 @@
 
 namespace App\Models\Weibo;
 
+use Dogeow\PhpHelpers\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -44,6 +45,6 @@ class Hot extends Model
 
     public function getRankAttribute(): string
     {
-        return weiboHotForHuman($this->attributes['rank'] ?? 0);
+        return Str::bytesForHuman($this->attributes['rank'] ?? 0);
     }
 }

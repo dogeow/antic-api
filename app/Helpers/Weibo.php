@@ -12,24 +12,6 @@ if (! function_exists('status')) {
     }
 }
 
-/*
- * 微博热度
- *
- * @param  int  $size  热度
- * @return string 格式化后的带单位的大小
- */
-if (! function_exists('weiboHotForHuman')) {
-    function weiboHotForHuman(int $size): string
-    {
-        $units = ['', 'K', 'M', 'G'];
-        for ($i = 0; $size >= 1000 && $i < 5; $i++) {
-            $size /= 1000;
-        }
-
-        return round($size).$units[$i];
-    }
-}
-
 if (! function_exists('topping')) {
     function topping($topping)
     {

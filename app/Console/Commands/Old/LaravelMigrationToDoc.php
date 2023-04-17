@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Old;
 
+use Dogeow\PhpHelpers\Str;
 use Illuminate\Console\Command;
 
 class LaravelMigrationToDoc extends Command
@@ -53,7 +54,7 @@ class LaravelMigrationToDoc extends Command
                 ];
 
                 $content = file_get_contents($file);
-                $onlyNeedContent = getStringBetween($content, 'up()', 'down()');
+                $onlyNeedContent = Str::getStringBetween($content, 'up()', 'down()');
 
                 $lines = explode(PHP_EOL, $onlyNeedContent);
 

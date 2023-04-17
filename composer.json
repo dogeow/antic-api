@@ -17,6 +17,7 @@
     "alapi/upyun-sdk": "^4.0",
     "algolia/algoliasearch-client-php": "^3.2",
     "bensampo/laravel-enum": "^5.3",
+    "dogeow/php-helpers": "dev-main",
     "elasticsearch/elasticsearch": "^7.17",
     "filament/filament": "^2.0",
     "fruitcake/laravel-cors": "^2.0.5",

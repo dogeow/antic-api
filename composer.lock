@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17885e99aae27ca455d7e5716ce0d4f6",
+    "content-hash": "d68ea7630acfa3aec9ac4cf3e64577d4",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -1695,6 +1695,50 @@
                 }
             ],
             "time": "2022-12-14T08:49:07+00:00"
+        },
+        {
+            "name": "dogeow/php-helpers",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dogeow/php-helpers.git",
+                "reference": "ac3e7035567c35103cf19e313672156c4a3b7b77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dogeow/php-helpers/zipball/ac3e7035567c35103cf19e313672156c4a3b7b77",
+                "reference": "ac3e7035567c35103cf19e313672156c4a3b7b77",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dogeow\\PhpHelpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "dogeow",
+                    "email": "lky216@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/dogeow/php-helpers/issues",
+                "source": "https://github.com/dogeow/php-helpers/tree/main"
+            },
+            "time": "2023-04-17T06:30:08+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
