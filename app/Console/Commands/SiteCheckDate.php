@@ -99,7 +99,10 @@ class SiteCheckDate extends Command
             echo $site->domain;
 
             $date = $this->getIsOnlineAndDate();
-            if ($date) {
+            if (! $date) {
+                $site->is_online = false;
+                echo ' ❌ ';
+            } else {
                 $site->is_online = $this->isOnline = true;
                 if (self::needCheckDate($site)) {
                     $updateStatus = $this->checkDateStatus($date);
@@ -120,9 +123,6 @@ class SiteCheckDate extends Command
                     }
                 }
                 echo $site->is_online ? ' ✅ ' : ' ❌ ';
-            } else {
-                $site->is_online = false;
-                echo ' ❌ ';
             }
 
             echo $updateStatus ? ' ✅ ' : ' ❌ ';
@@ -151,9 +151,10 @@ class SiteCheckDate extends Command
         try {
             $response = $this->guzzleClient->request('GET', $url);
         } catch (Exception  $e) {
-            echo '证书不被信任'.PHP_EOL;
             // 跳过证书 CA 不被信任
             if (str_contains($e->getMessage(), 'unable to get local issuer certificate')) {
+                echo '证书不被信任'.PHP_EOL;
+
                 $client = new GuzzleClient([
                     'timeout' => self::TIMEOUT,
                     'verify' => false,
