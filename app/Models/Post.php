@@ -20,8 +20,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property string|null $secret
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Category|null $category
- * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Tag> $tags
+ * @property-read \App\Models\PostCategory|null $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\PostTag> $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\User $user
  *
@@ -65,12 +65,12 @@ class Post extends Model
 
     public function tags(): HasMany
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(PostTag::class);
     }
 
     public function category(): HasOne
     {
-        return $this->hasOne(Category::class, 'id', 'category_id');
+        return $this->hasOne(PostCategory::class, 'id', 'category_id');
     }
 
     public function user(): BelongsTo
