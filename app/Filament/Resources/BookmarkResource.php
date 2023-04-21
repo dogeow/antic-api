@@ -48,9 +48,9 @@ class BookmarkResource extends Resource
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['bookmark_category_id'] = SubCategory::query()
-            ->where('id', $data['bookmark_sub_category_id'])
-            ->value('bookmark_category_id');
+        $data['category_id'] = SubCategory::query()
+            ->where('id', $data['sub_category_id'])
+            ->value('category_id');
 
         return $data;
     }
@@ -59,15 +59,15 @@ class BookmarkResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('bookmark_category_id')
+                Forms\Components\Select::make('category_id')
                     ->options(Category::all()->pluck('name', 'id'))
                     ->searchable()
                     ->reactive()
-                    ->afterStateUpdated(fn(callable $set) => $set('bookmark_sub_category_id', null))
+                    ->afterStateUpdated(fn(callable $set) => $set('sub_category_id', null))
                     ->required(),
-                Forms\Components\Select::make('bookmark_sub_category_id')
+                Forms\Components\Select::make('sub_category_id')
                     ->options(function (callable $get) {
-                        $category = Category::find($get('bookmark_category_id'));
+                        $category = Category::find($get('category_id'));
 
                         if (! $category) {
                             return SubCategory::all()->pluck('name', 'id');
