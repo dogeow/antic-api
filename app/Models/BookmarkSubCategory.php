@@ -9,8 +9,6 @@ class BookmarkSubCategory extends Model
 {
     use HasFactory;
 
-    protected $table = 'bookmark_sub_categories';
-
     protected $fillable = ['category_id', 'name', 'order'];
 
     public function bookmarkCategory()
