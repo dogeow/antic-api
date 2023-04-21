@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Check;
-use App\Models\Site\Site;
+use App\Models\SiteCheck;
+use App\Models\Site;
 use App\Models\User;
 use App\Notifications\BuildNotification;
 use Carbon\Carbon;
@@ -223,7 +223,7 @@ class SiteCheckDate extends Command
 
     public function saveStatus($status): void
     {
-        Check::create([
+        SiteCheck::create([
             'site_id' => $this->site->id,
             'status' => $status,
         ]);
