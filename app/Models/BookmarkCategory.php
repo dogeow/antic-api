@@ -9,11 +9,10 @@ class BookmarkCategory extends Model
 {
     use HasFactory;
 
-    protected $table = 'bookmark_categories';
     protected $fillable = ['name', 'order'];
 
     public function subCategories()
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->hasMany(BookmarkSubCategory::class);
     }
 }
