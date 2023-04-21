@@ -23,12 +23,12 @@ class Bookmark extends Model
 
     public function bookmarkCategory()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function bookmarkSubCategory()
     {
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(SubCategory::class, 'sub_category_id', 'id');
     }
 
     protected static function boot()
