@@ -11,7 +11,7 @@ class SubCategory extends Model
 
     protected $table = 'bookmark_sub_categories';
 
-    protected $fillable = ['bookmark_category_id', 'name', 'order'];
+    protected $fillable = ['category_id', 'name', 'order'];
 
     public function bookmarkCategory()
     {
