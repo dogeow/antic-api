@@ -65,7 +65,7 @@ class BookmarkResource extends Resource
                     ->reactive()
                     ->afterStateUpdated(fn(callable $set) => $set('bookmark_category_id', null))
                     ->required(),
-                Forms\Components\Select::make('bookmark_category_id')
+                Forms\Components\Select::make('bookmark_sub_category_id')
                     ->options(function (callable $get) {
                         $category = Category::find($get('bookmark_category_id'));
 
