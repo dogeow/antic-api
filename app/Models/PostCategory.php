@@ -17,20 +17,20 @@ use Laravel\Scout\Searchable;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Post $post
  *
- * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category query()
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category wherePostId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostCategory wherePostId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereUpdatedAt($value)
  * @mixin \Eloquent
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
  * @property-read int|null $posts_count
  */
-class Category extends Model
+class PostCategory extends Model
 {
     use Searchable;
 
