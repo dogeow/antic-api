@@ -2,7 +2,7 @@
 
 namespace App\GraphQL\Queries;
 
-use App\Models\Post\Tag;
+use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 
 class TagsCount

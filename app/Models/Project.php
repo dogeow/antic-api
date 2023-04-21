@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models\Task;
+namespace App\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $is_completed
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Task\Task> $tasks
+ * @property-read \Illuminate\Database\Eloquent\Collection|array<\App\Models\Task> $tasks
  * @property-read int|null $tasks_count
  * @property-read \App\Models\User $user
  *

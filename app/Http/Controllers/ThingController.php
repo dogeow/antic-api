@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ThingPostRequest;
-use App\Models\Thing\Thing;
+use App\Models\Thing;
 use Illuminate\Http\Request;
 
 class ThingController extends Controller
@@ -51,7 +51,7 @@ class ThingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Thing\thing  $thing
+     * @param  \App\Models\thing  $thing
      * @return \Illuminate\Http\Response
      */
     public function show(thing $thing)
@@ -63,7 +63,7 @@ class ThingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Thing\thing  $thing
+     * @param  \App\Models\thing  $thing
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, thing $thing)
@@ -74,7 +74,7 @@ class ThingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Thing\thing  $thing
+     * @param  \App\Models\thing  $thing
      * @return \Illuminate\Http\Response
      */
     public function destroy(thing $thing)

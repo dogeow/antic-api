@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\LikeResource\Pages;
 use App\Filament\Resources\LikeResource\RelationManagers;
-use App\Models\Me\Like;
+use App\Models\Like;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;

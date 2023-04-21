@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookmarkCategoryResource\Pages;
-use App\Models\Bookmark\Category;
+use App\Models\Category;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;

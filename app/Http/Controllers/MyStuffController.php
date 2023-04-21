@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Me\About;
-use App\Models\Me\Like;
-use App\Models\Me\Link;
-use App\Models\Me\Quote;
-use App\Models\Task\Task;
+use App\Models\About;
+use App\Models\Like;
+use App\Models\Link;
+use App\Models\Quote;
+use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
 
 class MyStuffController extends Controller

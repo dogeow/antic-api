@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostTagResource\Pages;
 use App\Filament\Resources\PostTagResource\RelationManagers;
-use App\Models\Post\Tag;
+use App\Models\Tag;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;

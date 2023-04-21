@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Task;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $order
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Task\Project $project
+ * @property-read \App\Models\Project $project
  *
  * @method static Builder|Task completed()
  * @method static Builder|Task newModelQuery()

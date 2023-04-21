@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post\Category;
+use App\Models\Category;
 use Illuminate\Support\Collection;
 
 class PostCategoryController extends Controller

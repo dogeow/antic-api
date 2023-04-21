@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AboutMeResource\Pages;
-use App\Models\Me\About;
+use App\Models\About;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;

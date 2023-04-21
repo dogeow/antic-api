@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Bookmark;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubCategory extends Model
+class BookmarkSubCategory extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class SubCategory extends Model
 
     public function bookmarkCategory()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        return $this->belongsTo(BookmarkCategory::class, 'category_id', 'id');
     }
 
     public function bookmarks()

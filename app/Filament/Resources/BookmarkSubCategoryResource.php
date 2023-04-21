@@ -3,8 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookmarkSubCategoryResource\Pages;
-use App\Models\Bookmark\Category;
-use App\Models\Bookmark\SubCategory;
+use App\Models\Category;
+use App\Models\SubCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;

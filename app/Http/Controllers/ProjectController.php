@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task\Project;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 

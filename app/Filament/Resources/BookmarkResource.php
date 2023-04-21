@@ -3,9 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookmarkResource\Pages;
-use App\Models\Bookmark\Bookmark;
-use App\Models\Bookmark\Category;
-use App\Models\Bookmark\SubCategory;
+use App\Models\Bookmark;
+use App\Models\Category;
+use App\Models\SubCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;

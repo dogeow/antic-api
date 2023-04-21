@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Post;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +15,7 @@ use Laravel\Scout\Searchable;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Post\Post $post
+ * @property-read \App\Models\Post $post
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
@@ -27,7 +27,7 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
  * @mixin \Eloquent
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post\Post[] $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
  * @property-read int|null $posts_count
  */
 class Category extends Model

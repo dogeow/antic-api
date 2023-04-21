@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ThingResource\Pages;
 use App\Filament\Resources\ThingResource\RelationManagers;
-use App\Models\Thing\Thing;
+use App\Models\Thing;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;

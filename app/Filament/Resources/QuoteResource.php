@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\QuoteResource\Pages;
 use App\Filament\Resources\QuoteResource\RelationManagers;
-use App\Models\Me\Quote;
+use App\Models\Quote;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;

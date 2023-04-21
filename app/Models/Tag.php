@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Post;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Post\Post $post
+ * @property-read \App\Models\Post $post
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
  * @mixin \Eloquent
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post\Post[] $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
  * @property-read int|null $posts_count
  */
 class Tag extends Model

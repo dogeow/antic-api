@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Moon\Moon;
+use App\Models\Moon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

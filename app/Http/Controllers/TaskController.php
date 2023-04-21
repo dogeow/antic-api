@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task\Project;
-use App\Models\Task\Task;
+use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TagAdd;
-use App\Models\Post\Post;
-use App\Models\Post\Tag;
+use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
