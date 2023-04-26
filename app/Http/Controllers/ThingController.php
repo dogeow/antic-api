@@ -15,7 +15,7 @@ class ThingController extends Controller
      */
     public function index()
     {
-        return Thing::with(['tags', 'photos'])->orderByDesc('id')->jsonPaginate();
+        return Thing::with(['tags', 'photos', 'place'])->orderByDesc('id')->jsonPaginate();
     }
 
     /**

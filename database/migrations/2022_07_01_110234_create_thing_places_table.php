@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('places', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('thing_id');
             $table->string('name')->comment('名称');
             $table->timestamps();
 
