@@ -42,8 +42,8 @@ class ThingController extends Controller
             ];
         }
 
-        $thing->tags()->createMany($tags);
         $thing->photos()->createMany($photos);
+        $thing->tags()->createMany($tags);
 
         return $thing->load(['tags', 'photos']);
     }

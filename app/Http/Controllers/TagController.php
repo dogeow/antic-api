@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\ThingTag;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResponse
     {
-       return response()->json(Tag::query()->selectRaw('name, COUNT(*) as count')->groupBy('name')->get());
+        $tags = ThingTag::query()->selectRaw('name, COUNT(*) as count')->groupBy('name')->get();
+
+        return response()->json($tags);
     }
 
     /**
@@ -34,7 +35,7 @@ class TagController extends Controller
      * @param  \App\Models\ThingTag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show(ThingTag $tag)
     {
         //
     }
@@ -46,7 +47,7 @@ class TagController extends Controller
      * @param  \App\Models\ThingTag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tag $tag)
+    public function update(Request $request, ThingTag $tag)
     {
         //
     }
@@ -57,7 +58,7 @@ class TagController extends Controller
      * @param  \App\Models\ThingTag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tag $tag)
+    public function destroy(ThingTag $tag)
     {
         //
     }

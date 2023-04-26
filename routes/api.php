@@ -140,6 +140,6 @@ Route::get('ab', [ApiController::class, 'ab']);
 Route::resource('/things', ThingController::class);
 Route::post('/images', [ImageController::class, 'store']);
 Route::get('/tags', [TagController::class, 'index']);
-Route::get('/photos', [PhotoController::class, 'index']);
+Route::get('/photos', [ThingPhotoController::class, 'index']);
 
 require __DIR__.'/apis.php';

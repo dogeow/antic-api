@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Thing\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +23,7 @@ class Thing extends Model
 
     public function tags()
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(ThingTag::class);
     }
 
     public function photos()

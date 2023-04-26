@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Photo;
+use App\Models\ThingPhoto;
 use Illuminate\Http\Request;
 
-class PhotoController extends Controller
+class ThingPhotoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        return Photo::query()->select(['id', 'thing_id', 'path'])->distinct()->jsonPaginate();
+        return ThingPhoto::query()->select(['id', 'thing_id', 'path'])->distinct()->jsonPaginate();
     }
 
     /**
@@ -31,10 +31,10 @@ class PhotoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Photo  $photo
+     * @param  \App\Models\ThingPhoto  $photo
      * @return \Illuminate\Http\Response
      */
-    public function show(Photo $photo)
+    public function show(ThingPhoto $photo)
     {
         //
     }
@@ -43,10 +43,10 @@ class PhotoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Photo  $photo
+     * @param  \App\Models\ThingPhoto  $photo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Photo $photo)
+    public function update(Request $request, ThingPhoto $photo)
     {
         //
     }
@@ -54,10 +54,10 @@ class PhotoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Photo  $photo
+     * @param  \App\Models\ThingPhoto  $photo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Photo $photo)
+    public function destroy(ThingPhoto $photo)
     {
         //
     }
