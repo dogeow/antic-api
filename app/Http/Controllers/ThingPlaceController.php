@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Place;
+use App\Models\ThingPlace;
 use Illuminate\Http\Request;
 
-class PlaceController extends Controller
+class ThingPlaceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class PlaceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Place  $place
+     * @param  \App\Models\ThingPlace  $place
      * @return \Illuminate\Http\Response
      */
-    public function show(Place $place)
+    public function show(ThingPlace $place)
     {
         //
     }
@@ -43,10 +43,10 @@ class PlaceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Place  $place
+     * @param  \App\Models\ThingPlace  $place
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Place $place)
+    public function update(Request $request, ThingPlace $place)
     {
         //
     }
@@ -54,10 +54,10 @@ class PlaceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Place  $place
+     * @param  \App\Models\ThingPlace  $place
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Place $place)
+    public function destroy(ThingPlace $place)
     {
         //
     }

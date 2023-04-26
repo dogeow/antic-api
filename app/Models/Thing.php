@@ -33,6 +33,6 @@ class Thing extends Model
 
     public function place()
     {
-        return $this->belongs(Place::class);
+        return $this->belongs(ThingPlace::class);
     }
 }
