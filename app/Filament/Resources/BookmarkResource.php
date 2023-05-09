@@ -48,7 +48,7 @@ class BookmarkResource extends Resource
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['category_id'] = SubCategory::query()
+        $data['category_id'] = BookmarkSubCategory::query()
             ->where('id', $data['sub_category_id'])
             ->value('category_id');
 

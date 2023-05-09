@@ -3,8 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostTagResource\Pages;
-use App\Filament\Resources\PostTagResource\RelationManagers;
-use App\Models\Tag;
+use App\Models\PostTag;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,7 +12,7 @@ use Filament\Tables;
 
 class PostTagResource extends Resource
 {
-    protected static ?string $model = Tag::class;
+    protected static ?string $model = PostTag::class;
 
     protected static ?string $navigationLabel = '文章标签';
 
