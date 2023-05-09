@@ -57,13 +57,14 @@ class BookmarkResource extends Resource
 
     public static function form(Form $form): Form
     {
+        // 233
         return $form
             ->schema([
                 Forms\Components\Select::make('bookmark_category_id')
                     ->options(BookmarkCategory::all()->pluck('name', 'id'))
                     ->searchable()
                     ->reactive()
-                    ->afterStateUpdated(fn(callable $set) => $set('bookmark_sub_category_id', null))
+                    ->afterStateUpdated(fn(callable $set) => $set('bookmark_category_id', null))
                     ->required(),
                 Forms\Components\Select::make('bookmark_sub_category_id')
                     ->options(function (callable $get) {
