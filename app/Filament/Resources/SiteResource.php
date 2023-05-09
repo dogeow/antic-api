@@ -73,8 +73,7 @@ class SiteResource extends Resource
                 Tables\Columns\TextColumn::make('keyword'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('note')
-                    ->dateTime(),
+                Tables\Columns\TextColumn::make('note'),
                 Tables\Columns\TextColumn::make('last_updated_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
