@@ -23,6 +23,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|About whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class About extends Model
+class AboutMe extends Model
 {
 }
