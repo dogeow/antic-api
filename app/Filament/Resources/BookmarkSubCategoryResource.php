@@ -34,7 +34,7 @@ class BookmarkSubCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('category_id')
+                Forms\Components\Select::make('bookmark_category_id')
                     ->label('父分类')
                     ->options(BookmarkCategory::all()->pluck('name', 'id'))
                     ->searchable()
