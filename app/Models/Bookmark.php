@@ -36,10 +36,10 @@ class Bookmark extends Model
         parent::boot();
 
         static::saving(function ($bookmark) {
-            if (empty($bookmark->category_id)) {
-                $bookmark->category_id = BookmarkSubCategory::query()
-                    ->where('id', $bookmark->sub_category_id)
-                    ->value('category_id');
+            if (empty($bookmark->bookmark_category_id)) {
+                $bookmark->bookmark_category_id = BookmarkSubCategory::query()
+                    ->where('id', $bookmark->bookmark_sub_category_id)
+                    ->value('bookmark_category_id');
             }
         });
     }
