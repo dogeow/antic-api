@@ -20,6 +20,7 @@
     "dogeow/php-helpers": "dev-main",
     "elasticsearch/elasticsearch": "^7.17",
     "filament/filament": "^2.0",
+    "filament/spatie-laravel-settings-plugin": "^2.0",
     "fruitcake/laravel-cors": "^2.0.5",
     "fukuball/jieba-php": "^0.33.0",
     "guzzlehttp/guzzle": "^7.2",
@@ -54,6 +55,7 @@
     "spatie/laravel-json-api-paginate": "^1.11",
     "spatie/laravel-query-builder": "^5.0",
     "spatie/laravel-responsecache": "^7.2",
+    "spatie/laravel-settings": "^2.8",
     "symfony/dom-crawler": "^6.0"
   },
   "require-dev": {

@@ -18,7 +18,7 @@ class Thing extends Model
         'bought_at',
         'expired_at',
         'description',
-        'is_expiration_reminder'
+        'is_expiration_reminder',
     ];
 
     public function tags()

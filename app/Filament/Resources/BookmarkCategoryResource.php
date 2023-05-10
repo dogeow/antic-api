@@ -66,7 +66,7 @@ class BookmarkCategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            BookmarkCategoryResource\RelationManagers\SubCategoriesRelationManager::class
+            BookmarkCategoryResource\RelationManagers\SubCategoriesRelationManager::class,
         ];
     }
 

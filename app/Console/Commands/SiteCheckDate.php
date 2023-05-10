@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\SiteCheck;
 use App\Models\Site;
+use App\Models\SiteCheck;
 use App\Models\User;
 use App\Notifications\BuildNotification;
 use Carbon\Carbon;

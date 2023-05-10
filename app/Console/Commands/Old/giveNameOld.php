@@ -12,8 +12,11 @@ use Illuminate\Support\Facades\DB;
 class GiveNameOld extends Command
 {
     private const CONCURRENCY = 50; // 同时并发抓取
+
     private const TIMEOUT = 10; // 请求超时时间
+
     private const URI = 'https://www.quming.com/quming/';
+
     private const QUERY_TEMPLATE = "INSERT IGNORE INTO test (name, sex) VALUES ('%s', '%s');";
 
     /**

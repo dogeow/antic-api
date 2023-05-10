@@ -37,7 +37,7 @@ class ChatBroadcastingEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             abort(401, '未经授权无法执行此操作');
         }
 

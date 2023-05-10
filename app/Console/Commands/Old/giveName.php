@@ -63,7 +63,7 @@ class giveName extends Command
     public function handle(): void
     {
         $sex = strtolower($this->argument('sex'));
-        if (!in_array($sex, ['m', 'f'])) {
+        if (! in_array($sex, ['m', 'f'])) {
             $this->error('Invalid sex specified. Use m or f.');
             return;
         }

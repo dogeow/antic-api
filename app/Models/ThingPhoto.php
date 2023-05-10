@@ -13,6 +13,7 @@ class ThingPhoto extends Model
         'thing_id',
         'path',
     ];
+
     public function thing()
     {
         return $this->belongsTo(Thing::class);

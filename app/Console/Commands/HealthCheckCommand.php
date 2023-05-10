@@ -124,7 +124,7 @@ class HealthCheckCommand extends Command
         }
 
         $sqlSafeUpdates = DB::select("SHOW VARIABLES LIKE 'sql_safe_updates' ")[0];
-        if (!Str::of($sqlSafeUpdates->Value)->lower()->is('on')) {
+        if (! Str::of($sqlSafeUpdates->Value)->lower()->is('on')) {
             return tap(HealthCheckStateEnum::FAILING(), function (HealthCheckStateEnum $state) {
                 $state->description = '`sql_safe_updates` is disabled. Please enable it.';
             });
@@ -231,7 +231,7 @@ class HealthCheckCommand extends Command
         /* @var Collection $missingExtensions */
         $missingExtensions = collect($extensions)
             ->reduce(fn(Collection $missingExtensions, $extension) => $missingExtensions->when(
-                !extension_loaded($extension),
+                ! extension_loaded($extension),
                 fn(Collection $missingExtensions) => $missingExtensions->add($extension)
             ), collect());
 
@@ -292,7 +292,7 @@ class HealthCheckCommand extends Command
 
     protected function checkQueue(): HealthCheckStateEnum
     {
-        if (!Queue::connected()) {
+        if (! Queue::connected()) {
             return tap(HealthCheckStateEnum::FAILING(), function (HealthCheckStateEnum $state) {
                 $state->description = 'The queue is not connected.';
             });

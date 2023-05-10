@@ -114,22 +114,22 @@ class MoonHistoryController extends Controller
                             if ($list[$dian] === $num) {
                                 $res = $rank;
                             } else {
-                                //规则中只要有一条不满足就跳出当前规则验证
+                                // 规则中只要有一条不满足就跳出当前规则验证
                                 $res = $this->defRank;
                                 break;
                             }
                         } else {
-                            //规则中只要有一条不满足就跳出当前规则验证
+                            // 规则中只要有一条不满足就跳出当前规则验证
                             $res = $this->defRank;
                             break;
                         }
                     }
-                    //有一条规则匹配，跳出循环，
+                    // 有一条规则匹配，跳出循环，
                     if ($res !== $this->defRank) {
                         break;
                     }
                 }
-                //有一条规则匹配，跳出循环，
+                // 有一条规则匹配，跳出循环，
                 if ($res !== $this->defRank) {
                     break;
                 }

@@ -25,8 +25,11 @@ class ChatController extends Controller
         // ROBOT_PREFIX 字符转正则格式
         $robotPrefix = preg_quote(self::ROBOT_PREFIX, '/');
 
-        $isAtRobot = preg_match('/^'.$robotPrefix.'(?P<message>.*?)( +(?P<content>.*))?$/', (string) $request->message,
-            $matches);
+        $isAtRobot = preg_match(
+            '/^'.$robotPrefix.'(?P<message>.*?)( +(?P<content>.*))?$/',
+            (string) $request->message,
+            $matches
+        );
 
         // 机器人
         if ($isAtRobot) {

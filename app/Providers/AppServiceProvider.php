@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use Filament\Facades\Filament;
-use Filament\Navigation\NavigationGroup;
 use Algolia\AlgoliaSearch\Config\SearchConfig;
 use Algolia\AlgoliaSearch\SearchClient;
 use Algolia\AlgoliaSearch\Support\UserAgent;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Filament\Facades\Filament;
+use Filament\Navigation\NavigationGroup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;

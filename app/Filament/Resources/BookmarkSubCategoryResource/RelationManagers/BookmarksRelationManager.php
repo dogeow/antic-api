@@ -47,6 +47,4 @@ class BookmarksRelationManager extends RelationManager
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-
-
 }

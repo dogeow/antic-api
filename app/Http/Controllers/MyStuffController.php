@@ -46,7 +46,7 @@ class MyStuffController extends Controller
     {
         return [
             'doings' => Task::where('is_doing', 1)->pluck('title'),
-            'links' => Link::all(['title', 'url'])
+            'links' => Link::all(['title', 'url']),
         ];
     }
 }
