@@ -68,3 +68,9 @@ antic-api
 
 [LearnKu.com](https://learnku.com) 提供了人人可编辑的 Laravel 翻译文档，而且网站 UI 界面简洁优雅，让我愉快且方便地入门了
 Laravel。
+
+## License
+
+该软件使用 MIT 许可证发布。
+
+[![FOSSA 状态](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdogeow%2Fantic-api.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdogeow%2Fantic-api?ref=badge_large)
