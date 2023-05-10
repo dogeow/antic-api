@@ -21,11 +21,13 @@ class SiteCheckDate extends Command
 {
     /**
      * 超时时间，单位：秒
-     *
      * @var string
      */
     final public const TIMEOUT = 30;
 
+    /**
+     * 最大延迟更新天数
+     */
     public const MAX_DELAY_UPDATE_DAYS = 2;
 
     /**
@@ -40,6 +42,10 @@ class SiteCheckDate extends Command
 
     public Site $site;
 
+    /**
+     * 是否在线
+     * @var bool
+     */
     public bool $isOnline;
 
     /**
@@ -56,6 +62,10 @@ class SiteCheckDate extends Command
      */
     protected $description = '用接口或爬虫获取站点更新时间';
 
+    /**
+     * HTML 源码
+     * @var string
+     */
     public string $html = '';
 
     /**
@@ -78,7 +88,7 @@ class SiteCheckDate extends Command
      * @throws GuzzleException
      * @throws Exception
      */
-    public function handle()
+    public function handle(): void
     {
         $checkFailed = $this->option('failed');
         $onlyTheDomain = $this->option('domain');
@@ -146,6 +156,7 @@ class SiteCheckDate extends Command
     {
         $site = $this->site;
 
+        // api 或者爬虫
         $url = $site->get_type === 'api' ? $site->domain.$site->path : $site->domain;
 
         try {
@@ -171,21 +182,21 @@ class SiteCheckDate extends Command
         $this->html = $response->getBody()->getContents();
         $crawler = new Crawler($this->html);
 
+        // API
         if ($site->get_type === 'api') {
-            $date = $crawler->text();
-        } else {
-            if (self::needCheckDate($site)) {
-                try {
-                    $date = $crawler->filterXPath($site->date_xpath)->text();
-                } catch (Exception) {
-                    return false;
-                }
-            } else {
-                return $response->getStatusCode() === 200;
-            }
+            return $crawler->text();
         }
 
-        return $date;
+        // 爬虫
+        if (self::needCheckDate($site)) {
+            try {
+                return $crawler->filterXPath($site->date_xpath)->text();
+            } catch (Exception) {
+                return false;
+            }
+        } else {
+            return $response->getStatusCode() === 200;
+        }
     }
 
     public function checkDateStatus($date): bool
@@ -194,6 +205,8 @@ class SiteCheckDate extends Command
         $dataTime = new DateTime();
 
         if (is_array($date)) {
+            echo '是数组';
+            print_r('$date');
             foreach ($date as $dateItem) {
                 $targetDate = $dataTime::createFromFormat($this->site->date_format, $dateItem);
                 $diff = Carbon::now()->diffInDays($targetDate);
@@ -221,7 +234,12 @@ class SiteCheckDate extends Command
         return $status;
     }
 
-    public function saveStatus($status): void
+    /**
+     * 保存状态
+     * @param  bool  $status
+     * @return void
+     */
+    public function saveStatus(bool $status): void
     {
         SiteCheck::create([
             'site_id' => $this->site->id,
@@ -230,9 +248,11 @@ class SiteCheckDate extends Command
     }
 
     /**
-     * 是否检查时间
+     * 是否需要检查时间
+     * @param  Site  $site
+     * @return bool
      */
-    public static function needCheckDate($site): bool
+    public static function needCheckDate(Site $site): bool
     {
         return $site->date_xpath || $site->path;
     }
