@@ -53,7 +53,7 @@ class SiteCheckDate extends Command
      *
      * @var string
      */
-    protected $signature = 'spider:date {--failed} {--domain=}';
+    protected $signature = 'site:check {--failed} {--domain=}';
 
     /**
      * The console command description.
@@ -145,7 +145,7 @@ class SiteCheckDate extends Command
 
         // 重新检查一遍失败的
         if ($checkFailed === false && $onlyTheDomain === false) {
-            Artisan::call('spider:date', ['--failed' => true]);
+            Artisan::call('site:check', ['--failed' => true]);
         }
     }
 
