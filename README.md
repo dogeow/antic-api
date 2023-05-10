@@ -55,3 +55,9 @@ Many thanks to Jetbrains for kindly providing a license for me to work on this a
 
 [LearnKu.com](https://learnku.com) provides Laravel translation documents that everyone can use, and the website UI
 interface is illuminated and edited, allowing me to easily get started with Laravel.
+
+## License
+
+This software is released under the MIT license.
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdogeow%2Fantic-api.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdogeow%2Fantic-api?ref=badge_large)
