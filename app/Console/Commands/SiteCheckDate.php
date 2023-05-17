@@ -204,30 +204,17 @@ class SiteCheckDate extends Command
         $status = false;
         $dataTime = new DateTime();
 
-        if (is_array($date)) {
-            echo '是数组';
-            print_r('$date');
-            foreach ($date as $dateItem) {
-                $targetDate = $dataTime::createFromFormat($this->site->date_format, $dateItem);
-                $diff = Carbon::now()->diffInDays($targetDate);
-                if ($diff <= self::MAX_DELAY_UPDATE_DAYS) {
-                    $status = true;
-                    break;
-                }
-            }
-        } else {
-            $targetDate = $dataTime::createFromFormat($this->site->date_format ?? 'Y-m-d H:i:s', $date);
-            if ($targetDate === false) {
-                return false;
-            }
+        $targetDate = $dataTime::createFromFormat($this->site->date_format ?? 'Y-m-d H:i:s', $date);
+        if ($targetDate === false) {
+            return false;
+        }
 
-            $diff = Carbon::now()->diffInDays($targetDate);
-            if ($diff <= self::MAX_DELAY_UPDATE_DAYS) {
-                $status = true;
-            } else {
-                if ($this->needNotify && $this->isOnline) {
-                    Notification::send(new User(), new BuildNotification($this->site->domain.' 超过两天'));
-                }
+        $diff = Carbon::now()->diffInDays($targetDate);
+        if ($diff <= self::MAX_DELAY_UPDATE_DAYS) {
+            $status = true;
+        } else {
+            if ($this->needNotify && $this->isOnline) {
+                Notification::send(new User(), new BuildNotification($this->site->domain.' 超过两天'));
             }
         }
 
