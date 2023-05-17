@@ -49,7 +49,7 @@ Use frontend and backend separation.
 
 Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.
 
-[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/dogeow)
+[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://jb.gg/OpenSourceSupport)
 
 ### Laravel China Community
 
