@@ -47,7 +47,7 @@ Use frontend and backend separation.
 
 ### Project supported by JetBrains
 
-Many thanks to Jetbrains for kindly providing a license for me to work on this open-source projects.
+Many thanks to [Jetbrains](https://www.jetbrains.com/) for kindly providing a [Licenses for Open Source Development](https://jb.gg/OpenSourceSupport) for me to work on this open-source projects.
 
 [![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://jb.gg/OpenSourceSupport)
 
