@@ -14,6 +14,20 @@ Personal study project.
 
 Use frontend and backend separation.
 
+## Scope of Application and Quality
+
+### Scope of Application
+
+- For personal learning, not suitable for production environments.
+- Can be learned together (although it has never happened).
+
+### Quality
+
+- Just say if it can run or not?
+
+> The scope and quality of the system you are building should be specified as part of the system requirements.
+> -- "The Pragmatic Programmer: From Journeyman to Master"
+
 ## Build
 
 1. Laravel
