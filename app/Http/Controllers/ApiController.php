@@ -406,7 +406,7 @@ class ApiController extends Controller
         ];
 
         $body = [
-            'model' => 'gpt-3.5-turbo',
+            'model' => 'gpt-4-0613',
             'messages' => [
                 ['role' => 'user', 'content' => $request->input('content')],
             ],
