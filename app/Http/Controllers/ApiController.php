@@ -413,7 +413,7 @@ class ApiController extends Controller
         ];
 
         // https://api.openai.com/v1/chat/completions
-        $response = $client->get('https://openkey.cloud', [
+        $response = $client->post('https://openkey.cloud/v1/chat/completions', [
             'headers' => $headers,
             'json' => $body,
         ]);
