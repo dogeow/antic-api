@@ -31,6 +31,8 @@ Route::controller(ApiController::class)->group(function () {
     Route::get('user-agent', 'userAgent');
     Route::get('ip/{ip?}', [ApiController::class, 'ip'])
         ->where(['ip' => '^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}$']);
+    Route::get('ip/info', 'getIpGeolocation')
+        ->where(['ip' => '^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}$']);
 
     // 时间
     Route::get('date/{timestamp?}', 'date')->where(['timestamp' => '[0-9]{1,10}']);
@@ -42,6 +44,4 @@ Route::controller(ApiController::class)->group(function () {
     Route::get('url-title', 'getTitle');
 
     Route::post('ai', 'ai');
-
-    Route::get('ip/{ip}/info', 'ipInfo');
 });
