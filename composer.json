@@ -26,6 +26,7 @@
     "guzzlehttp/guzzle": "^7.2",
     "iidestiny/laravel-filesystem-oss": "^3.1",
     "intervention/image": "^2.7",
+    "ip2location/ip2location-laravel": "^1.3",
     "itsgoingd/clockwork": "^5.1",
     "jeremykenedy/slack": "^2.4",
     "jeremykenedy/slack-laravel": "^2.6",

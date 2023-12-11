@@ -18,6 +18,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Ip2location\IP2LocationLaravel\Facade\IP2LocationLaravel;
 use Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -423,5 +424,21 @@ class ApiController extends Controller
         Log::info('OpenAI', $result);
 
         return $result['choices'][0]['message']['content'];
+    }
+
+    public function ipInfo(string $ip)
+    {
+        $records = IP2LocationLaravel::get($ip, 'bin');
+
+        return [
+            'ipAddress' => $records['ipAddress'],
+            'ipNumber' => $records['ipNumber'],
+            'countryName' => $records['countryName'],
+            'countryCode' => $records['countryCode'],
+            'regionName' => $records['regionName'],
+            'cityName' => $records['cityName'],
+            'latitude' => $records['latitude'],
+            'longitude' => $records['longitude'],
+        ];
     }
 }

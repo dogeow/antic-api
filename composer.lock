@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "97d4a90a8c6ed6139d277eda944b0864",
+    "content-hash": "6997b53085729d554022d92f7e3034c7",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -3396,6 +3396,125 @@
                 }
             ],
             "time": "2022-05-21T17:30:32+00:00"
+        },
+        {
+            "name": "ip2location/ip2location-laravel",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ip2location/ip2location-laravel.git",
+                "reference": "0aee413884cecb2d09bc711a9620614ce95eae60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ip2location/ip2location-laravel/zipball/0aee413884cecb2d09bc711a9620614ce95eae60",
+                "reference": "0aee413884cecb2d09bc711a9620614ce95eae60",
+                "shasum": ""
+            },
+            "require": {
+                "ip2location/ip2location-php": ">=9.4",
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ip2location\\IP2LocationLaravel\\IP2LocationLaravelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ip2location\\IP2LocationLaravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "IP2Location",
+                    "email": "support@ip2location.com"
+                }
+            ],
+            "description": "Lookup for visitor's IP information, such as country, region, city, coordinates, zip code, time zone, ISP, domain name, connection type, area code, weather, MCC, MNC, mobile brand name, elevation and usage type.",
+            "keywords": [
+                "geolocation",
+                "ip2location",
+                "laravel",
+                "laravel 6",
+                "laravel 7",
+                "laravel 8",
+                "laravel 9"
+            ],
+            "support": {
+                "issues": "https://github.com/ip2location/ip2location-laravel/issues",
+                "source": "https://github.com/ip2location/ip2location-laravel/tree/1.3.1"
+            },
+            "time": "2023-11-30T06:22:38+00:00"
+        },
+        {
+            "name": "ip2location/ip2location-php",
+            "version": "9.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chrislim2888/IP2Location-PHP-Module.git",
+                "reference": "e23084a50ebaf3d2633b178523a21c7a8a771550"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chrislim2888/IP2Location-PHP-Module/zipball/e23084a50ebaf3d2633b178523a21c7a8a771550",
+                "reference": "e23084a50ebaf3d2633b178523a21c7a8a771550",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-curl": "*",
+                "ext-gmp": "*",
+                "ext-json": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IP2Location\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "IP2Location",
+                    "email": "support@ip2location.com",
+                    "homepage": "https://www.ip2location.com"
+                }
+            ],
+            "description": "[Official Release] IP2Location PHP API to get location info from IPv4 and IPv6 address.",
+            "homepage": "https://www.ip2location.com",
+            "keywords": [
+                "area code",
+                "geolocation",
+                "ip geolocation",
+                "ip2location",
+                "ip2locationlite",
+                "isp",
+                "mcc",
+                "mnc",
+                "time zone",
+                "usage type",
+                "zip code"
+            ],
+            "support": {
+                "issues": "https://github.com/chrislim2888/IP2Location-PHP-Module/issues",
+                "source": "https://github.com/chrislim2888/IP2Location-PHP-Module/tree/9.7.2"
+            },
+            "time": "2023-11-30T06:27:39+00:00"
         },
         {
             "name": "itsgoingd/clockwork",
@@ -17362,5 +17481,5 @@
         "ext-redis": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

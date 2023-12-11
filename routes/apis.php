@@ -43,4 +43,6 @@ Route::controller(ApiController::class)->group(function () {
     Route::get('url-title', 'getTitle');
 
     Route::post('ai', 'ai');
+
+    Route::get('ip/{ip}/info', 'ipInfo');
 });
