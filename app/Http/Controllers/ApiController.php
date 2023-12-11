@@ -254,14 +254,22 @@ class ApiController extends Controller
 
     /**
      * @param $ip
-     * @description SSL 需要付费
-     * @return \Illuminate\Http\Client\Response
+     * @return array
      */
-    public static function getIpGeolocation($ip): \Illuminate\Http\Client\Response
+    public static function getIpGeolocation($ip): array
     {
-        $api = 'http://ip-api.com/json';
+        $records = IP2LocationLaravel::get($ip, 'bin');
 
-        return Http::get($api.'/'.$ip.'?lang=zh-CN');
+        return [
+            'ipAddress' => $records['ipAddress'],
+            'ipNumber' => $records['ipNumber'],
+            'countryName' => $records['countryName'],
+            'countryCode' => $records['countryCode'],
+            'regionName' => $records['regionName'],
+            'cityName' => $records['cityName'],
+            'latitude' => $records['latitude'],
+            'longitude' => $records['longitude'],
+        ];
     }
 
     public function case($content): string
@@ -424,21 +432,5 @@ class ApiController extends Controller
         Log::info('OpenAI', $result);
 
         return $result['choices'][0]['message']['content'];
-    }
-
-    public function ipInfo(string $ip)
-    {
-        $records = IP2LocationLaravel::get($ip, 'bin');
-
-        return [
-            'ipAddress' => $records['ipAddress'],
-            'ipNumber' => $records['ipNumber'],
-            'countryName' => $records['countryName'],
-            'countryCode' => $records['countryCode'],
-            'regionName' => $records['regionName'],
-            'cityName' => $records['cityName'],
-            'latitude' => $records['latitude'],
-            'longitude' => $records['longitude'],
-        ];
     }
 }
