@@ -256,9 +256,9 @@ class ApiController extends Controller
      * @param $ip
      * @return array
      */
-    public static function getIpGeolocation($ip): array
+    public static function getIpGeolocation($ip = null): array
     {
-        $records = IP2LocationLaravel::get($ip, 'bin');
+        $records = IP2LocationLaravel::get($ip ?? request()->ip(), 'bin');
 
         return [
             'ipAddress' => $records['ipAddress'],
