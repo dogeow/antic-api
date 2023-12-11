@@ -247,7 +247,7 @@ class ApiController extends Controller
         return htmlspecialchars((string) $string);
     }
 
-    public function ip($ip = null): string|\Illuminate\Http\Client\Response|null
+    public function ip($ip = null): string|array
     {
         return $ip ? self::getIpGeolocation($ip) : request()->ip();
     }

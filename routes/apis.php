@@ -29,9 +29,7 @@ Route::controller(ApiController::class)->group(function () {
     Route::get('secret/{string?}', 'secret');
     Route::get('image/{action}', 'image');
     Route::get('user-agent', 'userAgent');
-    Route::get('ip/{ip?}', [
-        ApiController::class, 'ip',
-    ])->where(['ip' => 'filter_var:{ip}, FILTER_VALIDATE_IP']);
+    Route::get('ip/{ip?}', [ApiController::class, 'ip'])->where(['ip' => 'filter_var:{ip}, FILTER_VALIDATE_IP']);
 
     // 时间
     Route::get('date/{timestamp?}', 'date')->where(['timestamp' => '[0-9]{1,10}']);
